@@ -10,11 +10,11 @@ import numpy as np
 
 def main():
     # Root directory containing benchmarks
-    benchmark_root = os.path.expanduser("~/egglog-pointer-analysis-benchmark/benchmark-input/postgresql-9.5.2")
+    benchmark_root = "benchmark-input/postgresql-9.5.2"
     
     # Path to egglog binaries
-    egglog_binary = "egglog/target/release/egglog"
-    egglog_baseline_binary = "egglog-baseline/target/release/egglog"
+    egglog_binary = "../../egglog/target/release/egglog"
+    egglog_baseline_binary = "../../egglog-baseline/target/release/egglog"
     
     # Path to pointer-analysis.egg file
     pointer_analysis_file = "pointer-analysis.egg"
@@ -67,7 +67,7 @@ def main():
         baseline_time = None
         
         # Run egglog binary
-        egglog_time = run_benchmark(egglog_binary, pointer_analysis_file, benchmark_root, benchmark_name, "egglog")
+        egglog_time = run_benchmark(egglog_binary, pointer_analysis_file, benchmark_root, benchmark_name, "egglog", additional_arg="-j8")
         
         # Run egglog-baseline binary (with stderr redirected)
         baseline_time = run_benchmark(egglog_baseline_binary, pointer_analysis_file, benchmark_root, benchmark_name, "egglog-baseline", redirect_stderr=True)
@@ -95,7 +95,7 @@ def main():
         print("No successful benchmark runs to compare.")
 
 
-def run_benchmark(binary_path, pointer_analysis_file, benchmark_root, benchmark_name, binary_name, redirect_stderr=False):
+def run_benchmark(binary_path, pointer_analysis_file, benchmark_root, benchmark_name, binary_name, additional_arg = None, redirect_stderr=False):
     """Run a single benchmark and return the execution time in seconds."""
     print(f"  Running {binary_name}...")
     
@@ -106,6 +106,9 @@ def run_benchmark(binary_path, pointer_analysis_file, benchmark_root, benchmark_
         "-F",
         f"{benchmark_root}/{benchmark_name}"
     ]
+
+    if additional_arg:
+        cmd.append(additional_arg)
     
     try:
         start_time = time.time()
