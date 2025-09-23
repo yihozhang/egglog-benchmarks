@@ -1,0 +1,6 @@
+[submodule "egglog"]
+	path = egglog
+	url = git@github.com:egraphs-good/egglog.git
+[submodule "egglog-baseline"]
+	path = egglog-baseline
+	url = git@github.com:egraphs-good/egglog.git
