@@ -1,0 +1,56 @@
+(relation R (i64))
+
+(ruleset prep)
+(R 0)
+(rule 
+    ((R x) (< x 65536)) 
+    ((R (+ x 1)))
+  :ruleset prep)
+
+(datatype E (f E E E E) (g i64) (h i64))
+
+(rule (
+    (R x)
+) (
+    ;; rep 1
+    (f (g x) (g x) (g x) (g x))
+    (f (g x) (g x) (g x) (h x))
+    (f (g x) (g x) (h x) (g x))
+    (f (g x) (g x) (h x) (h x))
+    (f (g x) (h x) (g x) (g x))
+    (f (g x) (h x) (g x) (h x))
+    (f (g x) (h x) (h x) (g x))
+    (f (g x) (h x) (h x) (h x))
+    
+    (f (h x) (g x) (g x) (g x))
+    (f (h x) (g x) (g x) (h x))
+    (f (h x) (g x) (h x) (g x))
+    (f (h x) (g x) (h x) (h x))
+    (f (h x) (h x) (g x) (g x))
+    (f (h x) (h x) (g x) (h x))
+    (f (h x) (h x) (h x) (g x))
+    (f (h x) (h x) (h x) (h x))
+
+    ;; rep 2
+    (f (g x) (g x) (g x) (g x))
+    (f (g x) (g x) (g x) (h x))
+    (f (g x) (g x) (h x) (g x))
+    (f (g x) (g x) (h x) (h x))
+    (f (g x) (h x) (g x) (g x))
+    (f (g x) (h x) (g x) (h x))
+    (f (g x) (h x) (h x) (g x))
+    (f (g x) (h x) (h x) (h x))
+    
+    (f (h x) (g x) (g x) (g x))
+    (f (h x) (g x) (g x) (h x))
+    (f (h x) (g x) (h x) (g x))
+    (f (h x) (g x) (h x) (h x))
+    (f (h x) (h x) (g x) (g x))
+    (f (h x) (h x) (g x) (h x))
+    (f (h x) (h x) (h x) (g x))
+    (f (h x) (h x) (h x) (h x))
+))
+
+(run-schedule (saturate (run prep)) (run))
+
+(print-stats)
