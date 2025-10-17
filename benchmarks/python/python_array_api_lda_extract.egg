@@ -1,3 +1,4 @@
+;; Extracting the best form of LDA and running all intermediate computation
 (sort egglog.exp.array_api.DType)
 (constructor egglog_exp_array_api_DType_float64 () egglog.exp.array_api.DType)
 (let __expr_993116813100192115 (egglog_exp_array_api_DType_float64 ))
