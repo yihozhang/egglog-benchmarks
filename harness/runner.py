@@ -8,6 +8,8 @@ import json
 import os
 import platform
 import signal
+import functools
+import shutil
 import subprocess
 import sys
 import time
@@ -38,6 +40,29 @@ def build(system: str, ref: str, patches: tuple[str, ...] = ()) -> Build:
     info_path = out / "build.json"
     info = json.loads(info_path.read_text()) if info_path.exists() else {}
     return Build(out, info)
+
+
+@functools.cache
+def memory_cap_prefix(gb: float) -> list[str]:
+    """Command prefix enforcing a memory cap.
+
+    Prefers a transient systemd user scope (cgroup MemoryMax: accounts resident
+    memory, no swap, OOM-kills the offending process); falls back to an address
+    space rlimit, which also counts untouched virtual reservations.
+    """
+    mb = int(gb * 1024)
+    if shutil.which("systemd-run"):
+        probe = subprocess.run(
+            ["systemd-run", "--user", "--scope", "--quiet", "-p", f"MemoryMax={mb}M", "--", "true"],
+            capture_output=True,
+        )
+        if probe.returncode == 0:
+            # OOMPolicy=continue: the kernel kills only the offending process, so the
+            # adapter survives to record the signal instead of the whole scope being stopped.
+            return ["systemd-run", "--user", "--scope", "--quiet",
+                    "-p", f"MemoryMax={mb}M", "-p", "MemorySwapMax=0", "-p", "OOMPolicy=continue", "--"]
+    print(f"warning: systemd-run unavailable, capping memory with RLIMIT_AS={gb}G instead", file=sys.stderr)
+    return ["prlimit", f"--as={int(gb * 1024 ** 3)}", "--"]
 
 
 def host_info() -> dict:
@@ -72,6 +97,7 @@ def run_one(
     bench: Benchmark,
     threads: int,
     timeout: float,
+    memory_gb: float,
     cpus: str | None,
     log_dir: Path,
 ) -> dict:
@@ -88,6 +114,8 @@ def run_one(
     ]
     if cpus:
         cmd = ["taskset", "-c", cpus, *cmd]
+    if memory_gb:
+        cmd = [*memory_cap_prefix(memory_gb), *cmd]
     t0 = time.perf_counter()
     with open(log_dir / "harness.stderr", "w") as err:
         proc = subprocess.Popen(
@@ -122,10 +150,16 @@ def run_one(
             report = json.loads(report_path.read_text())
         except json.JSONDecodeError:
             pass
+    if status == "fail" and (report.get("status_hint") == "oom" or (memory_gb and rc == -signal.SIGTERM)):
+        # The adapter saw the OOM kill, or systemd stopped the whole scope (SIGTERM) after one.
+        status = "oom"
     return {
         "status": status,
         "exit_code": rc,
-        "wall_s": wall,
+        # wall_s is the system's own process wall time when the adapter reports it
+        # (excludes adapter and cgroup setup); harness_wall_s is measured around everything.
+        "wall_s": report.get("wall_s", wall),
+        "harness_wall_s": wall,
         "user_s": ru.ru_utime,
         "sys_s": ru.ru_stime,
         "max_rss_kb": ru.ru_maxrss,
@@ -142,6 +176,7 @@ def run_experiment(
     threads: list[int] | None = None,
     reps: int | None = None,
     timeout: float | None = None,
+    memory_gb: float | None = None,
     dry_run: bool = False,
     tag: str | None = None,
 ) -> Path | None:
@@ -150,10 +185,12 @@ def run_experiment(
     threads = threads or exp.threads
     reps = reps if reps is not None else exp.reps
     timeout = timeout if timeout is not None else exp.timeout
+    memory_gb = memory_gb if memory_gb is not None else exp.memory_gb
 
     run_id = dt.datetime.now().strftime("%Y%m%d-%H%M%S") + (f"-{tag}" if tag else "")
     print(f"experiment {exp.name}: run {run_id}")
-    print(f"  {len(benches)} benchmarks x {len(variants)} variants x threads {threads} x {reps} reps")
+    print(f"  {len(benches)} benchmarks x {len(variants)} variants x threads {threads} x {reps} reps; "
+          f"timeout {timeout:g}s, memory cap {memory_gb:g} GB")
 
     if dry_run:
         for b in benches:
@@ -207,7 +244,7 @@ def run_experiment(
                 for rep in range(reps):
                     n += 1
                     log_dir = exp.results_dir / "logs" / run_id / v.label / f"{b.suite}-{b.name}-t{t}-r{rep}"
-                    meas = run_one(v, builds[v.label], b, t, timeout, exp.cpus, log_dir)
+                    meas = run_one(v, builds[v.label], b, t, timeout, memory_gb, exp.cpus, log_dir)
                     row = {**row_base, "rep": rep,
                            "timestamp": dt.datetime.now().isoformat(timespec="seconds"), **meas}
                     out.write(json.dumps(row) + "\n"); out.flush()

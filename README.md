@@ -65,9 +65,17 @@ per configuration wins), so an experiment can be run in pieces.
  "log_dir": "results/e2e/logs/…", "host": {...}, "harness_commit": "a85aa6e", "timestamp": "…"}
 ```
 
-`status` is `ok`, `fail`, `timeout` or `unsupported`. `wall_s` is measured by the
-harness around the whole process; `report.*` are the system's own numbers (for
-egglog, from `(print-stats)` and `(print-size)` appended as a trailer file).
+`status` is `ok`, `fail`, `timeout`, `oom` or `unsupported`. `wall_s` is the
+system's own process wall time as reported by the adapter (`harness_wall_s` is
+measured around everything, including the adapter and cgroup setup); the other
+`report.*` fields are the system's own numbers (for egglog, from `(print-stats)`
+and `(print-size)` appended as a trailer file).
+
+Every run gets `timeout` seconds and `memory_gb` GB (defaults 600 s and 32 GB,
+per experiment or `--timeout`/`--memory-gb` on `bench run`). The memory cap is a
+transient systemd user scope (`MemoryMax`, no swap), so an over-budget run is
+OOM-killed and recorded as `oom`; without systemd it falls back to an
+address-space rlimit.
 
 ## Notes
 
@@ -75,7 +83,9 @@ egglog, from `(print-stats)` and `(print-size)` appended as a trailer file).
   commit, tag or branch it knows is a valid ref, and unknown refs trigger a fetch.
   Experiments pin a commit so results stay reproducible; move the pin deliberately.
 - `--no-dynamic-order` (used by the ablation) is not upstream yet; it lives in
-  `systems/egglog/patches/no-dynamic-order.patch`.
+  `systems/egglog/patches/no-dynamic-order.patch`. It keeps the size-based
+  ordering of join stages at the start of each query execution and only disables
+  the re-sorting of the remaining stages while the join runs.
 - egglog 0.5.0 has no `-j`, so multi-threaded configurations of it are `unsupported`.
 - Scaling runs are pinned with `taskset` to the CPU list in the experiment
   (`cpus = "0-63"` = the 64 physical cores of this machine; 64–127 are SMT siblings).

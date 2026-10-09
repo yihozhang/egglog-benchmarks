@@ -42,8 +42,9 @@ if [ ! -x "$out/egglog" ]; then
     git -C "$repo" worktree add -q --detach "$out/src" "$sha" >&2
   fi
   if [ ${#patch_files[@]} -gt 0 ]; then
-    # Start from a pristine checkout so a re-run after a failed build does not re-apply.
-    git -C "$out/src" checkout -q -- . && git -C "$out/src" clean -qfd
+    # Start from a pristine checkout (index and worktree: `git apply --3way` stages
+    # its result) so a re-run after a failed build does not re-apply.
+    git -C "$out/src" reset -q --hard && git -C "$out/src" clean -qfd
     for f in "${patch_files[@]}"; do
       echo "applying $(basename "$f") to egglog@$ref" >&2
       if ! git -C "$out/src" apply --3way "$f" >&2; then

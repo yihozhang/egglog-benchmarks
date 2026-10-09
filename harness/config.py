@@ -121,7 +121,8 @@ class Experiment:
     variants: list[Variant]
     threads: list[int] = field(default_factory=lambda: [1])
     reps: int = 3
-    timeout: float = 3600.0
+    timeout: float = 600.0  # seconds per run
+    memory_gb: float = 32.0  # memory cap per run (cgroup via systemd-run, else RLIMIT_AS)
     cpus: str | None = None  # taskset CPU list, e.g. "0-63"
     plot: str = "bars"  # bars | scaling
     baseline: str | None = None  # variant label that speedups are relative to
@@ -156,7 +157,8 @@ def load_experiment(name: str) -> Experiment:
         variants=variants,
         threads=cfg.get("threads", [1]),
         reps=cfg.get("reps", 3),
-        timeout=cfg.get("timeout", 3600.0),
+        timeout=cfg.get("timeout", 600.0),
+        memory_gb=cfg.get("memory_gb", 32.0),
         cpus=cfg.get("cpus"),
         plot=cfg.get("plot", "bars"),
         baseline=cfg.get("baseline"),

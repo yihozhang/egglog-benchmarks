@@ -12,7 +12,7 @@ def cmd_list(args):
     if args.experiment:
         exp = config.load_experiment(args.experiment)
         print(f"{exp.name}: {exp.description}")
-        print(f"  threads={exp.threads} reps={exp.reps} timeout={exp.timeout}s cpus={exp.cpus} plot={exp.plot} baseline={exp.baseline}")
+        print(f"  threads={exp.threads} reps={exp.reps} timeout={exp.timeout:g}s memory={exp.memory_gb:g}GB cpus={exp.cpus} plot={exp.plot} baseline={exp.baseline}")
         for v in exp.variants:
             patches = f" +{'+'.join(v.patches)}" if v.patches else ""
             print(f"  variant {v.label:28s} {v.system}@{v.ref}{patches} {' '.join(v.flags)}")
@@ -57,6 +57,7 @@ def cmd_run(args):
         threads=args.threads or None,
         reps=args.reps,
         timeout=args.timeout,
+        memory_gb=args.memory_gb,
         dry_run=args.dry_run,
         tag=args.tag,
     )
@@ -177,7 +178,8 @@ def main(argv=None):
     p.add_argument("-v", "--variants", nargs="*", metavar="LABEL", help="restrict to these variants")
     p.add_argument("-t", "--threads", nargs="*", type=int)
     p.add_argument("-r", "--reps", type=int)
-    p.add_argument("--timeout", type=float, help="seconds")
+    p.add_argument("--timeout", type=float, help="seconds per run")
+    p.add_argument("--memory-gb", type=float, help="memory cap per run in GB (0 = none)")
     p.add_argument("--tag", help="suffix for the run id")
     p.add_argument("-n", "--dry-run", action="store_true", help="print the matrix and exit")
     p.set_defaults(fn=cmd_run)

@@ -56,8 +56,14 @@ def main() -> int:
     wall = time.perf_counter() - t0
 
     stdout = (out_dir / "stdout").read_text(errors="replace")
+    stderr = (out_dir / "stderr").read_text(errors="replace")
     report = {"wall_s": wall, "commit": info["commit"], **parse_stats(stdout)}
     report["sizes"] = parse_sizes(stdout)
+    if rc < 0:
+        report["signal"] = -rc
+    # Killed by the cgroup OOM killer (SIGKILL) or aborted on a failed allocation under an rlimit.
+    if rc == -9 or "memory allocation of" in stderr:
+        report["status_hint"] = "oom"
     (out_dir / "report.json").write_text(json.dumps(report, indent=1))
     return rc
 

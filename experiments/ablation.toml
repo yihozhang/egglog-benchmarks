@@ -3,7 +3,8 @@ description = "Ablation: tree decomposition in query planning and dynamic variab
 benchmarks = ["math", "actions", "eggcc", "hardboiled", "pointer-analysis"]
 threads = [1]
 reps = 3
-timeout = 3600
+timeout = 600       # seconds per run
+memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
 plot = "bars"
 baseline = "egglog"         # slowdowns relative to the full system
 

@@ -55,8 +55,8 @@ def summarize(rows: list[dict], metric: str = "wall_s") -> dict[tuple, dict]:
         rs = [r for r in rs if r["run_id"] == latest]
         ok = [r for r in rs if r["status"] == "ok"]
         statuses = {r["status"] for r in rs}
-        status = "ok" if ok else ("timeout" if "timeout" in statuses else
-                                  "unsupported" if "unsupported" in statuses else "fail")
+        status = "ok" if ok else next(
+            (st for st in ("timeout", "oom", "unsupported", "fail") if st in statuses), "fail")
         vals = [value(r, metric) for r in ok]
         vals = [v for v in vals if v is not None]
         out[k] = {

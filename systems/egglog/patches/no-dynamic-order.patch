@@ -1,5 +1,31 @@
+diff --git a/core-relations/src/free_join/execute.rs b/core-relations/src/free_join/execute.rs
+index 0e7c279a..184a4e98 100644
+--- a/core-relations/src/free_join/execute.rs
++++ b/core-relations/src/free_join/execute.rs
+@@ -45,7 +45,7 @@ use super::{
+     join_tail::{
+         BindingInfo, BindingSet, BorrowedLocalState, InstrOrder, LeafScans, LocalState,
+         MatchCounter, RetiredLocalStates, SubsetClonePlan, atom_tail_use, estimate_size,
+-        materialization_is_live_in_tail, sort_plan_by_size,
++        dynamic_variable_ordering_enabled, materialization_is_live_in_tail, sort_plan_by_size,
+     },
+     packed_cache::{OwnedAtomRows, TrieCache},
+     packed_trie::{ChildShape, TrieNode},
+@@ -1426,7 +1426,11 @@ impl<'a, 'state, 'exec> JoinState<'a, 'state, 'exec> {
+             TopLevelPartition::scan_size,
+         );
+         let chunk_size = action_buf.morsel_size(cur, instr_order.len());
+-        if cur_size > 32 && cur % 3 == 1 && cur < instr_order.len() - 1 {
++        if cur_size > 32
++            && cur % 3 == 1
++            && cur < instr_order.len() - 1
++            && dynamic_variable_ordering_enabled()
++        {
+             // Re-evaluate the remaining suffix after observing the residuals
+             // produced by earlier stages. Packed child families make the
+             // resulting atom-local successor choice safe to cache again.
 diff --git a/core-relations/src/free_join/join_tail.rs b/core-relations/src/free_join/join_tail.rs
-index 71ce003c..4ac7b4a4 100644
+index 71ce003c..644567ab 100644
 --- a/core-relations/src/free_join/join_tail.rs
 +++ b/core-relations/src/free_join/join_tail.rs
 @@ -6,7 +6,10 @@
@@ -14,38 +40,30 @@ index 71ce003c..4ac7b4a4 100644
  };
  
  use crossbeam::utils::CachePadded;
-@@ -396,6 +399,18 @@ pub(super) fn is_reorder_barrier(stage: &JoinStage) -> bool {
+@@ -396,6 +399,23 @@ pub(super) fn is_reorder_barrier(stage: &JoinStage) -> bool {
      )
  }
  
-+/// Whether runtime dynamic variable ordering ([`sort_plan_by_size`]) is
-+/// enabled. Enabled by default; see [`set_dynamic_variable_ordering`].
++/// Whether dynamic variable ordering *during* query execution is enabled. The
++/// initial size-based ordering at the start of each execution always happens;
++/// this only controls whether the remaining stages are re-sorted as the join
++/// proceeds (see `run_plan`). Enabled by default.
 +static DYNAMIC_VARIABLE_ORDERING: AtomicBool = AtomicBool::new(true);
 +
-+/// Globally enable or disable dynamic variable ordering during query
-+/// execution. When disabled, queries run in the static stage order chosen by
-+/// the planner and are never reordered based on observed sizes. Intended for
-+/// ablation experiments; takes effect for queries started after the call.
++/// Globally enable or disable re-sorting of the remaining join stages during
++/// query execution. Intended for ablation experiments; takes effect for
++/// queries started after the call.
 +pub fn set_dynamic_variable_ordering(enabled: bool) {
 +    DYNAMIC_VARIABLE_ORDERING.store(enabled, Ordering::Relaxed);
++}
++
++pub(super) fn dynamic_variable_ordering_enabled() -> bool {
++    DYNAMIC_VARIABLE_ORDERING.load(Ordering::Relaxed)
 +}
 +
  /// Reorder a suffix of the cached logical plan using the DVO policy.
  ///
  /// Within each phase, the greedy key is decreasing refinement count in the
-@@ -410,6 +425,12 @@ pub(super) fn sort_plan_by_size(
-     instrs: &[JoinStage],
-     binding_info: &mut BindingInfo<'_, '_>,
- ) {
-+    if !DYNAMIC_VARIABLE_ORDERING.load(Ordering::Relaxed) {
-+        // Dynamic variable ordering is disabled: keep the planner's static
-+        // stage order, but the leaf-scan flags still need to be computed.
-+        recompute_leaf_scans(order, leaf_scans, instrs, start);
-+        return;
-+    }
-     let mut last_pos = start;
-     for i in start..instrs.len() {
-         if is_reorder_barrier(&instrs[i]) {
 diff --git a/core-relations/src/free_join/mod.rs b/core-relations/src/free_join/mod.rs
 index bef96bf5..77692ca2 100644
 --- a/core-relations/src/free_join/mod.rs
@@ -72,17 +90,17 @@ index ad369b3b..be316c59 100644
  pub use hash_index::TupleIndex;
  #[doc(hidden)]
 diff --git a/src/cli.rs b/src/cli.rs
-index 55f3a219..2f834af9 100644
+index 55f3a219..98ac925b 100644
 --- a/src/cli.rs
 +++ b/src/cli.rs
 @@ -28,6 +28,12 @@ struct Args {
      /// on rules.
      #[clap(long)]
      no_decomp: bool,
-+    /// Disables dynamic variable ordering during query execution. By default
-+    /// the join executor reorders the remaining stages of a query plan based on
-+    /// the sizes observed at runtime; with this flag, queries always run in the
-+    /// static order chosen by the planner. Intended for ablation experiments.
++    /// Disables dynamic variable ordering during query execution. The join
++    /// executor still orders the stages of a plan by the sizes observed at the
++    /// start of each execution, but with this flag it never re-sorts the
++    /// remaining stages as the join proceeds. Intended for ablation experiments.
 +    #[clap(long)]
 +    no_dynamic_order: bool,
      /// Prints extra information, which can be useful for debugging
