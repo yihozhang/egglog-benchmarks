@@ -1,0 +1,114 @@
+#!/usr/bin/env python3
+"""Run one benchmark with one egglog build.
+
+Usage: run <build-dir> <program.egg> <fact-dir|-> <threads> <out-dir> [egglog flags...]
+
+Writes <out-dir>/stdout, <out-dir>/stderr and <out-dir>/report.json, and exits with
+egglog's exit code (3 if this build does not support the requested configuration).
+The report contains egglog's own phase timings (from `(print-stats)`) and the
+final table sizes (from `(print-size)`), which are appended to the program as a
+trailer so benchmark files stay untouched.
+"""
+
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+UNSUPPORTED = 3
+
+
+def main() -> int:
+    build_dir, program, fact_dir, threads, out_dir, *flags = sys.argv[1:]
+    build_dir, out_dir = Path(build_dir), Path(out_dir)
+    threads = int(threads)
+    info = json.loads((build_dir / "build.json").read_text())
+    out_dir.mkdir(parents=True, exist_ok=True)
+
+    if threads != 1 and not info["threads"]:
+        print(f"egglog@{info['ref']} has no --threads flag", file=sys.stderr)
+        return UNSUPPORTED
+    for f in flags:
+        if f.startswith("--") and f.split("=")[0] not in info["flags"]:
+            print(f"egglog@{info['ref']} does not support {f}", file=sys.stderr)
+            return UNSUPPORTED
+
+    trailer = out_dir / "trailer.egg"
+    trailer.write_text("(print-size)\n(print-stats)\n")
+
+    cmd = [str(build_dir / "egglog"), *flags]
+    if info["threads"]:
+        cmd += ["-j", str(threads)]
+    if fact_dir != "-":
+        cmd += ["-F", fact_dir]
+    cmd += [program, str(trailer)]
+
+    env = dict(os.environ)
+    env.setdefault("RUST_LOG", "error")  # egglog 0.5 logs every declaration at INFO by default
+    (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
+
+    t0 = time.perf_counter()
+    with open(out_dir / "stdout", "w") as so, open(out_dir / "stderr", "w") as se:
+        rc = subprocess.call(cmd, stdout=so, stderr=se, env=env)
+    wall = time.perf_counter() - t0
+
+    stdout = (out_dir / "stdout").read_text(errors="replace")
+    report = {"wall_s": wall, "commit": info["commit"], **parse_stats(stdout)}
+    report["sizes"] = parse_sizes(stdout)
+    (out_dir / "report.json").write_text(json.dumps(report, indent=1))
+    return rc
+
+
+STAT_LINE = re.compile(
+    r"^Ruleset (?P<ruleset>.*?): search (?P<search>[\d.]+)s, (?:apply|merge) (?P<second>[\d.]+)s, rebuild (?P<rebuild>[\d.]+)s",
+    re.M,
+)
+
+
+def parse_stats(stdout: str) -> dict:
+    """Sum the per-ruleset lines of `(print-stats)`.
+
+    egglog 0.5 prints `search X, apply Y, rebuild Z` (search and apply measured
+    separately); current egglog prints `search X, merge Y, rebuild Z` where "search"
+    already includes applying rules. Both are reduced to the same three totals:
+    search_apply_s, merge_s (0 for egglog 0.5, where merging is part of apply),
+    rebuild_s, plus their sum run_s.
+    """
+    search_apply = merge = rebuild = 0.0
+    found = False
+    for m in STAT_LINE.finditer(stdout):
+        found = True
+        line = m.group(0)
+        if ", apply " in line:
+            search_apply += float(m["search"]) + float(m["second"])
+        else:
+            search_apply += float(m["search"])
+            merge += float(m["second"])
+        rebuild += float(m["rebuild"])
+    if not found:
+        return {}
+    return {
+        "search_apply_s": search_apply,
+        "merge_s": merge,
+        "rebuild_s": rebuild,
+        "run_s": search_apply + merge + rebuild,
+    }
+
+
+NEW_SIZE = re.compile(r"^\s*\(?\((\S+) (\d+)\)\)?\s*$", re.M)  # ((f 12)\n (g 3))
+OLD_SIZE = re.compile(r"^(\S+): (\d+)$", re.M)  # f: 12
+
+
+def parse_sizes(stdout: str) -> dict:
+    sizes = {}
+    for pat in (NEW_SIZE, OLD_SIZE):
+        for name, n in pat.findall(stdout):
+            sizes[name] = int(n)
+    return sizes
+
+
+if __name__ == "__main__":
+    sys.exit(main())

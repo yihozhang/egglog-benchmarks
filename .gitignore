@@ -1,0 +1,12 @@
+# built systems (git worktrees + cargo targets)
+/build/
+# python
+/.venv/
+__pycache__/
+*.pyc
+# raw logs of benchmark runs (the .jsonl rows are committed, logs are not)
+/results/*/logs/
+# large benchmark inputs (unpacked from the .zip)
+/benchmarks/pointer-analysis/benchmark-input/
+*.png
+/results/*.log

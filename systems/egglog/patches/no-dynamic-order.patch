@@ -1,0 +1,98 @@
+diff --git a/core-relations/src/free_join/join_tail.rs b/core-relations/src/free_join/join_tail.rs
+index 71ce003c..4ac7b4a4 100644
+--- a/core-relations/src/free_join/join_tail.rs
++++ b/core-relations/src/free_join/join_tail.rs
+@@ -6,7 +6,10 @@
+ 
+ use std::{
+     ops::Range,
+-    sync::{Arc, Mutex, atomic::AtomicUsize},
++    sync::{
++        Arc, Mutex,
++        atomic::{AtomicBool, AtomicUsize, Ordering},
++    },
+ };
+ 
+ use crossbeam::utils::CachePadded;
+@@ -396,6 +399,18 @@ pub(super) fn is_reorder_barrier(stage: &JoinStage) -> bool {
+     )
+ }
+ 
++/// Whether runtime dynamic variable ordering ([`sort_plan_by_size`]) is
++/// enabled. Enabled by default; see [`set_dynamic_variable_ordering`].
++static DYNAMIC_VARIABLE_ORDERING: AtomicBool = AtomicBool::new(true);
++
++/// Globally enable or disable dynamic variable ordering during query
++/// execution. When disabled, queries run in the static stage order chosen by
++/// the planner and are never reordered based on observed sizes. Intended for
++/// ablation experiments; takes effect for queries started after the call.
++pub fn set_dynamic_variable_ordering(enabled: bool) {
++    DYNAMIC_VARIABLE_ORDERING.store(enabled, Ordering::Relaxed);
++}
++
+ /// Reorder a suffix of the cached logical plan using the DVO policy.
+ ///
+ /// Within each phase, the greedy key is decreasing refinement count in the
+@@ -410,6 +425,12 @@ pub(super) fn sort_plan_by_size(
+     instrs: &[JoinStage],
+     binding_info: &mut BindingInfo<'_, '_>,
+ ) {
++    if !DYNAMIC_VARIABLE_ORDERING.load(Ordering::Relaxed) {
++        // Dynamic variable ordering is disabled: keep the planner's static
++        // stage order, but the leaf-scan flags still need to be computed.
++        recompute_leaf_scans(order, leaf_scans, instrs, start);
++        return;
++    }
+     let mut last_pos = start;
+     for i in start..instrs.len() {
+         if is_reorder_barrier(&instrs[i]) {
+diff --git a/core-relations/src/free_join/mod.rs b/core-relations/src/free_join/mod.rs
+index bef96bf5..77692ca2 100644
+--- a/core-relations/src/free_join/mod.rs
++++ b/core-relations/src/free_join/mod.rs
+@@ -43,6 +43,7 @@ use crate::common::HashMap;
+ pub(crate) mod execute;
+ pub(crate) mod frame_update;
+ mod join_tail;
++pub use join_tail::set_dynamic_variable_ordering;
+ mod packed_cache;
+ mod prepared_index;
+ mod probe;
+diff --git a/core-relations/src/lib.rs b/core-relations/src/lib.rs
+index ad369b3b..be316c59 100644
+--- a/core-relations/src/lib.rs
++++ b/core-relations/src/lib.rs
+@@ -29,7 +29,7 @@ pub use common::Value;
+ pub use containers::{ContainerRebuildSummary, ContainerValue, ContainerValueId, ContainerValues};
+ pub use free_join::{
+     AtomId, CounterId, Database, ExternalFunction, ExternalFunctionId, TableId, TableIdentity,
+-    Variable, make_external_func, plan::PlanStrategy,
++    Variable, make_external_func, plan::PlanStrategy, set_dynamic_variable_ordering,
+ };
+ pub use hash_index::TupleIndex;
+ #[doc(hidden)]
+diff --git a/src/cli.rs b/src/cli.rs
+index 55f3a219..2f834af9 100644
+--- a/src/cli.rs
++++ b/src/cli.rs
+@@ -28,6 +28,12 @@ struct Args {
+     /// on rules.
+     #[clap(long)]
+     no_decomp: bool,
++    /// Disables dynamic variable ordering during query execution. By default
++    /// the join executor reorders the remaining stages of a query plan based on
++    /// the sizes observed at runtime; with this flag, queries always run in the
++    /// static order chosen by the planner. Intended for ablation experiments.
++    #[clap(long)]
++    no_dynamic_order: bool,
+     /// Prints extra information, which can be useful for debugging
+     #[clap(long, default_value_t = RunMode::Normal)]
+     mode: RunMode,
+@@ -109,6 +115,7 @@ pub fn cli(mut egraph: EGraph) {
+     egraph.fact_directory.clone_from(&args.fact_directory);
+     egraph.seminaive = !args.naive;
+     egraph.no_decomp = args.no_decomp;
++    egglog_core_relations::set_dynamic_variable_ordering(!args.no_dynamic_order);
+     egraph.set_report_level(args.report_level);
+     if args.strict_mode {
+         egraph.set_strict_mode(true);

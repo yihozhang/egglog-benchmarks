@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# Build egglog at a git ref, optionally with local patches applied.
+# Usage: build <ref> [patch-name ...]
+# Prints the build directory (build/egglog/<commit>[+<patch-hash>]) on stdout; idempotent.
+# `ref` is anything the egglog submodule can resolve: a tag (v0.5.0), a branch
+# (main), or a commit hash. Unknown refs trigger a fetch. Each patch name refers to
+# systems/egglog/patches/<name>.patch, applied with `git apply --3way` after checkout.
+set -euo pipefail
+ref=${1:?usage: build <ref> [patch-name ...]}
+shift
+patches=("$@")
+here=$(dirname "$(readlink -f "$0")")
+root=$(readlink -f "$here/../..")
+repo=$root/egglog
+
+if [ ! -f "$repo/Cargo.toml" ]; then
+  echo "egglog submodule not checked out; run: git submodule update --init egglog" >&2
+  exit 1
+fi
+sha=$(git -C "$repo" rev-parse --verify --quiet "$ref^{commit}" || true)
+if [ -z "$sha" ]; then
+  git -C "$repo" fetch -q origin "+refs/heads/*:refs/remotes/origin/*" "+refs/tags/*:refs/tags/*" >&2
+  sha=$(git -C "$repo" rev-parse --verify "$ref^{commit}")
+fi
+out=$root/build/egglog/${sha:0:12}
+patch_files=()
+for name in "${patches[@]}"; do
+  f=$here/patches/$name.patch
+  [ -f "$f" ] || { echo "no such patch: $f" >&2; exit 1; }
+  patch_files+=("$f")
+done
+if [ ${#patch_files[@]} -gt 0 ]; then
+  patch_hash=$(cat "${patch_files[@]}" | sha256sum | cut -c1-8)
+  out=$out+$patch_hash
+fi
+
+if [ ! -x "$out/egglog" ]; then
+  mkdir -p "$out"
+  if [ ! -f "$out/src/Cargo.toml" ]; then
+    rm -rf "$out/src"
+    git -C "$repo" worktree prune
+    git -C "$repo" worktree add -q --detach "$out/src" "$sha" >&2
+  fi
+  if [ ${#patch_files[@]} -gt 0 ]; then
+    # Start from a pristine checkout so a re-run after a failed build does not re-apply.
+    git -C "$out/src" checkout -q -- . && git -C "$out/src" clean -qfd
+    for f in "${patch_files[@]}"; do
+      echo "applying $(basename "$f") to egglog@$ref" >&2
+      if ! git -C "$out/src" apply --3way "$f" >&2; then
+        echo "patch $(basename "$f") does not apply to egglog@$ref ($sha); regenerate it against this commit" >&2
+        git -C "$repo" worktree remove --force "$out/src"
+        rm -rf "$out"
+        exit 1
+      fi
+    done
+  fi
+  echo "building egglog@$ref ($sha) in $out" >&2
+  (cd "$out/src" && cargo build --release -q) >&2
+  ln -sf src/target/release/egglog "$out/egglog"
+
+  # Probe what this version supports, so `run` can refuse unsupported configurations.
+  help=$("$out/egglog" --help 2>&1 || true)
+  flags=$(printf '%s\n' "$help" | grep -oE -- '--[a-z][a-z0-9-]*' | sort -u | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().split()))')
+  tmp=$(mktemp -d)
+  printf '(relation R (i64))\n(R 1)\n(run 1)\n(print-size)\n' > "$tmp/a.egg"
+  printf '(print-stats :file "%s/s.json")\n' "$tmp" > "$tmp/stats.egg"
+  if RUST_LOG=error "$out/egglog" "$tmp/a.egg" "$tmp/stats.egg" >/dev/null 2>&1 && [ -s "$tmp/s.json" ]; then stats_json=true; else stats_json=false; fi
+  rm -rf "$tmp"
+  python3 - "$out/build.json" "$ref" "$sha" "$stats_json" "$flags" "${patches[@]}" <<'PY'
+import json, sys
+path, ref, sha, stats_json, flags, *patches = sys.argv[1:]
+flags = json.loads(flags)
+json.dump({
+    "system": "egglog",
+    "ref": ref,
+    "commit": sha,
+    "patches": patches,
+    "flags": flags,
+    "threads": "--threads" in flags,
+    "stats_json": stats_json == "true",
+}, open(path, "w"), indent=1)
+PY
+fi
+echo "$out"
