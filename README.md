@@ -55,6 +55,12 @@ per configuration wins), so an experiment can be run in pieces.
   commit plus patch hash, so patched and unpatched builds coexist.
 - **An experiment**: a new `experiments/<name>.toml`; `plot` is `bars` (grouped by benchmark, with a speedup figure if `baseline` is set) or `scaling` (speedup vs. thread count).
 - **A baseline system**: `systems/<name>/build` and `systems/<name>/run` honoring the contract above, a `system.toml` with `port_dir = "<name>"`, and ports under `benchmarks/<suite>/<name>/`.
+  - `egg`: a port is a Rust file `benchmarks/<suite>/egg/<name>.rs` with a `main` that takes `--report FILE`
+    and prints e-nodes per constructor in `(print-size)` format; `build <ref>` compiles every port against
+    that egg checkout (`build/egg/<commit>/ports`).
+  - `oatlog`: a port is an egglog program `benchmarks/<suite>/oatlog/<name>.egg` in oatlog's subset of the
+    language (a symlink to the original when it already is); `build <ref>` compiles it into a binary with
+    `compile_egraph_strict` (and `--relaxed` selects `compile_egraph_relaxed`).
 
 ## Result row
 
@@ -77,6 +83,16 @@ per experiment or `--timeout`/`--memory-gb` on `bench run`). The memory cap is a
 transient systemd user scope (`MemoryMax`, no swap), so an over-budget run is
 OOM-killed and recorded as `oom`; without systemd it falls back to an
 address-space rlimit.
+
+## Cross-engine comparison
+
+`experiments/engines.toml` compares engines on programs every engine can run *exactly*.
+That is `math-microbenchmark` (pure rewrites, no e-class analysis): one iteration does the
+same work in every engine and `bench check engines` verifies that all of them end with
+the same e-graph. The `math` suite stays egglog-only: it drives the rewrites with
+`evals-to`/`MathU` relations, which egg can only express as an eager analysis (so its
+iterations do more work than egglog's) and which uses `!=` on e-classes, which oatlog
+does not support; both deviations change the workload by orders of magnitude.
 
 ## Notes
 

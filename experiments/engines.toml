@@ -1,0 +1,30 @@
+description = "egglog against other e-graph engines on the programs every engine can run exactly (math-microbenchmark)."
+benchmarks = ["math-microbenchmark"]
+threads = [1]
+reps = 5
+timeout = 600       # seconds per run
+memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+plot = "bars"
+baseline = "egglog"
+
+[[variants]]
+label = "egglog"
+system = "egglog"
+ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+
+[[variants]]
+label = "egglog-0.5.0"
+system = "egglog"
+ref = "v0.5.0"
+
+[[variants]]
+label = "egg"
+system = "egg"
+ref = "v0.11.0"
+
+[[variants]]
+label = "oatlog"
+system = "oatlog"
+ref = "6b73396"              # oatlog main as of 2026-10-10; compile_egraph_strict = egglog (run N) semantics.
+                             # flags = ["--relaxed"] selects compile_egraph_relaxed, which runs rules more often
+                             # per step and exceeds 32 GB on this workload, so it is not compared.

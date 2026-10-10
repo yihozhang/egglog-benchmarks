@@ -1,0 +1,6 @@
+# oatlog (https://github.com/oatlog/oatlog) compiles an egglog program to Rust at build
+# time. A benchmark is supported when benchmarks/<suite>/oatlog/<name>.egg exists: the
+# egglog program restricted to oatlog's subset of the language. Ports are compiled with
+# compile_egraph_strict (egglog's (run N) semantics); pass --relaxed to use the
+# relaxed mode instead.
+port_dir = "oatlog"

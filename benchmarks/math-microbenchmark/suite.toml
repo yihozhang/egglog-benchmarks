@@ -1,0 +1,5 @@
+# tests/math-microbenchmark.egg from the egglog repository (commit 14a81499 era), minus its
+# trailing print commands (the harness appends its own). Pure rewrites over the egg "math"
+# language with no e-class analysis, so every engine can run exactly this program:
+#   oatlog/  symlink to the same file (oatlog compiles egglog programs directly)
+#   egg/     Rust port with the same rules, start terms and iteration count

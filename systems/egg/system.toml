@@ -1,0 +1,3 @@
+# egg (https://github.com/egraphs-good/egg). A benchmark is supported when a Rust port
+# benchmarks/<suite>/egg/<name>.rs exists; ports are built against the requested egg ref.
+port_dir = "egg"
