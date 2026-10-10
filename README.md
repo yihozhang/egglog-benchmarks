@@ -101,6 +101,17 @@ Every port of `math-microbenchmark` reaches exactly the same e-graph as egglog
 (1047896 e-nodes, 443832 e-classes); `bench check engines` verifies it on every run.
 Container systems follow the contract in `systems/_container/README.md`.
 
+## Measurement policy
+
+The headline number is always `wall_s`: wall-clock time measured by our own code
+(the harness, an adapter or a port we wrote) around the whole run, including parsing
+and type checking where the engine does them. For JIT languages (Julia, JVM) the port
+measures after a warm-up on a separate e-graph, so JIT compilation and VM startup are
+excluded while e-graph construction, the iterations and the size count are included.
+Times the engines report about themselves (egglog's `(print-stats)`, egg's iteration
+times, Metatheory's report, ...) are stored in `report.run_s` and the like for
+reference, never plotted.
+
 ## Cross-engine comparison
 
 `experiments/engines.toml` compares engines on programs every engine can run *exactly*.

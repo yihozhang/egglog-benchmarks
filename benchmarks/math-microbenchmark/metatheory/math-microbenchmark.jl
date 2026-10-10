@@ -14,7 +14,8 @@
 # extraction, so this is egglog's `(run N)`.
 #
 # Usage: julia --project=<project with Metatheory> math-microbenchmark.jl [--iters N] [--warmup N]
-# Prints `run_s` (time of the single saturate! call, after a warm-up saturate! on a separate
+# Prints `wall_s` (after the warm-up: start e-graph + saturate! + size count),
+# `run_s` (time of the single saturate! call, after a warm-up saturate! on a separate
 # e-graph so JIT compilation is excluded) and the e-nodes per constructor in egglog's
 # (print-size) format on stdout; everything else goes to stderr.
 
@@ -150,6 +151,9 @@ function main(args)
                 "of JIT compilation excluded from run_s")
     end
 
+    # wall_s: everything after the JIT warm-up, measured here: building the start e-graph,
+    # the iterations and the size count (Julia startup and package load excluded).
+    twall = time_ns()
     g = start_egraph()
     compile0 = Base.cumulative_compile_time_ns()
     gc0 = Base.gc_time_ns()
@@ -161,6 +165,8 @@ function main(args)
     compile_s = (compile1[1] - compile0[1]) / 1e9
 
     counts, nodes, nliterals = sizes(g)
+    wall_s = (time_ns() - twall) / 1e9
+    println("wall_s ", wall_s)
     println("run_s ", run_s)
     println("(")
     for h in sort(collect(HEADS), by = string)

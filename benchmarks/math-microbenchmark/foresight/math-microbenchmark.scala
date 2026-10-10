@@ -10,7 +10,8 @@
 // ParallelMap.sequential (single thread).
 //
 // Usage: bench.math_microbenchmark [--iters N] [--warmup N]
-// Prints `run_s <seconds>` (the N iterations only) and the e-nodes per constructor in
+// Prints `wall_s <seconds>` (after the JIT warm-up: start e-graph + N iterations + size
+// count), `run_s <seconds>` (the N iterations only) and the e-nodes per constructor in
 // egglog's (print-size) format on stdout. --warmup N (default 6) first runs N iterations on
 // a separate, discarded e-graph so that the JIT has compiled the engine before timing; 0
 // disables it.
@@ -161,6 +162,9 @@ object math_microbenchmark {
       System.gc()
     }
 
+    // wall_s: everything after the JIT warm-up, measured here: building the start
+    // e-graph, the iterations and the size count (VM startup excluded).
+    val tWall = System.nanoTime()
     val g = fresh()
     val t0 = System.nanoTime()
     iterate(g, iters, log = true)
@@ -181,6 +185,8 @@ object math_microbenchmark {
       }
     }
 
+    val wallS = (System.nanoTime() - tWall) / 1e9
+    println(String.format(java.util.Locale.ROOT, "wall_s %.6f", Double.box(wallS)))
     println(String.format(java.util.Locale.ROOT, "run_s %.6f", Double.box(runS)))
     println("(")
     for ((k, v) <- counts) println(s" ($k $v)")

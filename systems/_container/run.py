@@ -15,6 +15,7 @@ from pathlib import Path
 UNSUPPORTED = 3
 SIZE = re.compile(r"^\s*\(?\((\S+) (\d+)\)\)?\s*$", re.M)
 RUN_S = re.compile(r"^run_s\s+([0-9.eE+-]+)\s*$", re.M)
+PORT_WALL_S = re.compile(r"^wall_s\s+([0-9.eE+-]+)\s*$", re.M)
 WALL_NS = re.compile(r"^wall_ns\s+(\d+)\s*$", re.M)
 
 
@@ -51,11 +52,17 @@ def main() -> int:
     stdout = (out_dir / "stdout").read_text(errors="replace")
     stderr = (out_dir / "stderr").read_text(errors="replace")
     report = {"commit": info["commit"], "container_wall_s": host_wall}
+    # wall_s: the whole port process (entry.sh's wall_ns), unless the port prints its own
+    # wall_s, which JIT-language ports do to exclude VM startup and JIT warm-up while still
+    # covering e-graph construction, the iterations and the final size count.
     m = WALL_NS.search(stdout)
-    report["wall_s"] = int(m.group(1)) / 1e9 if m else host_wall
+    if m:
+        report["process_wall_s"] = int(m.group(1)) / 1e9
+    m = PORT_WALL_S.search(stdout)
+    report["wall_s"] = float(m.group(1)) if m else report.get("process_wall_s", host_wall)
     m = RUN_S.search(stdout)
     if m:
-        report["run_s"] = float(m.group(1))
+        report["run_s"] = float(m.group(1))  # the engine's own number, for reference only
     report["sizes"] = {k: int(v) for k, v in SIZE.findall(stdout)}
     # podman exits 137 when the container's main process was SIGKILLed: by the OOM killer or
     # by --timeout (the harness's own timeout fires at the same time and takes precedence).

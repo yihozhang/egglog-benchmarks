@@ -8,3 +8,20 @@
 port_dir = "ego"
 repo = "https://github.com/verse-lab/ego"
 container = true
+
+notes = """
+OCaml port (benchmarks/<suite>/ego/<name>.ml) against ego main e87dae7a (2026-06-15). The
+last release tag 0.0.6 has an e-matching bug in Ego.Generic (at most one match per e-class
+per pattern, fixed in PR #7 after the tag), so main is pinned. ego's own iteration is not
+egglog's: it snapshots the e-classes once, then for each rule in order finds that rule's
+matches lazily and applies them before the next rule is searched, consulting the live
+union-find. To get egglog's match-all-then-apply-all semantics through ego's public API
+(Query.t and Id.t are abstract, no ematch/subst exported), the port drives
+BuildRunner.run_until_saturation twice per iteration with a custom scheduler: a collect
+phase that materializes all rules' matches on one snapshot, and an apply phase that hands
+them back; this costs one extra snapshot and one no-op rebuild per iteration, about 15 % of
+ego's time on math-microbenchmark (an ego-native loop would be faster but would not run
+the same workload). Unit analysis, no extraction. ego leaves stale hashcons keys after
+rebuild, so the port counts distinct (class, canonical children) tuples. wall_s = the whole
+port process; the final count through find_matches is a large part of it. Single-threaded.
+"""

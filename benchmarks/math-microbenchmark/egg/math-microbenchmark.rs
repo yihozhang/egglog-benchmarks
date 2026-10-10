@@ -84,8 +84,8 @@ const START: &[&str] = &[
     "(Div 1 (Sub (Div (Add 1 (Sqrt five)) 2) (Div (Sub 1 (Sqrt five)) 2)))",
 ];
 
-fn main() {
-    let mut iters = 11usize;
+pub fn main_with(default_iters: usize) {
+    let mut iters = default_iters;
     let mut report = None;
     let mut args = std::env::args().skip(1);
     while let Some(a) = args.next() {
@@ -149,4 +149,9 @@ fn main() {
             runner.egraph.total_number_of_nodes(), runner.egraph.number_of_classes()
         )).expect("write report");
     }
+}
+
+#[allow(dead_code)]
+fn main() {
+    main_with(11)
 }

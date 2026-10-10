@@ -80,6 +80,7 @@ class System:
     # If set, a benchmark is supported only when `benchmarks/<suite>/<port_dir>/<name>.*`
     # (or `.../<port_dir>/<suite>.*` for suite-level programs) exists.
     port_dir: str | None = None
+    notes: str = ""  # caveats about the system and its ports (from system.toml `notes`)
 
     @property
     def dir(self) -> Path:
@@ -101,7 +102,7 @@ def load_system(name: str) -> System:
     cfg = {}
     if (d / "system.toml").exists():
         cfg = tomllib.loads((d / "system.toml").read_text())
-    return System(name, cfg.get("port_dir"))
+    return System(name, cfg.get("port_dir"), cfg.get("notes", "").strip())
 
 
 @dataclass(frozen=True)

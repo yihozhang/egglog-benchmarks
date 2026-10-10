@@ -46,7 +46,10 @@ the same start terms, the same number of iterations, one iteration = match all r
 the current e-graph, apply all matches, rebuild; no node/time limits, no backoff
 scheduling) and prints
 
-    run_s <seconds>        time of the iterations only, measured by the port itself
+    run_s <seconds>        time of the iterations only, as the engine reports it (reference only)
+    wall_s <seconds>       optional, JIT languages only: the port's own wall-clock measurement
+                           after a JIT warm-up, covering e-graph construction, the iterations
+                           and the size count (VM startup and warm-up excluded)
     (
      (Add 641743)          e-nodes per constructor, egglog names, egglog (print-size) format
      (Mul 345075)
@@ -54,5 +57,6 @@ scheduling) and prints
     )
 
 Anything else may go to stderr. `entry.sh` additionally prints `wall_ns <int>` around the
-port process, which becomes `report.wall_s` (startup of the VM included, the container's not).
-`report.run_s` is what the engines experiment plots.
+port process (`report.process_wall_s`). `report.wall_s` is the headline number: the process
+wall time, or the port's own `wall_s` when it prints one. Measurement policy: wall-clock
+time measured by our code (harness, entry.sh or the port), never the engine's own report.

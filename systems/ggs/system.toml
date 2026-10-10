@@ -5,3 +5,16 @@
 port_dir = "ggs"
 repo = "https://github.com/kchanqvq/ggs"
 container = true
+
+notes = """
+Common Lisp port (benchmarks/<suite>/ggs/<name>.lisp) of the ggs/eqsat system (directory
+eqsat/ of the repo; ggs/stochastic is a different, tree-based search and is not used). Pin:
+main 097e4f32 (no tags); the only non-Quicklisp dependency, lp-hash-table, is pinned too.
+The engine's own driver run-rewrites :max-iter N is used: per iteration every rule is
+matched against the index built by the previous rebuild, RHS interned and merged, then one
+rebuild; no match limit (BackoffScheduler off), no :prune-constant, no analysis, no
+extraction. Compiled natively with (speed 3) (safety 0) into a standalone SBCL executable
+(ggs/eqsat preloaded), so wall_s = the executable (core start ~0.08 s, start terms, N
+iterations, size count); report.run_s = run-rewrites only. The eqsat engine is
+single-threaded (only ggs/stochastic has worker threads).
+"""

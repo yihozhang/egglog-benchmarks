@@ -37,8 +37,11 @@ def cmd_list(args):
                 print(f"  {d.name:20s} {n} benchmarks")
         print("systems:")
         for d in sorted(config.SYSTEMS.iterdir()):
-            if d.is_dir():
+            if d.is_dir() and not d.name.startswith("_"):
+                sy = config.load_system(d.name)
                 print(f"  {d.name}")
+                for line in sy.notes.splitlines():
+                    print(f"      {line}")
 
 
 def cmd_build(args):

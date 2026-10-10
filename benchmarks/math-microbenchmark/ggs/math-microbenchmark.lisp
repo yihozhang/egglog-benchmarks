@@ -92,8 +92,11 @@ EGRAPH-REBUILD builds from the hash-cons holds exactly the canonical, deduplicat
       (error "index holds ~a e-nodes but the hash-cons ~a" total (egraph-n-enodes *egraph*)))
     (sort (alexandria:hash-table-alist counts) #'string< :key #'car)))
 
+(defvar *default-iters* 11
+  "Iterations when --iters is not given; wrapper ports override this.")
+
 (defun main ()
-  (let ((iters 11)
+  (let ((iters *default-iters*)
         (args (rest sb-ext:*posix-argv*)))
     (loop while args
           do (let ((a (pop args)))

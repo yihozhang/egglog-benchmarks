@@ -6,3 +6,19 @@
 port_dir = "foresight"
 repo = "https://github.com/jonathanvdc/foresight"
 container = true
+
+notes = """
+Scala port (benchmarks/<suite>/foresight/<name>.scala, sbt, Scala 3.4, JDK 21) against
+foresight main f3ea706d (2026-09-10). The only release tag v0.1.0 is 718 commits behind,
+Scala 2.11, immutable e-graph only, i.e. before the architecture of the CC'26 paper, so main
+is pinned. Uses the mutable fastutil hash-cons e-graph and
+MaximalRuleApplication.mutable(rules).apply(egraph, (), ParallelMap.sequential): match all
+rules against the pre-iteration e-graph, apply all commands, congruence restored inline.
+Parallelism disabled (ParallelMap.sequential); no caching strategy, no backoff, no analyses,
+no extraction, no iteration/node/time limits (the port drives N iterations). JVM runs with
+-XX:+UseSerialGC (-XX:MaxRAMPercentage=85): with the default G1, parallel GC threads on idle
+cores make the "single-threaded" time ~35 % lower and dependent on the machine; override
+with FORESIGHT_JAVA_OPTS. wall_s = measured by the port after a JIT warm-up (6 iterations on
+a discarded e-graph): start e-graph + N iterations + size count; JVM startup and warm-up
+excluded. report.run_s = the iterations only.
+"""

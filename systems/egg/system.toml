@@ -1,3 +1,10 @@
 # egg (https://github.com/egraphs-good/egg). A benchmark is supported when a Rust port
 # benchmarks/<suite>/egg/<name>.rs exists; ports are built against the requested egg ref.
 port_dir = "egg"
+
+notes = """
+Rust port per benchmark (benchmarks/<suite>/egg/<name>.rs) built against the pinned egg ref.
+Runner: SimpleScheduler, iteration limit = the program's (run N), no node/time limit,
+explanations off, no analysis. wall_s = the port process (building the start e-graph, N
+iterations, counting e-nodes); report.run_s = egg Runner time only. Single-threaded.
+"""

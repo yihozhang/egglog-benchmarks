@@ -5,3 +5,17 @@
 port_dir = "metatheory"
 repo = "https://github.com/JuliaSymbolics/Metatheory.jl"
 container = true
+
+notes = """
+Julia port (benchmarks/<suite>/metatheory/<name>.jl) against Metatheory.jl v2.0.2, the
+latest release (no 3.x release exists; master is an unreleased 2.1.0). saturate! with
+SaturationParams(timeout = N iterations, SimpleScheduler, eclasslimit = 0, enodelimit =
+typemax, timelimit = 0, no goal), heads are plain call terms (Add, Const, Var, ...) so no
+Julia arithmetic or constant folding applies. wall_s = measured by the port after a JIT
+warm-up (a 3-iteration saturate! on a separate e-graph): start e-graph + saturate! + size
+count; Julia startup, package load and JIT are excluded (Base.cumulative_compile_time_ns
+confirms 0 s of compilation inside the timed region). report.run_s = saturate! only. Node
+counts are computed by the port because Metatheory's hashcons keeps stale entries after
+rebuild. Literals (-1, 1, 2, 3, 7, "x", "y", "five") are e-classes of their own in
+Metatheory (+8 e-classes vs egglog). Single-threaded.
+"""

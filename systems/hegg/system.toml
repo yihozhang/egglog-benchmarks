@@ -6,3 +6,17 @@
 port_dir = "hegg"
 repo = "https://github.com/alt-romes/hegg"
 container = true
+
+notes = """
+Haskell port (benchmarks/<suite>/hegg/Main.hs) against hegg v0.5.0.0 (GHC 9.6, -O2, -A32m).
+hegg's own driver (runEqualitySaturation) hard-codes a 30-iteration cap, stops at
+saturation and bans rules through a BackoffScheduler, so the port drives the iterations
+itself from hegg's building blocks: per iteration build the e-matching database, ematch every
+rule, apply every match, rebuild once. Two hegg quirks handled in the port: (1) hegg builds
+the e-matching database from the hashcons without canonicalizing stored e-class ids, which
+loses matches after cascading merges (sizes diverged from egglog at iteration 5), so the port
+builds the same database over canonical ids; (2) ematch returns each substitution of a
+k-atom pattern k times, applying duplicates is idempotent and kept as hegg does it. The
+trivial () analysis, no extraction. wall_s = the whole port process; the port forces
+evaluation at every iteration so laziness cannot defer work past the end. Single-threaded.
+"""
