@@ -45,6 +45,8 @@ def plot_experiment(exp: Experiment, rows: list[dict], out_dir: Path, metric: st
     written = [write_csv(exp, summ, out_dir / f"{exp.name}{suffix}.csv")]
     if exp.plot == "scaling":
         written += plot_scaling(exp, summ, out_dir / f"{exp.name}{suffix}")
+    elif exp.plot == "variants":
+        written += plot_variants(exp, summ, out_dir / f"{exp.name}{suffix}", metric)
     else:
         written += plot_bars(exp, summ, out_dir / f"{exp.name}{suffix}")
     return written
@@ -249,3 +251,43 @@ def plot_scaling(exp: Experiment, summ: dict, stem: Path) -> list[Path]:
         plt.close(fig)
         written.append(p)
     return written
+
+
+def plot_variants(exp: Experiment, summ: dict, stem: Path, metric: str) -> list[Path]:
+    """One horizontal bar per variant (for experiments with few benchmarks and many systems).
+
+    One panel per benchmark; bars sorted by time, value labels, log axis, failures as text.
+    """
+    suites = _suites(summ)
+    benches = [(s, n) for s, ns in suites.items() for n in ns]
+    variants = [v.label for v in exp.variants]
+    t = sorted({k[3] for k in summ})[0]
+    fig, axes = plt.subplots(1, len(benches), figsize=(min(3.6 * len(benches), 14), 0.32 * len(variants) + 0.9), squeeze=False)
+    for ax, (suite, name) in zip(axes[0], benches):
+        rows = []
+        for v in variants:
+            s_ = summ.get((suite, name, v, t))
+            rows.append((v, s_["median"] if s_ and s_["status"] == "ok" else None, s_["status"] if s_ else "-"))
+        rows.sort(key=lambda r: (r[1] is None, r[1] or 0))
+        ys = np.arange(len(rows))[::-1]
+        vals = [r[1] for r in rows if r[1]]
+        floor = _floor(vals)
+        for y, (v, val, status) in zip(ys, rows):
+            color = PALETTE[variants.index(v) % len(PALETTE)]
+            if val:
+                ax.barh(y, val - floor, left=floor, height=0.7, color=color)
+                ax.text(val * 1.08, y, f"{val:.3g}", va="center", fontsize=7)
+            else:
+                ax.text(floor * 1.1, y, status, va="center", fontsize=7, color=MUTED)
+        ax.set_yticks(ys)
+        ax.set_yticklabels([r[0] for r in rows])
+        ax.set_xlim(left=floor, right=max(vals) * 2.2 if vals else 1)
+        _log_axis(ax, "x")
+        ax.grid(True, axis="x"); ax.grid(False, axis="y")
+        ax.set_xlabel("time (s), " + metric)
+        ax.set_title(f"{suite}/{name}" if len(suites) > 1 or len(benches) > 1 else suite)
+    fig.tight_layout()
+    p = stem.with_name(stem.name + ".pdf")
+    fig.savefig(p, bbox_inches="tight"); fig.savefig(p.with_suffix(".png"), bbox_inches="tight")
+    plt.close(fig)
+    return [p]
