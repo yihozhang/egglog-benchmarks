@@ -1,5 +1,5 @@
 description = "Multi-threaded scaling of egglog, pinned to the 64 physical cores (SMT siblings are 64-127)."
-benchmarks = ["math", "actions", "eggcc", "hardboiled", "pointer-analysis"]
+benchmarks = ["math", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
 threads = [1, 2, 4, 8, 16, 32, 64]
 cpus = "0-63"
 reps = 3

@@ -44,7 +44,8 @@ per configuration wins), so an experiment can be run in pieces.
 
 ## Adding things
 
-- **A benchmark**: drop a `.egg` file into a suite directory.
+- **A benchmark**: drop a `.egg` file into a suite directory. Files a suite's programs `include`
+  (like `benchmarks/luminal/luminal-header.egg`) are listed under `exclude` in its `suite.toml`.
 - **An egglog commit to compare**: add a `[[variants]]` block with `ref = "<commit|tag|branch>"`.
 - **An ablation**: a variant with `flags = [...]`. Flags a build does not know are reported as `unsupported`.
 - **A local change to egglog** (e.g. a new ablation flag): a patch in `systems/egglog/patches/<name>.patch`,

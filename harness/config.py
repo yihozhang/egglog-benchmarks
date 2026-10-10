@@ -34,16 +34,17 @@ class Benchmark:
 def load_suite(suite: str) -> list[Benchmark]:
     """A suite is a directory under benchmarks/.
 
-    By default every `*.egg` file is one benchmark named after its stem. A `suite.toml`
-    can instead name a single program and a glob of fact directories, in which case
-    there is one benchmark per fact directory (named after the directory).
+    By default every `*.egg` file is one benchmark named after its stem; a `suite.toml`
+    may list `exclude` globs (e.g. a shared header that programs `include`). It can
+    instead name a single `file` and a glob of `fact_dirs`, in which case there is one
+    benchmark per fact directory (named after the directory).
     """
     d = BENCHMARKS / suite
     if not d.is_dir():
         raise SystemExit(f"no such suite: {suite} ({d})")
     cfg_path = d / "suite.toml"
-    if cfg_path.exists():
-        cfg = tomllib.loads(cfg_path.read_text())
+    cfg = tomllib.loads(cfg_path.read_text()) if cfg_path.exists() else {}
+    if "file" in cfg:
         file = d / cfg["file"]
         if "fact_dirs" in cfg:
             dirs = sorted(p for p in d.glob(cfg["fact_dirs"]) if p.is_dir())
@@ -54,7 +55,8 @@ def load_suite(suite: str) -> list[Benchmark]:
                 )
             return [Benchmark(suite, p.name, file, p) for p in dirs]
         return [Benchmark(suite, file.stem, file)]
-    files = sorted(d.glob("*.egg"))
+    excluded = {f for pat in cfg.get("exclude", []) for f in d.glob(pat)}
+    files = sorted(f for f in d.glob("*.egg") if f not in excluded)
     return [Benchmark(suite, f.stem, f) for f in files]
 
 
