@@ -19,4 +19,13 @@ builds the same database over canonical ids; (2) ematch returns each substitutio
 k-atom pattern k times, applying duplicates is idempotent and kept as hegg does it. The
 trivial () analysis, no extraction. wall_s = the whole port process; the port forces
 evaluation at every iteration so laziness cannot defer work past the end. Single-threaded.
+Saturating suites (horner, matmul-assoc; one port per suite taking --instance N): the same
+loop runs until an iteration adds no e-node and merges no two e-classes, detected on the
+e-graph after the matches were applied and before the rebuild (hegg's add/merge return the
+e-graph untouched when the node exists / the ids share a root, so the hashcons size and the
+e-class count move iff something changed); the final no-change iteration counts, as in
+egglog. Iteration counts and sizes agree with egglog/egg/oatlog on every instance. In the
+matmul-assoc port (Mat 10 10) is a nullary leaf (its arguments are always 10, 10; egglog
+does not count i64 literals as e-nodes either), so hegg reports one e-class fewer than
+egg, which has a Num(10) e-class.
 """
