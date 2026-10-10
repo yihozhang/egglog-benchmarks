@@ -24,4 +24,14 @@ ego's time on math-microbenchmark (an ego-native loop would be faster but would 
 the same workload). Unit analysis, no extraction. ego leaves stale hashcons keys after
 rebuild, so the port counts distinct (class, canonical children) tuples. wall_s = the whole
 port process; the final count through find_matches is a large part of it. Single-threaded.
+The saturating suites (horner, matmul-assoc) use ego's own loop instead: run_until_saturation
+with a scheduler that never limits or bans matches (like ego's Scheduler.Simple), unbounded
+fuel and node limit. ego stops after the first apply_rules call that neither creates an
+e-node nor merges two distinct classes (eg.version unchanged), which is egglog's saturation
+test, so the fixpoint is egglog's; iterations = apply_rules calls, that final no-change
+call included (as egglog counts its final no-op iteration). Within an ego iteration rules
+are applied one after another with matching canonicalised through the live union-find, so
+the iteration count could differ from egglog's; on horner-5..9 and matmul-assoc-20..320 it
+does not. The i64 literal of (Mat 10 10) is not represented (Mat is a nullary leaf), so the
+e-class count of matmul-assoc is one less than egg's (it is not reported anyway).
 """
