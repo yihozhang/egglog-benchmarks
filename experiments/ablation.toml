@@ -1,6 +1,6 @@
 description = "Ablation: tree decomposition in query planning and dynamic variable ordering during query execution."
 # --no-dynamic-order comes from systems/egglog/patches/no-dynamic-order.patch, applied at build time.
-benchmarks = ["math", "math-microbenchmark", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
 threads = [1]
 reps = 3
 timeout = 600       # seconds per run

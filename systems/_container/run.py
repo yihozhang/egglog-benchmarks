@@ -19,6 +19,18 @@ PORT_WALL_S = re.compile(r"^wall_s\s+([0-9.eE+-]+)\s*$", re.M)
 WALL_NS = re.compile(r"^wall_ns\s+(\d+)\s*$", re.M)
 
 
+def resolve_port(port_dir: Path, name: str) -> tuple[str | None, list[str]]:
+    """The port for benchmark `name`: a file with stem `name`, or, for `base-<N>`, a file
+    with stem `base` that takes `--instance N` (one port serving all instance sizes)."""
+    if port_dir.is_dir():
+        if any(p.stem == name for p in port_dir.iterdir()):
+            return name, []
+        m = re.fullmatch(r"(.+)-(\d+)", name)
+        if m and any(p.stem == m.group(1) for p in port_dir.iterdir()):
+            return m.group(1), ["--instance", m.group(2)]
+    return None, []
+
+
 def main() -> int:
     build_dir, program, fact_dir, threads, out_dir, *flags = sys.argv[1:]
     build_dir, program, out_dir = Path(build_dir), Path(program), Path(out_dir)
@@ -26,13 +38,20 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     suite, name = program.parent.name, program.stem
     port_dir = build_dir / "context" / "ports" / suite
-    if not port_dir.is_dir() or not any(p.stem == name for p in port_dir.iterdir()):
+    port, extra = resolve_port(port_dir, name)
+    if port is None:
         print(f"no {info['system']} port for {suite}/{name}", file=sys.stderr)
         return UNSUPPORTED
-    if int(threads) != 1 or fact_dir != "-" or any(f not in info.get("flags", []) for f in flags):
-        print(f"{info['system']} port: single thread only, no fact directory, flags {info.get('flags', [])}",
-              file=sys.stderr)
+    threads = int(threads)
+    if threads != 1:
+        if not info.get("threads"):
+            print(f"{info['system']} is single-threaded", file=sys.stderr)
+            return UNSUPPORTED
+        extra += ["--threads", str(threads)]
+    if fact_dir != "-" or any(f not in info.get("flags", []) for f in flags):
+        print(f"{info['system']} port: no fact directory, flags {info.get('flags', [])}", file=sys.stderr)
         return UNSUPPORTED
+    flags = [*extra, *flags]
 
     cmd = ["podman", "run", "--rm", "--network=none"]
     if os.environ.get("BENCH_MEMORY_GB", "0") not in ("0", "0.0"):
@@ -41,7 +60,7 @@ def main() -> int:
         cmd += ["--timeout", os.environ["BENCH_TIMEOUT_S"]]
     # No --cpuset-cpus: rootless podman on the benchmark host has no cpuset controller
     # delegated, and these engines are single-threaded anyway (BENCH_CPUS is ignored).
-    cmd += [info["image"], suite, name, *flags]
+    cmd += [info["image"], suite, port, *flags]
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
 
     t0 = time.perf_counter()

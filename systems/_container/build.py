@@ -60,7 +60,7 @@ def main() -> int:
 
     (out / "build.json").write_text(json.dumps({
         "system": name, "ref": ref, "commit": sha, "image": image,
-        "ports": ports, "threads": False, "flags": cfg.get("flags", []),
+        "ports": ports, "threads": bool(cfg.get("threads", False)), "flags": cfg.get("flags", []),
     }, indent=1))
     print(out)
     return 0

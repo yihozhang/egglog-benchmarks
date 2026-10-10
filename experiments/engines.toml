@@ -1,5 +1,5 @@
-description = "egglog against other e-graph engines on the programs every engine can run exactly (math-microbenchmark)."
-benchmarks = ["math-microbenchmark"]
+description = "egglog against other e-graph engines on programs every engine can run exactly: math-microbenchmark (fixed iterations), horner and matmul-assoc (run to saturation; from the foresight CC'26 paper)."
+benchmarks = ["math-microbenchmark", "horner", "matmul-assoc"]
 threads = [1]
 reps = 5
 timeout = 600       # seconds per run

@@ -1,5 +1,5 @@
 description = "End-to-end single-threaded running time of egglog against the original egglog prototype."
-benchmarks = ["math", "math-microbenchmark", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
 threads = [1]
 reps = 3
 timeout = 600       # seconds per run

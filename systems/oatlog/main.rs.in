@@ -9,6 +9,10 @@ mod relaxed {
     oatlog::compile_egraph_relaxed!(r#"(include "@PORT@")"#);
 }
 
+// Set by systems/oatlog/build from the port's ";; oatlog-port: saturate" marker: the program has
+// no (run ...), so main steps the theory until an iteration changes nothing (counting it).
+const SATURATE: bool = @SATURATE@;
+
 fn report(run_s: f64, sizes: std::collections::BTreeMap<&'static str, usize>, report: Option<String>) {
     println!("(");
     for (name, n) in &sizes {
@@ -33,11 +37,23 @@ fn main() {
         }
     }
     let t0 = std::time::Instant::now();
-    if relaxed {
-        let t = relaxed::Theory::new();
-        report(t0.elapsed().as_secs_f64(), t.get_relation_entry_count(), path);
-    } else {
-        let t = strict::Theory::new();
-        report(t0.elapsed().as_secs_f64(), t.get_relation_entry_count(), path);
+    macro_rules! go {
+        ($m:ident) => {{
+            let mut t = $m::Theory::new();
+            if SATURATE {
+                let mut iterations = 0usize;
+                loop {
+                    let before = (t.get_total_relation_entry_count(), t.get_total_uf_count());
+                    t.step();
+                    iterations += 1;
+                    if (t.get_total_relation_entry_count(), t.get_total_uf_count()) == before {
+                        break;
+                    }
+                }
+                println!("iterations {iterations}");
+            }
+            report(t0.elapsed().as_secs_f64(), t.get_relation_entry_count(), path);
+        }};
     }
+    if relaxed { go!(relaxed) } else { go!(strict) }
 }

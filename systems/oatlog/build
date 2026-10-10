@@ -46,7 +46,8 @@ TOML
     suite=$(basename "$(dirname "$(dirname "$port")")")
     name=$(basename "$port" .egg)
     main=$out/ports/src/$suite--$name.rs
-    sed "s|@PORT@|$port|g" "$here/main.rs.in" > "$main.tmp"
+    if grep -q "^;; oatlog-port: saturate" "$port"; then sat=true; else sat=false; fi
+    sed -e "s|@PORT@|$port|g" -e "s|@SATURATE@|$sat|g" "$here/main.rs.in" > "$main.tmp"
     cmp -s "$main.tmp" "$main" && rm "$main.tmp" || mv "$main.tmp" "$main"
     printf '\n[[bin]]\nname = "%s--%s"\npath = "src/%s--%s.rs"\n' "$suite" "$name" "$suite" "$name"
   done

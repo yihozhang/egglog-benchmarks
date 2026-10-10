@@ -26,16 +26,22 @@ def main() -> int:
     info = json.loads((build_dir / "build.json").read_text())
     out_dir.mkdir(parents=True, exist_ok=True)
     suite = program.parent.name
-    binary = build_dir / "ports/target/release" / f"{suite}--{program.stem}"
+    bindir = build_dir / "ports/target/release"
+    binary, extra = bindir / f"{suite}--{program.stem}", []
     if not binary.exists():
-        print(f"no egg port for {suite}/{program.stem}", file=sys.stderr)
-        return UNSUPPORTED
+        # benchmark `base-<N>` may be served by the port `base` with --instance N
+        m = re.fullmatch(r"(.+)-(\d+)", program.stem)
+        if m and (bindir / f"{suite}--{m.group(1)}").exists():
+            binary, extra = bindir / f"{suite}--{m.group(1)}", ["--instance", m.group(2)]
+        else:
+            print(f"no egg port for {suite}/{program.stem}", file=sys.stderr)
+            return UNSUPPORTED
     if int(threads) != 1 or flags or fact_dir != "-":
         print("egg port supports only one thread, no flags and no fact directory", file=sys.stderr)
         return UNSUPPORTED
 
     report_path = out_dir / "port-report.json"
-    cmd = [str(binary), "--report", str(report_path)]
+    cmd = [str(binary), *extra, "--report", str(report_path)]
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
     t0 = time.perf_counter()
     with open(out_dir / "stdout", "w") as so, open(out_dir / "stderr", "w") as se:

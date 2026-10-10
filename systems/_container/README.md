@@ -5,13 +5,16 @@ Lisp, ...), a system is a directory `systems/<name>/` with
 
 | file | role |
 |---|---|
-| `system.toml` | `port_dir = "<name>"`, `repo = "<git url of the baseline>"`, `container = true` |
+| `system.toml` | `port_dir = "<name>"`, `repo = "<git url of the baseline>"`, `container = true`, optional `threads = true` (the engine takes `--threads N`), `notes = """..."""` |
 | `Containerfile` | installs the toolchain, clones `repo` at build arg `REF`, copies and builds the ports |
 | `entry.sh` | entrypoint inside the image: `entry.sh <suite> <name> [flags]` runs one port |
 | `build` | symlink to `../_container/build.py` |
 | `run` | symlink to `../_container/run.py` |
 
-Ports live in `benchmarks/<suite>/<name>/` like for every other system.
+Ports live in `benchmarks/<suite>/<name>/` like for every other system. A benchmark
+`base-<N>` (e.g. `horner-7`) is served by a port file with stem `base-<N>`, or else by a
+port with stem `base` which then receives `--instance N`; so one port can cover every
+instance size of a suite.
 
 ## Build
 
@@ -36,16 +39,20 @@ compiles the ports there, and sets `ENTRYPOINT ["/bench/entry.sh"]`.
 (`BENCH_CPUS` is not applied: rootless podman has no cpuset controller here, and the
 container engines are single-threaded.)
 
-captures stdout/stderr, and builds `report.json` from the port's stdout. Threads other
-than 1 are reported as unsupported (these engines are single-threaded).
+captures stdout/stderr, and builds `report.json` from the port's stdout. For a system
+with `threads = true` the port receives `--threads N` for N > 1; otherwise threads other
+than 1 are reported as unsupported.
 
 ## Port protocol (stdout)
 
-A port runs the benchmark program's workload (for math-microbenchmark: the same rules,
-the same start terms, the same number of iterations, one iteration = match all rules on
-the current e-graph, apply all matches, rebuild; no node/time limits, no backoff
-scheduling) and prints
+A port runs the benchmark program's workload: the same rules and start terms, and either
+the same number of iterations (`(run N)`) or, for `(run-schedule (saturate (run)))`
+programs, iterations until one makes no change to the e-graph (no new e-node, no merge;
+that final no-change iteration counts, as it does in egglog). One iteration = match all
+rules on the current e-graph, apply all matches, rebuild; no node/time limits, no backoff
+scheduling, no extraction. It prints
 
+    iterations <N>         iterations performed (saturating programs: including the final no-op one)
     run_s <seconds>        time of the iterations only, as the engine reports it (reference only)
     wall_s <seconds>       optional, JIT languages only: the port's own wall-clock measurement
                            after a JIT warm-up, covering e-graph construction, the iterations
