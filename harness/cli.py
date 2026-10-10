@@ -69,12 +69,14 @@ def cmd_summary(args):
     metric = args.metric or exp.metric
     summ = results.summarize(rows, metric)
     variants = [v.label for v in exp.variants]
-    threads = sorted({k[3] for k in summ})
     benches = sorted({(k[0], k[1]) for k in summ})
     print(f"metric: {metric}")
+    # a variant pinned to one thread count (e.g. "egglog-t8") is a column of its own
+    fixed = {v.label: v.threads[0] for v in exp.variants if v.threads and len(v.threads) == 1}
+    threads = sorted({k[3] for k in summ if k[2] not in fixed}) or [1]
 
     def cell(suite, name, v, t):
-        s = summ.get((suite, name, v, t))
+        s = summ.get((suite, name, v, fixed.get(v, t)))
         if s is None:
             return "-", None
         if s["status"] != "ok":

@@ -14,6 +14,24 @@ system = "egglog"
 ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
 
 [[variants]]
+label = "egglog-t4"
+system = "egglog"
+ref = "593df10e"
+threads = [4]
+
+[[variants]]
+label = "egglog-t8"
+system = "egglog"
+ref = "593df10e"
+threads = [8]
+
+[[variants]]
+label = "egglog-t16"
+system = "egglog"
+ref = "593df10e"
+threads = [16]
+
+[[variants]]
 label = "egglog-0.5.0"
 system = "egglog"
 ref = "v0.5.0"

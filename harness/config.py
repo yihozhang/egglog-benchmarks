@@ -113,6 +113,7 @@ class Variant:
     ref: str
     flags: tuple[str, ...] = ()
     patches: tuple[str, ...] = ()  # systems/<system>/patches/<name>.patch, applied at build time
+    threads: tuple[int, ...] | None = None  # overrides the experiment's thread list for this variant
 
 
 @dataclass
@@ -147,7 +148,8 @@ def load_experiment(name: str) -> Experiment:
         raise SystemExit(f"no such experiment: {name} ({p})")
     cfg = tomllib.loads(p.read_text())
     variants = [
-        Variant(v["label"], v["system"], v["ref"], tuple(v.get("flags", [])), tuple(v.get("patches", [])))
+        Variant(v["label"], v["system"], v["ref"], tuple(v.get("flags", [])), tuple(v.get("patches", [])),
+                tuple(v["threads"]) if "threads" in v else None)
         for v in cfg["variants"]
     ]
     labels = [v.label for v in variants]

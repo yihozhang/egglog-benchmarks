@@ -218,45 +218,46 @@ def run_experiment(
         "host": host,
         "harness_commit": harness_commit,
     }
-    n_total = len(benches) * len(variants) * len(threads) * reps
+    n_total = len(benches) * sum(len(v.threads or threads) for v in variants) * reps
     n = 0
     with out_path.open("a") as out:
         # Benchmarks outermost, variants interleaved, so a drifting machine affects
         # all variants of a benchmark alike.
         for b in benches:
-            for v, t in itertools.product(variants, threads):
-                system = load_system(v.system)
-                row_base = {
-                    **base,
-                    "suite": b.suite,
-                    "benchmark": b.name,
-                    "variant": v.label,
-                    "system": v.system,
-                    "ref": v.ref,
-                    "commit": builds[v.label].info.get("commit", ""),
-                    "patches": list(v.patches),
-                    "flags": list(v.flags),
-                    "threads": t,
-                }
-                if not system.supports(b):
-                    row = {**row_base, "rep": 0, "status": "unsupported",
-                           "timestamp": dt.datetime.now().isoformat(timespec="seconds")}
-                    out.write(json.dumps(row) + "\n"); out.flush()
-                    n += reps
-                    print(f"[{n}/{n_total}] {b.id} {v.label} t={t}: unsupported (no port)")
-                    continue
-                for rep in range(reps):
-                    n += 1
-                    log_dir = exp.results_dir / "logs" / run_id / v.label / f"{b.suite}-{b.name}-t{t}-r{rep}"
-                    meas = run_one(v, builds[v.label], b, t, timeout, memory_gb, exp.cpus, log_dir)
-                    row = {**row_base, "rep": rep,
-                           "timestamp": dt.datetime.now().isoformat(timespec="seconds"), **meas}
-                    out.write(json.dumps(row) + "\n"); out.flush()
-                    print(f"[{n}/{n_total}] {b.id} {v.label} t={t} r={rep}: "
-                          f"{meas['status']} {meas['wall_s']:.3f}s", flush=True)
-                    if meas["status"] != "ok":
-                        # No point repeating a failing or timed-out configuration.
-                        n += reps - rep - 1
-                        break
+            for v in variants:
+                for t in (v.threads or threads):
+                    system = load_system(v.system)
+                    row_base = {
+                        **base,
+                        "suite": b.suite,
+                        "benchmark": b.name,
+                        "variant": v.label,
+                        "system": v.system,
+                        "ref": v.ref,
+                        "commit": builds[v.label].info.get("commit", ""),
+                        "patches": list(v.patches),
+                        "flags": list(v.flags),
+                        "threads": t,
+                    }
+                    if not system.supports(b):
+                        row = {**row_base, "rep": 0, "status": "unsupported",
+                               "timestamp": dt.datetime.now().isoformat(timespec="seconds")}
+                        out.write(json.dumps(row) + "\n"); out.flush()
+                        n += reps
+                        print(f"[{n}/{n_total}] {b.id} {v.label} t={t}: unsupported (no port)")
+                        continue
+                    for rep in range(reps):
+                        n += 1
+                        log_dir = exp.results_dir / "logs" / run_id / v.label / f"{b.suite}-{b.name}-t{t}-r{rep}"
+                        meas = run_one(v, builds[v.label], b, t, timeout, memory_gb, exp.cpus, log_dir)
+                        row = {**row_base, "rep": rep,
+                               "timestamp": dt.datetime.now().isoformat(timespec="seconds"), **meas}
+                        out.write(json.dumps(row) + "\n"); out.flush()
+                        print(f"[{n}/{n_total}] {b.id} {v.label} t={t} r={rep}: "
+                              f"{meas['status']} {meas['wall_s']:.3f}s", flush=True)
+                        if meas["status"] != "ok":
+                            # No point repeating a failing or timed-out configuration.
+                            n += reps - rep - 1
+                            break
     print(f"results appended to {out_path.relative_to(ROOT)}")
     return out_path

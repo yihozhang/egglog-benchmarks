@@ -261,12 +261,13 @@ def plot_variants(exp: Experiment, summ: dict, stem: Path, metric: str) -> list[
     suites = _suites(summ)
     benches = [(s, n) for s, ns in suites.items() for n in ns]
     variants = [v.label for v in exp.variants]
-    t = sorted({k[3] for k in summ})[0]
+    fixed = {v.label: v.threads[0] for v in exp.variants if v.threads and len(v.threads) == 1}
+    t = (sorted({k[3] for k in summ if k[2] not in fixed}) or [1])[0]
     fig, axes = plt.subplots(1, len(benches), figsize=(min(3.6 * len(benches), 14), 0.32 * len(variants) + 0.9), squeeze=False)
     for ax, (suite, name) in zip(axes[0], benches):
         rows = []
         for v in variants:
-            s_ = summ.get((suite, name, v, t))
+            s_ = summ.get((suite, name, v, fixed.get(v, t)))
             rows.append((v, s_["median"] if s_ and s_["status"] == "ok" else None, s_["status"] if s_ else "-"))
         rows.sort(key=lambda r: (r[1] is None, r[1] or 0))
         ys = np.arange(len(rows))[::-1]
