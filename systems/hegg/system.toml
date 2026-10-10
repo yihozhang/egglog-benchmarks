@@ -1,0 +1,8 @@
+# hegg (https://github.com/alt-romes/hegg): e-graphs and equality saturation in Haskell.
+# Container-based system (see systems/_container/README.md): `build <ref>` builds the image
+# egglog-bench/hegg:<commit12> with hegg checked out at <ref> and every port under
+# benchmarks/<suite>/hegg/ compiled against it (a cabal package per suite, GHC -O2).
+# A benchmark is supported when benchmarks/<suite>/hegg/<name>.cabal exists.
+port_dir = "hegg"
+repo = "https://github.com/alt-romes/hegg"
+container = true

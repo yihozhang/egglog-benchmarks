@@ -1,0 +1,10 @@
+# ego (https://github.com/verse-lab/ego), an OCaml e-graph library. Container-based system
+# (see systems/_container/README.md): a port is a single OCaml file
+# benchmarks/<suite>/ego/<name>.ml, compiled into the binary <name> by build-ports.sh inside
+# the image (ego's Generic API, no analysis; the iteration loop is explained in the port).
+# Pin: main (e87dae7, 2026-06-15). The last release tag, 0.0.6, has an e-matching bug in
+# Ego.Generic (at most one match per e-class per pattern; fixed in PR #7 after the tag), so
+# it cannot run math-microbenchmark with egglog's semantics.
+port_dir = "ego"
+repo = "https://github.com/verse-lab/ego"
+container = true

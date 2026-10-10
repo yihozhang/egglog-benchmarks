@@ -1,0 +1,8 @@
+# foresight (https://github.com/jonathanvdc/foresight), a Scala equality-saturation library.
+# Container-based (see systems/_container/README.md): the image clones the repo at the
+# requested ref, publishes it locally with sbt, and compiles the ports under
+# benchmarks/<suite>/foresight/ (one sbt project per suite, one <name>.scala per benchmark,
+# main class bench.<name with - replaced by _>).
+port_dir = "foresight"
+repo = "https://github.com/jonathanvdc/foresight"
+container = true

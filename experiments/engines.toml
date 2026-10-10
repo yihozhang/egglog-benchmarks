@@ -29,3 +29,28 @@ system = "oatlog"
 ref = "6b73396"              # oatlog main as of 2026-10-10; compile_egraph_strict = egglog (run N) semantics.
                              # flags = ["--relaxed"] selects compile_egraph_relaxed, which runs rules more often
                              # per step and exceeds 32 GB on this workload, so it is not compared.
+
+[[variants]]
+label = "hegg"
+system = "hegg"
+ref = "v0.5.0.0"             # latest release; GHC 9.6, trivial analysis, driver loop in the port
+
+[[variants]]
+label = "metatheory"
+system = "metatheory"
+ref = "v2.0.2"               # latest release (no 3.x release exists); SimpleScheduler, JIT warm-up excluded
+
+[[variants]]
+label = "ggs"
+system = "ggs"
+ref = "097e4f32"             # ggs main as of 2026-10-10 (no tags); ggs/eqsat engine, SBCL
+
+[[variants]]
+label = "ego"
+system = "ego"
+ref = "e87dae7a"             # ego main as of 2026-06-15: the 0.0.6 tag has an e-matching bug (one match per class)
+
+[[variants]]
+label = "foresight"
+system = "foresight"
+ref = "f3ea706d"             # foresight main as of 2026-09-10; v0.1.0 predates the mutable e-graph. SerialGC, sequential

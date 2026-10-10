@@ -38,8 +38,8 @@ def main() -> int:
         cmd += ["--memory", f"{int(float(os.environ['BENCH_MEMORY_GB']) * 1024)}m"]
     if os.environ.get("BENCH_TIMEOUT_S"):
         cmd += ["--timeout", os.environ["BENCH_TIMEOUT_S"]]
-    if os.environ.get("BENCH_CPUS"):
-        cmd += ["--cpuset-cpus", os.environ["BENCH_CPUS"]]
+    # No --cpuset-cpus: rootless podman on the benchmark host has no cpuset controller
+    # delegated, and these engines are single-threaded anyway (BENCH_CPUS is ignored).
     cmd += [info["image"], suite, name, *flags]
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
 

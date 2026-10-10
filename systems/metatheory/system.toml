@@ -1,0 +1,7 @@
+# Metatheory.jl (https://github.com/JuliaSymbolics/Metatheory.jl), an e-graph library in Julia,
+# run inside a container (see systems/_container/README.md). A benchmark is supported when a
+# Julia script benchmarks/<suite>/metatheory/<name>.jl exists; entry.sh runs it with the
+# project that has the requested Metatheory.jl commit developed and precompiled.
+port_dir = "metatheory"
+repo = "https://github.com/JuliaSymbolics/Metatheory.jl"
+container = true

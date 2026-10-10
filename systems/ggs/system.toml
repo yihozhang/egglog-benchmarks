@@ -1,0 +1,7 @@
+# ggs (https://github.com/kchanqvq/ggs), the Common Lisp equality-saturation engine in its
+# eqsat/ directory (ASDF system ggs/eqsat), run in a container (see systems/_container/README.md).
+# A benchmark is supported when a port benchmarks/<suite>/ggs/<name>.lisp exists; the image
+# compiles each port with SBCL into a standalone executable with ggs/eqsat preloaded.
+port_dir = "ggs"
+repo = "https://github.com/kchanqvq/ggs"
+container = true

@@ -84,6 +84,23 @@ transient systemd user scope (`MemoryMax`, no swap), so an over-budget run is
 OOM-killed and recorded as `oom`; without systemd it falls back to an
 address-space rlimit.
 
+## Systems
+
+| system | how it is built | pinned ref in `experiments/engines.toml` | notes |
+|---|---|---|---|
+| `egglog` | host cargo, any ref of the submodule, optional patches | 593df10e, v0.5.0 | `-j`, `--no-decomp`, `--no-dynamic-order` (patch) |
+| `egg` | host cargo; Rust port per benchmark | v0.11.0 | `SimpleScheduler`, no limits |
+| `oatlog` | host cargo; port = egglog program compiled by the proc macro | 6b73396 (main) | strict mode; relaxed mode exceeds 32 GB |
+| `hegg` | container (GHC 9.6); Haskell port | v0.5.0.0 | driver loop in the port (hegg's own caps iterations at 30 and bans rules); the port canonicalizes the e-matching database because hegg's leaves stale ids |
+| `metatheory` | container (Julia 1.11); Julia port | v2.0.2 (latest release; no 3.x release) | `SimpleScheduler`, limits disabled, JIT warm-up excluded from `run_s` |
+| `ggs` | container (SBCL 2.5); Common Lisp port of the `ggs/eqsat` system | 097e4f32 (main, no tags) | engine's own `run-rewrites` driver, no match limit; standalone executable |
+| `ego` | container (OCaml 4.14); OCaml port | e87dae7a (main) | the 0.0.6 tag has an e-matching bug (one match per class); egg-style iterations are forced through the public runner, costing ~15% extra |
+| `foresight` | container (JDK 21, Scala 3.4); Scala port | f3ea706d (main) | v0.1.0 predates the mutable e-graph; `ParallelMap.sequential`, SerialGC so the single-thread number does not depend on idle cores |
+
+Every port of `math-microbenchmark` reaches exactly the same e-graph as egglog
+(1047896 e-nodes, 443832 e-classes); `bench check engines` verifies it on every run.
+Container systems follow the contract in `systems/_container/README.md`.
+
 ## Cross-engine comparison
 
 `experiments/engines.toml` compares engines on programs every engine can run *exactly*.

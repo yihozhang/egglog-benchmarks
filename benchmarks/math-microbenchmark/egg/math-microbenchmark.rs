@@ -1,6 +1,6 @@
 //! egg port of benchmarks/math-microbenchmark/math-microbenchmark.egg.
 //!
-//! Same language (i64 constants, string variables), the same 23 rewrites in the same
+//! Same language (i64 constants, string variables), the same 24 rewrites in the same
 //! order, the same seven start terms and the same number of iterations. There is no
 //! e-class analysis, so one egg iteration (search all rules, apply, rebuild) does the
 //! same work as one egglog iteration, and the final e-graphs should be identical.

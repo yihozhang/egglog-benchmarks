@@ -1,0 +1,12 @@
+# ego at commit REF, with the ports under /bench/ports/<suite>/ built by dune.
+FROM docker.io/ocaml/opam:debian-12-ocaml-4.14
+ARG REF
+RUN sudo mkdir -p /bench /src && sudo chown opam:opam /bench /src
+RUN git clone -q https://github.com/verse-lab/ego /src/ego && git -C /src/ego checkout -q --detach "$REF"
+# lib/dune lists ppx_inline_alcotest unconditionally, so the test deps are needed to build the library
+RUN opam update -q && opam pin add -y -n ego /src/ego \
+ && opam install -y --deps-only --with-test ego && opam install -y ego
+COPY --chown=opam:opam system/ /bench/
+COPY --chown=opam:opam ports/ /bench/ports/
+RUN chmod +x /bench/entry.sh /bench/build-ports.sh && /bench/build-ports.sh
+ENTRYPOINT ["/bench/entry.sh"]

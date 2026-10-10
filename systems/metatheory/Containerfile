@@ -1,0 +1,19 @@
+# Image for the Metatheory.jl baseline: Julia + Metatheory.jl at commit REF, precompiled,
+# plus the ports under /bench/ports/<suite>/<name>.jl (run by /bench/entry.sh).
+FROM docker.io/library/julia:1.11
+ARG REF
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+RUN git clone -q https://github.com/JuliaSymbolics/Metatheory.jl /bench/Metatheory.jl \
+    && git -C /bench/Metatheory.jl checkout -q "$REF" \
+    && git -C /bench/Metatheory.jl log -1 --format='%H %cs %s' > /bench/metatheory-commit.txt
+# A project with this Metatheory.jl checkout developed into it. Package precompilation
+# (including Metatheory's own PrecompileTools workload) happens here, at build time, so a
+# run only pays the JIT of the port's specializations (which the port warms up and excludes).
+RUN julia -e 'using Pkg; Pkg.activate("/bench/mt"); Pkg.develop(path="/bench/Metatheory.jl"); \
+              Pkg.precompile(); using Metatheory' \
+    && julia --project=/bench/mt -e 'using Metatheory; println("Metatheory ", pkgversion(Metatheory))'
+COPY system/ /bench/
+COPY ports/ /bench/ports/
+RUN chmod +x /bench/entry.sh
+ENTRYPOINT ["/bench/entry.sh"]

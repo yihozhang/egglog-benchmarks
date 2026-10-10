@@ -1,0 +1,41 @@
+# ggs (Common Lisp equality saturation, https://github.com/kchanqvq/ggs) at commit REF.
+# Build context (staged by systems/_container/build.py): system/ = systems/ggs/, ports/<suite>/ =
+# benchmarks/<suite>/ggs/. Every ports/<suite>/<name>.lisp is compiled by SBCL into a standalone
+# executable /bench/bin/<suite>/<name> with ggs/eqsat preloaded, so a run pays no load/compile time.
+FROM docker.io/library/debian:trixie-slim
+ARG REF
+ARG LP_HASH_TABLE_REF=12e9113c78b1ebddb015312d0c4c2ba52cdbc388
+ARG QUICKLISP_DIST=2026-01-01
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends sbcl git ca-certificates curl \
+ && rm -rf /var/lib/apt/lists/*
+
+# Quicklisp, pinned to one dist, for ggs's dependencies (alexandria, serapeum, metabang-bind,
+# trivial-garbage, trivial-package-local-nicknames, linear-programming).
+RUN curl -fsSLo /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp \
+ && sbcl --non-interactive --load /tmp/quicklisp.lisp \
+      --eval '(quicklisp-quickstart:install :path "/opt/quicklisp/")' \
+      --eval "(ql-dist:install-dist \"http://beta.quicklisp.org/dist/quicklisp/${QUICKLISP_DIST}/distinfo.txt\" :replace t :prompt nil)" \
+ && rm /tmp/quicklisp.lisp
+
+# The baseline itself and its one dependency that is not in Quicklisp (same author).
+RUN mkdir -p /opt/lisp \
+ && git clone -q https://github.com/kchanqvq/lp-hash-table /opt/lisp/lp-hash-table \
+ && git -C /opt/lisp/lp-hash-table checkout -q --detach "$LP_HASH_TABLE_REF" \
+ && git clone -q https://github.com/kchanqvq/ggs /opt/lisp/ggs \
+ && git -C /opt/lisp/ggs checkout -q --detach "$REF"
+
+# Compile ggs/eqsat and its dependencies once (fasls land in /root/.cache/common-lisp).
+COPY system/build-port.lisp /bench/build-port.lisp
+RUN sbcl --non-interactive --load /bench/build-port.lisp --eval '(ggs-build:prepare)'
+
+COPY system/ /bench/
+COPY ports/ /bench/ports/
+RUN set -e; for f in /bench/ports/*/*.lisp; do \
+      suite=$(basename "$(dirname "$f")"); name=$(basename "$f" .lisp); \
+      mkdir -p "/bench/bin/$suite"; \
+      sbcl --dynamic-space-size 24576 --non-interactive --load /bench/build-port.lisp \
+           --eval "(ggs-build:build \"$f\" \"/bench/bin/$suite/$name\")"; \
+    done
+ENTRYPOINT ["/bench/entry.sh"]

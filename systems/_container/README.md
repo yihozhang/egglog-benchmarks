@@ -30,8 +30,11 @@ compiles the ports there, and sets `ENTRYPOINT ["/bench/entry.sh"]`.
 
 `run` executes
 
-    podman run --rm --memory ${BENCH_MEMORY_GB}g --timeout ${BENCH_TIMEOUT_S} \
-        [--cpuset-cpus $BENCH_CPUS] egglog-bench/<name>:<commit12> <suite> <name> [flags]
+    podman run --rm --network=none --memory ${BENCH_MEMORY_GB}g --timeout ${BENCH_TIMEOUT_S} \
+        egglog-bench/<name>:<commit12> <suite> <name> [flags]
+
+(`BENCH_CPUS` is not applied: rootless podman has no cpuset controller here, and the
+container engines are single-threaded.)
 
 captures stdout/stderr, and builds `report.json` from the port's stdout. Threads other
 than 1 are reported as unsupported (these engines are single-threaded).
