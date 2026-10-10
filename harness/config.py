@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import fnmatch
+import re
 import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -87,12 +88,18 @@ class System:
         return SYSTEMS / self.name
 
     def supports(self, b: Benchmark) -> bool:
+        """A port file with the benchmark's stem exists, or, for `base-<N>`, one with stem
+        `base` (which the adapters run with --instance N)."""
         if self.port_dir is None:
             return True
         pd = b.dir / self.port_dir
-        return pd.is_dir() and (
-            any(pd.glob(f"{b.name}.*")) or any(pd.glob(f"{b.file.stem}.*"))
-        )
+        if not pd.is_dir():
+            return False
+        stems = {p.stem for p in pd.iterdir()}
+        if b.name in stems or b.file.stem in stems:
+            return True
+        m = re.fullmatch(r"(.+)-(\d+)", b.name)
+        return bool(m and m.group(1) in stems)
 
 
 def load_system(name: str) -> System:

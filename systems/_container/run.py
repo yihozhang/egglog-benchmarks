@@ -15,6 +15,7 @@ from pathlib import Path
 UNSUPPORTED = 3
 SIZE = re.compile(r"^\s*\(?\((\S+) (\d+)\)\)?\s*$", re.M)
 RUN_S = re.compile(r"^run_s\s+([0-9.eE+-]+)\s*$", re.M)
+ITERATIONS = re.compile(r"^iterations\s+(\d+)\s*$", re.M)
 PORT_WALL_S = re.compile(r"^wall_s\s+([0-9.eE+-]+)\s*$", re.M)
 WALL_NS = re.compile(r"^wall_ns\s+(\d+)\s*$", re.M)
 
@@ -82,6 +83,9 @@ def main() -> int:
     m = RUN_S.search(stdout)
     if m:
         report["run_s"] = float(m.group(1))  # the engine's own number, for reference only
+    m = ITERATIONS.search(stdout)
+    if m:
+        report["iterations"] = int(m.group(1))
     report["sizes"] = {k: int(v) for k, v in SIZE.findall(stdout)}
     # podman exits 137 when the container's main process was SIGKILLed: by the OOM killer or
     # by --timeout (the harness's own timeout fires at the same time and takes precedence).
