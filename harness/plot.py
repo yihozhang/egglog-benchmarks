@@ -41,6 +41,7 @@ def plot_experiment(exp: Experiment, rows: list[dict], out_dir: Path, metric: st
     out_dir.mkdir(parents=True, exist_ok=True)
     summ = summarize(rows, metric)
     suffix = "" if metric == "wall_s" else "-" + metric.split(".")[-1]
+    print(f"metric: {metric}")
     written = [write_csv(exp, summ, out_dir / f"{exp.name}{suffix}.csv")]
     if exp.plot == "scaling":
         written += plot_scaling(exp, summ, out_dir / f"{exp.name}{suffix}")

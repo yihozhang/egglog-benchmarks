@@ -116,10 +116,14 @@ def run_one(
         cmd = ["taskset", "-c", cpus, *cmd]
     if memory_gb:
         cmd = [*memory_cap_prefix(memory_gb), *cmd]
+    # Adapters that cannot be confined by the harness (containers) read the limits from here.
+    env = {**os.environ, "BENCH_TIMEOUT_S": str(int(timeout)), "BENCH_MEMORY_GB": str(memory_gb)}
+    if cpus:
+        env["BENCH_CPUS"] = cpus
     t0 = time.perf_counter()
     with open(log_dir / "harness.stderr", "w") as err:
         proc = subprocess.Popen(
-            cmd, cwd=bench.dir, stdout=subprocess.DEVNULL, stderr=err, start_new_session=True
+            cmd, cwd=bench.dir, stdout=subprocess.DEVNULL, stderr=err, start_new_session=True, env=env
         )
     # Poll with wait4 so we get this child's own resource usage (including its
     # descendants), not the cumulative RUSAGE_CHILDREN of the harness process.

@@ -128,6 +128,7 @@ class Experiment:
     cpus: str | None = None  # taskset CPU list, e.g. "0-63"
     plot: str = "bars"  # bars | scaling
     baseline: str | None = None  # variant label that speedups are relative to
+    metric: str = "wall_s"  # default metric for summary/plot: wall_s or report.<field>
 
     @property
     def results_dir(self) -> Path:
@@ -164,6 +165,7 @@ def load_experiment(name: str) -> Experiment:
         cpus=cfg.get("cpus"),
         plot=cfg.get("plot", "bars"),
         baseline=cfg.get("baseline"),
+        metric=cfg.get("metric", "wall_s"),
     )
     if exp.baseline is not None:
         exp.variant(exp.baseline)

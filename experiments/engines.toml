@@ -6,6 +6,7 @@ timeout = 600       # seconds per run
 memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
 plot = "bars"
 baseline = "egglog"
+metric = "report.run_s"   # the engine's own time for the N iterations; excludes process/VM/container startup
 
 [[variants]]
 label = "egglog"

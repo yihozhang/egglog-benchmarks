@@ -1,0 +1,55 @@
+# Container-based systems
+
+For baselines whose toolchain is not on the host (Scala, OCaml, Haskell, Julia, Common
+Lisp, ...), a system is a directory `systems/<name>/` with
+
+| file | role |
+|---|---|
+| `system.toml` | `port_dir = "<name>"`, `repo = "<git url of the baseline>"`, `container = true` |
+| `Containerfile` | installs the toolchain, clones `repo` at build arg `REF`, copies and builds the ports |
+| `entry.sh` | entrypoint inside the image: `entry.sh <suite> <name> [flags]` runs one port |
+| `build` | symlink to `../_container/build.py` |
+| `run` | symlink to `../_container/run.py` |
+
+Ports live in `benchmarks/<suite>/<name>/` like for every other system.
+
+## Build
+
+`build <ref>` keeps a clone of `repo` under `build/<name>/repo` to resolve `ref` to a
+commit, stages a small build context in `build/<name>/<commit>/context/`:
+
+    context/system/   the contents of systems/<name>/   (Containerfile, entry.sh, helpers)
+    context/ports/<suite>/...   the contents of benchmarks/<suite>/<name>/ (symlinks dereferenced)
+
+and runs `podman build --build-arg REF=<commit> -t egglog-bench/<name>:<commit12>`.
+The Containerfile therefore does `COPY system/ /bench/` and `COPY ports/ /bench/ports/`,
+compiles the ports there, and sets `ENTRYPOINT ["/bench/entry.sh"]`.
+`build.json` records the image name; it is rebuilt (cheaply, cached) on every `bench run`.
+
+## Run
+
+`run` executes
+
+    podman run --rm --memory ${BENCH_MEMORY_GB}g --timeout ${BENCH_TIMEOUT_S} \
+        [--cpuset-cpus $BENCH_CPUS] egglog-bench/<name>:<commit12> <suite> <name> [flags]
+
+captures stdout/stderr, and builds `report.json` from the port's stdout. Threads other
+than 1 are reported as unsupported (these engines are single-threaded).
+
+## Port protocol (stdout)
+
+A port runs the benchmark program's workload (for math-microbenchmark: the same rules,
+the same start terms, the same number of iterations, one iteration = match all rules on
+the current e-graph, apply all matches, rebuild; no node/time limits, no backoff
+scheduling) and prints
+
+    run_s <seconds>        time of the iterations only, measured by the port itself
+    (
+     (Add 641743)          e-nodes per constructor, egglog names, egglog (print-size) format
+     (Mul 345075)
+     ...
+    )
+
+Anything else may go to stderr. `entry.sh` additionally prints `wall_ns <int>` around the
+port process, which becomes `report.wall_s` (startup of the VM included, the container's not).
+`report.run_s` is what the engines experiment plots.

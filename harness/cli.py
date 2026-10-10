@@ -66,10 +66,12 @@ def cmd_run(args):
 def cmd_summary(args):
     exp = config.load_experiment(args.experiment)
     rows = results.load_rows(exp, args.run)
-    summ = results.summarize(rows, args.metric)
+    metric = args.metric or exp.metric
+    summ = results.summarize(rows, metric)
     variants = [v.label for v in exp.variants]
     threads = sorted({k[3] for k in summ})
     benches = sorted({(k[0], k[1]) for k in summ})
+    print(f"metric: {metric}")
 
     def cell(suite, name, v, t):
         s = summ.get((suite, name, v, t))
@@ -82,7 +84,7 @@ def cmd_summary(args):
     if len(threads) > 1:
         # scaling layout: one block per variant, columns are thread counts, speedup vs. the first
         for v in variants:
-            print(f"== {v} ({args.metric}, median of reps; speedup over {threads[0]} thread in parentheses)")
+            print(f"== {v} ({metric}, median of reps; speedup over {threads[0]} thread in parentheses)")
             print(f"{'benchmark':42s}" + "".join(f"{'t=' + str(t):>18s}" for t in threads))
             per_t: dict[int, list[float]] = {t: [] for t in threads}
             for suite, name in benches:
@@ -154,7 +156,7 @@ def cmd_plot(args):
     exp = config.load_experiment(args.experiment)
     rows = results.load_rows(exp, args.run)
     out_dir = config.FIGURES if args.out is None else args.out
-    for p in plot.plot_experiment(exp, rows, out_dir, metric=args.metric):
+    for p in plot.plot_experiment(exp, rows, out_dir, metric=args.metric or exp.metric):
         print(p)
 
 
@@ -193,7 +195,7 @@ def main(argv=None):
         p.add_argument("experiment")
         p.add_argument("--run", default="latest", help="'latest' (default), 'all', or a run id prefix")
         if name != "check":
-            p.add_argument("--metric", default="wall_s", help="wall_s (default) or report.<field>, e.g. report.run_s")
+            p.add_argument("--metric", help="wall_s or report.<field>, e.g. report.run_s (default: the experiment's `metric`)")
         if name == "plot":
             p.add_argument("--out", type=__import__("pathlib").Path, help="output directory (e.g. the paper's figures/)")
         p.set_defaults(fn=fn)
