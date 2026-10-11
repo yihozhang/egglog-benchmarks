@@ -1,0 +1,38 @@
+# Image for the FlowLog baseline (systems/_container/README.md). Build context:
+#   system/          this directory (entry.sh, ...)
+#   ports/<suite>/   benchmarks/<suite>/flowlog/: one <name>.dl per program
+# FlowLog is a Datalog-to-differential-dataflow compiler: flowlog-compiler turns a .dl
+# program into a Rust crate and builds it into a standalone executable. That ahead-of-time
+# compilation (minutes per program) happens here, at image build time, so that a run is only
+# the compiled executable: load facts, evaluate to fixpoint, print sizes.
+FROM docker.io/library/rust:1.90-bookworm
+ARG REF
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git ca-certificates pkg-config protobuf-compiler \
+ && rm -rf /var/lib/apt/lists/*
+# FlowLog itself at exactly REF (a commit hash resolved by build.py): the compiler binary and,
+# for the generated crates, the runtime crate of the same checkout (FLOWLOG_RUNTIME_PATH)
+# instead of the crates.io release, so everything FlowLog is pinned to REF.
+RUN git clone -q https://github.com/flowlog-rs/flowlog /opt/flowlog \
+ && git -C /opt/flowlog checkout -q "$REF" \
+ && cargo build --release --locked --quiet --manifest-path /opt/flowlog/Cargo.toml --bin flowlog-compiler
+ENV PATH=/opt/flowlog/target/release:$PATH \
+    FLOWLOG_RUNTIME_PATH=/opt/flowlog/flowlog-runtime
+COPY system/ /bench/
+COPY ports/ /bench/ports/
+# Compile every port once: /bench/ports/<suite>/<name>.dl -> /bench/bin/<suite>/<name>, with the
+# fact directory defaulting to /facts (where run.py bind-mounts every dataset; entry.sh passes
+# -F /facts at run time as well) and .printsize counts going to stdout (-D -). Batch mode (the
+# default); --str-intern is not used: the ports have integer columns only. A shared cargo target
+# directory (-T) builds the timely/differential dependencies once for all ports.
+RUN chmod +x /bench/entry.sh \
+ && for dl in /bench/ports/*/*.dl; do \
+      suite=$(basename "$(dirname "$dl")"); name=$(basename "$dl" .dl); \
+      mkdir -p "/bench/bin/$suite" \
+      && echo "compiling $suite/$name" \
+      && flowlog-compiler "$dl" -F /facts -D - -o "/bench/bin/$suite/$name" -T /bench/target \
+      || exit 1; \
+    done \
+ && rm -rf /bench/target /usr/local/cargo/registry \
+ && ls -l /bench/bin/*
+ENTRYPOINT ["/bench/entry.sh"]

@@ -40,3 +40,32 @@ threads = [32]
 label = "egglog-0.5.0"
 system = "egglog"
 ref = "v0.5.0"
+
+[[variants]]
+label = "flowlog"
+system = "flowlog"
+ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+
+[[variants]]
+label = "flowlog-t4"
+system = "flowlog"
+ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+threads = [4]
+
+[[variants]]
+label = "flowlog-t8"
+system = "flowlog"
+ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+threads = [8]
+
+[[variants]]
+label = "flowlog-t16"
+system = "flowlog"
+ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+threads = [16]
+
+[[variants]]
+label = "flowlog-t32"
+system = "flowlog"
+ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+threads = [32]

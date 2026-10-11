@@ -1,0 +1,40 @@
+# FlowLog (https://github.com/flowlog-rs/flowlog): Datalog compiled to Timely/Differential
+# Dataflow Rust executables. Container-based system (see systems/_container/README.md): `build
+# <ref>` builds egglog-bench/flowlog:<commit12> with flowlog-compiler built from <ref> and every
+# port under benchmarks/<suite>/flowlog/<name>.dl compiled to /bench/bin/<suite>/<name> at image
+# build time. A benchmark <prog>-<dataset> is supported when benchmarks/<suite>/flowlog/<prog>.dl
+# exists; the dataset is bind-mounted at /facts.
+port_dir = "flowlog"
+repo = "https://github.com/flowlog-rs/flowlog"
+container = true
+threads = true  # --threads N: N timely worker threads (the executable's -w N)
+
+notes = """
+FlowLog programs are flowlog-bench's own (programs/oracle/flowlog/<prog>/default.dl, commit
+ccf29c3), copied verbatim to benchmarks/datalog/flowlog/<prog>.dl; the egglog programs are
+flowlog-bench's translations of them. Pinned to flowlog-compiler-v0.7.0 (07ffd67d, 2026-09-24),
+the latest release tag (compiler 0.7.0, runtime 0.5.0; the generated crates use the runtime of
+the same checkout via FLOWLOG_RUNTIME_PATH, not the crates.io release). Image: rust:1.90.
+Compilation is ahead of time and excluded from every number: at image build time
+`flowlog-compiler <prog>.dl -F /facts -D - -o /bench/bin/datalog/<prog>` (batch mode, no
+--str-intern: integer columns only; flowlog-bench passes --str-intern by default, a no-op
+without string columns) turns each program into a Rust crate (opt-level 2, mimalloc, timely
+0.31 / differential-dataflow 0.25) and builds it. The fact directory is a compile-time default
+that the executable's -F overrides, and entry.sh passes -F /facts explicitly, so one binary
+serves every dataset of a program. wall_s = the compiled executable from process start to
+exit: loading the CSV facts, evaluation to fixpoint, counting the .printsize relations
+(report.run_s = FlowLog's own "Dataflow executed" timer, started before the workers are spawned
+and so also covering the load; reference only). egglog's wall_s likewise covers parsing +
+loading + evaluation of the same facts (TSV copies of the same CSVs). Threads: --threads N =
+-w N timely workers (data-parallel partitioning of every operator by key); N=1 is one worker
+thread. Sizes: the .printsize relations, which carry the same names as egglog's print-size
+relations. For cc and sssp FlowLog's recursive min() aggregate (one row per group key) gives
+the same count as egglog's :merge (min) function (one entry per key). Memory: FlowLog's
+differential-dataflow arrangements hold every derived tuple in indexed, immutable batches and
+the per-worker inputs are buffered, so peak RSS is typically 2-3x Souffle's on the same pair
+(FlowLog's README); the harness's --memory cgroup limit applies to the container. FlowLog's
+README also recommends raising vm.max_map_count on the host for large analyses (a low value
+makes the allocator fail with "memory allocation of N bytes failed"). Sizes verified equal to
+egglog's on tc-G5K-0.001, tc-G10K-0.001, galen, cspa-httpd, csda-httpd, dyck-kernel,
+cc-livejournal and sssp-livejournal-sssp at 1 and 8 threads (2026-10-10).
+"""
