@@ -1,0 +1,47 @@
+# Image for the Souffle baseline (systems/_container/README.md). Build context:
+#   system/          this directory (entry.sh, ...)
+#   ports/<suite>/   benchmarks/<suite>/souffle/ : one <name>.dl per port
+# Souffle is installed from the release .deb that souffle-lang publishes on GitHub for the
+# release tag that REF (a commit, resolved by build.py) points to, i.e. the same binaries as
+# flowlog-bench's `apt install souffle` from the souffle-lang PPA, but pinned. REF must be a
+# release tag (e.g. 2.5); other commits would need a source build and are refused.
+FROM docker.io/library/ubuntu:24.04
+ARG REF
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends ca-certificates curl git \
+ && rm -rf /var/lib/apt/lists/*
+RUN set -eu; \
+    tag=$(git ls-remote --tags https://github.com/souffle-lang/souffle \
+          | awk -v ref="$REF" '$1 == ref { sub("refs/tags/", "", $2); sub(/\^\{\}$/, "", $2); print $2; exit }'); \
+    test -n "$tag" || { echo "REF $REF is not a release tag of souffle-lang/souffle" >&2; exit 1; }; \
+    deb="x86_64-ubuntu-2404-souffle-${tag}-Linux.deb"; \
+    cd /tmp; \
+    curl -fsSLO "https://github.com/souffle-lang/souffle/releases/download/${tag}/${deb}"; \
+    curl -fsSL "https://github.com/souffle-lang/souffle/releases/download/${tag}/sha512sum.txt" | grep " ${deb}\$" | sha512sum -c -; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends "/tmp/${deb}" g++ libgomp1; \
+    rm -rf /var/lib/apt/lists/* "/tmp/${deb}"; \
+    souffle --version
+COPY system/ /bench/
+COPY ports/ /bench/ports/
+# Compiled mode (souffle -o): every port becomes two standalone executables under
+# /bench/bin/<suite>/: <name> compiled with -j 1 (plain loops, used for threads=1) and
+# <name>-par compiled with -j 8 (rule loops as OpenMP pfor; the number only switches parallel
+# code generation on, the thread count is set at run time with -j N). souffle-compile.py adds
+# -fopenmp to both, so both use Souffle's IS_PARALLEL data structures. Compilation happens
+# here, at image build time, so it is not part of the measured run.
+RUN chmod +x /bench/entry.sh \
+ && mkdir -p /tmp/ports-build && cd /tmp/ports-build \
+ && for f in /bench/ports/*/*.dl; do \
+      suite=$(basename "$(dirname "$f")"); name=$(basename "$f" .dl); \
+      echo "$suite $name $f"; \
+    done > ports.txt \
+ && xargs -P 4 -L 1 sh -euc ' \
+      suite=$0; name=$1; f=$2; mkdir -p "/bench/bin/$suite"; \
+      souffle -o "/bench/bin/$suite/$name" -j 1 "$f"; \
+      souffle -o "/bench/bin/$suite/$name-par" -j 8 "$f"; \
+      ldd "/bench/bin/$suite/$name-par" | grep -q libgomp || { echo "$name-par: not linked against libgomp" >&2; exit 1; }; \
+      echo "built $suite/$name" >&2' < ports.txt \
+ && rm -rf /tmp/ports-build
+ENTRYPOINT ["/bench/entry.sh"]

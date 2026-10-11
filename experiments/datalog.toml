@@ -69,3 +69,32 @@ label = "flowlog-t32"
 system = "flowlog"
 ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
 threads = [32]
+
+[[variants]]
+label = "souffle"
+system = "souffle"
+ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+
+[[variants]]
+label = "souffle-t4"
+system = "souffle"
+ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+threads = [4]
+
+[[variants]]
+label = "souffle-t8"
+system = "souffle"
+ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+threads = [8]
+
+[[variants]]
+label = "souffle-t16"
+system = "souffle"
+ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+threads = [16]
+
+[[variants]]
+label = "souffle-t32"
+system = "souffle"
+ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+threads = [32]

@@ -1,0 +1,34 @@
+# Souffle (https://github.com/souffle-lang/souffle), the Datalog engine, for the datalog suite.
+# Container-based (see systems/_container/README.md): the image installs the release .deb for
+# the tag REF points to and compiles every benchmarks/<suite>/souffle/<name>.dl with
+# `souffle -o` at image build time; entry.sh runs the compiled executable.
+port_dir = "souffle"
+repo = "https://github.com/souffle-lang/souffle"
+container = true
+threads = true  # --threads N: the OpenMP build of the port, run with -j N
+
+notes = """
+Souffle 2.5 (tag 2.5, 2025-03-24; the latest release), installed in an Ubuntu 24.04 image from
+the x86_64-ubuntu-2404 .deb of the GitHub release (sha512-checked): the same binaries as
+flowlog-bench's `apt install souffle` from the souffle-lang PPA, pinned. REF must be a release
+tag (the Containerfile maps the commit to its tag); other commits would need a source build.
+Ports: benchmarks/datalog/souffle/<prog>.dl are flowlog-bench's programs/oracle/souffle/
+programs (commit ccf29c3) verbatim, except cspa.dl, where the two commented-out `.printsize
+MemoryAlias` / `.printsize ValueAlias` lines are enabled so that all three sizes can be checked
+against egglog (printsize is a size() call; no cost). The .dl files read the datasets'
+<Relation>.csv (comma-separated) directly from the bind-mounted /facts; there is no cc.dl or
+sssp.dl (flowlog-bench has none: those programs use min aggregates inside recursion, which
+Souffle rejects), so cc-* and sssp-* are unsupported. Compiled mode, like flowlog-bench: at
+image build time each port is synthesised to C++ and compiled with g++ 13 -O3 -std=c++17 twice,
+`souffle -o <name> -j 1` (plain loops) and `souffle -o <name>-par -j 8` (rule loops as OpenMP
+`pfor` over partitions; the value only switches the parallel code generation on, the thread
+count is a run-time flag). souffle-compile.py passes -fopenmp to both builds, so both use
+Souffle's IS_PARALLEL data structures (lock-protected B-trees); only the loop parallelism
+differs. Compilation is not part of the measured time. threads=1 runs <name> -j 1, threads=N>1
+runs <name>-par -j N (OpenMP threads). wall_s = entry.sh's wall time around the compiled binary,
+i.e. reading the CSV facts + semi-naive evaluation + the .printsize counts (no output relations
+are written). Souffle's own profiling (-p) is not used. Sizes: the .printsize lines
+(<Relation>\\t<count>) are rewritten to egglog's (print-size) format after the timed run; the
+relation names already match egglog's. No stratified negation or aggregates in these ports;
+Souffle's default eager semi-naive evaluation with auto-selected indices.
+"""
