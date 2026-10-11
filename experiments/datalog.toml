@@ -1,0 +1,42 @@
+description = "Datalog workloads from flowlog-bench (the pairs FlowLog and Souffle finish within 60 s): egglog at 1-32 threads, egglog 0.5.0, FlowLog, Souffle."
+benchmarks = ["datalog"]
+threads = [1]
+reps = 3
+timeout = 600       # seconds per run
+memory_gb = 32      # per run
+plot = "bars"
+baseline = "egglog"
+
+[[variants]]
+label = "egglog"
+system = "egglog"
+ref = "593df10e"
+
+[[variants]]
+label = "egglog-t4"
+system = "egglog"
+ref = "593df10e"
+threads = [4]
+
+[[variants]]
+label = "egglog-t8"
+system = "egglog"
+ref = "593df10e"
+threads = [8]
+
+[[variants]]
+label = "egglog-t16"
+system = "egglog"
+ref = "593df10e"
+threads = [16]
+
+[[variants]]
+label = "egglog-t32"
+system = "egglog"
+ref = "593df10e"
+threads = [32]
+
+[[variants]]
+label = "egglog-0.5.0"
+system = "egglog"
+ref = "v0.5.0"

@@ -38,13 +38,24 @@ def load_suite(suite: str) -> list[Benchmark]:
     By default every `*.egg` file is one benchmark named after its stem; a `suite.toml`
     may list `exclude` globs (e.g. a shared header that programs `include`). It can
     instead name a single `file` and a glob of `fact_dirs`, in which case there is one
-    benchmark per fact directory (named after the directory).
+    benchmark per fact directory (named after the directory); or it can list `pairs` of
+    `{file, facts}` (program x dataset, benchmark `<stem>-<facts>`, facts under
+    `<suite>/facts/<facts>` unless `facts_root` says otherwise).
     """
     d = BENCHMARKS / suite
     if not d.is_dir():
         raise SystemExit(f"no such suite: {suite} ({d})")
     cfg_path = d / "suite.toml"
     cfg = tomllib.loads(cfg_path.read_text()) if cfg_path.exists() else {}
+    if "pairs" in cfg:
+        root = d / cfg.get("facts_root", "facts")
+        out = []
+        for pair in cfg["pairs"]:
+            file = d / pair["file"]
+            if not file.exists():
+                raise SystemExit(f"suite {suite}: {file} does not exist")
+            out.append(Benchmark(suite, f"{file.stem}-{pair['facts']}", file, root / pair["facts"]))
+        return out
     if "file" in cfg:
         file = d / cfg["file"]
         if "fact_dirs" in cfg:

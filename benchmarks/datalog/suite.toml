@@ -1,0 +1,42 @@
+# Datalog benchmarks from flowlog-bench (https://github.com/flowlog-rs/flowlog-bench, commit
+# ccf29c3): the egglog translations in programs/oracle/egglog/ are used verbatim, the FlowLog
+# (.dl) and Souffle programs are in flowlog/ and souffle/. Datasets come from Hugging Face
+# (NemoYuu/flowlog_benchmark); `python3 fetch.py` downloads the ones listed here into facts/
+# and adds TSV copies of the CSV files (egglog's input command reads TSV; FlowLog reads the CSV).
+#
+# Scope: the pairs of flowlog-bench's config/default.txt that both FlowLog and Souffle finish
+# within 60 s (their submission/splash_2026/comparison_results.csv, 32 workers), restricted to
+# programs that have an egglog translation. Benchmark names are <program>-<dataset>.
+#
+# NOT included (notes for later):
+#   - crdt, cvc5, z3, polonius: stratified negation; doop: 135 rules, strings, cat; no egglog
+#     translation exists for any of them.
+#   - pointsto: egglog translation exists but the pair is not in flowlog-bench's default matrix.
+#   - over the 60 s budget for FlowLog or Souffle: andersen-large (Souffle 85 s), bipartite-mag
+#     (FlowLog 38 s, Souffle 323 s, 35 GB), bipartite-netflix (Souffle 103 s), cc-arabic
+#     (FlowLog 75 s), cspa-cspa-postgresql (Souffle 63 s), reach-arabic (Souffle 174 s),
+#     reach-twitter (5.5 GB input), sg-G10K-0.001 (Souffle 69 s), sssp on the big graphs.
+facts_root = "facts"
+
+pairs = [
+  { file = "tc.egg",        facts = "G5K-0.001" },
+  { file = "tc.egg",        facts = "G10K-0.001" },
+  { file = "sg.egg",        facts = "G5K-0.001" },
+  { file = "reach.egg",     facts = "livejournal" },
+  { file = "reach.egg",     facts = "orkut" },
+  { file = "cc.egg",        facts = "livejournal" },
+  { file = "cc.egg",        facts = "orkut" },
+  { file = "sssp.egg",      facts = "livejournal-sssp" },
+  { file = "sssp.egg",      facts = "orkut-sssp" },
+  { file = "bipartite.egg", facts = "mind" },
+  { file = "bipartite.egg", facts = "roadNet-CA" },
+  { file = "dyck.egg",      facts = "kernel" },
+  { file = "dyck.egg",      facts = "postgre" },
+  { file = "galen.egg",     facts = "galen" },
+  { file = "andersen.egg",  facts = "medium" },
+  { file = "cspa.egg",      facts = "cspa-httpd" },
+  { file = "cspa.egg",      facts = "cspa-linux" },
+  { file = "csda.egg",      facts = "csda-httpd" },
+  { file = "csda.egg",      facts = "csda-linux" },
+  { file = "csda.egg",      facts = "csda-postgresql" },
+]

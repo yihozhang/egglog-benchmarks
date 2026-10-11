@@ -1,0 +1,17 @@
+; Andersen points-to, matching programs/oracle/flowlog/andersen/default.dl.
+; @printsize PointsTo
+(relation AddressOf (i64 i64))
+(relation Assign (i64 i64))
+(relation Load (i64 i64))
+(relation Store (i64 i64))
+(relation PointsTo (i64 i64))
+(input AddressOf "addressOf.tsv")
+(input Assign "assign.tsv")
+(input Load "load.tsv")
+(input Store "store.tsv")
+(rule ((AddressOf y x)) ((PointsTo y x)))
+(rule ((Assign y z) (PointsTo z x)) ((PointsTo y x)))
+(rule ((Load y x) (PointsTo x z) (PointsTo z w)) ((PointsTo y w)))
+(rule ((Store y x) (PointsTo y z) (PointsTo x w)) ((PointsTo z w)))
+(run-schedule (saturate (run)))
+(print-size PointsTo)

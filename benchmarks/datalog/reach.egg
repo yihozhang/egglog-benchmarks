@@ -1,0 +1,11 @@
+; Reachability, matching programs/oracle/flowlog/reach/default.dl.
+; @printsize Reach
+(relation Source (i64))
+(relation Arc (i64 i64))
+(relation Reach (i64))
+(input Source "Source.tsv")
+(input Arc "Arc.tsv")
+(rule ((Source y)) ((Reach y)))
+(rule ((Reach x) (Arc x y)) ((Reach y)))
+(run-schedule (saturate (run)))
+(print-size Reach)

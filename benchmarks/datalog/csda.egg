@@ -1,0 +1,11 @@
+; Demand analysis, matching programs/oracle/flowlog/csda/default.dl.
+; @printsize NullNode
+(relation NullEdge (i64 i64))
+(relation Edge (i64 i64))
+(relation NullNode (i64 i64))
+(input NullEdge "NullEdge.tsv")
+(input Edge "Edge.tsv")
+(rule ((NullEdge x y)) ((NullNode x y)))
+(rule ((NullNode x w) (Edge w y)) ((NullNode x y)))
+(run-schedule (saturate (run)))
+(print-size NullNode)

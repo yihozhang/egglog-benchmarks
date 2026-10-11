@@ -1,0 +1,21 @@
+; Bipartite check, matching programs/oracle/flowlog/bipartite/default.dl.
+; @printsize BipartiteViolation
+; @printsize Zero
+; @printsize One
+(relation Arc (i64 i64))
+(relation Source (i64))
+(relation BipartiteViolation (i64))
+(relation Zero (i64))
+(relation One (i64))
+(input Arc "Arc.tsv")
+(input Source "Source.tsv")
+(rule ((Source x)) ((Zero x)))
+(rule ((Arc x y) (Zero x)) ((One y)))
+(rule ((Arc x y) (Zero y)) ((One x)))
+(rule ((Arc x y) (One x)) ((Zero y)))
+(rule ((Arc x y) (One y)) ((Zero x)))
+(rule ((One x) (Zero x)) ((BipartiteViolation x)))
+(run-schedule (saturate (run)))
+(print-size BipartiteViolation)
+(print-size Zero)
+(print-size One)

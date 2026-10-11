@@ -1,0 +1,16 @@
+; Transitive closure, matching programs/oracle/flowlog/tc/default.dl.
+; @printsize Tc
+; Generated Arc.tsv contains the same rows as Flowlog's Arc.csv; egglog's
+; input command requires tab-separated fields.
+(relation Arc (i64 i64))
+(relation Tc (i64 i64))
+
+(input Arc "Arc.tsv")
+
+(rule ((Arc x y))
+      ((Tc x y)))
+(rule ((Tc x z) (Arc z y))
+      ((Tc x y)))
+
+(run-schedule (saturate (run)))
+(print-size Tc)

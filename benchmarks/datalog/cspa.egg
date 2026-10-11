@@ -1,0 +1,25 @@
+; C-style pointer analysis, matching programs/oracle/flowlog/cspa/default.dl.
+; @printsize ValueFlow
+; @printsize MemoryAlias
+; @printsize ValueAlias
+(relation Assign (i64 i64))
+(relation Dereference (i64 i64))
+(relation ValueFlow (i64 i64))
+(relation MemoryAlias (i64 i64))
+(relation ValueAlias (i64 i64))
+(input Assign "Assign.tsv")
+(input Dereference "Dereference.tsv")
+(rule ((Assign y x)) ((ValueFlow y x)))
+(rule ((Assign x z) (MemoryAlias z y)) ((ValueFlow x y)))
+(rule ((ValueFlow x z) (ValueFlow z y)) ((ValueFlow x y)))
+(rule ((Dereference y x) (ValueAlias y z) (Dereference z w)) ((MemoryAlias x w)))
+(rule ((ValueFlow z x) (ValueFlow z y)) ((ValueAlias x y)))
+(rule ((ValueFlow z x) (MemoryAlias z w) (ValueFlow w y)) ((ValueAlias x y)))
+(rule ((Assign x y)) ((ValueFlow x x)))
+(rule ((Assign y x)) ((ValueFlow x x)))
+(rule ((Assign y x)) ((MemoryAlias x x)))
+(rule ((Assign x y)) ((MemoryAlias x x)))
+(run-schedule (saturate (run)))
+(print-size ValueFlow)
+(print-size MemoryAlias)
+(print-size ValueAlias)

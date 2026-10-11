@@ -1,0 +1,11 @@
+; Minimum-label connected components, matching flowlog/cc/default.dl.
+; @printsize CC
+(relation Arc (i64 i64))
+(function CC (i64) i64 :merge (min old new))
+(input Arc "Arc.tsv")
+(rule ((Arc node neighbor))
+      ((set (CC node) node)))
+(rule ((Arc other node) (= component (CC other)))
+      ((set (CC node) component)))
+(run-schedule (saturate (run)))
+(print-size CC)

@@ -1,0 +1,13 @@
+; Minimum-distance SSSP, matching flowlog/sssp/default.dl.
+; @printsize sssp
+(relation arc (i64 i64 i64))
+(relation id (i64))
+(function sssp (i64) i64 :merge (min old new))
+(input arc "Arc.tsv")
+(input id "Id.tsv")
+(rule ((id x))
+      ((set (sssp x) 0)))
+(rule ((= d1 (sssp x)) (arc x y d2))
+      ((set (sssp y) (+ d1 d2))))
+(run-schedule (saturate (run)))
+(print-size sssp)

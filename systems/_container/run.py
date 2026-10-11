@@ -49,12 +49,17 @@ def main() -> int:
             print(f"{info['system']} is single-threaded", file=sys.stderr)
             return UNSUPPORTED
         extra += ["--threads", str(threads)]
-    if fact_dir != "-" or any(f not in info.get("flags", []) for f in flags):
-        print(f"{info['system']} port: no fact directory, flags {info.get('flags', [])}", file=sys.stderr)
+    if any(f not in info.get("flags", []) for f in flags):
+        print(f"{info['system']} port: flags {info.get('flags', [])}", file=sys.stderr)
         return UNSUPPORTED
     flags = [*extra, *flags]
+    mounts = []
+    if fact_dir != "-":
+        # the dataset is bind-mounted read-only at /facts; the port gets --facts /facts
+        mounts = ["-v", f"{Path(fact_dir).resolve()}:/facts:ro"]
+        flags = ["--facts", "/facts", *flags]
 
-    cmd = ["podman", "run", "--rm", "--network=none"]
+    cmd = ["podman", "run", "--rm", "--network=none", *mounts]
     if os.environ.get("BENCH_MEMORY_GB", "0") not in ("0", "0.0"):
         cmd += ["--memory", f"{int(float(os.environ['BENCH_MEMORY_GB']) * 1024)}m"]
     if os.environ.get("BENCH_TIMEOUT_S"):

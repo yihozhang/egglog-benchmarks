@@ -1,0 +1,9 @@
+; Same-generation, matching programs/oracle/flowlog/sg/default.dl.
+; @printsize Sg
+(relation Arc (i64 i64))
+(relation Sg (i64 i64))
+(input Arc "Arc.tsv")
+(rule ((Arc a x) (Arc a y) (!= x y)) ((Sg x y)))
+(rule ((Arc a x) (Sg a b) (Arc b y)) ((Sg x y)))
+(run-schedule (saturate (run)))
+(print-size Sg)

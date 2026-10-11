@@ -1,0 +1,20 @@
+; Dyck-style reachability, matching programs/oracle/flowlog/dyck/default.dl.
+; @printsize Zero
+; @printsize One
+; @printsize Dyck
+(relation Arc (i64 i64 i64))
+(relation Zero (i64 i64))
+(relation One (i64 i64))
+(relation Dyck (i64 i64))
+(input Arc "Arc.tsv")
+(rule ((Arc x y 0)) ((Zero x y)))
+(rule ((Arc x y 1)) ((One x y)))
+(rule ((Zero x z) (Zero z y)) ((Dyck x y)))
+(rule ((One x z) (One z y)) ((Dyck x y)))
+(rule ((Zero x z) (Dyck z w) (Zero w y)) ((Dyck x y)))
+(rule ((One x z) (Dyck z w) (One w y)) ((Dyck x y)))
+(rule ((Dyck x z) (Dyck z y)) ((Dyck x y)))
+(run-schedule (saturate (run)))
+(print-size Zero)
+(print-size One)
+(print-size Dyck)

@@ -41,7 +41,8 @@ container engines are single-threaded.)
 
 captures stdout/stderr, and builds `report.json` from the port's stdout. For a system
 with `threads = true` the port receives `--threads N` for N > 1; otherwise threads other
-than 1 are reported as unsupported.
+than 1 are reported as unsupported. When the benchmark has a fact directory (Datalog
+suites), it is bind-mounted read-only at `/facts` and the port receives `--facts /facts`.
 
 ## Port protocol (stdout)
 
