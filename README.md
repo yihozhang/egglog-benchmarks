@@ -94,8 +94,8 @@ address-space rlimit.
 | `hegg` | container (GHC 9.6); Haskell port | v0.5.0.0 | driver loop in the port (hegg's own caps iterations at 30 and bans rules); the port canonicalizes the e-matching database because hegg's leaves stale ids |
 | `metatheory` | container (Julia 1.11); Julia port | v2.0.2 (latest release; no 3.x release) | `SimpleScheduler`, limits disabled, JIT warm-up excluded from `run_s` |
 | `ggs` | container (SBCL 2.5); Common Lisp port of the `ggs/eqsat` system | 097e4f32 (main, no tags) | engine's own `run-rewrites` driver, no match limit; standalone executable |
-| `ego` | container (OCaml 4.14); OCaml port | e87dae7a (main) | the 0.0.6 tag has an e-matching bug (one match per class); egg-style iterations are forced through the public runner, costing ~15% extra |
-| `foresight` | container (JDK 21, Scala 3.4); Scala port | f3ea706d (main) | v0.1.0 predates the mutable e-graph; `ParallelMap.sequential`, SerialGC so the single-thread number does not depend on idle cores |
+| `ego` | container (OCaml 4.14); OCaml port | e87dae7a (main) | the 0.0.6 tag has an e-matching bug (one match per class); for fixed-iteration programs egg-style iterations are forced through the public runner (~15% extra), saturating programs use ego's own loop |
+| `foresight` | container (JDK 21, Scala 3.4); Scala port | f3ea706d (main) | v0.1.0 predates the mutable e-graph; `ParallelMap.sequential` for 1 thread, `fixedThreadParallel(N)` for `--threads N` (variants `foresight-t4/t8/t16`); JVM default G1 GC in every variant |
 
 Every port of `math-microbenchmark` reaches exactly the same e-graph as egglog
 (1047896 e-nodes, 443832 e-classes); `bench check engines` verifies it on every run.
@@ -127,6 +127,23 @@ port `base` per system that takes `--instance N`. The `math` suite stays egglog-
 `evals-to`/`MathU` relations, which egg can only express as an eager analysis (so its
 iterations do more work than egglog's) and which uses `!=` on e-classes, which oatlog
 does not support; both deviations change the workload by orders of magnitude.
+
+## Math microbenchmark: 12 iterations
+
+`experiments/math-microbenchmark-12.toml` compares oatlog, egglog at 1/4/8/16
+threads, egglog 0.5.0, and ggs on `math-microbenchmark-12` (`run 12`). It uses
+five repetitions, a 600-second timeout and a 32 GB memory cap per run, and plots
+median process wall time with the same pinned engine versions as `engines`.
+
+```sh
+uv run bench run math-microbenchmark-12
+uv run bench summary math-microbenchmark-12
+uv run bench check math-microbenchmark-12
+uv run bench plot math-microbenchmark-12
+```
+
+The figure is written to `figures/math-microbenchmark-12.pdf` and `.png`, with
+summary data in `figures/math-microbenchmark-12.csv`.
 
 ## Notes
 

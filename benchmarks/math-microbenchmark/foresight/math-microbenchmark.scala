@@ -6,10 +6,13 @@
 // the current e-graph (matches are collected into a command schedule, the e-graph is not
 // modified while matching), then applies all additions and unions; foresight's unionMany
 // restores congruence inline, so the e-graph is canonical after every iteration. No match
-// caching, no backoff/stochastic scheduling, no analyses, no extraction, no node/time limit,
-// ParallelMap.sequential (single thread).
+// caching, no backoff/stochastic scheduling, no analyses, no extraction, no node/time limit.
+// --threads T selects the ParallelMap handed to the strategy: ParallelMap.sequential (T = 1,
+// the default) or ParallelMap.fixedThreadParallel(T) (a ForkJoinPool of T threads for rule
+// matching and rule application, as in the paper's parallel configuration).
 //
-// Usage: bench.math_microbenchmark [--iters N] [--warmup N]
+// Usage: bench.math_microbenchmark [--iters N | --instance N] [--warmup N] [--threads T]
+// (--instance N is what the harness passes for benchmark math-microbenchmark-N, i.e. (run N).)
 // Prints `wall_s <seconds>` (after the JIT warm-up: start e-graph + N iterations + size
 // count), `run_s <seconds>` (the N iterations only) and the e-nodes per constructor in
 // egglog's (print-size) format on stdout. --warmup N (default 6) first runs N iterations on
@@ -128,16 +131,19 @@ object math_microbenchmark {
   def main(args: Array[String]): Unit = {
     var iters = 11
     var warmup = 6
+    var threads = 1
     var i = 0
     while (i < args.length) {
       args(i) match {
-        case "--iters" => iters = args(i + 1).toInt; i += 2
+        case "--iters" | "--instance" => iters = args(i + 1).toInt; i += 2
         case "--warmup" => warmup = args(i + 1).toInt; i += 2
+        case "--threads" => threads = args(i + 1).toInt; i += 2
         case a => throw new IllegalArgumentException(s"unknown argument $a")
       }
     }
+    require(threads >= 1, s"--threads must be >= 1, got $threads")
 
-    val pm = ParallelMap.sequential
+    val pm = if (threads == 1) ParallelMap.sequential else ParallelMap.fixedThreadParallel(threads)
     val rs = rules
     val step = MaximalRuleApplication.mutable[Math, EGraph[Math], PatternMatch[Math]](rs)
 
@@ -194,7 +200,7 @@ object math_microbenchmark {
     val gcs = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans
     val gcNames = scala.jdk.CollectionConverters.ListHasAsScala(gcs).asScala.map(_.getName).mkString(", ")
     System.err.println(f"foresight: $iters iterations, $nodes e-nodes, $classes e-classes, $runS%.3f s" +
-      f" (warm-up of $warmup iterations on a discarded e-graph excluded);" +
+      f" (warm-up of $warmup iterations on a discarded e-graph excluded); threads $threads;" +
       s" JVM ${System.getProperty("java.version")}, GC [$gcNames]," +
       s" ${Runtime.getRuntime.availableProcessors} cpus, maxHeap ${Runtime.getRuntime.maxMemory >> 20} MiB")
   }

@@ -73,4 +73,22 @@ ref = "e87dae7a"             # ego main as of 2026-06-15: the 0.0.6 tag has an e
 [[variants]]
 label = "foresight"
 system = "foresight"
-ref = "f3ea706d"             # foresight main as of 2026-09-10; v0.1.0 predates the mutable e-graph. SerialGC, sequential
+ref = "f3ea706d"             # foresight main as of 2026-09-10; v0.1.0 predates the mutable e-graph. ParallelMap.sequential, JVM default GC
+
+[[variants]]
+label = "foresight-t4"
+system = "foresight"
+ref = "f3ea706d"
+threads = [4]                # ParallelMap.fixedThreadParallel(4)
+
+[[variants]]
+label = "foresight-t8"
+system = "foresight"
+ref = "f3ea706d"
+threads = [8]                # the paper's "For. (P)" configuration
+
+[[variants]]
+label = "foresight-t16"
+system = "foresight"
+ref = "f3ea706d"
+threads = [16]
