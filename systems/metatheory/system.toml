@@ -18,4 +18,19 @@ confirms 0 s of compilation inside the timed region). report.run_s = saturate! o
 counts are computed by the port because Metatheory's hashcons keeps stale entries after
 rebuild. Literals (-1, 1, 2, 3, 7, "x", "y", "five") are e-classes of their own in
 Metatheory (+8 e-classes vs egglog). Single-threaded.
+
+Saturating suites (horner, matmul-assoc; one port per suite taking --instance N): the same
+saturate! call with timeout = 100000 iterations, stopped by Metatheory's own saturation
+check. Its reason :saturated fires after an iteration whose rule applications performed no
+merge (isempty(g.dirty) before the rebuild); a new e-node is a singleton class merged with
+the matched class, so this is exactly egglog's "no new e-node, no merge" iteration, and
+Metatheory counts it in report.iterations like egglog counts the final no-change run:
+iteration counts and e-node counts match egglog/egg on every instance (horner 5-9, matmul
+20-320). The warm-up is a smaller instance of the same suite saturated to completion on a
+separate e-graph (degree min(N, 4), chain min(N, 10)); it compiles every code path used
+later (0 s of compilation inside the timed region). Literal classes: the Var strings
+("a", "b", ..., "x") for horner, the i64 10 of Mat for matmul-assoc, +n+2 / +1 e-classes vs
+egglog. Metatheory e-matches every pattern against every e-class (cached_ids returns all
+classes, there is no index by head), which is why its saturation times grow much faster
+with the instance than egg's.
 """
