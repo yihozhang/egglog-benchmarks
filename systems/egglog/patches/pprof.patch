@@ -1,0 +1,55 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index fd772f78..eef21cc8 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -133,6 +133,7 @@ graphviz = ["egraph-serialize/graphviz"]
+ 
+ [dependencies]
+ clap = { workspace = true, features = ["derive"], optional = true }
++pprof = { version = "0.15", features = ["flamegraph"] }
+ egraph-serialize = { workspace = true}
+ env_logger = { workspace = true, optional = true }
+ hashbrown = { workspace = true }
+diff --git a/src/cli.rs b/src/cli.rs
+index 55f3a219..76c801d4 100644
+--- a/src/cli.rs
++++ b/src/cli.rs
+@@ -75,6 +75,10 @@ struct Args {
+     /// Enable proof testing, turning all `check` statements into `prove` statements
+     #[clap(long)]
+     proof_testing: bool,
++    /// Profile the whole run with a sampling profiler (pprof, ~1 kHz, all threads) and
++    /// write <path>.svg (flamegraph) and <path>.txt (sampled stacks with counts) at the end.
++    #[clap(long)]
++    pprof: Option<PathBuf>,
+ }
+ 
+ /// Start a command-line interface for the E-graph.
+@@ -91,6 +95,14 @@ pub fn cli(mut egraph: EGraph) {
+ 
+     let args = Args::parse();
+ 
++    let profiler = args.pprof.as_ref().map(|_| {
++        pprof::ProfilerGuardBuilder::default()
++            .frequency(997)
++            .blocklist(&["libc", "libgcc", "pthread", "vdso"])
++            .build()
++            .expect("failed to start the pprof profiler")
++    });
++
+     egraph.set_num_threads(args.threads);
+ 
+     if args.term_encoding {
+@@ -197,6 +209,12 @@ pub fn cli(mut egraph: EGraph) {
+                 }
+             }
+         }
++        if let (Some(path), Some(guard)) = (&args.pprof, profiler) {
++            let report = guard.report().build().expect("pprof report");
++            let svg = std::fs::File::create(path.with_extension("svg")).expect("create flamegraph");
++            report.flamegraph(svg).expect("write flamegraph");
++            std::fs::write(path.with_extension("txt"), format!("{report:?}")).expect("write pprof report");
++        }
+     }
+ 
+     if let Some(report_path) = args.save_report {

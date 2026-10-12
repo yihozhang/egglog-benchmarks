@@ -150,6 +150,11 @@ summary data in `figures/math-microbenchmark-12.csv`.
 - The `egglog` variants build from the `egglog` submodule's object store; any
   commit, tag or branch it knows is a valid ref, and unknown refs trigger a fetch.
   Experiments pin a commit so results stay reproducible; move the pin deliberately.
+- `systems/egglog/patches/pprof.patch` adds `--pprof <path>` to egglog: a sampling
+  profiler (pprof-rs, ~1 kHz, all threads, no perf_event needed) that writes a
+  flamegraph `<path>.svg` and sampled stacks `<path>.txt` at exit. Build with
+  `bench build egglog <ref> pprof`; worker-thread stacks are truncated at the rayon
+  closure boundary, so attribute by leaf function there.
 - `--no-dynamic-order` (used by the ablation) is not upstream yet; it lives in
   `systems/egglog/patches/no-dynamic-order.patch`. It keeps the size-based
   ordering of join stages at the start of each query execution and only disables
