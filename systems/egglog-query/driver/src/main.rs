@@ -17,10 +17,13 @@ use std::time::Instant;
 fn run_program(path: &str, threads: usize) -> EGraph {
     let mut egraph = EGraph::default();
     egraph.set_num_threads(threads);
+    // only affects rules added after the program (the tests): the program itself runs as usual
+    let no_decomp = std::env::var("EGGLOG_QUERY_NO_DECOMP").is_ok();
     let text = std::fs::read_to_string(path).expect("read program");
     egraph
         .parse_and_run_program(Some(path.to_string()), &text)
         .expect("program failed");
+    egraph.no_decomp = no_decomp;
     egraph
 }
 
@@ -103,12 +106,17 @@ fn run_tests(program: &str, threads: usize, tests: &[String]) {
         let rel = text.split("(relation ").nth(1).and_then(|s| s.split_whitespace().next()).unwrap().to_string();
         let ruleset = text.split("(ruleset ").nth(1).and_then(|s| s.split(')').next()).unwrap().trim().to_string();
         let t0 = Instant::now();
-        let outputs = egraph
-            .parse_and_run_program(Some(test.clone()), &text)
-            .expect("test failed");
+        let outputs = match egraph.parse_and_run_program(Some(test.clone()), &text) {
+            Ok(o) => o,
+            Err(e) => {
+                println!("{}", serde_json::json!({"test": test, "error": e.to_string()}));
+                continue;
+            }
+        };
         let wall = t0.elapsed().as_secs_f64();
         let mut query = 0.0;
         let mut rebuild = 0.0;
+        let mut per_run = Vec::new();
         for o in &outputs {
             if let CommandOutput::RunSchedule(r) = o {
                 macro_rules! get {
@@ -116,7 +124,10 @@ fn run_tests(program: &str, threads: usize, tests: &[String]) {
                         $m.get(ruleset.as_str()).map(|d| d.as_secs_f64()).unwrap_or(0.0)
                     };
                 }
-                query += get!(r.search_and_apply_time_per_ruleset) + get!(r.merge_time_per_ruleset);
+                let (sa, mg) = (get!(r.search_and_apply_time_per_ruleset), get!(r.merge_time_per_ruleset));
+                let q = sa + mg;
+                per_run.push((sa, mg));
+                query += q;
                 rebuild += get!(r.rebuild_time_per_ruleset);
             }
         }
@@ -125,7 +136,7 @@ fn run_tests(program: &str, threads: usize, tests: &[String]) {
             "{}",
             serde_json::json!({"test": test, "relation": rel, "ruleset": ruleset, "threads": threads,
                 "wall_s": wall, "query_s": query, "rebuild_s": rebuild,
-                "other_s": wall - query - rebuild, "size": size})
+                "other_s": wall - query - rebuild, "size": size, "query_per_run_s": per_run})
         );
     }
 }
