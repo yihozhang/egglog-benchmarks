@@ -1,0 +1,47 @@
+description = "Math microbenchmark with 12 iterations: oatlog, egglog at 1/4/8/16 threads, egglog 0.5.0, and ggs."
+benchmarks = ["math-microbenchmark/math-microbenchmark-12"]
+threads = [1]
+reps = 5
+timeout = 600
+memory_gb = 32
+plot = "variants"
+baseline = "egglog"
+metric = "wall_s"
+
+[[variants]]
+label = "oatlog"
+system = "oatlog"
+ref = "6b73396"
+
+[[variants]]
+label = "egglog"
+system = "egglog"
+ref = "593df10e"
+
+[[variants]]
+label = "egglog-t4"
+system = "egglog"
+ref = "593df10e"
+threads = [4]
+
+[[variants]]
+label = "egglog-t8"
+system = "egglog"
+ref = "593df10e"
+threads = [8]
+
+[[variants]]
+label = "egglog-t16"
+system = "egglog"
+ref = "593df10e"
+threads = [16]
+
+[[variants]]
+label = "egglog-0.5.0"
+system = "egglog"
+ref = "v0.5.0"
+
+[[variants]]
+label = "ggs"
+system = "ggs"
+ref = "097e4f32"

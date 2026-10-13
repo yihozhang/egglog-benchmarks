@@ -13,3 +13,5 @@ __pycache__/
 # Datalog datasets (downloaded by benchmarks/datalog/fetch.py)
 /benchmarks/datalog/facts/
 /benchmarks/datalog/cache/
+
+/figures/
