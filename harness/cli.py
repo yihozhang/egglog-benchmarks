@@ -198,7 +198,9 @@ def main(argv=None):
     ]:
         p = sub.add_parser(name, help=help_)
         p.add_argument("experiment")
-        p.add_argument("--run", default="latest", help="'latest' (default), 'all', or a run id prefix")
+        p.add_argument("--run", default="all",
+                       help="'all' (default: every run merged, the latest run wins per configuration), "
+                            "'latest', or a run id prefix / tag")
         if name != "check":
             p.add_argument("--metric", help="wall_s or report.<field>, e.g. report.run_s (default: the experiment's `metric`)")
         if name == "plot":

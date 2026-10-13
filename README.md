@@ -25,8 +25,9 @@ uv run bench plot e2e --out ../egglog-system-paper/figures
 uv run bench build egglog v0.5.0  # build a ref by hand
 ```
 
-`--run all` on summary/check/plot merges all runs of an experiment (latest row
-per configuration wins), so an experiment can be run in pieces.
+summary/check/plot merge all runs of an experiment by default (the latest run wins per
+configuration), so an experiment can be run in pieces; `--run latest` or `--run <id|tag>`
+selects one run.
 
 ## Layout
 

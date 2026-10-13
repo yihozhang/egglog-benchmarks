@@ -14,8 +14,9 @@ def run_files(exp: Experiment) -> list[Path]:
     return sorted(exp.results_dir.glob("*.jsonl"))
 
 
-def load_rows(exp: Experiment, run: str = "latest") -> list[dict]:
-    """`run` is 'latest', 'all', or a run id (prefix match)."""
+def load_rows(exp: Experiment, run: str = "all") -> list[dict]:
+    """`run` is 'all' (merged; summarize() keeps the latest run per configuration),
+    'latest', or a run id prefix / tag."""
     files = run_files(exp)
     if not files:
         raise SystemExit(f"no results for experiment {exp.name}")
