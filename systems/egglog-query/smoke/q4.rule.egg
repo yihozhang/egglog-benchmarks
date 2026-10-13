@@ -1,0 +1,68 @@
+(rule
+    (
+        (= ?mul (Op (Mul ?mul_shape ?a_stride ?b_stride ?mul_out_stride) (ICons ?a (ICons ?b (INil)))))
+        (= ?sum (Op (Sum ?out_shape ?k ?sum_in_stride ?k_stride ?sum_out_stride) (ICons ?mul (INil))))
+
+        ; Output shape: [batch, m, n]
+        (= ?batch (nth_from_end ?out_shape 2))
+        (= ?m (nth_from_end ?out_shape 1))
+        (= ?n (nth_from_end ?out_shape 0))
+        (!= ?m (MNum 0))
+        (!= ?n (MNum 0))
+        (!= ?k (MNum 1))
+        (!= ?batch (MNum 0))
+
+        ; A strides in [batch, m, n, k]
+        (= ?a_batch_stride (nth_from_end ?a_stride 3))
+        (= ?a_m_stride (nth_from_end ?a_stride 2))
+        (= ?a_n_stride (nth_from_end ?a_stride 1))
+        (= ?a_k_stride (nth_from_end ?a_stride 0))
+
+        ; B strides in [batch, m, n, k]
+        (= ?b_batch_stride (nth_from_end ?b_stride 3))
+        (= ?b_m_stride (nth_from_end ?b_stride 2))
+        (= ?b_n_stride (nth_from_end ?b_stride 1))
+        (= ?b_k_stride (nth_from_end ?b_stride 0))
+
+        (= ?k_stride (MIter))
+
+        ; A row-major: k=MIter, n=0, m_stride=k*MIter
+        (= ?a_k_stride (MIter))
+        (= ?a_n_stride (MNum 0))
+        (= ?a_m_stride (MMul (MIter) ?k))
+
+        ; B row-major: n=MIter, m=0, k_stride=n*MIter
+        (= ?b_n_stride (MIter))
+        (= ?b_m_stride (MNum 0))
+        (= ?b_k_stride (MMul (MIter) ?n))
+
+        ; Uniform batch strides (contiguous per batch, no GQA-style repetition)
+        (= ?a_batch_stride (MMul ?m ?a_m_stride))
+        (= ?b_batch_stride (MMul ?k ?b_k_stride))
+
+        (= ?dt (dtype ?a))
+        (= ?dt (dtype ?b))
+        (cublaslt_base_dtype ?dt)
+    )
+    (
+        ; cuBLAS swap: C^T[n,m] = B^T[n,k] × A^T[k,m] per batch
+        ; cublas(OP_N, OP_N, n, m, k, B, lda=b_k_stride, A, ldb=a_m_stride, C, ldc=n)
+        (let ?sgemm (Op (cublaslt
+            ?n ?m ?k
+            "N" "N"
+            "COL" "COL" "COL" "COL"
+            ?b_k_stride       ; lda (cuBLAS A = our B, row stride)
+            ?a_m_stride       ; ldb (cuBLAS B = our A, row stride)
+            ?n                ; ldc (contiguous output per batch)
+            ?n                ; ldd
+            ?batch            ; batch_count
+            ?b_batch_stride   ; stride_a (cuBLAS A = our B)
+            ?a_batch_stride   ; stride_b (cuBLAS B = our A)
+            (MMul ?m ?n)      ; stride_c
+            (MMul ?m ?n)      ; stride_d
+            ?dt ?dt ?dt ?dt "default" "default" 1.0 0.0 "DEFAULT")
+            (ICons ?b (ICons ?a (INil)))))
+        (union ?sum ?sgemm)
+        (set (dtype ?sgemm) ?dt)
+    )
+)

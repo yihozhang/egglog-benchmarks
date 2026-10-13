@@ -1,0 +1,6 @@
+(relation R_q4 (Expression Expression Expression Expression Expression Expression Expression Expression DType IR IR IR))
+(ruleset q_q4)
+(rule ((= ?mul (Op (Mul ?mul_shape ?a_stride ?b_stride ?mul_out_stride) (ICons ?a (ICons ?b (INil))))) (= ?sum (Op (Sum ?out_shape ?k ?sum_in_stride ?k_stride ?sum_out_stride) (ICons ?mul (INil)))) (= ?batch (nth_from_end ?out_shape 2)) (= ?m (nth_from_end ?out_shape 1)) (= ?n (nth_from_end ?out_shape 0)) (!= ?m (MNum 0)) (!= ?n (MNum 0)) (!= ?k (MNum 1)) (!= ?batch (MNum 0)) (= ?a_batch_stride (nth_from_end ?a_stride 3)) (= ?a_m_stride (nth_from_end ?a_stride 2)) (= ?a_n_stride (nth_from_end ?a_stride 1)) (= ?a_k_stride (nth_from_end ?a_stride 0)) (= ?b_batch_stride (nth_from_end ?b_stride 3)) (= ?b_m_stride (nth_from_end ?b_stride 2)) (= ?b_n_stride (nth_from_end ?b_stride 1)) (= ?b_k_stride (nth_from_end ?b_stride 0)) (= ?k_stride (MIter)) (= ?a_k_stride (MIter)) (= ?a_n_stride (MNum 0)) (= ?a_m_stride (MMul (MIter) ?k)) (= ?b_n_stride (MIter)) (= ?b_m_stride (MNum 0)) (= ?b_k_stride (MMul (MIter) ?n)) (= ?a_batch_stride (MMul ?m ?a_m_stride)) (= ?b_batch_stride (MMul ?k ?b_k_stride)) (= ?dt (dtype ?a)) (= ?dt (dtype ?b)) (cublaslt_base_dtype ?dt))
+      ((R_q4 ?n ?m ?k ?b_k_stride ?a_m_stride ?batch ?b_batch_stride ?a_batch_stride ?dt ?b ?a ?sum))
+      :ruleset q_q4 :naive)
+(run q_q4 1)

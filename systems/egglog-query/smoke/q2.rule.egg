@@ -1,0 +1,49 @@
+(rule
+    (
+        (= ?matmul (Op (cublaslt
+            ?m ?n ?k
+            ?a_layout ?b_layout
+            ?a_order ?b_order ?matmul_c_order "COL"
+            ?lda ?ldb ?matmul_ldc ?ldd
+            (MNum 1)
+            ?stride_a ?stride_b ?matmul_stride_c ?stride_d
+            ?a_dtype ?b_dtype ?c_dtype ?d_dtype
+            ?compute_type ?scale_dtype
+            ?alpha 0.0 ?epilogue)
+            (ICons ?a (ICons ?b ?matmul_tail))))
+        (!= ?epilogue "RELU")
+        (!= ?epilogue "RELU_BIAS")
+        (!= ?epilogue "GELU")
+        (!= ?epilogue "GELU_BIAS")
+
+        (= ?add (Op (Add
+            (ECons ?n (ECons ?m (ENil)))
+            ?matmul_add_strides
+            ?c_add_strides
+            ?add_out_strides)
+            (ICons ?matmul (ICons ?c (INil)))))
+
+        (= ?matmul_add_strides (ECons ?d_row_stride (ECons ?d_col_stride (ENil))))
+        (= ?c_add_strides (ECons ?c_row_stride (ECons ?c_col_stride (ENil))))
+        (= ?add_out_strides (ECons ?d_row_stride (ECons ?d_col_stride (ENil))))
+        (= ?c_col_stride (MIter))
+        (!= ?c_row_stride (MNum 0))
+        (= ?matmul_add_strides ?add_out_strides)
+        (= ?c_dtype (dtype ?c))
+    )
+    (
+        (let ?fused (Op (cublaslt
+            ?m ?n ?k
+            ?a_layout ?b_layout
+            ?a_order ?b_order "COL" "COL"
+            ?lda ?ldb ?c_row_stride ?ldd
+            (MNum 1)
+            ?stride_a ?stride_b (MNum 0) ?stride_d
+            ?a_dtype ?b_dtype ?c_dtype ?d_dtype
+            ?compute_type ?scale_dtype
+            ?alpha 1.0 ?epilogue)
+            (ICons ?a (ICons ?b (ICons ?c ?matmul_tail)))))
+        (union ?add ?fused)
+        (set (dtype ?fused) ?d_dtype)
+    )
+)

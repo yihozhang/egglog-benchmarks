@@ -1,0 +1,40 @@
+CREATE TEMP TABLE r_q1 AS SELECT DISTINCT t1.c0 AS m, t1.c1 AS n, t1.c2 AS k, t1.c3 AS a_layout, t1.c4 AS b_layout, t1.c5 AS a_order, t1.c6 AS b_order, t1.c9 AS lda, t1.c10 AS ldb, t16.c0 AS c_row_stride, t1.c12 AS ldd, t1.c14 AS stride_a, t1.c15 AS stride_b, t1.c17 AS stride_d, t1.c18 AS a_dtype, t1.c19 AS b_dtype, t1.c20 AS c_dtype, t1.c21 AS d_dtype, t1.c22 AS compute_type, t1.c23 AS scale_dtype, t1.c24 AS alpha, t1.c26 AS epilogue, t3.c0 AS a, t4.c0 AS b, t11.c0 AS c, t4.c1 AS matmul_tail, t5."out" AS add
+FROM "Op" t0, "cublaslt" t1, "MNum" t2, "ICons" t3, "ICons" t4, "Op" t5, "Add" t6, "ECons" t7, "ECons" t8, "ENil" t9, "ICons" t10, "ICons" t11, "INil" t12, "ECons" t13, "ECons" t14, "ENil" t15, "ECons" t16, "ECons" t17, "ENil" t18, "ECons" t19, "ECons" t20, "ENil" t21, "MIter" t22, "MNum" t23, "dtype" t24
+WHERE t1.c8 = 'ROW'
+  AND t2.c0 = 1
+  AND t1.c13 = t2."out"
+  AND t1.c25 = CAST(0.0 AS DOUBLE PRECISION)
+  AND t0.c0 = t1."out"
+  AND t3.c1 = t4."out"
+  AND t0.c1 = t3."out"
+  AND t1.c26 <> 'RELU'
+  AND t1.c26 <> 'RELU_BIAS'
+  AND t1.c26 <> 'GELU'
+  AND t1.c26 <> 'GELU_BIAS'
+  AND t1.c0 = t7.c0
+  AND t1.c1 = t8.c0
+  AND t8.c1 = t9."out"
+  AND t7.c1 = t8."out"
+  AND t6.c0 = t7."out"
+  AND t5.c0 = t6."out"
+  AND t0."out" = t10.c0
+  AND t11.c1 = t12."out"
+  AND t10.c1 = t11."out"
+  AND t5.c1 = t10."out"
+  AND t14.c1 = t15."out"
+  AND t13.c1 = t14."out"
+  AND t6.c1 = t13."out"
+  AND t17.c1 = t18."out"
+  AND t16.c1 = t17."out"
+  AND t6.c2 = t16."out"
+  AND t13.c0 = t19.c0
+  AND t14.c0 = t20.c0
+  AND t20.c1 = t21."out"
+  AND t19.c1 = t20."out"
+  AND t6.c3 = t19."out"
+  AND t17.c0 = t22."out"
+  AND t23.c0 = 0
+  AND t16.c0 <> t23."out"
+  AND t6.c1 = t6.c3
+  AND t11.c0 = t24.c0
+  AND t1.c20 = t24."out";
