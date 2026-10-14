@@ -41,7 +41,7 @@ def connect():
         return con, (lambda s: con.execute(s)), (lambda s: con.execute(s).fetchall()), (lambda s, rs: con.executemany(s, rs)), "?"
     import psycopg
     subprocess.run(f"podman run -d --replace --name umbra-bench -p 5432:5432 {UMBRA_IMAGE} >/dev/null", shell=True, check=True)
-    for _ in range(60):
+    for _ in range(240):
         try:
             con = psycopg.connect("host=localhost port=5432 user=postgres password=postgres dbname=postgres", autocommit=True); break
         except Exception:

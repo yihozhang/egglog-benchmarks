@@ -16,6 +16,8 @@ are simply not loaded. No timestamp columns.
 import json
 import re
 
+ARITH = {"+": "+", "-": "-", "*": "*"}  # i64 arithmetic
+CMP = {"<": "<", ">": ">", "<=": "<=", ">=": ">="}  # i64 comparisons (as LHS facts)
 PRIM = {"i64": "BIGINT", "f64": "DOUBLE PRECISION", "String": "VARCHAR", "bool": "BOOLEAN"}
 
 
@@ -37,10 +39,13 @@ def parse_sexp(text):
 
 
 def is_var(x):
-    return isinstance(x, str) and not x.startswith('"') and not re.fullmatch(r"-?\d+(\.\d+)?", x)
+    return (isinstance(x, str) and not x.startswith('"') and x not in ("true", "false")
+            and not re.fullmatch(r"-?\d+(\.\d+)?", x))
 
 
 def literal(x):
+    if x in ("true", "false"):
+        return x.upper(), "bool"
     if x.startswith('"'):
         return "'" + x[1:-1].replace("'", "''") + "'", "String"
     if "." in x:
@@ -94,6 +99,11 @@ def translate(schema, rule_text, name, subsumption=False):
         """SQL expression (and sort) for a term; calls become atoms."""
         if isinstance(x, list):
             f, args = x[0], x[1:]
+            if f in ARITH and len(args) == 2:
+                ea, sa = term(args[0]); eb, _ = term(args[1])
+                if ea is None or eb is None:
+                    raise ValueError(f"unbound operand of {f}")
+                return f"({ea} {ARITH[f]} {eb})", sa
             if f not in schema.t:
                 raise ValueError(f"unsupported primitive or unknown table {f}")
             t = schema.t[f]
@@ -134,6 +144,11 @@ def translate(schema, rule_text, name, subsumption=False):
                     bind(b, ea, sa)
                 else:
                     conds.append(f"{ea} = {eb}")
+        elif fact[0] in CMP:
+            ea, _ = term(fact[1]); eb, _ = term(fact[2])
+            if ea is None or eb is None:
+                raise ValueError(f"unbound operand of {fact[0]}")
+            conds.append(f"{ea} {CMP[fact[0]]} {eb}")
         elif fact[0] == "!=":
             ea, _ = term(fact[1]); eb, _ = term(fact[2])
             assert ea is not None and eb is not None, fact
@@ -147,7 +162,7 @@ def translate(schema, rule_text, name, subsumption=False):
         if isinstance(x, list):
             for y in x[1:] if x and x[0] in ("let",) else x:
                 walk(y)
-        elif is_var(x) and x.startswith("?") and x in var_expr and x not in rhs_vars:
+        elif is_var(x) and x in var_expr and x not in rhs_vars:
             rhs_vars.append(x)
     walk(rhs)
 
@@ -160,7 +175,7 @@ def translate(schema, rule_text, name, subsumption=False):
     egg = (f"(relation {rel} ({sorts}))\n(ruleset q_{name})\n"
            f"(rule {emit(lhs)}\n      (({rel} {' '.join(rhs_vars)}))\n      :ruleset q_{name} :naive)\n"
            f"(run q_{name} 1)\n")
-    cols = ", ".join(f"{var_expr[v]} AS {v[1:]}" for v in rhs_vars)
+    cols = ", ".join(f'{var_expr[v]} AS "{v}"' for v in rhs_vars)
     sql = (f"CREATE TEMP TABLE r_{name} AS SELECT DISTINCT {cols}\nFROM "
            + ", ".join(f'"{t}" {a}' for a, t in atoms)
            + ("\nWHERE " + "\n  AND ".join(conds) if conds else "") + ";")
