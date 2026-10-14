@@ -100,6 +100,13 @@ fn export(program: &str, outdir: &str) {
 
 fn run_tests(program: &str, threads: usize, tests: &[String]) {
     let mut egraph = run_program(program, threads);
+    // EGGLOG_QUERY_PPROF=<path>: sample (pprof, ~1 kHz) only while the tests run, then write
+    // <path>.svg (flamegraph) and <path>.txt (sampled stacks); program setup is not sampled.
+    let pprof_path = std::env::var("EGGLOG_QUERY_PPROF").ok();
+    let guard = pprof_path.as_ref().map(|_| {
+        pprof::ProfilerGuardBuilder::default().frequency(997)
+            .blocklist(&["libc", "libgcc", "pthread", "vdso"]).build().expect("pprof")
+    });
     for test in tests {
         let text = std::fs::read_to_string(test).expect("read test");
         // the test file declares (relation <R> ...) and (ruleset <rs>) on its first lines
@@ -139,6 +146,15 @@ fn run_tests(program: &str, threads: usize, tests: &[String]) {
                 "other_s": wall - query - rebuild, "size": size, "query_per_run_s": per_run})
         );
     }
+    if let (Some(path), Some(guard)) = (pprof_path, guard) {
+        write_profile(&path, guard);
+    }
+}
+
+fn write_profile(path: &str, guard: pprof::ProfilerGuard<'_>) {
+    let report = guard.report().build().expect("pprof report");
+    report.flamegraph(std::fs::File::create(format!("{path}.svg")).unwrap()).unwrap();
+    std::fs::write(format!("{path}.txt"), format!("{report:?}")).unwrap();
 }
 
 fn main() {

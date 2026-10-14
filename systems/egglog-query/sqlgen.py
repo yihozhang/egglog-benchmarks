@@ -59,7 +59,8 @@ class Schema:
         self.t = {t["name"]: t for t in json.load(open(path))}
 
     def has_out(self, name):
-        return not self.t[name]["output"].startswith("@")
+        out = self.t[name]["output"]
+        return not (out.startswith("@") or out == "Unit")  # relations: @RSort (constructor) or Unit (function)
 
     def ncols(self, name):
         return len(self.t[name]["inputs"])

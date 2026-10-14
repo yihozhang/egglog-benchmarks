@@ -9,6 +9,7 @@ egglog = { path = "EGGLOG_SRC" }
 egglog-reports = { path = "EGGLOG_SRC/egglog-reports" }
 egglog-numeric-id = { path = "EGGLOG_SRC/numeric-id" }
 serde_json = "1"
+pprof = { version = "0.15", features = ["flamegraph"] }
 
 [profile.release]
 debug = false

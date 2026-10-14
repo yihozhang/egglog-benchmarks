@@ -1,0 +1,100 @@
+diff --git a/src/ast/desugar.rs b/src/ast/desugar.rs
+index 9459646b..d954a96b 100644
+--- a/src/ast/desugar.rs
++++ b/src/ast/desugar.rs
+@@ -422,39 +422,23 @@ fn desugar_birewrite(
+     Ok(vec![forward, backward])
+ }
+ 
+-/// Desugar relation by making a new sort and a constructor for it.
+-/// The sort is marked as non-unionable since relations don't support union.
++/// Desugar relation into a function to `Unit`: `(relation R (A B))` is `(function R (A B) Unit)`.
++/// Inserting `(R a b)` sets the row to `()`, so duplicate inserts merge without minting ids.
+ fn desugar_relation(
+-    parser: &mut Parser,
++    _parser: &mut Parser,
+     span: Span,
+     name: String,
+     inputs: Vec<String>,
+ ) -> Vec<NCommand> {
+-    let dashes_removed = name.replace('-', "");
+-    let fresh_sort = parser.symbol_gen.fresh(&format!("{dashes_removed}Sort"));
+-    vec![
+-        NCommand::Sort {
+-            span: span.clone(),
+-            name: fresh_sort.clone(),
+-            presort_and_args: None,
+-            uf: None,
+-            proof_func: None,
+-            container_rebuild: None,
+-            proof_constructors: None,
+-            unionable: false,
++    vec![NCommand::Function(FunctionDecl::function(
++        span,
++        name,
++        Schema {
++            input: inputs,
++            output: "Unit".into(),
+         },
+-        NCommand::Function(FunctionDecl::constructor(
+-            span,
+-            name,
+-            Schema {
+-                input: inputs,
+-                output: fresh_sort,
+-            },
+-            None,
+-            false,
+-            false,
+-        )),
+-    ]
++        None,
++    ))]
+ }
+ 
+ pub fn rule_name<Head, Leaf>(command: &GenericCommand<Head, Leaf>) -> String
+diff --git a/src/ast/parse.rs b/src/ast/parse.rs
+index e5d4cf09..b4b344d7 100644
+--- a/src/ast/parse.rs
++++ b/src/ast/parse.rs
+@@ -175,6 +175,8 @@ pub struct Parser {
+     actions: HashMap<String, Arc<dyn Macro<Vec<Action>>>>,
+     exprs: HashMap<String, Arc<dyn Macro<Expr>>>,
+     user_defined: HashSet<String>,
++    /// Relations declared so far; `(R x ...)` in action position on one of them is `(set (R x ...) ())`.
++    relations: HashSet<String>,
+     pub symbol_gen: SymbolGen,
+     pub ensure_no_reserved_symbols: bool,
+ }
+@@ -186,6 +188,7 @@ impl Default for Parser {
+             actions: Default::default(),
+             exprs: Default::default(),
+             user_defined: Default::default(),
++            relations: Default::default(),
+             symbol_gen: SymbolGen::new(INTERNAL_SYMBOL_PREFIX.to_string()),
+             ensure_no_reserved_symbols: true,
+         }
+@@ -510,7 +513,11 @@ impl Parser {
+             "relation" => match tail {
+                 [name, inputs] => vec![Command::Relation {
+                     span,
+-                    name: name.expect_atom("relation name")?,
++                    name: {
++                        let name = name.expect_atom("relation name")?;
++                        self.relations.insert(name.clone());
++                        name
++                    },
+                     inputs: map_fallible(inputs.expect_list("input sorts")?, self, |_, sexp| {
+                         sexp.expect_atom("input sort")
+                     })?,
+@@ -968,6 +975,10 @@ impl Parser {
+                 [message] => vec![Action::Panic(span, message.expect_string("error message")?)],
+                 _ => return error!(span, "usage: (panic <string>)"),
+             },
++            _ if self.relations.contains(&head) => {
++                let args = map_fallible(tail, self, Self::parse_expr)?;
++                vec![Action::Set(span.clone(), head, args, Expr::Lit(span, Literal::Unit))]
++            }
+             _ => vec![Action::Expr(span, self.parse_expr(sexp)?)],
+         })
+     }
