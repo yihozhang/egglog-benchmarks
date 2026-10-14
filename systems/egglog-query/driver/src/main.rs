@@ -110,7 +110,13 @@ fn run_tests(program: &str, threads: usize, tests: &[String]) {
     for test in tests {
         let text = std::fs::read_to_string(test).expect("read test");
         // the test file declares (relation <R> ...) and (ruleset <rs>) on its first lines
-        let rel = text.split("(relation ").nth(1).and_then(|s| s.split_whitespace().next()).unwrap().to_string();
+        // the result table is the first declared relation or function
+        let rel = ["(function ", "(relation "]
+            .iter()
+            .find_map(|d| text.split(d).nth(1))
+            .and_then(|s| s.split_whitespace().next())
+            .unwrap()
+            .to_string();
         let ruleset = text.split("(ruleset ").nth(1).and_then(|s| s.split(')').next()).unwrap().trim().to_string();
         let t0 = Instant::now();
         let outputs = match egraph.parse_and_run_program(Some(test.clone()), &text) {

@@ -173,8 +173,10 @@ def translate(schema, rule_text, name, subsumption=False):
     # re-emit the LHS verbatim from the parsed form
     def emit(x):
         return "(" + " ".join(emit(y) for y in x) + ")" if isinstance(x, list) else x
-    egg = (f"(relation {rel} ({sorts}))\n(ruleset q_{name})\n"
-           f"(rule {emit(lhs)}\n      (({rel} {' '.join(rhs_vars)}))\n      :ruleset q_{name} :naive)\n"
+    # The result goes into a function to i64 that is always set to 1 (not a relation: egglog's
+    # relations mint a fresh id per inserted row, and duplicate inserts then union those ids).
+    egg = (f"(function {rel} ({sorts}) i64 :no-merge)\n(ruleset q_{name})\n"
+           f"(rule {emit(lhs)}\n      ((set ({rel} {' '.join(rhs_vars)}) 1))\n      :ruleset q_{name} :naive)\n"
            f"(run q_{name} 1)\n")
     cols = ", ".join(f'{var_expr[v]} AS "{v}"' for v in rhs_vars)
     sql = (f"CREATE TEMP TABLE r_{name} AS SELECT DISTINCT {cols}\nFROM "
