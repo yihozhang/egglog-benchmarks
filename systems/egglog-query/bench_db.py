@@ -90,7 +90,13 @@ def run_duckdb(out):
 # ---------------------------------------------------------------- Umbra
 def umbra_connect():
     import psycopg
-    subprocess.run(f"podman run -d --replace --name umbra-bench -p 5432:5432 {UMBRA_IMAGE} >/dev/null", shell=True, check=True)
+    for attempt in range(5):   # a crashed server's container sometimes refuses to stop at first
+        subprocess.run("podman rm -f -t 2 umbra-bench >/dev/null 2>&1", shell=True)
+        if subprocess.run(f"podman run -d --replace --name umbra-bench -p 5432:5432 {UMBRA_IMAGE} >/dev/null", shell=True).returncode == 0:
+            break
+        time.sleep(5)
+    else:
+        raise RuntimeError("could not start the Umbra container")
     for _ in range(240):
         try:
             con = psycopg.connect("host=localhost port=5432 user=postgres password=postgres dbname=postgres", autocommit=True)

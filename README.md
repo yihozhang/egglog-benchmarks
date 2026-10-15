@@ -146,6 +146,25 @@ uv run bench plot math-microbenchmark-12
 The figure is written to `figures/math-microbenchmark-12.pdf` and `.png`, with
 summary data in `figures/math-microbenchmark-12.csv`.
 
+## Query-only comparison with DuckDB and Umbra
+
+`experiments/query.toml` (`kind = "query"`, driven by `harness/query.py`): every rule of every
+luminal program, run once on the program's final state, in egglog and as SQL in DuckDB and
+Umbra. Translation and timing rules are in `systems/egglog-query/system.toml` (`notes`).
+
+```
+uv run bench run query                    # build driver, export, translate, run all engines
+uv run bench run query -b llama -v duckdb # one program, only DuckDB (plus egglog)
+uv run bench summary query                # per program: summed optimize/execute, failures
+uv run bench check query                  # result rows agree across engines?
+uv run bench plot query                   # figures/query-{totals,scatter}.pdf + query.csv
+```
+
+Results go to `results/query/<run-id>/<program>/{index,egglog,duckdb,umbra}.json[l]`, with the
+host, commits and settings in `run.json`; generated queries and exported tables stay in
+`build/query/query/<run-id>/`. Umbra runs in the `umbra-bench` container on port 5432, so run
+one Umbra job at a time.
+
 ## Notes
 
 - The `egglog` variants build from the `egglog` submodule's object store; any

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Build the query-benchmark driver (systems/egglog-query/driver) against egglog at a git ref.
+# Usage: build <ref>      -> prints the path of the driver binary; idempotent.
+set -euo pipefail
+ref=${1:?usage: build <ref>}
+here=$(dirname "$(readlink -f "$0")")
+root=$(readlink -f "$here/../..")
+egglog_dir=$("$root/systems/egglog/build" "$ref")          # build/egglog/<sha12>, checkout in src/
+sha=$(basename "$egglog_dir")
+out=$root/build/egglog-query/$sha
+mkdir -p "$out"
+rsync -a --delete --exclude target "$here/driver/" "$out/driver/"
+sed -i "s|EGGLOG_SRC|$egglog_dir/src|g" "$out/driver/Cargo.toml"
+(cd "$out/driver" && cargo build --release -q) >&2
+echo "$out/driver/target/release/egglog-query-driver"

@@ -1,0 +1,13 @@
+kind = "query"
+description = "Query-only comparison on a fresh snapshot: every rule of every program, run once naively in egglog (writing its RHS variables into a function set to 1) and as INSERT ... SELECT DISTINCT in DuckDB and Umbra."
+suite = "luminal"
+programs = []                 # empty = every program of the suite
+egglog_ref = "593df10e"       # egglog main as of 2026-10-09
+engines = ["duckdb", "umbra"] # SQL baselines (systems/egglog-query/bench_db.py)
+threads = 1
+reps = 3                      # timed repetitions after one warm-up
+timeout = 60                  # seconds per statement
+# Timing (see systems/egglog-query/system.toml notes):
+#   egglog  query = search+apply+merge of the test ruleset (rebuild excluded); other = parse, typecheck, rule compilation
+#   DuckDB  optimize = planner + optimizers + physical planner from DuckDB's profiler; execute = latency - optimize
+#   Umbra   optimize = PREPARE (plan + code generation); execute = EXECUTE (no re-planning: 0.03 ms compilation in Umbra's log)

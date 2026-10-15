@@ -1,0 +1,21 @@
+# Query-only comparison (experiments with kind = "query", harness/query.py). Not a regular
+# adapter: `build <ref>` builds driver/ against egglog at <ref>; run_suite.py and bench_db.py
+# do the work.
+
+notes = """
+Snapshot = final state of each program, exported via the Rust API (driver export); loading excluded.
+Each rule becomes one query: in egglog a :naive ruleset with the rule, its RHS replaced by
+(set (R_<q> vars...) 1) on a (function R_<q> (...) i64 :no-merge), run once; in SQL
+INSERT INTO a temp table SELECT DISTINCT over tables with the functional dependency as PRIMARY KEY.
+egglog: execute = search+apply+merge of that ruleset from RunReport (rebuild excluded);
+  optimize = the rest of the driver's wall time for the test (parse, typecheck, rule compilation).
+  Each query runs also with no-decomp (egraph.no_decomp set after the program ran).
+DuckDB 1.5.6: optimize = planner + optimizers + physical planner from its profiler; execute =
+  profiler latency - optimize (latency matches our wall clock within 0.1-0.6 ms). Prepared
+  statements re-plan on EXECUTE, so ad-hoc INSERT is timed.
+Umbra (umbradb/umbra:latest, container): optimize = PREPARE (planning + code generation),
+  execute = EXECUTE (Umbra logs 0.03 ms compilation, i.e. no re-planning); our wall clock.
+  About 16 distinct rules crash the server (reduced repro in umbra-repro/); crashes are recorded
+  as status "crash" and the tables reloaded.
+Rows of every query are compared across engines by `bench check`.
+"""

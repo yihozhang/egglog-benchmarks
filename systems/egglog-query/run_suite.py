@@ -11,7 +11,7 @@ import json, os, pathlib, re, subprocess, sys
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); import sqlgen
 ROOT = HERE.parent.parent
-DRIVER = ROOT / "build/query/driver/target/release/egglog-query-driver"
+DRIVER = pathlib.Path(os.environ.get("EGGLOG_QUERY_DRIVER", ROOT / "build/query/driver/target/release/egglog-query-driver"))
 
 def program_text(path):
     text = path.read_text()

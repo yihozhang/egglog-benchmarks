@@ -5,11 +5,17 @@ from __future__ import annotations
 import argparse
 import sys
 
-from . import config, results, runner
+from . import config, query, results, runner
 
 
 def cmd_list(args):
-    if args.experiment:
+    if args.experiment and query.is_query(args.experiment):
+        cfg = query.load(args.experiment)
+        print(f"{args.experiment} (query): {cfg['description']}")
+        print(f"  suite={cfg['suite']} egglog@{cfg['egglog_ref']} engines={cfg.get('engines')} threads={cfg.get('threads', 1)} "
+              f"reps={cfg.get('reps', 3)} timeout={cfg.get('timeout', 60)}s")
+        print(f"  programs: {' '.join(query.programs_of(cfg))}")
+    elif args.experiment:
         exp = config.load_experiment(args.experiment)
         print(f"{exp.name}: {exp.description}")
         print(f"  threads={exp.threads} reps={exp.reps} timeout={exp.timeout:g}s memory={exp.memory_gb:g}GB cpus={exp.cpus} plot={exp.plot} baseline={exp.baseline}")
@@ -26,7 +32,8 @@ def cmd_list(args):
     else:
         print("experiments:")
         for name in config.list_experiments():
-            print(f"  {name:12s} {config.load_experiment(name).description}")
+            desc = query.load(name)["description"] if query.is_query(name) else config.load_experiment(name).description
+            print(f"  {name:12s} {desc}")
         print("suites:")
         for d in sorted(config.BENCHMARKS.iterdir()):
             if d.is_dir():
@@ -38,9 +45,12 @@ def cmd_list(args):
         print("systems:")
         for d in sorted(config.SYSTEMS.iterdir()):
             if d.is_dir() and not d.name.startswith("_"):
-                sy = config.load_system(d.name)
+                if (d / "run").exists():
+                    notes = config.load_system(d.name).notes
+                else:  # not a regular adapter (e.g. egglog-query)
+                    notes = config.tomllib.loads((d / "system.toml").read_text()).get("notes", "").strip()
                 print(f"  {d.name}")
-                for line in sy.notes.splitlines():
+                for line in notes.splitlines():
                     print(f"      {line}")
 
 
@@ -52,6 +62,10 @@ def cmd_build(args):
 
 
 def cmd_run(args):
+    if query.is_query(args.experiment):
+        progs = [b.split("/")[-1] for b in args.benchmarks or []] or None
+        query.run(args.experiment, programs=progs, engines=args.variants or None, tag=args.tag)
+        return
     exp = config.load_experiment(args.experiment)
     runner.run_experiment(
         exp,
@@ -67,6 +81,8 @@ def cmd_run(args):
 
 
 def cmd_summary(args):
+    if query.is_query(args.experiment):
+        return query.summary(args.experiment, args.run)
     exp = config.load_experiment(args.experiment)
     rows = results.load_rows(exp, args.run)
     metric = args.metric or exp.metric
@@ -132,6 +148,8 @@ def cmd_summary(args):
 
 def cmd_check(args):
     """Compare final table sizes across variants: equal sizes mean the variants did the same work."""
+    if query.is_query(args.experiment):
+        return query.check(args.experiment, args.run)
     exp = config.load_experiment(args.experiment)
     rows = results.load_rows(exp, args.run)
     summ = results.summarize(rows)
@@ -158,6 +176,10 @@ def cmd_check(args):
 def cmd_plot(args):
     from . import plot  # matplotlib is imported lazily
 
+    if query.is_query(args.experiment):
+        for p in query.plot(args.experiment, args.run, args.out):
+            print(p)
+        return
     exp = config.load_experiment(args.experiment)
     rows = results.load_rows(exp, args.run)
     out_dir = config.FIGURES if args.out is None else args.out
