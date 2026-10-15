@@ -11,7 +11,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
-from .config import Experiment  # noqa: E402
+from .config import Experiment, resolve_benchmarks  # noqa: E402
 from .results import geomean, summarize  # noqa: E402
 
 # Fixed categorical order (colorblind-validated); variants take colors in experiment order.
@@ -258,13 +258,41 @@ def plot_variants(exp: Experiment, summ: dict, stem: Path, metric: str) -> list[
 
     One panel per benchmark; bars sorted by time, value labels, log axis, failures as text.
     """
+    configured = {(b.suite, b.name) for b in resolve_benchmarks(exp.benchmarks)}
+    summ = {k: s for k, s in summ.items() if k[:2] in configured}
     suites = _suites(summ)
     benches = [(s, n) for s, ns in suites.items() for n in ns]
     variants = [v.label for v in exp.variants]
     fixed = {v.label: v.threads[0] for v in exp.variants if v.threads and len(v.threads) == 1}
     t = (sorted({k[3] for k in summ if k[2] not in fixed}) or [1])[0]
-    fig, axes = plt.subplots(1, len(benches), figsize=(min(3.6 * len(benches), 14), 0.32 * len(variants) + 0.9), squeeze=False)
-    for ax, (suite, name) in zip(axes[0], benches):
+    groups = [(stem, benches)]
+    if exp.small_threshold_s is not None:
+        small = []
+        large = []
+        for suite, name in benches:
+            times = [s_["median"] for v in variants
+                     if (s_ := summ.get((suite, name, v, fixed.get(v, t))))
+                     and s_["status"] == "ok" and s_["median"] is not None]
+            group = small if times and min(times) <= exp.small_threshold_s else large
+            group.append((suite, name))
+        groups = [(stem, large), (stem.with_name(stem.name + "-small"), small)]
+    written = []
+    for group_stem, group_benches in groups:
+        if group_benches:
+            written += _plot_variant_benchmarks(summ, group_stem, metric, group_benches,
+                                                variants, fixed, t)
+    return written
+
+
+def _plot_variant_benchmarks(summ: dict, stem: Path, metric: str,
+                             benches: list[tuple[str, str]], variants: list[str],
+                             fixed: dict[str, int], t: int) -> list[Path]:
+    ncols = min(len(benches), 4)
+    nrows = (len(benches) + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols,
+                             figsize=(min(3.6 * ncols, 14), nrows * (0.32 * len(variants) + 0.9)),
+                             squeeze=False)
+    for ax, (suite, name) in zip(axes.flat, benches):
         rows = []
         for v in variants:
             s_ = summ.get((suite, name, v, fixed.get(v, t)))
@@ -286,7 +314,9 @@ def plot_variants(exp: Experiment, summ: dict, stem: Path, metric: str) -> list[
         _log_axis(ax, "x")
         ax.grid(True, axis="x"); ax.grid(False, axis="y")
         ax.set_xlabel("time (s), " + metric)
-        ax.set_title(f"{suite}/{name}" if len(suites) > 1 or len(benches) > 1 else suite)
+        ax.set_title(f"{suite}/{name}" if len(benches) > 1 else suite)
+    for ax in list(axes.flat)[len(benches):]:
+        ax.set_visible(False)
     fig.tight_layout()
     p = stem.with_name(stem.name + ".pdf")
     fig.savefig(p, bbox_inches="tight"); fig.savefig(p.with_suffix(".png"), bbox_inches="tight")

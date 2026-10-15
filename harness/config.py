@@ -149,6 +149,7 @@ class Experiment:
     plot: str = "bars"  # bars | scaling
     baseline: str | None = None  # variant label that speedups are relative to
     metric: str = "wall_s"  # default metric for summary/plot: wall_s or report.<field>
+    small_threshold_s: float | None = None  # variants plot: split by fastest median time
 
     @property
     def results_dir(self) -> Path:
@@ -187,6 +188,7 @@ def load_experiment(name: str) -> Experiment:
         plot=cfg.get("plot", "bars"),
         baseline=cfg.get("baseline"),
         metric=cfg.get("metric", "wall_s"),
+        small_threshold_s=cfg.get("small_threshold_s"),
     )
     if exp.baseline is not None:
         exp.variant(exp.baseline)
