@@ -16,7 +16,7 @@ are simply not loaded. No timestamp columns.
 import json
 import re
 
-ARITH = {"+": "+", "-": "-", "*": "*"}  # i64 arithmetic
+ARITH = {"+": "+", "-": "-", "*": "*", "/": "/", "%": "%"}  # i64 arithmetic (truncating, as in Rust)
 CMP = {"<": "<", ">": ">", "<=": "<=", ">=": ">="}  # i64 comparisons (as LHS facts)
 PRIM = {"i64": "BIGINT", "f64": "DOUBLE PRECISION", "String": "VARCHAR", "bool": "BOOLEAN"}
 
@@ -104,6 +104,9 @@ def translate(schema, rule_text, name, subsumption=False):
                 ea, sa = term(args[0]); eb, _ = term(args[1])
                 if ea is None or eb is None:
                     raise ValueError(f"unbound operand of {f}")
+                if f in ("/", "%"):
+                    # egglog's primitive fails on a zero divisor (no match); NULL makes SQL agree
+                    return f"(CASE WHEN {eb} <> 0 THEN {ea} {ARITH[f]} {eb} END)", sa
                 return f"({ea} {ARITH[f]} {eb})", sa
             if f not in schema.t:
                 raise ValueError(f"unsupported primitive or unknown table {f}")
