@@ -1,6 +1,8 @@
-description = "egglog against other e-graph engines on programs every engine can run exactly: math-microbenchmark (fixed iterations), horner and matmul-assoc (run to saturation; from the foresight CC'26 paper)."
+description = "egglog against other e-graph engines on programs every engine can run exactly: math-microbenchmark (fixed iterations), and the larger horner and matmul-assoc instances (run to saturation; from the foresight CC'26 paper)."
 # math-microbenchmark-12 is left out (it has its own experiment file); the slow engines would just time out on it.
-benchmarks = ["math-microbenchmark/math-microbenchmark", "horner", "matmul-assoc"]
+# The small horner/matmul-assoc instances (egglog under 100 ms) are in engines-small.toml.
+benchmarks = ["math-microbenchmark/math-microbenchmark", "horner/horner-8", "horner/horner-9",
+              "matmul-assoc/matmul-assoc-160", "matmul-assoc/matmul-assoc-320"]
 threads = [1]
 reps = 5
 timeout = 600       # seconds per run

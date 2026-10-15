@@ -1,0 +1,96 @@
+description = "engines.toml on the small horner and matmul-assoc instances (fastest engine under 100 ms), plotted separately."
+# Same variants as engines.toml; keep the two in sync.
+benchmarks = ["horner/horner-5", "horner/horner-6", "horner/horner-7",
+              "matmul-assoc/matmul-assoc-20", "matmul-assoc/matmul-assoc-40", "matmul-assoc/matmul-assoc-80"]
+threads = [1]
+reps = 5
+timeout = 600       # seconds per run
+memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+plot = "variants"   # one bar per engine
+baseline = "egglog"
+# metric: wall_s (default) = wall-clock time measured by our harness/adapter around the whole
+# run (parsing and type checking included; JIT warm-up and VM startup excluded for JIT
+# languages). Engine-reported times are kept in report.run_s for reference only.
+
+[[variants]]
+label = "egglog"
+system = "egglog"
+ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+
+[[variants]]
+label = "egglog-t4"
+system = "egglog"
+ref = "593df10e"
+threads = [4]
+
+[[variants]]
+label = "egglog-t8"
+system = "egglog"
+ref = "593df10e"
+threads = [8]
+
+[[variants]]
+label = "egglog-t16"
+system = "egglog"
+ref = "593df10e"
+threads = [16]
+
+[[variants]]
+label = "egglog-0.5.0"
+system = "egglog"
+ref = "v0.5.0"
+
+[[variants]]
+label = "egg"
+system = "egg"
+ref = "v0.11.0"
+
+[[variants]]
+label = "oatlog"
+system = "oatlog"
+ref = "6b73396"              # oatlog main as of 2026-10-10; compile_egraph_strict = egglog (run N) semantics.
+                             # flags = ["--relaxed"] selects compile_egraph_relaxed, which runs rules more often
+                             # per step and exceeds 32 GB on this workload, so it is not compared.
+
+[[variants]]
+label = "hegg"
+system = "hegg"
+ref = "v0.5.0.0"             # latest release; GHC 9.6, trivial analysis, driver loop in the port
+
+[[variants]]
+label = "metatheory"
+system = "metatheory"
+ref = "v2.0.2"               # latest release (no 3.x release exists); SimpleScheduler, JIT warm-up excluded
+
+[[variants]]
+label = "ggs"
+system = "ggs"
+ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"  # ggs master as of 2026-10-13 (no tags); ggs/eqsat engine, SBCL
+
+[[variants]]
+label = "ego"
+system = "ego"
+ref = "e87dae7a"             # ego main as of 2026-06-15: the 0.0.6 tag has an e-matching bug (one match per class)
+
+[[variants]]
+label = "foresight"
+system = "foresight"
+ref = "f3ea706d"             # foresight main as of 2026-09-10; v0.1.0 predates the mutable e-graph. ParallelMap.sequential, JVM default GC
+
+[[variants]]
+label = "foresight-t4"
+system = "foresight"
+ref = "f3ea706d"
+threads = [4]                # ParallelMap.fixedThreadParallel(4)
+
+[[variants]]
+label = "foresight-t8"
+system = "foresight"
+ref = "f3ea706d"
+threads = [8]                # the paper's "For. (P)" configuration
+
+[[variants]]
+label = "foresight-t16"
+system = "foresight"
+ref = "f3ea706d"
+threads = [16]

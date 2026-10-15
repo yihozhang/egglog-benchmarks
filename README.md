@@ -129,6 +129,10 @@ port `base` per system that takes `--instance N`. The `math` suite stays egglog-
 iterations do more work than egglog's) and which uses `!=` on e-classes, which oatlog
 does not support; both deviations change the workload by orders of magnitude.
 
+The small instances (horner-5/6/7, matmul-assoc-20/40/80: fastest engine under 100 ms) are a
+separate experiment, `experiments/engines-small.toml`, with the same variants (keep the two
+in sync), so `bench plot engines` and `bench plot engines-small` give one figure each.
+
 ## Math microbenchmark: 12 iterations
 
 `experiments/math-microbenchmark-12.toml` compares oatlog, egglog at 1/4/8/16
