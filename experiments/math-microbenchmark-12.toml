@@ -44,4 +44,4 @@ ref = "v0.5.0"
 [[variants]]
 label = "ggs"
 system = "ggs"
-ref = "097e4f32"
+ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"

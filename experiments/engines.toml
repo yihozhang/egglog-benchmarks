@@ -64,7 +64,7 @@ ref = "v2.0.2"               # latest release (no 3.x release exists); SimpleSch
 [[variants]]
 label = "ggs"
 system = "ggs"
-ref = "097e4f32"             # ggs main as of 2026-10-10 (no tags); ggs/eqsat engine, SBCL
+ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"  # ggs master as of 2026-10-13 (no tags); ggs/eqsat engine, SBCL
 
 [[variants]]
 label = "ego"

@@ -94,7 +94,7 @@ address-space rlimit.
 | `oatlog` | host cargo; port = egglog program compiled by the proc macro | 6b73396 (main) | strict mode; relaxed mode exceeds 32 GB |
 | `hegg` | container (GHC 9.6); Haskell port | v0.5.0.0 | driver loop in the port (hegg's own caps iterations at 30 and bans rules); the port canonicalizes the e-matching database because hegg's leaves stale ids |
 | `metatheory` | container (Julia 1.11); Julia port | v2.0.2 (latest release; no 3.x release) | `SimpleScheduler`, limits disabled, JIT warm-up excluded from `run_s` |
-| `ggs` | container (SBCL 2.5); Common Lisp port of the `ggs/eqsat` system | 097e4f32 (main, no tags) | engine's own `run-rewrites` driver, no match limit; standalone executable |
+| `ggs` | container (SBCL 2.5); Common Lisp port of the `ggs/eqsat` system | 2ad09810 (master, no tags) | engine's own `run-rewrites` driver, no match limit; standalone executable |
 | `ego` | container (OCaml 4.14); OCaml port | e87dae7a (main) | the 0.0.6 tag has an e-matching bug (one match per class); for fixed-iteration programs egg-style iterations are forced through the public runner (~15% extra), saturating programs use ego's own loop |
 | `foresight` | container (JDK 21, Scala 3.4); Scala port | f3ea706d (main) | v0.1.0 predates the mutable e-graph; `ParallelMap.sequential` for 1 thread, `fixedThreadParallel(N)` for `--threads N` (variants `foresight-t4/t8/t16`); JVM default G1 GC in every variant |
 

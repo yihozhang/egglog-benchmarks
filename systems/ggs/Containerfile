@@ -12,7 +12,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Quicklisp, pinned to one dist, for ggs's dependencies (alexandria, serapeum, metabang-bind,
-# trivial-garbage, trivial-package-local-nicknames, linear-programming).
+# trivial-garbage, trivial-package-local-nicknames, linear-programming, cl-environments).
 RUN curl -fsSLo /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp \
  && sbcl --non-interactive --load /tmp/quicklisp.lisp \
       --eval '(quicklisp-quickstart:install :path "/opt/quicklisp/")' \

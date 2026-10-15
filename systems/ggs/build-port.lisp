@@ -7,7 +7,7 @@
 
 (defparameter *dependencies*
   '(:alexandria :serapeum :metabang-bind :trivial-garbage :trivial-package-local-nicknames
-    :linear-programming)
+    :linear-programming :cl-environments)
   "ggs/eqsat's Quicklisp dependencies; compiled under SBCL's default policy.")
 
 (defparameter *policy* '(optimize (speed 3) (safety 0) (debug 0))
