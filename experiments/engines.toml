@@ -6,7 +6,6 @@ reps = 5
 timeout = 600       # seconds per run
 memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
 plot = "variants"   # one bar per engine
-small_threshold_s = 0.1  # fastest median <= 100 ms goes in engines-small.pdf
 baseline = "egglog"
 # metric: wall_s (default) = wall-clock time measured by our harness/adapter around the whole
 # run (parsing and type checking included; JIT warm-up and VM startup excluded for JIT
