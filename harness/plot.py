@@ -34,6 +34,7 @@ plt.rcParams.update({
     "axes.axisbelow": True,
     "pdf.fonttype": 42,
     "figure.dpi": 150,
+    "savefig.dpi": 600,
 })
 
 
@@ -153,7 +154,9 @@ def plot_bars(exp: Experiment, summ: dict, stem: Path) -> list[Path]:
 
         # --- speedup relative to baseline
         if exp.baseline:
-            others = [v for v in variants if v != exp.baseline]
+            # Explicit speedup labels also set the display order, preserving variant colors.
+            order = list(exp.speedup_labels) + [v for v in variants if v not in exp.speedup_labels]
+            others = [v for v in order if v in variants and v != exp.baseline]
             fig, axes = _grid(suites)
             for ax, (suite, names) in zip(axes, suites.items()):
                 x = np.arange(len(names))
@@ -162,6 +165,7 @@ def plot_bars(exp: Experiment, summ: dict, stem: Path) -> list[Path]:
                 all_ys = []
                 for i, v in enumerate(others):
                     ci = variants.index(v)
+                    label = exp.speedup_labels.get(v, v)
                     ys = []
                     for n in names:
                         sb = summ.get((suite, n, exp.baseline, t))
@@ -170,11 +174,11 @@ def plot_bars(exp: Experiment, summ: dict, stem: Path) -> list[Path]:
                         ys.append(sb["median"] / sv["median"] if ok else np.nan)
                     xs = x - 0.4 + w * (i + 0.5)
                     ax.bar(xs, np.array(ys) - 1, bottom=1, width=w * 0.92,
-                           color=PALETTE[ci % len(PALETTE)], label=v if ax is axes[0] else None)
+                           color=PALETTE[ci % len(PALETTE)], label=label if ax is axes[0] else None)
                     all_ys += [y for y in ys if not np.isnan(y)]
                     g = geomean([y for y in ys if not np.isnan(y)])
                     if g:
-                        titles.append(f"{v}: {g:.2f}×")
+                        titles.append(f"{label}: {g:.2f}×")
                 ax.axhline(1, color=MUTED, linewidth=0.8, linestyle="--")
                 ax.set_ylim(min(all_ys + [1]) / 1.3, max(all_ys + [1]) * 1.3)
                 _log_axis(ax)

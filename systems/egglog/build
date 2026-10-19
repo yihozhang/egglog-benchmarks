@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Build egglog at a git ref, optionally with local patches applied.
-# Usage: build <ref> [patch-name ...]
+# Usage: build <ref> [patch-name|path.patch ...]
 # Prints the build directory (build/egglog/<commit>[+<patch-hash>]) on stdout; idempotent.
 # `ref` is anything the egglog submodule can resolve: a tag (v0.5.0), a branch
 # (main), or a commit hash. Unknown refs trigger a fetch. Each patch name refers to
-# systems/egglog/patches/<name>.patch, applied with `git apply --3way` after checkout.
+# systems/egglog/patches/<name>.patch; explicit patch paths are also accepted.
+# Patches are applied with `git apply --3way` after checkout.
 set -euo pipefail
-ref=${1:?usage: build <ref> [patch-name ...]}
+ref=${1:?usage: build <ref> [patch-name|path.patch ...]}
 shift
 patches=("$@")
 here=$(dirname "$(readlink -f "$0")")
@@ -25,8 +26,13 @@ fi
 out=$root/build/egglog/${sha:0:12}
 patch_files=()
 for name in "${patches[@]}"; do
-  f=$here/patches/$name.patch
+  if [[ "$name" == */* || "$name" == *.patch ]]; then
+    f=$name
+  else
+    f=$here/patches/$name.patch
+  fi
   [ -f "$f" ] || { echo "no such patch: $f" >&2; exit 1; }
+  f=$(readlink -f "$f")
   patch_files+=("$f")
 done
 if [ ${#patch_files[@]} -gt 0 ]; then
@@ -67,15 +73,20 @@ if [ ! -x "$out/egglog" ]; then
   printf '(print-stats :file "%s/s.json")\n' "$tmp" > "$tmp/stats.egg"
   if RUST_LOG=error "$out/egglog" "$tmp/a.egg" "$tmp/stats.egg" >/dev/null 2>&1 && [ -s "$tmp/s.json" ]; then stats_json=true; else stats_json=false; fi
   rm -rf "$tmp"
-  python3 - "$out/build.json" "$ref" "$sha" "$stats_json" "$flags" "${patches[@]}" <<'PY'
-import json, sys
-path, ref, sha, stats_json, flags, *patches = sys.argv[1:]
+  python3 - "$out/build.json" "$ref" "$sha" "$stats_json" "$flags" "${#patches[@]}" "${patches[@]}" "${patch_files[@]}" <<'PY'
+import hashlib, json, sys
+from pathlib import Path
+path, ref, sha, stats_json, flags, count, *patch_args = sys.argv[1:]
+patches, patch_files = patch_args[:int(count)], patch_args[int(count):]
 flags = json.loads(flags)
 json.dump({
     "system": "egglog",
     "ref": ref,
     "commit": sha,
     "patches": patches,
+    "patch_sources": [{"argument": name, "path": file,
+                       "sha256": hashlib.sha256(Path(file).read_bytes()).hexdigest()}
+                      for name, file in zip(patches, patch_files)],
     "flags": flags,
     "threads": "--threads" in flags,
     "stats_json": stats_json == "true",

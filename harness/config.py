@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import fnmatch
+import math
 import re
 import tomllib
 from dataclasses import dataclass, field
@@ -13,6 +14,7 @@ BENCHMARKS = ROOT / "benchmarks"
 SYSTEMS = ROOT / "systems"
 EXPERIMENTS = ROOT / "experiments"
 RESULTS = ROOT / "results"
+RUNS = ROOT / "runs"
 FIGURES = ROOT / "figures"
 
 
@@ -131,7 +133,7 @@ class Variant:
     system: str
     ref: str
     flags: tuple[str, ...] = ()
-    patches: tuple[str, ...] = ()  # systems/<system>/patches/<name>.patch, applied at build time
+    patches: tuple[str, ...] = ()  # named system patches or explicit patch filenames
     threads: tuple[int, ...] | None = None  # overrides the experiment's thread list for this variant
 
 
@@ -149,6 +151,8 @@ class Experiment:
     plot: str = "bars"  # bars | scaling
     baseline: str | None = None  # variant label that speedups are relative to
     metric: str = "wall_s"  # default metric for summary/plot: wall_s or report.<field>
+    speedup_labels: dict[str, str] = field(default_factory=dict)  # display names; result labels stay stable
+    source_path: Path | None = None
 
     @property
     def results_dir(self) -> Path:
@@ -161,14 +165,49 @@ class Experiment:
         raise SystemExit(f"experiment {self.name}: no variant {label!r}")
 
 
-def load_experiment(name: str) -> Experiment:
-    p = EXPERIMENTS / f"{name}.toml"
+def experiment_path(name: str | Path) -> Path:
+    """Resolve a canonical experiment name or an explicit TOML filename."""
+    p = Path(name).expanduser()
+    if isinstance(name, Path) or p.suffix == ".toml" or p.parent != Path("."):
+        return p.resolve()
+    return EXPERIMENTS / f"{name}.toml"
+
+
+def load_experiment(name: str | Path) -> Experiment:
+    p = experiment_path(name)
     if not p.exists():
         raise SystemExit(f"no such experiment: {name} ({p})")
     cfg = tomllib.loads(p.read_text())
+    return experiment_from_dict(p.stem, cfg, source_path=p)
+
+
+def is_patch_path(patch: str) -> bool:
+    path = Path(patch)
+    return path.is_absolute() or path.suffix == ".patch" or path.parent != Path(".")
+
+
+def patch_path(system: str, patch: str) -> Path:
+    """Named patches live with adapters; explicit paths are already recipe-resolved."""
+    if is_patch_path(patch):
+        return Path(patch).expanduser().resolve()
+    return SYSTEMS / system / "patches" / f"{patch}.patch"
+
+
+def recipe_patch(patch: str, source_path: Path | None) -> str:
+    if source_path is None or not is_patch_path(patch):
+        return patch
+    path = Path(patch).expanduser()
+    if not path.is_absolute():
+        path = source_path.parent / path
+    return str(path.resolve())
+
+
+def experiment_from_dict(name: str, cfg: dict, *, source_path: Path | None = None) -> Experiment:
+    """Load either a recipe or the frozen effective config from a run bundle."""
     variants = [
-        Variant(v["label"], v["system"], v["ref"], tuple(v.get("flags", [])), tuple(v.get("patches", [])),
-                tuple(v["threads"]) if "threads" in v else None)
+        Variant(v["label"], v["system"], v["ref"], tuple(v.get("flags", [])),
+                tuple(recipe_patch(p, source_path) for p in v.get("patches", [])),
+                tuple(v["threads"]) if v.get("threads") is not None else None)
         for v in cfg["variants"]
     ]
     labels = [v.label for v in variants]
@@ -187,10 +226,27 @@ def load_experiment(name: str) -> Experiment:
         plot=cfg.get("plot", "bars"),
         baseline=cfg.get("baseline"),
         metric=cfg.get("metric", "wall_s"),
+        speedup_labels=cfg.get("speedup_labels", {}),
+        source_path=source_path,
     )
+    validate_settings(exp.threads, exp.reps, exp.timeout, exp.memory_gb)
+    for variant in variants:
+        if variant.threads is not None:
+            validate_settings(variant.threads, exp.reps, exp.timeout, exp.memory_gb)
     if exp.baseline is not None:
         exp.variant(exp.baseline)
     return exp
+
+
+def validate_settings(threads, reps: int, timeout: float, memory_gb: float) -> None:
+    if not threads or any(isinstance(t, bool) or not isinstance(t, int) or t <= 0 for t in threads):
+        raise SystemExit("threads must be positive integers")
+    if isinstance(reps, bool) or not isinstance(reps, int) or reps <= 0:
+        raise SystemExit("reps must be a positive integer")
+    if not isinstance(timeout, (int, float)) or not math.isfinite(timeout) or timeout <= 0:
+        raise SystemExit("timeout must be a positive finite number")
+    if not isinstance(memory_gb, (int, float)) or not math.isfinite(memory_gb) or memory_gb < 0:
+        raise SystemExit("memory_gb must be a nonnegative finite number")
 
 
 def list_experiments() -> list[str]:

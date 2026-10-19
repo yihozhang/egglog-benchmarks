@@ -6,7 +6,8 @@ reps = 3
 timeout = 600       # seconds per run
 memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
 plot = "bars"
-baseline = "egglog"         # slowdowns relative to the full system
+baseline = "no-decomp-no-dynamic-order"
+speedup_labels = { no-decomp = "+ dynamic order", no-dynamic-order = "+ tree-decomp", egglog = "+ dynamic order, + tree-decomp" }
 
 [[variants]]
 label = "egglog"

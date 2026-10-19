@@ -15,19 +15,104 @@ uv sync                                     # python env for the harness (https:
 ## Usage
 
 ```sh
-uv run bench list                 # experiments, suites, systems
-uv run bench list e2e             # the matrix of one experiment
-uv run bench run e2e              # run it (appends results/e2e/<run-id>.jsonl)
-uv run bench run e2e -b math 'hardboiled/conv1d_*' -v egglog -r 1 --tag quick
-uv run bench summary e2e          # median times + geomean speedups (latest run)
-uv run bench check e2e            # do all variants reach the same table sizes?
-uv run bench plot e2e --out ../egglog-system-paper/figures
-uv run bench build egglog v0.5.0  # build a ref by hand
+uv run bench list
+uv run bench list ablation
+uv run bench run ablation --machine server-a --cpus 0-15
+uv run bench runs ablation
+uv run bench inspect <run-id>
+uv run bench summary ablation                 # one latest complete run
+uv run bench check ablation --run <run-id>
+
+# Freeze a reviewable result set; this does not create a Git commit.
+uv run bench select ablation --runs <run-id> --as paper-v1
+uv run bench plot ablation --selection paper-v1 --out ../egglog-system-paper/figures
 ```
 
-summary/check/plot merge all runs of an experiment by default (the latest run wins per
-configuration), so an experiment can be run in pieces; `--run latest` or `--run <id|tag>`
-selects one run.
+Every invocation writes an independent `runs/<run-id>/` bundle, ignored by Git.
+The ID uses UTC time and a random suffix, with an optional `--tag`. A bundle has
+`run.json`, `measurements.jsonl` (matrix experiments), source/config snapshots,
+and `logs/`. Query experiments keep their per-program payloads in the same bundle
+format. Runs are marked `running`, `complete`, `failed`, or `interrupted`.
+
+`summary`, `check`, and `plot` default to **one latest complete run**, using its
+captured configuration. An exact ID or an unambiguous prefix/tag selects another
+run. `--run all` for matrix experiments only combines compatible, nonoverlapping
+configuration groups: it never silently replaces a cell with its latest value.
+Query reports use one run. `bench inspect` also works on failed/interrupted runs.
+
+## Ad hoc experiments and committed results
+
+Keep temporary configs, scripts and patches in ignored `scratch/<topic>/`:
+
+```sh
+uv run bench run scratch/dvo-check.toml --machine server-a --tag exploratory
+```
+
+A TOML path works wherever an experiment recipe is accepted. For egglog, a variant
+can use a named patch such as `patches = ["no-dynamic-order"]`, or an explicit file
+such as `patches = ["./candidate.patch"]`, resolved relative to the recipe.
+The configuration and applied patch contents are captured in the run bundle;
+removing scratch files later does not remove the recorded evidence. Reusable
+recipes, scripts and patches should be moved into the tracked experiment/system
+layout deliberately.
+
+`bench select <experiment> --runs <id> [<id> ...] --as <version>` creates
+`results/<experiment>/<version>/`. It preserves the selected raw measurement rows,
+compact source run bundles, the frozen presentation/analysis configuration, and
+`selection.json` with exact source IDs, coverage, provenance status and checksums.
+Raw logs are omitted. Review and commit this directory with normal Git commands.
+Selection names cannot be overwritten; create a new version to change the numbers.
+Use `--selection <version>` for paper figures so later exploratory runs cannot
+change them. Imported modern runs can be selected by experiment name even when
+the original scratch recipe is absent. Both selected and individual modern-run
+reports remain usable without that recipe. `--metric` can explicitly override a
+report's metric; `select --metric` freezes a different metric in a new selection.
+
+Selection checks every run's planned cases and repetitions. A terminal failure or
+timeout can end a repetition group early; its outcome is preserved, and a group
+with any non-success is excluded from ordinary speedups. Selections may cover a
+subset of the canonical experiment: the exact coverage is recorded, so review it
+before using it as a complete paper table. Overlapping groups from different runs
+are rejected; choose which complete group to use instead of cherry-picking
+repetitions. The first version selects one query run at a time.
+
+## Multiple machines
+
+Run each machine independently, with a descriptive `--machine` alias. The alias
+is recorded alongside detected hardware, kernel, affinity and runtime settings;
+reusing an alias does not make incompatible environments equivalent. Use `--cpus`
+to override a matrix recipe's CPU binding for the current machine.
+
+```sh
+# On the measurement machine:
+uv run bench export <run-id> --out /tmp/run.tar.gz
+# Copy the archive to the review machine using your normal file-transfer method.
+uv run bench import /tmp/run.tar.gz
+uv run bench select ablation --runs <run-id> --as server-a-v1
+uv run bench summary ablation --selection server-a-v1
+```
+
+Imports verify payload checksums, preserve the original machine identity, and are
+idempotent for identical bundles. A conflicting run ID is rejected. Machines never
+append to a shared results file. Keep each benchmark's baseline, alternatives and
+thread-count comparisons on the same machine. Reporting and selection reject mixed
+machines/runtime settings, different input identities, and changed code or ports
+under the same variant label. Create separate selections for different machines.
+
+Manifests record resolved settings after CLI overrides, exact engine commits,
+ordered patch hashes, adapter/source snapshots, input identities, known executable
+hashes, host/runtime settings and the observed toolchain. Large input datasets are
+identified by content hashes rather than embedded. Adapter metadata is retained;
+current compiler/source observations cannot prove how a previously cached binary
+or opaque container was built. These limits are recorded in the build provenance.
+Remote scheduling, automatic sharding and resume are not implemented in this version.
+
+Existing committed `results/<experiment>/*.jsonl` remain readable with `--run <id>`;
+they are excluded from automatic latest/all selection because completion is unknown.
+They lack the new completeness/provenance information. Selecting them requires
+`--allow-legacy`, which records `legacy-incomplete` in the selection rather than
+inventing missing metadata. Legacy and modern rows cannot be combined. For old
+query directories, specify the run ID explicitly because completion is unknown.
 
 ## Layout
 
@@ -38,7 +123,10 @@ selects one run.
 | `systems/<system>/build <ref>` | builds the system at a git ref, prints the build dir, writes `build.json` there |
 | `systems/<system>/run <build-dir> <program> <fact-dir|-> <threads> <out-dir> [flags]` | runs one benchmark; writes `stdout`, `stderr`, `report.json`; exit 3 = unsupported |
 | `experiments/<name>.toml` | variants, benchmarks, thread counts, reps, timeout, CPU pinning, plot kind, baseline |
-| `results/<experiment>/<run-id>.jsonl` | one row per run (committed); `results/<experiment>/logs/` holds raw output (not committed) |
+| `scratch/<topic>/` | temporary recipes, scripts and patches (ignored) |
+| `runs/<run-id>/` | independent run bundle, measurements, provenance and logs (ignored) |
+| `results/<experiment>/<selection>/` | explicitly selected measurements and provenance for Git review |
+| `results/<experiment>/*.jsonl` | legacy committed measurements (read-only compatibility) |
 | `figures/` | output of `bench plot` (PDF + PNG + CSV) |
 | `build/` | git worktrees and cargo targets, keyed by commit (not committed) |
 | `harness/` | the `bench` CLI: `config.py` (layout), `runner.py`, `results.py`, `plot.py`, `cli.py` |
@@ -70,7 +158,9 @@ selects one run.
  "variant": "egglog", "system": "egglog", "ref": "bench-ablation", "commit": "6795c2…", "flags": [],
  "threads": 1, "rep": 0, "status": "ok", "wall_s": 1.67, "user_s": 1.6, "sys_s": 0.05, "max_rss_kb": 1234,
  "report": {"run_s": 1.5, "search_apply_s": 1.3, "merge_s": 0.1, "rebuild_s": 0.1, "sizes": {"Add": 12345}},
- "log_dir": "results/e2e/logs/…", "host": {...}, "harness_commit": "a85aa6e", "timestamp": "…"}
+ "log_dir": "logs/…", "host": {...}, "machine_id": "server-a",
+ "environment_id": "…", "config_id": "…", "build_id": "…", "input_id": "…", "port_id": "…",
+ "harness_commit": "a85aa6e…", "timestamp": "…"}
 ```
 
 `status` is `ok`, `fail`, `timeout`, `oom` or `unsupported`. `wall_s` is the
@@ -164,9 +254,14 @@ uv run bench check query                  # result rows agree across engines?
 uv run bench plot query                   # figures/query-{totals,scatter}.pdf + query.csv
 ```
 
-Results go to `results/query/<run-id>/<program>/{index,egglog,duckdb,umbra}.json[l]`, with the
-host, commits and settings in `run.json`; generated queries and exported tables stay in
-`build/query/query/<run-id>/`. Umbra runs in the `umbra-bench` container on port 5432, so run
+Results go to `runs/<run-id>/<program>/{index,egglog,duckdb,umbra}.json[l]`, with the
+host, commits, effective settings and completion state in `run.json`; generated queries
+and exported tables stay in `build/query/query/<run-id>/`. Query runs support the same
+`runs`, `inspect`, `export`, `import`, and `select` commands. `--threads`, `--reps`, and
+`--timeout` control SQL measurements; egglog remains one thread and one pass without
+a harness timeout, explicitly recorded in the manifest. Query CPU/memory overrides
+are rejected because they cannot consistently constrain the container backend. Umbra
+currently requires one thread. Umbra runs in the `umbra-bench` container on port 5432, so run
 one Umbra job at a time.
 
 ## Notes
@@ -186,3 +281,13 @@ one Umbra job at a time.
 - egglog 0.5.0 has no `-j`, so multi-threaded configurations of it are `unsupported`.
 - Scaling runs are pinned with `taskset` to the CPU list in the experiment
   (`cpus = "0-63"` = the 64 physical cores of this machine; 64–127 are SMT siblings).
+
+## Harness tests
+
+```sh
+uv run python -m unittest discover -s tests -v
+```
+
+Tests use temporary fixtures, mocked builds, and a tiny adapter subprocess; they do
+not launch the benchmark suite. They cover run lifecycle/provenance, compatibility checks, frozen selections,
+query payload completeness, and portable archive validation.

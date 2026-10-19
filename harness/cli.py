@@ -1,11 +1,13 @@
-"""`bench` command line: list / build / run / summary / check / plot."""
+"""Run benchmarks, inspect portable runs, and select reproducible result sets."""
 
 from __future__ import annotations
 
 import argparse
+import json
 import sys
+from pathlib import Path
 
-from . import config, query, results, runner
+from . import artifacts, config, query, results, runner
 
 
 def cmd_list(args):
@@ -64,7 +66,9 @@ def cmd_build(args):
 def cmd_run(args):
     if query.is_query(args.experiment):
         progs = [b.split("/")[-1] for b in args.benchmarks or []] or None
-        query.run(args.experiment, programs=progs, engines=args.variants or None, tag=args.tag)
+        query.run(args.experiment, programs=progs, engines=args.variants or None, tag=args.tag,
+                  machine=args.machine, cpus=args.cpus, threads=args.threads, reps=args.reps,
+                  timeout=args.timeout, memory_gb=args.memory_gb, dry_run=args.dry_run)
         return
     exp = config.load_experiment(args.experiment)
     runner.run_experiment(
@@ -77,14 +81,44 @@ def cmd_run(args):
         memory_gb=args.memory_gb,
         dry_run=args.dry_run,
         tag=args.tag,
+        machine=args.machine,
+        cpus=args.cpus,
     )
 
 
+
+def _query_report(args):
+    if args.selection:
+        selected, _ = results.read_selection(Path(args.experiment).stem, args.selection)
+        return selected["kind"] == "query"
+    name = config.experiment_path(args.experiment).stem
+    run = args.run or "latest"
+    bundles = [rd for rd in artifacts.list_runs(name)
+               if artifacts.read_manifest(rd).get("state") == "complete"]
+    if bundles and run == "latest":
+        return artifacts.read_manifest(bundles[-1])["kind"] == "query"
+    if run not in ("latest", "all"):
+        try:
+            return artifacts.read_manifest(artifacts.resolve_run(run, name))["kind"] == "query"
+        except ValueError:
+            pass
+    return query.is_query(args.experiment)
+
+
+def _report_data(args):
+    if args.selection:
+        name = Path(args.experiment).stem
+        selected, _ = results.read_selection(name, args.selection)
+        cfg = {**selected["config"], "metric": selected["metric"]}
+        exp = config.experiment_from_dict(name, cfg)
+        return exp, results.load_rows(exp, selection=args.selection)
+    return results.report_data(args.experiment, args.run or "latest")
+
+
 def cmd_summary(args):
-    if query.is_query(args.experiment):
-        return query.summary(args.experiment, args.run)
-    exp = config.load_experiment(args.experiment)
-    rows = results.load_rows(exp, args.run)
+    if _query_report(args):
+        return query.summary(config.experiment_path(args.experiment).stem, args.run or "latest", selection=args.selection)
+    exp, rows = _report_data(args)
     metric = args.metric or exp.metric
     summ = results.summarize(rows, metric)
     variants = [v.label for v in exp.variants]
@@ -148,10 +182,9 @@ def cmd_summary(args):
 
 def cmd_check(args):
     """Compare final table sizes across variants: equal sizes mean the variants did the same work."""
-    if query.is_query(args.experiment):
-        return query.check(args.experiment, args.run)
-    exp = config.load_experiment(args.experiment)
-    rows = results.load_rows(exp, args.run)
+    if _query_report(args):
+        return query.check(config.experiment_path(args.experiment).stem, args.run or "latest", selection=args.selection)
+    exp, rows = _report_data(args)
     summ = results.summarize(rows)
     by_bench: dict[tuple, dict[str, dict]] = {}
     for (suite, name, variant, t), s in summ.items():
@@ -176,15 +209,45 @@ def cmd_check(args):
 def cmd_plot(args):
     from . import plot  # matplotlib is imported lazily
 
-    if query.is_query(args.experiment):
-        for p in query.plot(args.experiment, args.run, args.out):
+    if _query_report(args):
+        for p in query.plot(config.experiment_path(args.experiment).stem, args.run or "latest", args.out, selection=args.selection):
             print(p)
         return
-    exp = config.load_experiment(args.experiment)
-    rows = results.load_rows(exp, args.run)
+    exp, rows = _report_data(args)
     out_dir = config.FIGURES if args.out is None else args.out
     for p in plot.plot_experiment(exp, rows, out_dir, metric=args.metric or exp.metric):
         print(p)
+
+
+
+def cmd_runs(args):
+    for rd in artifacts.list_runs(args.experiment):
+        m = artifacts.read_manifest(rd)
+        print(f"{m['run_id']:45s} {m['experiment']:22s} {m['state']:12s} {m['machine_id']}")
+
+
+def cmd_inspect(args):
+    rd = artifacts.resolve_run(args.run_id)
+    manifest = artifacts.read_manifest(rd)
+    if manifest.get("state") != "running":
+        artifacts.verify_run(rd)
+    print(json.dumps(manifest, indent=2, sort_keys=True))
+    print(f"bundle: {rd}")
+
+
+def cmd_select(args):
+    directory = results.select_runs(args.experiment, args.runs, args.name,
+                                    allow_legacy=args.allow_legacy, metric=args.metric)
+    print(f"selected results: {directory}")
+    print("Review these files and commit them with Git when ready.")
+
+
+def cmd_export(args):
+    print(artifacts.export_run(args.run_id, args.out))
+
+
+def cmd_import(args):
+    print(artifacts.import_run(args.archive))
 
 
 def main(argv=None):
@@ -201,7 +264,7 @@ def main(argv=None):
     p.add_argument("patches", nargs="*", help="names of systems/<system>/patches/<name>.patch")
     p.set_defaults(fn=cmd_build)
 
-    p = sub.add_parser("run", help="run an experiment (appends to results/<experiment>/)")
+    p = sub.add_parser("run", help="run a named experiment or TOML path into an isolated runs/ bundle")
     p.add_argument("experiment")
     p.add_argument("-b", "--benchmarks", nargs="*", metavar="SUITE[/NAME]", help="restrict to these suites/benchmarks (globs ok)")
     p.add_argument("-v", "--variants", nargs="*", metavar="LABEL", help="restrict to these variants")
@@ -210,6 +273,8 @@ def main(argv=None):
     p.add_argument("--timeout", type=float, help="seconds per run")
     p.add_argument("--memory-gb", type=float, help="memory cap per run in GB (0 = none)")
     p.add_argument("--tag", help="suffix for the run id")
+    p.add_argument("--machine", help="machine alias recorded with detected hardware (defaults to hostname)")
+    p.add_argument("--cpus", help="override CPU affinity for this machine, e.g. 0-15 (e2e only)")
     p.add_argument("-n", "--dry-run", action="store_true", help="print the matrix and exit")
     p.set_defaults(fn=cmd_run)
 
@@ -220,15 +285,43 @@ def main(argv=None):
     ]:
         p = sub.add_parser(name, help=help_)
         p.add_argument("experiment")
-        p.add_argument("--run", default="all",
-                       help="'all' (default: every run merged, the latest run wins per configuration), "
-                            "'latest', or a run id prefix / tag")
+        source = p.add_mutually_exclusive_group()
+        source.add_argument("--run", help="'latest' complete run (default), exact ID, unique prefix/tag, or 'all' compatible disjoint runs")
+        source.add_argument("--selection", help="explicit committed result selection (uses its frozen configuration)")
         if name != "check":
             p.add_argument("--metric", help="wall_s or report.<field>, e.g. report.run_s (default: the experiment's `metric`)")
         if name == "plot":
             p.add_argument("--out", type=__import__("pathlib").Path, help="output directory (e.g. the paper's figures/)")
         p.set_defaults(fn=fn)
 
+    p = sub.add_parser("runs", help="list local and imported run bundles")
+    p.add_argument("experiment", nargs="?")
+    p.set_defaults(fn=cmd_runs)
+
+    p = sub.add_parser("inspect", help="inspect run metadata and verify completed bundle integrity")
+    p.add_argument("run_id")
+    p.set_defaults(fn=cmd_inspect)
+
+    p = sub.add_parser("select", help="freeze selected measurements and provenance under results/ for Git review")
+    p.add_argument("experiment")
+    p.add_argument("--runs", nargs="+", required=True, metavar="ID")
+    p.add_argument("--as", dest="name", required=True, help="new selection name, e.g. paper-v1")
+    p.add_argument("--allow-legacy", action="store_true", help="explicitly accept incomplete provenance in old results")
+    p.add_argument("--metric", help="freeze an analysis metric (default: experiment metric)")
+    p.set_defaults(fn=cmd_select)
+
+    p = sub.add_parser("export", help="pack a sealed run with checksums for transfer to another machine")
+    p.add_argument("run_id")
+    p.add_argument("--out", type=Path, required=True)
+    p.set_defaults(fn=cmd_export)
+
+    p = sub.add_parser("import", help="verify and import a run archive; identical imports are harmless")
+    p.add_argument("archive", type=Path)
+    p.set_defaults(fn=cmd_import)
+
     args = ap.parse_args(argv)
-    rc = args.fn(args)
+    try:
+        rc = args.fn(args)
+    except (ValueError, OSError) as exc:
+        ap.exit(1, f"bench: {exc}\n")
     sys.exit(rc or 0)
