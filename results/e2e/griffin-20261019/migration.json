@@ -1,0 +1,51 @@
+{
+  "source_selection": [
+    {
+      "run_id": "20261016-212952-griffin-b9800506",
+      "source": "results/e2e/20261016-212952-griffin-b9800506.jsonl",
+      "sha256": "f96b4caae124a0a65069985ff830d7672786572c055fbdc6856cb429f3676a0e",
+      "size": 3348053,
+      "choice": "non-pointer",
+      "source_rows": 750,
+      "selected_rows": 570
+    },
+    {
+      "run_id": "20261016-221510-griffin-b9800506-no-decomp",
+      "source": "results/e2e/20261016-221510-griffin-b9800506-no-decomp.jsonl",
+      "sha256": "7afa09e508ca80afa1e5ec8d97b18f1544af59bb55594e6e19d9471f5d46508d",
+      "size": 1183923,
+      "choice": "non-pointer",
+      "source_rows": 375,
+      "selected_rows": 285
+    },
+    {
+      "run_id": "20261019-172538-analysis-only-saturate",
+      "source": "results/e2e/20261019-172538-analysis-only-saturate.jsonl",
+      "sha256": "70f93097daa9c443a968c1eea1c6a5ed668be007d20d8004cbe92240959483c9",
+      "size": 551955,
+      "choice": "pointer",
+      "source_rows": 270,
+      "selected_rows": 270
+    }
+  ],
+  "notes": [
+    "Measurements predate portable run manifests; provenance remains legacy-incomplete.",
+    "Whole configuration groups were explicitly selected; no repetitions were cherry-picked.",
+    "All original source rows are retained inside each selection, including excluded older pointer groups.",
+    "Ablation-parallelism analysis-only pointer measurements used (run 100000), not the later saturation schedule.",
+    "E2e analysis-only pointer measurements used (run-schedule (saturate (run))).",
+    "Legacy rows retain original log_dir values; local archived logs are below scratch/legacy-migration-20261019/original/ at the same relative paths.",
+    "Research probes, invalid extraction-marker measurements, and smoke runs are preserved as scratch evidence, not promoted to selected benchmark results."
+  ],
+  "presentation_suite_order": [
+    "math",
+    "actions",
+    "eggcc",
+    "hardboiled",
+    "pointer-analysis",
+    "luminal",
+    "math-microbenchmark",
+    "horner",
+    "matmul-assoc"
+  ]
+}

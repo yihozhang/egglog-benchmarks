@@ -1,0 +1,1131 @@
+{
+  "analysis": "median of successful repetitions; groups with any failure are excluded from speedups; all outcomes retained; no latest-per-cell replacement",
+  "checksums": {
+    "measurements.jsonl": {
+      "sha256": "aa436ab09a6c5608c0f22351e7e6d3586f88eb6060152dbec796770f3a93c223",
+      "size": 384121
+    },
+    "migration.json": {
+      "sha256": "5158253897169f9815e3049898f00700b6bb412c1615b1f2b2ea5ec18e14192f",
+      "size": 1175
+    },
+    "runs/20261016-184053-griffin-b9800506/measurements.jsonl": {
+      "sha256": "a2bc8b11eca8c5316207098665bb070fb2ef70779e62d96e02ca94e6b56a073a",
+      "size": 384121
+    }
+  },
+  "config": {
+    "baseline": "egglog",
+    "benchmark_timing": {
+      "horner/horner-8": "process",
+      "horner/horner-9": "process",
+      "math-microbenchmark/math-microbenchmark": "process",
+      "matmul-assoc/matmul-assoc-160": "process",
+      "matmul-assoc/matmul-assoc-320": "process"
+    },
+    "benchmarks": [
+      "horner/horner-8",
+      "horner/horner-9",
+      "math-microbenchmark/math-microbenchmark",
+      "matmul-assoc/matmul-assoc-160",
+      "matmul-assoc/matmul-assoc-320"
+    ],
+    "cpus": null,
+    "description": "egglog against other e-graph engines on programs every engine can run exactly: math-microbenchmark (fixed iterations), and the larger horner and matmul-assoc instances (run to saturation; from the foresight CC'26 paper).",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "variants",
+    "reps": 5,
+    "speedup_labels": {},
+    "threads": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "timeout": 600,
+    "variants": [
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-t4",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          4
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-t8",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          8
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-t16",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          16
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-0.5.0",
+        "patches": [],
+        "ref": "v0.5.0",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egg",
+        "patches": [],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "oatlog",
+        "patches": [],
+        "ref": "6b73396",
+        "system": "oatlog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "hegg",
+        "patches": [],
+        "ref": "v0.5.0.0",
+        "system": "hegg",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "metatheory",
+        "patches": [],
+        "ref": "v2.0.2",
+        "system": "metatheory",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "ggs",
+        "patches": [],
+        "ref": "2ad0981083bff2443fd0aaee407f5d2c4419abc3",
+        "system": "ggs",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "ego",
+        "patches": [],
+        "ref": "e87dae7a",
+        "system": "ego",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight-t4",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          4
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight-t8",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          8
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight-t16",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          16
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog-0.5.0"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "egglog-t16"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "egglog-t4"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "egglog-t8"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog-0.5.0"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "egglog-t16"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "egglog-t4"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "egglog-t8"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog-0.5.0"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "egglog-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "egglog-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "egglog-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-0.5.0"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "egglog-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "egglog-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "egglog-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-0.5.0"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "egglog-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "egglog-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "egglog-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "oatlog"
+    }
+  ],
+  "created_at": "2026-10-20T00:54:56.351900+00:00",
+  "experiment": "engines",
+  "kind": "matrix",
+  "metric": "wall_s",
+  "name": "griffin-20261016",
+  "provenance": "legacy-incomplete",
+  "run_ids": [
+    "20261016-184053-griffin-b9800506"
+  ],
+  "schema_version": 1,
+  "source_groups": {
+    "20261016-184053-griffin-b9800506": [
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egg"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog-0.5.0"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 16,
+        "variant": "egglog-t16"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 4,
+        "variant": "egglog-t4"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 8,
+        "variant": "egglog-t8"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "ego"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "foresight"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 16,
+        "variant": "foresight-t16"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 4,
+        "variant": "foresight-t4"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 8,
+        "variant": "foresight-t8"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "ggs"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "hegg"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "metatheory"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "oatlog"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egg"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog-0.5.0"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 16,
+        "variant": "egglog-t16"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 4,
+        "variant": "egglog-t4"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 8,
+        "variant": "egglog-t8"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "ego"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "foresight"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 16,
+        "variant": "foresight-t16"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 4,
+        "variant": "foresight-t4"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 8,
+        "variant": "foresight-t8"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "ggs"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "hegg"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "metatheory"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "oatlog"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egg"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egglog-0.5.0"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 16,
+        "variant": "egglog-t16"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 4,
+        "variant": "egglog-t4"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 8,
+        "variant": "egglog-t8"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "ego"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "foresight"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 16,
+        "variant": "foresight-t16"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 4,
+        "variant": "foresight-t4"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 8,
+        "variant": "foresight-t8"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "ggs"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "hegg"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "metatheory"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "oatlog"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egg"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog-0.5.0"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 16,
+        "variant": "egglog-t16"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 4,
+        "variant": "egglog-t4"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 8,
+        "variant": "egglog-t8"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "ego"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "foresight"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 16,
+        "variant": "foresight-t16"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 4,
+        "variant": "foresight-t4"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 8,
+        "variant": "foresight-t8"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "ggs"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "hegg"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "metatheory"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "oatlog"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egg"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog-0.5.0"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 16,
+        "variant": "egglog-t16"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 4,
+        "variant": "egglog-t4"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 8,
+        "variant": "egglog-t8"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "ego"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "foresight"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 16,
+        "variant": "foresight-t16"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 4,
+        "variant": "foresight-t4"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 8,
+        "variant": "foresight-t8"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "ggs"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "hegg"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "metatheory"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "oatlog"
+      }
+    ]
+  }
+}

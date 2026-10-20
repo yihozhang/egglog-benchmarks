@@ -1,0 +1,6366 @@
+{
+  "analysis": "median of successful repetitions; groups with any failure are excluded from speedups; all outcomes retained; no latest-per-cell replacement",
+  "checksums": {
+    "measurements.jsonl": {
+      "sha256": "44f8c4e2f955819ac32100b2d9ab8fe614867dfb560a544d859f73a4696a63e4",
+      "size": 4747660
+    },
+    "migration.json": {
+      "sha256": "4e13825b92081139b5e7e93f07105c47492ef69f154f88f77222711366ae6913",
+      "size": 1179
+    },
+    "runs/20261016-201722-griffin-b9800506/measurements.jsonl": {
+      "sha256": "4ff9c25ad37c3587068c1497eca52a5a2ef5373b44b9cc58be1bdbe081b28c0b",
+      "size": 4747660
+    }
+  },
+  "config": {
+    "baseline": "no-decomp-no-dynamic-order",
+    "benchmark_timing": {
+      "actions/actions": "process",
+      "eggcc/3mm": "process",
+      "eggcc/ackermann": "process",
+      "eggcc/adi": "process",
+      "eggcc/armstrong": "process",
+      "eggcc/bicg": "process",
+      "eggcc/binary-fmt": "process",
+      "eggcc/bitshift": "process",
+      "eggcc/bubblesort": "process",
+      "eggcc/check-primes": "process",
+      "eggcc/cholesky_decomp": "process",
+      "eggcc/conjugate-gradient": "process",
+      "eggcc/correlation": "process",
+      "eggcc/csrmv": "process",
+      "eggcc/dead-branch": "process",
+      "eggcc/digital-root": "process",
+      "eggcc/dot-product": "process",
+      "eggcc/euclid": "process",
+      "eggcc/fact": "process",
+      "eggcc/fenwick_tree": "process",
+      "eggcc/fib": "process",
+      "eggcc/gcd": "process",
+      "eggcc/hanoi": "process",
+      "eggcc/lcm": "process",
+      "eggcc/mat-mul": "process",
+      "eggcc/mod_inv": "process",
+      "eggcc/palindrome": "process",
+      "eggcc/perfect": "process",
+      "eggcc/ray-sphere-intersection": "process",
+      "eggcc/raytrace": "process",
+      "eggcc/recfact": "process",
+      "eggcc/sum-bits": "process",
+      "eggcc/sum-check": "process",
+      "hardboiled/conv1d_104": "process",
+      "hardboiled/conv1d_112": "process",
+      "hardboiled/conv1d_120": "process",
+      "hardboiled/conv1d_128": "process",
+      "hardboiled/conv1d_136": "process",
+      "hardboiled/conv1d_144": "process",
+      "hardboiled/conv1d_152": "process",
+      "hardboiled/conv1d_16": "process",
+      "hardboiled/conv1d_160": "process",
+      "hardboiled/conv1d_168": "process",
+      "hardboiled/conv1d_176": "process",
+      "hardboiled/conv1d_184": "process",
+      "hardboiled/conv1d_192": "process",
+      "hardboiled/conv1d_200": "process",
+      "hardboiled/conv1d_208": "process",
+      "hardboiled/conv1d_216": "process",
+      "hardboiled/conv1d_224": "process",
+      "hardboiled/conv1d_232": "process",
+      "hardboiled/conv1d_24": "process",
+      "hardboiled/conv1d_240": "process",
+      "hardboiled/conv1d_248": "process",
+      "hardboiled/conv1d_256": "process",
+      "hardboiled/conv1d_32": "process",
+      "hardboiled/conv1d_40": "process",
+      "hardboiled/conv1d_48": "process",
+      "hardboiled/conv1d_56": "process",
+      "hardboiled/conv1d_64": "process",
+      "hardboiled/conv1d_72": "process",
+      "hardboiled/conv1d_8": "process",
+      "hardboiled/conv1d_80": "process",
+      "hardboiled/conv1d_88": "process",
+      "hardboiled/conv1d_96": "process",
+      "hardboiled/conv2d_16": "process",
+      "hardboiled/conv2d_32": "process",
+      "hardboiled/denoise": "process",
+      "hardboiled/downsample_16": "process",
+      "hardboiled/downsample_32": "process",
+      "hardboiled/matmul": "process",
+      "hardboiled/rec_filter": "process",
+      "hardboiled/resize": "process",
+      "hardboiled/upsample_16": "process",
+      "hardboiled/upsample_32": "process",
+      "horner/horner-5": "process",
+      "horner/horner-6": "process",
+      "horner/horner-7": "process",
+      "horner/horner-8": "process",
+      "horner/horner-9": "process",
+      "luminal/gemma": "process",
+      "luminal/gemma4_moe": "process",
+      "luminal/llama": "process",
+      "luminal/paged_llama": "process",
+      "luminal/qwen": "process",
+      "luminal/qwen3_moe": "process",
+      "luminal/whisper": "process",
+      "math-microbenchmark/math-microbenchmark": "process",
+      "math-microbenchmark/math-microbenchmark-12": "process",
+      "math/math": "process",
+      "matmul-assoc/matmul-assoc-160": "process",
+      "matmul-assoc/matmul-assoc-20": "process",
+      "matmul-assoc/matmul-assoc-320": "process",
+      "matmul-assoc/matmul-assoc-40": "process",
+      "matmul-assoc/matmul-assoc-80": "process",
+      "pointer-analysis/clusterdb.bc": "process",
+      "pointer-analysis/createdb.bc": "process",
+      "pointer-analysis/createlang.bc": "process",
+      "pointer-analysis/createuser.bc": "process",
+      "pointer-analysis/dict_snowball.so.bc": "process",
+      "pointer-analysis/dropdb.bc": "process",
+      "pointer-analysis/droplang.bc": "process",
+      "pointer-analysis/dropuser.bc": "process",
+      "pointer-analysis/ecpg.bc": "process",
+      "pointer-analysis/initdb.bc": "process",
+      "pointer-analysis/libecpg.so.6.7.bc": "process",
+      "pointer-analysis/libecpg_compat.so.3.7.bc": "process",
+      "pointer-analysis/libpgtypes.so.3.6.bc": "process",
+      "pointer-analysis/libpq.so.5.8.bc": "process",
+      "pointer-analysis/libpqwalreceiver.so.bc": "process",
+      "pointer-analysis/pg_basebackup.bc": "process",
+      "pointer-analysis/pg_ctl.bc": "process",
+      "pointer-analysis/pg_dump.bc": "process",
+      "pointer-analysis/pg_dumpall.bc": "process",
+      "pointer-analysis/pg_isready.bc": "process",
+      "pointer-analysis/pg_receivexlog.bc": "process",
+      "pointer-analysis/pg_recvlogical.bc": "process",
+      "pointer-analysis/pg_restore.bc": "process",
+      "pointer-analysis/pg_rewind.bc": "process",
+      "pointer-analysis/pg_upgrade.bc": "process",
+      "pointer-analysis/pgbench.bc": "process",
+      "pointer-analysis/plpgsql.so.bc": "process",
+      "pointer-analysis/psql.bc": "process",
+      "pointer-analysis/reindexdb.bc": "process",
+      "pointer-analysis/vacuumdb.bc": "process"
+    },
+    "benchmarks": [
+      "actions/actions",
+      "eggcc/3mm",
+      "eggcc/ackermann",
+      "eggcc/adi",
+      "eggcc/armstrong",
+      "eggcc/bicg",
+      "eggcc/binary-fmt",
+      "eggcc/bitshift",
+      "eggcc/bubblesort",
+      "eggcc/check-primes",
+      "eggcc/cholesky_decomp",
+      "eggcc/conjugate-gradient",
+      "eggcc/correlation",
+      "eggcc/csrmv",
+      "eggcc/dead-branch",
+      "eggcc/digital-root",
+      "eggcc/dot-product",
+      "eggcc/euclid",
+      "eggcc/fact",
+      "eggcc/fenwick_tree",
+      "eggcc/fib",
+      "eggcc/gcd",
+      "eggcc/hanoi",
+      "eggcc/lcm",
+      "eggcc/mat-mul",
+      "eggcc/mod_inv",
+      "eggcc/palindrome",
+      "eggcc/perfect",
+      "eggcc/ray-sphere-intersection",
+      "eggcc/raytrace",
+      "eggcc/recfact",
+      "eggcc/sum-bits",
+      "eggcc/sum-check",
+      "hardboiled/conv1d_104",
+      "hardboiled/conv1d_112",
+      "hardboiled/conv1d_120",
+      "hardboiled/conv1d_128",
+      "hardboiled/conv1d_136",
+      "hardboiled/conv1d_144",
+      "hardboiled/conv1d_152",
+      "hardboiled/conv1d_16",
+      "hardboiled/conv1d_160",
+      "hardboiled/conv1d_168",
+      "hardboiled/conv1d_176",
+      "hardboiled/conv1d_184",
+      "hardboiled/conv1d_192",
+      "hardboiled/conv1d_200",
+      "hardboiled/conv1d_208",
+      "hardboiled/conv1d_216",
+      "hardboiled/conv1d_224",
+      "hardboiled/conv1d_232",
+      "hardboiled/conv1d_24",
+      "hardboiled/conv1d_240",
+      "hardboiled/conv1d_248",
+      "hardboiled/conv1d_256",
+      "hardboiled/conv1d_32",
+      "hardboiled/conv1d_40",
+      "hardboiled/conv1d_48",
+      "hardboiled/conv1d_56",
+      "hardboiled/conv1d_64",
+      "hardboiled/conv1d_72",
+      "hardboiled/conv1d_8",
+      "hardboiled/conv1d_80",
+      "hardboiled/conv1d_88",
+      "hardboiled/conv1d_96",
+      "hardboiled/conv2d_16",
+      "hardboiled/conv2d_32",
+      "hardboiled/denoise",
+      "hardboiled/downsample_16",
+      "hardboiled/downsample_32",
+      "hardboiled/matmul",
+      "hardboiled/rec_filter",
+      "hardboiled/resize",
+      "hardboiled/upsample_16",
+      "hardboiled/upsample_32",
+      "horner/horner-5",
+      "horner/horner-6",
+      "horner/horner-7",
+      "horner/horner-8",
+      "horner/horner-9",
+      "luminal/gemma",
+      "luminal/gemma4_moe",
+      "luminal/llama",
+      "luminal/paged_llama",
+      "luminal/qwen",
+      "luminal/qwen3_moe",
+      "luminal/whisper",
+      "math-microbenchmark/math-microbenchmark",
+      "math-microbenchmark/math-microbenchmark-12",
+      "math/math",
+      "matmul-assoc/matmul-assoc-160",
+      "matmul-assoc/matmul-assoc-20",
+      "matmul-assoc/matmul-assoc-320",
+      "matmul-assoc/matmul-assoc-40",
+      "matmul-assoc/matmul-assoc-80",
+      "pointer-analysis/clusterdb.bc",
+      "pointer-analysis/createdb.bc",
+      "pointer-analysis/createlang.bc",
+      "pointer-analysis/createuser.bc",
+      "pointer-analysis/dict_snowball.so.bc",
+      "pointer-analysis/dropdb.bc",
+      "pointer-analysis/droplang.bc",
+      "pointer-analysis/dropuser.bc",
+      "pointer-analysis/ecpg.bc",
+      "pointer-analysis/initdb.bc",
+      "pointer-analysis/libecpg.so.6.7.bc",
+      "pointer-analysis/libecpg_compat.so.3.7.bc",
+      "pointer-analysis/libpgtypes.so.3.6.bc",
+      "pointer-analysis/libpq.so.5.8.bc",
+      "pointer-analysis/libpqwalreceiver.so.bc",
+      "pointer-analysis/pg_basebackup.bc",
+      "pointer-analysis/pg_ctl.bc",
+      "pointer-analysis/pg_dump.bc",
+      "pointer-analysis/pg_dumpall.bc",
+      "pointer-analysis/pg_isready.bc",
+      "pointer-analysis/pg_receivexlog.bc",
+      "pointer-analysis/pg_recvlogical.bc",
+      "pointer-analysis/pg_restore.bc",
+      "pointer-analysis/pg_rewind.bc",
+      "pointer-analysis/pg_upgrade.bc",
+      "pointer-analysis/pgbench.bc",
+      "pointer-analysis/plpgsql.so.bc",
+      "pointer-analysis/psql.bc",
+      "pointer-analysis/reindexdb.bc",
+      "pointer-analysis/vacuumdb.bc"
+    ],
+    "cpus": null,
+    "description": "Ablation: tree decomposition in query planning and dynamic variable ordering during query execution.",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "bars",
+    "reps": 3,
+    "speedup_labels": {
+      "egglog": "+ dynamic order, + tree-decomp",
+      "no-decomp": "+ dynamic order",
+      "no-dynamic-order": "+ tree-decomp"
+    },
+    "threads": [
+      1
+    ],
+    "timeout": 600,
+    "variants": [
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog",
+        "patches": [
+          "no-dynamic-order"
+        ],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "no-decomp",
+        "patches": [
+          "no-dynamic-order"
+        ],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--no-dynamic-order"
+        ],
+        "label": "no-dynamic-order",
+        "patches": [
+          "no-dynamic-order"
+        ],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp",
+          "--no-dynamic-order"
+        ],
+        "label": "no-decomp-no-dynamic-order",
+        "patches": [
+          "no-dynamic-order"
+        ],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "benchmark": "actions",
+      "suite": "actions",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "actions",
+      "suite": "actions",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "actions",
+      "suite": "actions",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "actions",
+      "suite": "actions",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "3mm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "3mm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "3mm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "3mm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "ackermann",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "ackermann",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "ackermann",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "ackermann",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "adi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "adi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "adi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "adi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "armstrong",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "armstrong",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "armstrong",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "armstrong",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "bicg",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "bicg",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "bicg",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "bicg",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "binary-fmt",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "binary-fmt",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "binary-fmt",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "binary-fmt",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "bitshift",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "bitshift",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "bitshift",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "bitshift",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "bubblesort",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "bubblesort",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "bubblesort",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "bubblesort",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "check-primes",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "check-primes",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "check-primes",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "check-primes",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "cholesky_decomp",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "cholesky_decomp",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "cholesky_decomp",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "cholesky_decomp",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conjugate-gradient",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conjugate-gradient",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conjugate-gradient",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conjugate-gradient",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "correlation",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "correlation",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "correlation",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "correlation",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "csrmv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "csrmv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "csrmv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "csrmv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "dead-branch",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "dead-branch",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "dead-branch",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "dead-branch",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "digital-root",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "digital-root",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "digital-root",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "digital-root",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "dot-product",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "dot-product",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "dot-product",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "dot-product",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "euclid",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "euclid",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "euclid",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "euclid",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "fact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "fact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "fact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "fact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "fenwick_tree",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "fenwick_tree",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "fenwick_tree",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "fenwick_tree",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "fib",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "fib",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "fib",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "fib",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "gcd",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "gcd",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "gcd",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "gcd",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "hanoi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "hanoi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "hanoi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "hanoi",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "lcm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "lcm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "lcm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "lcm",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "mat-mul",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "mat-mul",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "mat-mul",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "mat-mul",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "mod_inv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "mod_inv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "mod_inv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "mod_inv",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "palindrome",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "palindrome",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "palindrome",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "palindrome",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "perfect",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "perfect",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "perfect",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "perfect",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "ray-sphere-intersection",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "ray-sphere-intersection",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "ray-sphere-intersection",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "ray-sphere-intersection",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "raytrace",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "raytrace",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "raytrace",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "raytrace",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "recfact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "recfact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "recfact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "recfact",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "sum-bits",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "sum-bits",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "sum-bits",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "sum-bits",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "sum-check",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "sum-check",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "sum-check",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "sum-check",
+      "suite": "eggcc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_104",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_104",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_104",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_104",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_112",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_112",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_112",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_112",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_120",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_120",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_120",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_120",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_128",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_128",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_128",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_128",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_136",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_136",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_136",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_136",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_144",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_144",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_144",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_144",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_152",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_152",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_152",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_152",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_160",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_160",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_160",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_160",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_168",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_168",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_168",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_168",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_176",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_176",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_176",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_176",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_184",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_184",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_184",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_184",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_192",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_192",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_192",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_192",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_200",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_200",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_200",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_200",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_208",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_208",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_208",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_208",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_216",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_216",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_216",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_216",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_224",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_224",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_224",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_224",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_232",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_232",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_232",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_232",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_24",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_24",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_24",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_24",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_240",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_240",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_240",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_240",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_248",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_248",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_248",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_248",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_256",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_256",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_256",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_256",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_40",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_40",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_40",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_40",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_48",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_48",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_48",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_48",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_56",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_56",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_56",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_56",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_64",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_64",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_64",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_64",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_72",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_72",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_72",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_72",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_8",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_8",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_8",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_8",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_80",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_80",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_80",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_80",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_88",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_88",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_88",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_88",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_96",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv1d_96",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv1d_96",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv1d_96",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv2d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv2d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv2d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv2d_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "conv2d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "conv2d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "conv2d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "conv2d_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "denoise",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "denoise",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "denoise",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "denoise",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "downsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "downsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "downsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "downsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "downsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "downsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "downsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "downsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "matmul",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "rec_filter",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "rec_filter",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "rec_filter",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "rec_filter",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "resize",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "resize",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "resize",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "resize",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "upsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "upsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "upsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "upsample_16",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "upsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "upsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "upsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "upsample_32",
+      "suite": "hardboiled",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-5",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-5",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "horner-5",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-5",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-6",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-6",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "horner-6",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-6",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-7",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-7",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "horner-7",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-7",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-8",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "gemma",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "gemma",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "gemma",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "gemma",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "gemma4_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "gemma4_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "gemma4_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "gemma4_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "paged_llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "paged_llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "paged_llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "paged_llama",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "qwen",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "qwen",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "qwen",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "qwen",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "qwen3_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "qwen3_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "qwen3_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "qwen3_moe",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "whisper",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "whisper",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "whisper",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "whisper",
+      "suite": "luminal",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "math",
+      "suite": "math",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "math",
+      "suite": "math",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "math",
+      "suite": "math",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "math",
+      "suite": "math",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-160",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-20",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-20",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "matmul-assoc-20",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-20",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-40",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-40",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "matmul-assoc-40",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-40",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-80",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "matmul-assoc-80",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "matmul-assoc-80",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "matmul-assoc-80",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "clusterdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "clusterdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "clusterdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "clusterdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "createdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "createdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "createdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "createdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "createlang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "createlang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "createlang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "createlang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "createuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "createuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "createuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "createuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "dict_snowball.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "dict_snowball.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "dict_snowball.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "dict_snowball.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "dropdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "dropdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "dropdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "dropdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "droplang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "droplang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "droplang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "droplang.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "dropuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "dropuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "dropuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "dropuser.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "ecpg.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "ecpg.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "ecpg.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "ecpg.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "initdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "initdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "initdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "initdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "libecpg.so.6.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "libecpg.so.6.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "libecpg.so.6.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "libecpg.so.6.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "libecpg_compat.so.3.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "libecpg_compat.so.3.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "libecpg_compat.so.3.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "libecpg_compat.so.3.7.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "libpgtypes.so.3.6.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "libpgtypes.so.3.6.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "libpgtypes.so.3.6.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "libpgtypes.so.3.6.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "libpq.so.5.8.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "libpq.so.5.8.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "libpq.so.5.8.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "libpq.so.5.8.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "libpqwalreceiver.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "libpqwalreceiver.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "libpqwalreceiver.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "libpqwalreceiver.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_basebackup.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_basebackup.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_basebackup.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_basebackup.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_ctl.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_ctl.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_ctl.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_ctl.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_dump.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_dump.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_dump.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_dump.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_dumpall.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_dumpall.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_dumpall.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_dumpall.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_isready.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_isready.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_isready.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_isready.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_receivexlog.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_receivexlog.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_receivexlog.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_receivexlog.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_recvlogical.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_recvlogical.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_recvlogical.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_recvlogical.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_restore.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_restore.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_restore.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_restore.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_rewind.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_rewind.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_rewind.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_rewind.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_upgrade.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pg_upgrade.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pg_upgrade.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pg_upgrade.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "pgbench.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "pgbench.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "pgbench.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "pgbench.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "plpgsql.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "plpgsql.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "plpgsql.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "plpgsql.so.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "psql.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "psql.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "psql.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "psql.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "reindexdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "reindexdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "reindexdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "reindexdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    },
+    {
+      "benchmark": "vacuumdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "vacuumdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp"
+    },
+    {
+      "benchmark": "vacuumdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-decomp-no-dynamic-order"
+    },
+    {
+      "benchmark": "vacuumdb.bc",
+      "suite": "pointer-analysis",
+      "threads": 1,
+      "variant": "no-dynamic-order"
+    }
+  ],
+  "created_at": "2026-10-20T00:54:56.221106+00:00",
+  "experiment": "ablation",
+  "kind": "matrix",
+  "metric": "wall_s",
+  "name": "griffin-20261016",
+  "provenance": "legacy-incomplete",
+  "run_ids": [
+    "20261016-201722-griffin-b9800506"
+  ],
+  "schema_version": 1,
+  "source_groups": {
+    "20261016-201722-griffin-b9800506": [
+      {
+        "benchmark": "actions",
+        "suite": "actions",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "actions",
+        "suite": "actions",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "actions",
+        "suite": "actions",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "actions",
+        "suite": "actions",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "3mm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "3mm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "3mm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "3mm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "ackermann",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "ackermann",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "ackermann",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "ackermann",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "adi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "adi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "adi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "adi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "armstrong",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "armstrong",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "armstrong",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "armstrong",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "bicg",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "bicg",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "bicg",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "bicg",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "binary-fmt",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "binary-fmt",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "binary-fmt",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "binary-fmt",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "bitshift",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "bitshift",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "bitshift",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "bitshift",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "bubblesort",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "bubblesort",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "bubblesort",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "bubblesort",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "check-primes",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "check-primes",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "check-primes",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "check-primes",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "cholesky_decomp",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "cholesky_decomp",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "cholesky_decomp",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "cholesky_decomp",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conjugate-gradient",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conjugate-gradient",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conjugate-gradient",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conjugate-gradient",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "correlation",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "correlation",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "correlation",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "correlation",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "csrmv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "csrmv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "csrmv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "csrmv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "dead-branch",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "dead-branch",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "dead-branch",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "dead-branch",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "digital-root",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "digital-root",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "digital-root",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "digital-root",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "dot-product",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "dot-product",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "dot-product",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "dot-product",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "euclid",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "euclid",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "euclid",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "euclid",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "fact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "fact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "fact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "fact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "fenwick_tree",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "fenwick_tree",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "fenwick_tree",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "fenwick_tree",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "fib",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "fib",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "fib",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "fib",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "gcd",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "gcd",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "gcd",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "gcd",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "hanoi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "hanoi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "hanoi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "hanoi",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "lcm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "lcm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "lcm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "lcm",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "mat-mul",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "mat-mul",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "mat-mul",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "mat-mul",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "mod_inv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "mod_inv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "mod_inv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "mod_inv",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "palindrome",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "palindrome",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "palindrome",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "palindrome",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "perfect",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "perfect",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "perfect",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "perfect",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "ray-sphere-intersection",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "ray-sphere-intersection",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "ray-sphere-intersection",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "ray-sphere-intersection",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "raytrace",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "raytrace",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "raytrace",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "raytrace",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "recfact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "recfact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "recfact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "recfact",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "sum-bits",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "sum-bits",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "sum-bits",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "sum-bits",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "sum-check",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "sum-check",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "sum-check",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "sum-check",
+        "suite": "eggcc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_104",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_104",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_104",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_104",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_112",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_112",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_112",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_112",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_120",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_120",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_120",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_120",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_128",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_128",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_128",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_128",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_136",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_136",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_136",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_136",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_144",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_144",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_144",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_144",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_152",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_152",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_152",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_152",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_160",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_160",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_160",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_160",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_168",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_168",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_168",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_168",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_176",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_176",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_176",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_176",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_184",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_184",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_184",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_184",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_192",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_192",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_192",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_192",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_200",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_200",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_200",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_200",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_208",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_208",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_208",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_208",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_216",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_216",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_216",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_216",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_224",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_224",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_224",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_224",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_232",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_232",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_232",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_232",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_24",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_24",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_24",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_24",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_240",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_240",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_240",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_240",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_248",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_248",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_248",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_248",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_256",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_256",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_256",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_256",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_40",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_40",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_40",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_40",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_48",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_48",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_48",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_48",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_56",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_56",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_56",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_56",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_64",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_64",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_64",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_64",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_72",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_72",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_72",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_72",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_8",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_8",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_8",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_8",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_80",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_80",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_80",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_80",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_88",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_88",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_88",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_88",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_96",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv1d_96",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv1d_96",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv1d_96",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv2d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv2d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv2d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv2d_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "conv2d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "conv2d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "conv2d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "conv2d_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "denoise",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "denoise",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "denoise",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "denoise",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "downsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "downsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "downsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "downsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "downsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "downsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "downsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "downsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "matmul",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "rec_filter",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "rec_filter",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "rec_filter",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "rec_filter",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "resize",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "resize",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "resize",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "resize",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "upsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "upsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "upsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "upsample_16",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "upsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "upsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "upsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "upsample_32",
+        "suite": "hardboiled",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-5",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-5",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "horner-5",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-5",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-6",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-6",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "horner-6",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-6",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-7",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-7",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "horner-7",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-7",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-8",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "horner-9",
+        "suite": "horner",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "gemma",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "gemma",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "gemma",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "gemma",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "gemma4_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "gemma4_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "gemma4_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "gemma4_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "paged_llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "paged_llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "paged_llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "paged_llama",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "qwen",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "qwen",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "qwen",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "qwen",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "qwen3_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "qwen3_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "qwen3_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "qwen3_moe",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "whisper",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "whisper",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "whisper",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "whisper",
+        "suite": "luminal",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "math",
+        "suite": "math",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "math",
+        "suite": "math",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "math",
+        "suite": "math",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "math",
+        "suite": "math",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "math-microbenchmark",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-160",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-20",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-20",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "matmul-assoc-20",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-20",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-320",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-40",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-40",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "matmul-assoc-40",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-40",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-80",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "matmul-assoc-80",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "matmul-assoc-80",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "matmul-assoc-80",
+        "suite": "matmul-assoc",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "clusterdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "clusterdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "clusterdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "clusterdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "createdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "createdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "createdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "createdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "createlang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "createlang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "createlang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "createlang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "createuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "createuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "createuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "createuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "dict_snowball.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "dict_snowball.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "dict_snowball.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "dict_snowball.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "dropdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "dropdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "dropdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "dropdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "droplang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "droplang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "droplang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "droplang.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "dropuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "dropuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "dropuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "dropuser.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "ecpg.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "ecpg.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "ecpg.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "ecpg.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "initdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "initdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "initdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "initdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "libecpg.so.6.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "libecpg.so.6.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "libecpg.so.6.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "libecpg.so.6.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "libecpg_compat.so.3.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "libecpg_compat.so.3.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "libecpg_compat.so.3.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "libecpg_compat.so.3.7.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "libpgtypes.so.3.6.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "libpgtypes.so.3.6.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "libpgtypes.so.3.6.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "libpgtypes.so.3.6.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "libpq.so.5.8.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "libpq.so.5.8.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "libpq.so.5.8.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "libpq.so.5.8.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "libpqwalreceiver.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "libpqwalreceiver.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "libpqwalreceiver.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "libpqwalreceiver.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_basebackup.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_basebackup.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_basebackup.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_basebackup.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_ctl.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_ctl.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_ctl.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_ctl.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_dump.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_dump.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_dump.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_dump.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_dumpall.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_dumpall.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_dumpall.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_dumpall.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_isready.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_isready.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_isready.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_isready.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_receivexlog.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_receivexlog.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_receivexlog.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_receivexlog.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_recvlogical.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_recvlogical.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_recvlogical.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_recvlogical.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_restore.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_restore.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_restore.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_restore.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_rewind.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_rewind.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_rewind.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_rewind.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_upgrade.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pg_upgrade.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pg_upgrade.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pg_upgrade.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "pgbench.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "pgbench.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "pgbench.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "pgbench.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "plpgsql.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "plpgsql.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "plpgsql.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "plpgsql.so.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "psql.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "psql.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "psql.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "psql.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "reindexdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "reindexdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "reindexdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "reindexdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      },
+      {
+        "benchmark": "vacuumdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "vacuumdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp"
+      },
+      {
+        "benchmark": "vacuumdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-decomp-no-dynamic-order"
+      },
+      {
+        "benchmark": "vacuumdb.bc",
+        "suite": "pointer-analysis",
+        "threads": 1,
+        "variant": "no-dynamic-order"
+      }
+    ]
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "run_id": "20261019-172538-analysis-only-saturate",
+  "reference_runs": [
+    "20261016-212952-griffin-b9800506",
+    "20261016-221510-griffin-b9800506-no-decomp"
+  ],
+  "sample_count": 270,
+  "benchmark_count": 30,
+  "configuration_count": 90,
+  "variants": {
+    "egglog": 90,
+    "egglog-0.5.0": 90,
+    "egglog-no-decomp": 90
+  },
+  "statuses": {
+    "ok": 270
+  },
+  "timing_scope": "analysis",
+  "schedule": "(run-schedule (saturate (run)))",
+  "threads": [
+    1
+  ],
+  "repetitions": 3,
+  "all_final_table_sizes_match_historical_results": true,
+  "tables_checked_per_sample": 28,
+  "all_samples_load_23_inputs_before_timing": true,
+  "all_samples_have_three_native_completion_acknowledgments": true,
+  "all_engine_stderr_empty": true,
+  "all_timing_intervals_consistent": true,
+  "no_extra_extraction_commands_or_rules": true,
+  "engine_sources_unchanged": true,
+  "engine_builds": {
+    "b980050610f3": {
+      "info": {
+        "system": "egglog",
+        "ref": "b9800506",
+        "commit": "b980050610f354ebc0c0befff1d702e7f69cfb95",
+        "patches": [],
+        "flags": [
+          "--fact-directory",
+          "--help",
+          "--max-calls-per-function",
+          "--max-functions",
+          "--mode",
+          "--naive",
+          "--no-decomp",
+          "--proofs",
+          "--proof-testing",
+          "--report-level",
+          "--save-report",
+          "--serialize-n-inline-leaves",
+          "--serialize-split-primitive-outputs",
+          "--strict-mode",
+          "--term-encoding",
+          "--threads",
+          "--to-dot",
+          "--to-json",
+          "--to-svg",
+          "--version"
+        ],
+        "threads": true,
+        "stats_json": true
+      },
+      "binary_sha256": "ab7212d02a388554d98d4c0c756ef116ab90477506191d4e6ca09b0307fbffd6"
+    },
+    "1046874bf89e": {
+      "info": {
+        "system": "egglog",
+        "ref": "v0.5.0",
+        "commit": "1046874bf89e125ea79365ddec556560d2d49a77",
+        "patches": [],
+        "flags": [
+          "--fact-directory",
+          "--help",
+          "--max-calls-per-function",
+          "--max-functions",
+          "--naive",
+          "--no-messages",
+          "--serialize-n-inline-leaves",
+          "--serialize-split-primitive-outputs",
+          "--show",
+          "--to-dot",
+          "--to-json",
+          "--to-svg",
+          "--version"
+        ],
+        "threads": false,
+        "stats_json": false
+      },
+      "binary_sha256": "50d3561fc9f79edf420b31e3b64720fa58f0874760a2fb52d359d1c59409340b"
+    }
+  },
+  "focused_test_count": 18,
+  "focused_tests_status": "passed",
+  "real_legacy_error_case": "Typecheck failure with inherited RUST_LOG=off rejected in 0.025 s; stderr preserved; no analysis metric.",
+  "process_seconds_sum": 151.50038113095798,
+  "harness_seconds_sum": 162.93438352434896,
+  "measurement_source_sha256": {
+    "systems/egglog/run": "ea62c9a43943f36a79de0cc3b389ef774f05c36aa9b0914e2d216f5670a2765d",
+    "systems/egglog/interactive.py": "d468caafcda5852ed1269a66ebb16017f9c2758eb2d9655414749c3dd2f9c99b",
+    "tests/test_egglog_timing.py": "9240edd30557f1ee2a52fe43cc8759336548072f40a28eae9aa66b2080bc62e9",
+    "benchmarks/pointer-analysis/pointer-analysis.egg": "c922c18b3b06880e58ea446cbd9189185a4e18d5f9ea76815907225d424c0e63",
+    "benchmarks/pointer-analysis/suite.toml": "f2c2e30f757628abb65865739dd5566d00b6707a1d090896941f0c1cc89238bc",
+    "experiments/e2e.toml": "e168bcab6314dd1bc72177b4d23287dc6e3f73562fd19d47dc5648c8b3883d21",
+    "harness/config.py": "4bbc530985005b73ca32ef2cef90261d265744668a09895e466c4082e016997b",
+    "harness/runner.py": "249c970e24653b0dc063f345a6f26b9f72bbbc1d5a1f4d51f16929803d75835e",
+    "harness/results.py": "3abf60d38d083cce366e714cbe34e8af590ce4437b0af3a413a8bf5ecb73555c"
+  }
+}

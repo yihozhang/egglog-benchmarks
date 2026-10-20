@@ -1,0 +1,22 @@
+{
+  "source_selection": [
+    {
+      "run_id": "20261016-193058-griffin-b9800506",
+      "source": "results/engines-small/20261016-193058-griffin-b9800506.jsonl",
+      "sha256": "9ce798f0dfe918940a65c93f27ca1e7cd3def0b5248fec8724c3c7944800e53c",
+      "size": 451617,
+      "choice": "all",
+      "source_rows": 450,
+      "selected_rows": 450
+    }
+  ],
+  "notes": [
+    "Measurements predate portable run manifests; provenance remains legacy-incomplete.",
+    "Whole configuration groups were explicitly selected; no repetitions were cherry-picked.",
+    "All original source rows are retained inside each selection, including excluded older pointer groups.",
+    "Ablation-parallelism analysis-only pointer measurements used (run 100000), not the later saturation schedule.",
+    "E2e analysis-only pointer measurements used (run-schedule (saturate (run))).",
+    "Legacy rows retain original log_dir values; local archived logs are below scratch/legacy-migration-20261019/original/ at the same relative paths.",
+    "Research probes, invalid extraction-marker measurements, and smoke runs are preserved as scratch evidence, not promoted to selected benchmark results."
+  ]
+}

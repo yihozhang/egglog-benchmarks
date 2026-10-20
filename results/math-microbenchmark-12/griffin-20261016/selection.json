@@ -1,0 +1,219 @@
+{
+  "analysis": "median of successful repetitions; groups with any failure are excluded from speedups; all outcomes retained; no latest-per-cell replacement",
+  "checksums": {
+    "measurements.jsonl": {
+      "sha256": "83c2468d27767911206dca7dc6d977f12cbf7e4a671686aff6e310fb8868b926",
+      "size": 40990
+    },
+    "migration.json": {
+      "sha256": "f4aa2d8e6db0423e64e724e8d743b2f06696b7a66b305eff9c8abdf67327cf1f",
+      "size": 1187
+    },
+    "runs/20261016-224427-griffin-b9800506/measurements.jsonl": {
+      "sha256": "f66d31214411683012e7ac0bd896fe0bd2af5fb6ab9dea72bc36645c6128089f",
+      "size": 40990
+    }
+  },
+  "config": {
+    "baseline": "egglog",
+    "benchmark_timing": {
+      "math-microbenchmark/math-microbenchmark-12": "process"
+    },
+    "benchmarks": [
+      "math-microbenchmark/math-microbenchmark-12"
+    ],
+    "cpus": null,
+    "description": "Math microbenchmark with 12 iterations: oatlog, egglog at 1/4/8/16 threads, egglog 0.5.0, and ggs.",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "variants",
+    "reps": 5,
+    "speedup_labels": {},
+    "threads": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "timeout": 600,
+    "variants": [
+      {
+        "env": {},
+        "flags": [],
+        "label": "oatlog",
+        "patches": [],
+        "ref": "6b73396",
+        "system": "oatlog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-t4",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          4
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-t8",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          8
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-t16",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog",
+        "threads": [
+          16
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-0.5.0",
+        "patches": [],
+        "ref": "v0.5.0",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "ggs",
+        "patches": [],
+        "ref": "2ad0981083bff2443fd0aaee407f5d2c4419abc3",
+        "system": "ggs",
+        "threads": [
+          1
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog-0.5.0"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "egglog-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "egglog-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "egglog-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "oatlog"
+    }
+  ],
+  "created_at": "2026-10-20T00:54:56.416384+00:00",
+  "experiment": "math-microbenchmark-12",
+  "kind": "matrix",
+  "metric": "wall_s",
+  "name": "griffin-20261016",
+  "provenance": "legacy-incomplete",
+  "run_ids": [
+    "20261016-224427-griffin-b9800506"
+  ],
+  "schema_version": 1,
+  "source_groups": {
+    "20261016-224427-griffin-b9800506": [
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egglog"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "egglog-0.5.0"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 16,
+        "variant": "egglog-t16"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 4,
+        "variant": "egglog-t4"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 8,
+        "variant": "egglog-t8"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "ggs"
+      },
+      {
+        "benchmark": "math-microbenchmark-12",
+        "suite": "math-microbenchmark",
+        "threads": 1,
+        "variant": "oatlog"
+      }
+    ]
+  }
+}

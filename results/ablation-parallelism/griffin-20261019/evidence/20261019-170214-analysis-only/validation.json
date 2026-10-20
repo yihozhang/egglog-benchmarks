@@ -1,0 +1,52 @@
+{
+  "run_id": "20261019-170214-analysis-only",
+  "reference_run_id": "20261019-141309-full",
+  "sample_count": 1080,
+  "benchmark_count": 30,
+  "configuration_count": 360,
+  "statuses": {
+    "ok": 1080
+  },
+  "timing_scope": "analysis",
+  "timed_commands": "(run 100000)",
+  "all_samples_have_three_completion_barriers": true,
+  "all_samples_load_23_inputs_before_timing": true,
+  "all_samples_have_no_engine_stderr": true,
+  "all_table_sizes_match_original_run": true,
+  "tables_checked_per_sample": 28,
+  "all_timing_intervals_consistent": true,
+  "main_and_cached_engine_diff_exactly_query_parallelism_patch": true,
+  "engine_commit": "4b5686bed78cf7cf153aebf8e6a2abed1840afee",
+  "binary_sha256": "488a451e26f889e1cf7e174ae8a76bab278162c44e769304c8fe04242ad7cfe0",
+  "query_patch_sha256": "c6cedb355bf9fb9ad0c5899ede746d726e2aa51ea596553a12ea9e4916614a6f",
+  "measurement_source_sha256": {
+    "systems/egglog/run": "84e6e91d30b27ec109a334150b96095494992fb6149886bc65ec2b6fc47c33e9",
+    "systems/egglog/interactive.py": "26bfb09cc94868d5b3892ce00e9cb9cbce3d5c9dff3ea35df5339d19534425a0",
+    "benchmarks/pointer-analysis/pointer-analysis.egg": "d3dde85c8861035c15a5cd43b4e70a4b5be894a92791598e76c8a330d9a2e236",
+    "benchmarks/pointer-analysis/suite.toml": "f2c2e30f757628abb65865739dd5566d00b6707a1d090896941f0c1cc89238bc",
+    "harness/config.py": "4bbc530985005b73ca32ef2cef90261d265744668a09895e466c4082e016997b",
+    "harness/runner.py": "249c970e24653b0dc063f345a6f26b9f72bbbc1d5a1f4d51f16929803d75835e",
+    "harness/results.py": "3abf60d38d083cce366e714cbe34e8af590ce4437b0af3a413a8bf5ecb73555c",
+    "scripts/plot-ablation-parallelism-benchmarks.py": "a14ee3bf544d56eb7fd396a671bf063a027de9684f63c9cebfbea4666300f952",
+    "experiments/ablation-parallelism.toml": "c7fc3b5096197eba0479c9f9c2de2a6a2b72ab2e135623b8ce3caaaf4c9205a6",
+    "tests/test_egglog_timing.py": "db637a2b38163a30a26fb8393662696d1d9b0c4213446a4ca2c6b63c6cbf6b4e"
+  },
+  "validation_tests": "11 focused protocol/timing tests passed; smoke covered 12 interactive cases, 2 process references, 1 unaffected suite",
+  "process_seconds_sum": 206.3931116986787,
+  "harness_seconds_sum": 252.70377749961335,
+  "analysis_seconds_sum": 110.38559803843964,
+  "cpus": "0-7",
+  "threads": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "repetitions": 3,
+  "notes": [
+    "No relation or parsing optimization patches are applied.",
+    "Analysis timer includes the interactive include/read/parse/acknowledgment overhead.",
+    "Declarations and static rule registration are part of excluded setup.",
+    "Historical result files and figures are preserved."
+  ]
+}
