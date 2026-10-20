@@ -10,42 +10,42 @@ baseline = "egglog"
 [[variants]]
 label = "egglog"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 
 [[variants]]
 label = "egglog-t4"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [4]
 
 [[variants]]
 label = "egglog-t8"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [8]
 
 [[variants]]
 label = "egglog-t16"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [16]
 
 [[variants]]
 label = "egglog-t32"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [32]
 
 [[variants]]
 label = "egglog-no-decomp"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 flags = ["--no-decomp"]      # single-bag plans (only matters for rules with 3+ atoms)
 
 [[variants]]
 label = "egglog-no-decomp-t8"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 flags = ["--no-decomp"]
 threads = [8]
 

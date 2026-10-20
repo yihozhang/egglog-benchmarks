@@ -24,6 +24,8 @@ def cmd_list(args):
         for v in exp.variants:
             patches = f" +{'+'.join(v.patches)}" if v.patches else ""
             print(f"  variant {v.label:28s} {v.system}@{v.ref}{patches} {' '.join(v.flags)}")
+            if v.env:
+                print(f"    env={v.env}")
         benches = config.resolve_benchmarks(exp.benchmarks)
         systems = {v.system: config.load_system(v.system) for v in exp.variants}
         print(f"  {len(benches)} benchmarks:")
@@ -236,8 +238,11 @@ def cmd_inspect(args):
 
 
 def cmd_select(args):
+    groups = None
+    if args.groups is not None:
+        groups = json.loads(args.groups.read_text())
     directory = results.select_runs(args.experiment, args.runs, args.name,
-                                    allow_legacy=args.allow_legacy, metric=args.metric)
+                                    allow_legacy=args.allow_legacy, metric=args.metric, groups=groups)
     print(f"selected results: {directory}")
     print("Review these files and commit them with Git when ready.")
 
@@ -307,6 +312,7 @@ def main(argv=None):
     p.add_argument("--runs", nargs="+", required=True, metavar="ID")
     p.add_argument("--as", dest="name", required=True, help="new selection name, e.g. paper-v1")
     p.add_argument("--allow-legacy", action="store_true", help="explicitly accept incomplete provenance in old results")
+    p.add_argument("--groups", type=Path, help="JSON mapping exact source run IDs to whole configuration groups to retain")
     p.add_argument("--metric", help="freeze an analysis metric (default: experiment metric)")
     p.set_defaults(fn=cmd_select)
 

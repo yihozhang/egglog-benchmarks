@@ -194,7 +194,9 @@
     (union (A alloc1) (A alloc2))
 ))
 
-(run 100000)
+;; BENCHMARK_TIMING_START
+(run-schedule (saturate (run)))
+;; BENCHMARK_TIMING_END
 
 (print-size expr_points_to)
 (print-size ptr_points_to)

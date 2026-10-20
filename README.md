@@ -19,6 +19,7 @@ uv run bench list
 uv run bench list ablation
 uv run bench run ablation --machine server-a --cpus 0-15
 uv run bench runs ablation
+uv run bench run e2e -b pointer-analysis --tag analysis-only  # all variants, loading excluded
 uv run bench inspect <run-id>
 uv run bench summary ablation                 # one latest complete run
 uv run bench check ablation --run <run-id>
@@ -76,6 +77,15 @@ before using it as a complete paper table. Overlapping groups from different run
 are rejected; choose which complete group to use instead of cherry-picking
 repetitions. The first version selects one query run at a time.
 
+For a partial rerun that overlaps an older run, `select --groups choices.json`
+explicitly chooses whole configuration groups from each source. The JSON maps each
+exact source run ID to a nonempty list of objects with `suite`, `benchmark`,
+`variant`, and `threads`. List every source passed with `--runs`; all repetitions
+of each chosen group are retained. The selection records these choices and copies
+all original source measurements, including excluded groups, for review. Without
+`--groups`, overlapping runs remain an error. Legacy sources still require
+`--allow-legacy`; filtering does not upgrade their provenance.
+
 ## Multiple machines
 
 Run each machine independently, with a descriptive `--machine` alias. The alias
@@ -113,6 +123,22 @@ They lack the new completeness/provenance information. Selecting them requires
 `--allow-legacy`, which records `legacy-incomplete` in the selection rather than
 inventing missing metadata. Legacy and modern rows cannot be combined. For old
 query directories, specify the run ID explicitly because completion is unknown.
+
+The retained Griffin measurements are frozen as `griffin-20261019` for `e2e` and
+`ablation-parallelism`, and `griffin-20261016` for `ablation`, `engines`,
+`engines-small`, and `math-microbenchmark-12`. For example:
+
+```sh
+uv run bench plot e2e --selection griffin-20261019
+uv run python scripts/plot-ablation-parallelism-benchmarks.py --selection griffin-20261019
+```
+
+These selections retain their original rows and `legacy-incomplete` provenance.
+Their `migration.json` files record the source choices. Original local logs,
+smoke tests, and abandoned prototypes are preserved under ignored
+`scratch/legacy-migration-20261019/original/`, with a relocation/checksum manifest
+one directory above. The selected ablation pointer measurements used `(run 100000)`;
+the later e2e pointer measurements used `(run-schedule (saturate (run)))`.
 
 ## Layout
 
@@ -164,8 +190,9 @@ query directories, specify the run ID explicitly because completion is unknown.
 ```
 
 `status` is `ok`, `fail`, `timeout`, `oom` or `unsupported`. `wall_s` is the
-system's own process wall time as reported by the adapter (`harness_wall_s` is
-measured around everything, including the adapter and cgroup setup); the other
+adapter's measured wall-clock interval, identified by `timing_scope` (`process`
+by default, `analysis` for egglog pointer analysis). `harness_wall_s` is measured
+around everything, including the adapter and cgroup setup; the other
 `report.*` fields are the system's own numbers (for egglog, from `(print-stats)`
 and `(print-size)` appended as a trailer file).
 
@@ -179,7 +206,7 @@ address-space rlimit.
 
 | system | how it is built | pinned ref in `experiments/engines.toml` | notes |
 |---|---|---|---|
-| `egglog` | host cargo, any ref of the submodule, optional patches | 593df10e, v0.5.0 | `-j`, `--no-decomp`, `--no-dynamic-order` (patch) |
+| `egglog` | host cargo, any ref of the submodule, optional patches | b9800506 (branch yihozhang-bench-20261016), v0.5.0 | `-j`, `--no-decomp`, `--no-dynamic-order` (patch) |
 | `egg` | host cargo; Rust port per benchmark | v0.11.0 | `SimpleScheduler`, no limits |
 | `oatlog` | host cargo; port = egglog program compiled by the proc macro | 6b73396 (main) | strict mode; relaxed mode exceeds 32 GB |
 | `hegg` | container (GHC 9.6); Haskell port | v0.5.0.0 | driver loop in the port (hegg's own caps iterations at 30 and bans rules); the port canonicalizes the e-matching database because hegg's leaves stale ids |
@@ -199,6 +226,33 @@ The headline number is always `wall_s`: wall-clock time measured by our own code
 and type checking where the engine does them. For JIT languages (Julia, JVM) the port
 measures after a warm-up on a separate e-graph, so JIT compilation and VM startup are
 excluded while e-graph construction, the iterations and the size count are included.
+Pointer analysis is an explicit exception: its suite sets `egglog_timing = "analysis"`.
+For every egglog variant, the adapter starts one persistent CLI process, loads the
+program before `;; BENCHMARK_TIMING_START`, and waits for completion. It measures the
+request that runs the commands through `;; BENCHMARK_TIMING_END` until completion.
+Current versions use `--mode interactive` and `(done)` acknowledgments. Egglog 0.5.0
+uses its native `(set-option interactive_mode 1)` completion messages. Setup and
+reporting suppress intermediate acknowledgments and restore one at the phase boundary;
+the timed saturation schedule has one native `(done)` acknowledgment. The legacy path
+also monitors stderr because parse/type errors may have no stdout acknowledgment.
+It requires the marked interval to contain the single supported saturation schedule,
+so multiple commands cannot accidentally end the timer early. No engine patch is needed.
+Currently this interval is exactly `(run-schedule (saturate (run)))`: runtime query planning, querying,
+actions, merge and rebuild remain included. Process startup, CSV loading, declarations
+and rule registration/compilation, final size/stat printing and shutdown are excluded.
+The interval includes the small include-command read/parse and pipe round-trip overhead;
+it is an independently measured wall time, not a sum of egglog's phase timers.
+
+Each such row records `timing_scope = "analysis"`. The report also keeps
+`analysis_wall_s` (equal to `wall_s`), `setup_wall_s` (startup through setup completion)
+and `process_wall_s` (the complete engine process). CPU times and peak RSS still cover
+the whole process, including loading. Logs contain `setup.egg`, `analysis.egg`,
+`finish.egg` and the exact interactive `stdin.egg` transcript. Loading and reporting
+remain subject to the same full-run timeout and memory limit. Other suites retain
+their existing timing. Pointer-analysis timing applies to all three `e2e` variants: `egglog`,
+`egglog-0.5.0`, and `egglog-no-decomp`. Old rows without `timing_scope` mean process time; summaries
+reject a partial rerun that mixes process and analysis timing for one benchmark.
+
 Times the engines report about themselves (egglog's `(print-stats)`, egg's iteration
 times, Metatheory's report, ...) are stored in `report.run_s` and the like for
 reference, never plotted.
@@ -281,6 +335,47 @@ one Umbra job at a time.
 - egglog 0.5.0 has no `-j`, so multi-threaded configurations of it are `unsupported`.
 - Scaling runs are pinned with `taskset` to the CPU list in the experiment
   (`cpus = "0-63"` = the 64 physical cores of this machine; 64–127 are SMT siblings).
+
+## Query parallelism ablation
+
+`experiments/ablation-parallelism.toml` runs the standard suite with three competitors:
+vanilla `egglog`, `inter-query-only`, and `inter-query-top-level`. It uses 1/2/4/8
+threads, three repetitions, and CPUs 0–7 (physical cores on NUMA node 0). All three
+share egglog commit `4b5686bed78cf7cf153aebf8e6a2abed1840afee` and the
+`query-parallelism` patch, matching the Gemma pilot. Other experiments retain their
+existing pins. The patch only adds a top-level query partition toggle; recursive
+query forks use the existing fork-depth control. Merge, rebuild, index construction,
+containers, and action scheduling keep their existing policies.
+
+Variant `env = { NAME = "value" }` entries override the run-time environment of
+that variant's adapter and child process. They do not affect the build, and are
+recorded in the frozen configuration, identity checks, each result row and the
+run's `env.json` log. The three query modes set
+(fork depth, top partition enabled) to (2, 1), (0, 0), and (0, 1), respectively.
+
+```sh
+uv run bench run ablation-parallelism
+uv run bench run ablation-parallelism -b luminal/gemma -r 1 --tag smoke
+uv run bench run ablation-parallelism -b pointer-analysis --tag analysis-only
+uv run bench summary ablation-parallelism
+uv run bench summary ablation-parallelism --metric report.search_apply_s
+uv run bench check ablation-parallelism
+uv run bench plot ablation-parallelism
+```
+
+The per-suite figures are specific to this parallelism ablation. For a frozen
+selection, use `uv run python scripts/plot-ablation-parallelism-benchmarks.py --selection VERSION`.
+Other experiments retain their existing figure layouts. The plotting scripts use
+captured configurations and the same explicit selection rules as `bench plot`.
+
+For a completed pointer-only rerun, generate its per-benchmark wall-time figure with
+`uv run python scripts/plot-ablation-parallelism-benchmarks.py --run RUN_ID --suite pointer-analysis`.
+The loading-excluded figure uses an `analysis-wall-time` filename, preserving older figures.
+
+The headline scaling plots use process wall time except for pointer analysis,
+which excludes setup/loading as described above. Search-and-apply, merge, and rebuild times remain in each row
+for analysis. The runner uses its usual sequential benchmark/variant/thread/repetition
+order; this full-suite experiment does not add a warmup or randomize that order.
 
 ## Harness tests
 

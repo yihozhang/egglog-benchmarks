@@ -12,26 +12,26 @@ speedup_labels = { no-decomp = "+ dynamic order", no-dynamic-order = "+ tree-dec
 [[variants]]
 label = "egglog"
 system = "egglog"
-ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
 patches = ["no-dynamic-order"]
 
 [[variants]]
 label = "no-decomp"
 system = "egglog"
-ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
 patches = ["no-dynamic-order"]
 flags = ["--no-decomp"]
 
 [[variants]]
 label = "no-dynamic-order"
 system = "egglog"
-ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
 patches = ["no-dynamic-order"]
 flags = ["--no-dynamic-order"]
 
 [[variants]]
 label = "no-decomp-no-dynamic-order"
 system = "egglog"
-ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
 patches = ["no-dynamic-order"]
 flags = ["--no-decomp", "--no-dynamic-order"]

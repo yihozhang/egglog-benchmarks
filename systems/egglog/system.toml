@@ -3,7 +3,12 @@
 notes = """
 Runs the .egg programs directly with `egglog [-j N] [-F dir] <program> <trailer>`; the trailer
 adds (print-size) and (print-stats). wall_s = the egglog process (parsing, type checking, the
-schedule, printing sizes/stats); report.run_s = sum of egglog's own per-ruleset
+schedule, printing sizes/stats), except pointer analysis: interactive completion
+barriers time only its marked saturation schedule, with loading/setup and reporting excluded.
+Current versions use --mode interactive; v0.5.0 enables its native REPL acknowledgments
+with set-option interactive_mode. Both use the same phase boundaries and no engine changes.
+The report retains process_wall_s and setup_wall_s for those rows; timing_scope identifies
+the interval. report.run_s = sum of egglog's own per-ruleset
 search/merge/rebuild times (reference only). egglog 0.5.0 has no -j, so threads > 1 are
 unsupported for it. Local modifications are patches in patches/ (e.g. --no-dynamic-order).
 """

@@ -14,12 +14,12 @@ import shutil
 import subprocess
 import sys
 import time
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 from . import artifacts
 from .config import (ROOT, Benchmark, Experiment, Variant, is_patch_path, load_system,
-                     patch_path, resolve_benchmarks, validate_settings)
+                     patch_path, resolve_benchmarks, validate_env, validate_settings)
 
 # Exit code an adapter uses to say "this system/ref cannot run this configuration".
 UNSUPPORTED_EXIT = 3
@@ -122,6 +122,10 @@ def repo_commit() -> str:
         return ""
 
 
+def measurement_scope(variant: Variant, bench: Benchmark) -> str:
+    return bench.egglog_timing if variant.system == "egglog" else "process"
+
+
 def run_one(
     variant: Variant,
     build_: Build,
@@ -148,7 +152,10 @@ def run_one(
     if memory_gb:
         cmd = [*memory_cap_prefix(memory_gb), *cmd]
     # Adapters that cannot be confined by the harness (containers) read the limits from here.
-    env = {**os.environ, "BENCH_TIMEOUT_S": str(int(timeout)), "BENCH_MEMORY_GB": str(memory_gb)}
+    env = {**os.environ, **variant.env, "BENCH_TIMEOUT_S": str(int(timeout)), "BENCH_MEMORY_GB": str(memory_gb)}
+    (log_dir / "env.json").write_text(json.dumps(variant.env, indent=2) + "\n")
+    if variant.system == "egglog":
+        env["BENCH_EGGLOG_TIMING"] = bench.egglog_timing
     if cpus:
         env["BENCH_CPUS"] = cpus
     t0 = time.perf_counter()
@@ -199,15 +206,23 @@ def run_one(
             report = json.loads(report_path.read_text())
         except json.JSONDecodeError:
             pass
+    if status == "fail" and report.get("status_hint") == "timeout":
+        status = "timeout"
     if status == "fail" and (report.get("status_hint") == "oom" or (memory_gb and rc == -signal.SIGTERM)):
         # The adapter saw the OOM kill, or systemd stopped the whole scope (SIGTERM) after one.
         status = "oom"
+    if status == "ok" and measurement_scope(variant, bench) == "analysis" and (
+        report.get("timing_scope") != "analysis" or "wall_s" not in report
+    ):
+        status = "fail"
+        report["measurement_error"] = "analysis timing requested but adapter did not report analysis wall time"
     return {
         "status": status,
         "exit_code": rc,
-        # wall_s is the system's own process wall time when the adapter reports it
-        # (excludes adapter and cgroup setup); harness_wall_s is measured around everything.
+        # wall_s is the adapter's measured interval; timing_scope identifies whether
+        # it excludes setup. harness_wall_s and resource usage cover the full process.
         "wall_s": report.get("wall_s", wall),
+        "timing_scope": report.get("timing_scope", measurement_scope(variant, bench)),
         "harness_wall_s": wall,
         "user_s": ru.ru_utime,
         "sys_s": ru.ru_stime,
@@ -250,6 +265,7 @@ def benchmark_identity(bench: Benchmark, systems: dict, *, rd: Path | None = Non
         "files": files,
         "suite": artifacts.file_identity(suite_file) if suite_file.exists() else None,
         "facts": artifacts.tree_identity(bench.fact_dir) if bench.fact_dir else None,
+        "egglog_timing": bench.egglog_timing,
     }
     source_files = {f"inputs/{bench.id}/{name}": bench.dir / name for name in files}
     if suite_file.exists():
@@ -301,7 +317,8 @@ def run_experiment(
     dry_run: bool = False,
     tag: str | None = None,
 ) -> Path | None:
-    benches = resolve_benchmarks(only_benchmarks or exp.benchmarks)
+    benches = [replace(b, egglog_timing=exp.benchmark_timing.get(b.id, b.egglog_timing))
+               for b in resolve_benchmarks(only_benchmarks or exp.benchmarks)]
     # Duplicate selectors must not silently duplicate measurements.
     benches = list({b.id: b for b in benches}.values())
     variants = [exp.variant(l) for l in dict.fromkeys(only_variants)] if only_variants else exp.variants
@@ -319,6 +336,10 @@ def run_experiment(
         validate_settings(values, reps, timeout, memory_gb)
     if not benches or not variants:
         raise SystemExit("an experiment must select at least one benchmark and variant")
+    for v in variants:
+        validate_env(v.env, v.label)
+    if any(b.egglog_timing not in ("process", "analysis") for b in benches):
+        raise SystemExit("benchmark timing must be process or analysis")
     systems = {v.system: load_system(v.system) for v in variants}
     print(f"experiment {exp.name}: {len(benches)} benchmarks x {len(variants)} variants; "
           f"{reps} reps, timeout {timeout:g}s, memory cap {memory_gb:g} GB")
@@ -333,8 +354,9 @@ def run_experiment(
     effective_config = {
         "description": exp.description,
         "benchmarks": [b.id for b in benches],
+        "benchmark_timing": {b.id: b.egglog_timing for b in benches},
         "variants": [{"label": v.label, "system": v.system, "ref": v.ref,
-                      "flags": list(v.flags), "patches": list(v.patches),
+                      "flags": list(v.flags), "patches": list(v.patches), "env": dict(v.env),
                       "threads": variant_threads[v.label]} for v in variants],
         "threads": list(dict.fromkeys(effective_threads)),
         "reps": reps, "timeout": timeout, "memory_gb": memory_gb, "cpus": cpus,
@@ -352,7 +374,7 @@ def run_experiment(
     recorded = 0
     terminal_cases = 0
     cases = [{"suite": b.suite, "benchmark": b.name, "variant": v.label,
-              "threads": t, "reps": reps}
+              "threads": t, "reps": reps, "timing_scope": measurement_scope(v, b)}
              for b in benches for v in variants for t in variant_threads[v.label]]
     manifest["cases"] = cases
     manifest["inputs"] = {}
@@ -400,7 +422,7 @@ def run_experiment(
             }
             adapters = artifacts.snapshot_files(rd, adapter_files)
             adapter_identity = {name: entry["sha256"] for name, entry in adapters.items()}
-            info = {"system": v.system, "ref": v.ref, "flags": list(v.flags),
+            info = {"system": v.system, "ref": v.ref, "flags": list(v.flags), "env": dict(v.env),
                     "patches": list(v.patches), "patch_snapshots": patch_snapshots,
                     "patch_hashes": patch_hashes, "adapter_snapshots": adapters}
             manifest["builds"][v.label] = info
@@ -423,12 +445,13 @@ def run_experiment(
             }
             info["build_id"] = identity({
                 "system": v.system, "commit": info["commit"], "patch_hashes": patch_hashes,
-                "flags": list(v.flags), "harness": harness_identity, "adapters": adapter_identity,
+                "flags": list(v.flags), "env": dict(v.env),
+                "harness": harness_identity, "adapters": adapter_identity,
                 "engine_executable": engine_binary,
             })
             artifacts.write_manifest(rd, manifest)
             print(f"  {v.label}: {v.system}@{v.ref} -> {builds[v.label].dir} "
-                  f"({info['commit'][:12]}) patches={list(v.patches)} flags={list(v.flags)}")
+                  f"({info['commit'][:12]}) patches={list(v.patches)} flags={list(v.flags)} env={v.env}")
         base = {
             "experiment": exp.name, "run_id": run_id, "host": host,
             "harness_commit": manifest.get("provenance", {}).get("harness_commit", repo_commit()),
@@ -446,13 +469,14 @@ def run_experiment(
                         config_id = identity({
                             "build_id": info["build_id"], "input_id": input_info["input_id"],
                             "port_id": port_id, "threads": t,
-                            "measurement_policy": policy,
+                            "measurement_policy": policy, "timing_scope": measurement_scope(v, b),
                         })
                         row_base = {
                             **base, "suite": b.suite, "benchmark": b.name, "variant": v.label,
                             "system": v.system, "ref": v.ref, "commit": info["commit"],
                             "patches": list(v.patches), "patch_hashes": info["patch_hashes"],
-                            "flags": list(v.flags), "threads": t, "config_id": config_id,
+                            "flags": list(v.flags), "env": dict(v.env),
+                            "timing_scope": measurement_scope(v, b), "threads": t, "config_id": config_id,
                             "build_id": info["build_id"], "input_id": input_info["input_id"],
                             "port_id": port_id,
                         }

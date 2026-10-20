@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+from dataclasses import replace
 from pathlib import Path
 from unittest import mock
 
@@ -86,6 +87,7 @@ class RunBundleTests(unittest.TestCase):
         self.assertEqual(manifest["config"]["speedup_labels"], {"normal": "display name"})
         self.assertEqual(manifest["cases"], [{
             "suite": "suite", "benchmark": "b", "variant": "normal", "threads": 2, "reps": 3,
+            "timing_scope": "process",
         }])
         self.assertEqual(manifest["completion"]["planned_repetitions"], 3)
         self.assertEqual(manifest["completion"]["recorded_repetitions"], 3)
@@ -108,6 +110,97 @@ class RunBundleTests(unittest.TestCase):
         self.assertEqual(artifacts.verify_run(path)["state"], "complete")
         frozen = config.experiment_from_dict(manifest["experiment"], manifest["config"])
         self.assertEqual(frozen.variants[0].threads, (2,))
+
+    def test_runtime_env_is_frozen_recorded_and_changes_measurement_identity(self):
+        original = self.exp.variants[0]
+        self.exp.variants = [replace(original, env={"QUERY_DEPTH": "2", "TOP_PARTITION": "1"})]
+        _, first_manifest, first = self.run_bundle(only_benchmarks=["suite/a"], reps=1)
+        self.assertEqual(first_manifest["config"]["variants"][0]["env"], self.exp.variants[0].env)
+        self.assertEqual(first_manifest["builds"]["normal"]["env"], self.exp.variants[0].env)
+        self.assertEqual(first[0]["env"], self.exp.variants[0].env)
+        frozen = config.experiment_from_dict("example", first_manifest["config"])
+        self.assertEqual(frozen.variants[0].env, self.exp.variants[0].env)
+        self.exp.variants = [replace(original, env={"TOP_PARTITION": "1", "QUERY_DEPTH": "2"})]
+        _, _, reordered = self.run_bundle(only_benchmarks=["suite/a"], reps=1)
+        self.assertEqual(first[0]["build_id"], reordered[0]["build_id"])
+        self.exp.variants = [replace(original, env={"QUERY_DEPTH": "0", "TOP_PARTITION": "1"})]
+        _, changed_manifest, changed = self.run_bundle(only_benchmarks=["suite/a"], reps=1)
+        self.assertNotEqual(first[0]["build_id"], changed[0]["build_id"])
+        self.assertNotEqual(first[0]["config_id"], changed[0]["config_id"])
+        self.assertEqual(first[0]["input_id"], changed[0]["input_id"])
+        self.assertEqual(first_manifest["environment_id"], changed_manifest["environment_id"])
+
+    def test_frozen_benchmark_timing_survives_suite_changes_and_has_identity(self):
+        self.exp.benchmark_timing = {"suite/a": "analysis"}
+        _, first_manifest, first = self.run_bundle(only_benchmarks=["suite/a"], reps=1)
+        self.assertEqual(first_manifest["inputs"]["suite/a"]["egglog_timing"], "analysis")
+        self.assertEqual(first_manifest["config"]["benchmark_timing"], {"suite/a": "analysis"})
+        self.exp = config.experiment_from_dict("example", first_manifest["config"])
+        # The live suite still defaults to process; the frozen config must win.
+        self.assertEqual(config.load_suite("suite")[0].egglog_timing, "process")
+        _, repeated_manifest, repeated = self.run_bundle(reps=1)
+        self.assertEqual(self.executor.call_args.args[2].egglog_timing, "analysis")
+        self.assertEqual(first[0]["input_id"], repeated[0]["input_id"])
+        self.exp.benchmark_timing = {"suite/a": "process"}
+        _, changed_manifest, changed = self.run_bundle(reps=1)
+        self.assertNotEqual(first[0]["input_id"], changed[0]["input_id"])
+        self.assertNotEqual(first[0]["config_id"], changed[0]["config_id"])
+        self.assertEqual(repeated_manifest["environment_id"], changed_manifest["environment_id"])
+
+    def test_interactive_helper_is_snapshotted_and_fingerprinted(self):
+        helper = self.system / "interactive.py"
+        helper.write_text("# original protocol\n")
+        bundle, first_manifest, first = self.run_bundle(only_benchmarks=["suite/a"], reps=1)
+        source = first_manifest["builds"]["normal"]["adapter_snapshots"]["adapters/test/interactive.py"]
+        self.assertEqual((bundle / source["path"]).read_text(), "# original protocol\n")
+        helper.write_text("# revised protocol\n")
+        _, _, changed = self.run_bundle(only_benchmarks=["suite/a"], reps=1)
+        self.assertNotEqual(first[0]["build_id"], changed[0]["build_id"])
+
+    def test_run_one_propagates_runtime_env_and_analysis_policy(self):
+        system = config.SYSTEMS / "egglog"
+        system.mkdir()
+        (system / "build").write_text("# test build\n")
+        adapter = system / "run"
+        adapter.write_text('''#!/usr/bin/env python3
+import json, os, sys
+from pathlib import Path
+out = Path(sys.argv[5])
+(out / "observed.json").write_text(json.dumps({name: os.environ.get(name) for name in ("QUERY_DEPTH", "BENCH_EGGLOG_TIMING")}))
+(out / "report.json").write_text(json.dumps({"wall_s": 0.01, "timing_scope": "analysis"}))
+''')
+        adapter.chmod(0o755)
+        bench = replace(config.resolve_benchmarks(["suite/a"])[0], egglog_timing="analysis")
+        variant = replace(self.exp.variants[0], system="egglog", env={"QUERY_DEPTH": "0"})
+        log_dir = self.root / "env-logs"
+        with mock.patch.dict(os.environ, {"QUERY_DEPTH": "2", "BENCH_EGGLOG_TIMING": "process"}):
+            result = REAL_RUN_ONE(variant, self.builder.return_value, bench, 1, 10, 0, None, log_dir)
+        self.assertEqual(result["status"], "ok")
+        self.assertEqual(result["timing_scope"], "analysis")
+        self.assertEqual(json.loads((log_dir / "observed.json").read_text()), {"QUERY_DEPTH": "0", "BENCH_EGGLOG_TIMING": "analysis"})
+        self.assertEqual(json.loads((log_dir / "env.json").read_text()), {"QUERY_DEPTH": "0"})
+
+    def test_failed_or_missing_analysis_report_keeps_intended_scope(self):
+        system = config.SYSTEMS / "egglog"
+        system.mkdir()
+        (system / "build").write_text("# test build\n")
+        adapter = system / "run"
+        bench = replace(config.resolve_benchmarks(["suite/a"])[0], egglog_timing="analysis")
+        variant = replace(self.exp.variants[0], system="egglog")
+        for exit_code in (0, 1):
+            with self.subTest(exit_code=exit_code):
+                adapter.write_text(f"#!/bin/sh\nexit {exit_code}\n")
+                adapter.chmod(0o755)
+                result = REAL_RUN_ONE(variant, self.builder.return_value, bench, 1, 10, 0, None, self.root / f"missing-{exit_code}")
+                self.assertEqual(result["status"], "fail")
+                self.assertEqual(result["timing_scope"], "analysis")
+
+    def test_invalid_runtime_environment_is_rejected_before_output(self):
+        for env in ({"QUERY_DEPTH": 0}, {"BAD=NAME": "value"}, {"NAME": "bad\0value"}):
+            self.exp.variants = [replace(self.exp.variants[0], env=env)]
+            with self.subTest(env=env), self.assertRaises(SystemExit):
+                self.run_bundle()
+        self.assertFalse(config.RUNS.exists())
 
     def test_interruption_preserves_completed_measurements(self):
         self.executor.side_effect = [{"status": "ok", "wall_s": 1, "report": {}}, KeyboardInterrupt()]

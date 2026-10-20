@@ -7,7 +7,9 @@ Writes <out-dir>/stdout, <out-dir>/stderr and <out-dir>/report.json, and exits w
 egglog's exit code (3 if this build does not support the requested configuration).
 The report contains egglog's own phase timings (from `(print-stats)`) and the
 final table sizes (from `(print-size)`), which are appended to the program as a
-trailer so benchmark files stay untouched.
+trailer so benchmark files stay untouched. BENCH_EGGLOG_TIMING=analysis instead
+uses interactive phase barriers around explicit timing markers in the program;
+wall_s then excludes setup/loading, final reporting and process shutdown.
 """
 
 import json
@@ -17,6 +19,8 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+
+from interactive import run_interactive
 
 UNSUPPORTED = 3
 
@@ -36,6 +40,19 @@ def main() -> int:
             print(f"egglog@{info['ref']} does not support {f}", file=sys.stderr)
             return UNSUPPORTED
 
+    timing = os.environ.get("BENCH_EGGLOG_TIMING", "process")
+    if timing not in ("process", "analysis"):
+        print(f"unknown BENCH_EGGLOG_TIMING: {timing!r}", file=sys.stderr)
+        return 1
+    protocol = "command-done" if "--mode" in info["flags"] else "legacy-done"
+    if timing == "analysis":
+        if "--mode" not in info["flags"] and "--show" not in info["flags"]:
+            print(f"egglog@{info['ref']} has no supported REPL protocol", file=sys.stderr)
+            return UNSUPPORTED
+        if any(f.split("=")[0] in ("--mode", "--save-report", "--show", "--no-messages") for f in flags):
+            print("analysis timing owns REPL output and cannot use output-control or --save-report flags", file=sys.stderr)
+            return UNSUPPORTED
+
     trailer = out_dir / "trailer.egg"
     trailer.write_text("(print-size)\n(print-stats)\n")
 
@@ -44,20 +61,33 @@ def main() -> int:
         cmd += ["-j", str(threads)]
     if fact_dir != "-":
         cmd += ["-F", fact_dir]
-    cmd += [program, str(trailer)]
+    if timing == "analysis":
+        if protocol == "command-done":
+            cmd += ["--mode", "interactive"]
+    else:
+        cmd += [program, str(trailer)]
 
     env = dict(os.environ)
     env.setdefault("RUST_LOG", "error")  # egglog 0.5 logs every declaration at INFO by default
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
 
-    t0 = time.perf_counter()
-    with open(out_dir / "stdout", "w") as so, open(out_dir / "stderr", "w") as se:
-        rc = subprocess.call(cmd, stdout=so, stderr=se, env=env)
-    wall = time.perf_counter() - t0
+    if timing == "analysis":
+        try:
+            rc, timing_report = run_interactive(
+                cmd, Path(program), out_dir, env, float(env.get("BENCH_TIMEOUT_S", "600")), protocol,
+            )
+        except (OSError, ValueError) as error:
+            print(f"analysis timing setup failed: {error}", file=sys.stderr)
+            return 1
+    else:
+        t0 = time.perf_counter()
+        with open(out_dir / "stdout", "w") as so, open(out_dir / "stderr", "w") as se:
+            rc = subprocess.call(cmd, stdout=so, stderr=se, env=env)
+        timing_report = {"wall_s": time.perf_counter() - t0, "timing_scope": "process"}
 
     stdout = (out_dir / "stdout").read_text(errors="replace")
     stderr = (out_dir / "stderr").read_text(errors="replace")
-    report = {"wall_s": wall, "commit": info["commit"], **parse_stats(stdout)}
+    report = {**timing_report, "commit": info["commit"], **parse_stats(stdout)}
     report["sizes"] = parse_sizes(stdout)
     if rc < 0:
         report["signal"] = -rc

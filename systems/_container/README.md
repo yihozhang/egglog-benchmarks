@@ -25,6 +25,8 @@ commit, stages a small build context in `build/<name>/<commit>/context/`:
     context/ports/<suite>/...   the contents of benchmarks/<suite>/<name>/ (symlinks dereferenced)
 
 and runs `podman build --build-arg REF=<commit> -t egglog-bench/<name>:<commit12>`.
+The container engine is `$CONTAINER_ENGINE` if set, else podman if installed, else docker
+(both `build` and `run`).
 The Containerfile therefore does `COPY system/ /bench/` and `COPY ports/ /bench/ports/`,
 compiles the ports there, and sets `ENTRYPOINT ["/bench/entry.sh"]`.
 `build.json` records the image name; it is rebuilt (cheaply, cached) on every `bench run`.
@@ -37,7 +39,12 @@ compiles the ports there, and sets `ENTRYPOINT ["/bench/entry.sh"]`.
         egglog-bench/<name>:<commit12> <suite> <name> [flags]
 
 (`BENCH_CPUS` is not applied: rootless podman has no cpuset controller here, and the
-container engines are single-threaded.)
+container engines are single-threaded.) With docker there is no `--timeout`, and killing
+the `docker run` client (what the harness's timeout does) would leave the container running
+under the daemon, so the deadline is enforced inside the container instead:
+`--entrypoint timeout` with `-s KILL ${BENCH_TIMEOUT_S} /bench/entry.sh ...` (exit 124 on
+expiry; the harness's own timeout fires at the same moment and records the status). Every
+image therefore needs coreutils `timeout`.
 
 captures stdout/stderr, and builds `report.json` from the port's stdout. For a system
 with `threads = true` the port receives `--threads N` for N > 1; otherwise threads other

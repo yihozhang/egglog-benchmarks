@@ -112,6 +112,34 @@ def key(row: dict) -> tuple:
     return (row["suite"], row["benchmark"], row["variant"], row["threads"])
 
 
+def timing_scope(row: dict) -> str:
+    """Read explicit timing metadata; unlabeled historical rows measure a process."""
+    report = row.get("report") or {}
+    values = [v for v in (row.get("timing_scope"), report.get("timing_scope")) if v is not None]
+    aliases = {"process": "process", "analysis": "analysis", "egglog-analysis": "analysis"}
+    try:
+        scopes = {aliases[v] for v in values} or {"process"}
+    except (KeyError, TypeError) as error:
+        raise SystemExit(f"unsupported timing_scope metadata: {values!r}") from error
+    if len(scopes) != 1:
+        raise SystemExit(f"conflicting timing_scope metadata: {values!r}")
+    return scopes.pop()
+
+
+def validate_wall_time_scopes(rows: list[dict]) -> None:
+    """Only successful measurements participate in wall-time comparisons."""
+    by_benchmark: dict[tuple, set[str]] = {}
+    for row in rows:
+        if row["status"] == "ok":
+            by_benchmark.setdefault(key(row)[:2], set()).add(timing_scope(row))
+    for benchmark, scopes in by_benchmark.items():
+        if len(scopes) != 1:
+            raise SystemExit(
+                f"mixed wall-time measurement scopes for {'/'.join(benchmark)}: {sorted(scopes)}; "
+                "select compatible groups or rerun every variant/thread configuration"
+            )
+
+
 def validate_rows(rows: list[dict]) -> None:
     """Never silently combine machines, code revisions, or overlapping run groups."""
     if not rows:
@@ -134,9 +162,11 @@ def validate_rows(rows: list[dict]) -> None:
     owners: dict[tuple, str] = {}
     configurations: dict[tuple, str] = {}
     builds: dict[str, str] = {}
+    overrides: dict[str, str] = {}
     inputs: dict[tuple, str] = {}
     ports: dict[tuple, str] = {}
     for row in rows:
+        timing_scope(row)  # Explicit contradictory/unknown metadata is always invalid.
         k = key(row)
         run_id = row.get("run_id", "")
         if not run_id:
@@ -153,8 +183,15 @@ def validate_rows(rows: list[dict]) -> None:
         if trial in seen:
             raise SystemExit(f"duplicate measurement for {k}, repetition {row['rep']}")
         seen.add(trial)
-        identity = row.get("build_id") or _canonical({f: row.get(f) for f in ("system", "commit", "flags", "patches")})
+        env = row.get("env") or {}
+        identity = row.get("build_id") or _canonical({
+            **{f: row.get(f) for f in ("system", "commit", "flags", "patches")}, "env": env,
+        })
         label = row["variant"]
+        encoded_env = _canonical(env)
+        if label in overrides and overrides[label] != encoded_env:
+            raise SystemExit(f"variant {label!r} has different runtime environment overrides across runs")
+        overrides[label] = encoded_env
         if label in builds and builds[label] != identity:
             raise SystemExit(f"variant {label!r} refers to different code, flags or patches across runs")
         builds[label] = identity
@@ -202,6 +239,8 @@ def validate_complete(manifest: dict, rows: list[dict]) -> None:
 def summarize(rows: list[dict], metric: str = "wall_s") -> dict[tuple, dict]:
     """Median over complete, explicitly chosen repetition groups."""
     validate_rows(rows)
+    if metric == "wall_s":
+        validate_wall_time_scopes(rows)
     groups: dict[tuple, list[dict]] = {}
     for row in rows:
         groups.setdefault(key(row), []).append(row)
@@ -211,8 +250,10 @@ def summarize(rows: list[dict], metric: str = "wall_s") -> dict[tuple, dict]:
         statuses = {r["status"] for r in rs}
         status = next((st for st in ("timeout", "oom", "unsupported", "fail") if st in statuses), "ok" if ok else "fail")
         vals = [v for r in ok if (v := value(r, metric)) is not None]
+        scopes = {timing_scope(r) for r in (ok or rs)}
         out[k] = {
             "status": status, "n": len(vals),
+            "timing_scope": next(iter(scopes)) if len(scopes) == 1 else None,
             "median": statistics.median(vals) if vals else None,
             "min": min(vals) if vals else None, "max": max(vals) if vals else None,
             "sizes": ok[0].get("report", {}).get("sizes") if ok else None,
@@ -264,16 +305,78 @@ def _selected_config(exp: Experiment, manifests: list[dict], rows: list[dict]) -
     labels = {r["variant"] for r in rows}
     cfg["variants"] = [v for label, v in variants.items() if label in labels]
     cfg["benchmarks"] = sorted({f"{r['suite']}/{r['benchmark']}" for r in rows})
+    # Capture timing for the selected source groups, not today's suite defaults or
+    # an excluded group from an older source run.
+    scope_rows: dict[str, list[dict]] = {}
+    for row in rows:
+        scope_rows.setdefault(f"{row['suite']}/{row['benchmark']}", []).append(row)
+    cfg["benchmark_timing"] = {}
+    for benchmark, samples in scope_rows.items():
+        successful = [r for r in samples if r["status"] == "ok"]
+        scopes = {timing_scope(r) for r in (successful or samples)}
+        if len(scopes) == 1:
+            cfg["benchmark_timing"][benchmark] = scopes.pop()
+        # A non-wall-time diagnostic selection may legitimately compare timing
+        # scopes; retain that evidence without claiming one replay policy.
     cfg["threads"] = sorted({r["threads"] for r in rows})
     for v in cfg["variants"]:
-        v["threads"] = sorted({r["threads"] for r in rows if r["variant"] == v["label"]})
+        samples = [r for r in rows if r["variant"] == v["label"]]
+        v["threads"] = sorted({r["threads"] for r in samples})
+        # validate_rows has established agreement; absent legacy overrides mean
+        # no recorded override, not whatever today's recipe happens to request.
+        v["env"] = dict(samples[0].get("env") or {})
     if cfg.get("baseline") not in labels:
         cfg["baseline"] = None
     return cfg
 
 
-def select_runs(experiment: str, runs: list[str], name: str, *, allow_legacy: bool = False, metric: str | None = None) -> Path:
-    """Copy reviewable measurements + provenance into results/, without committing."""
+def _select_groups(candidates, groups: dict[str, list[dict]] | None) -> tuple[list[dict], dict]:
+    """Choose whole groups while retaining the complete source bundles as evidence."""
+    fields = ("suite", "benchmark", "variant", "threads")
+    if groups is not None:
+        if not isinstance(groups, dict) or set(groups) != {c[0] for c in candidates}:
+            raise SystemExit("groups must account for every exact selected source run ID")
+    selected, recorded = [], {}
+    for candidate in candidates:
+        run_id = candidate[0]
+        source_rows = _load_candidate(candidate)  # Check modern completeness before filtering.
+        if groups is None:
+            selected.extend(source_rows)
+            continue
+        validate_rows(source_rows)
+        if any(r.get("run_id") != run_id for r in source_rows):
+            raise SystemExit(f"source rows disagree with run ID {run_id}")
+        requests = groups[run_id]
+        if not isinstance(requests, list) or not requests:
+            raise SystemExit(f"groups for {run_id} must be a nonempty list")
+        requested = set()
+        for group in requests:
+            if not isinstance(group, dict) or set(group) != set(fields):
+                raise SystemExit("each selected group must contain exactly suite, benchmark, variant, threads")
+            if (any(not isinstance(group[f], str) or not group[f] for f in fields[:3])
+                    or isinstance(group["threads"], bool) or not isinstance(group["threads"], int)
+                    or group["threads"] <= 0):
+                raise SystemExit(f"invalid group specification for {run_id}")
+            group_key = key(group)
+            if group_key in requested:
+                raise SystemExit(f"duplicate selected group for {run_id}: {group_key}")
+            requested.add(group_key)
+        missing = requested - {key(r) for r in source_rows}
+        if missing:
+            raise SystemExit(f"unknown selected groups for {run_id}: {sorted(missing)}")
+        selected.extend(r for r in source_rows if key(r) in requested)
+        recorded[run_id] = [dict(zip(fields, k)) for k in sorted(requested)]
+    return selected, recorded
+
+
+def select_runs(experiment: str, runs: list[str], name: str, *, allow_legacy: bool = False,
+                metric: str | None = None, groups: dict[str, list[dict]] | None = None) -> Path:
+    """Freeze results, optionally choosing explicit whole groups from each source.
+
+    ``groups`` maps every exact source run ID to group dictionaries containing
+    suite, benchmark, variant and threads. No repetition filtering is supported.
+    Entire source payloads are retained; legacy provenance stays legacy-incomplete.
+    """
     from . import query
     path = config.experiment_path(experiment)
     exp_name = path.stem
@@ -292,7 +395,10 @@ def select_runs(experiment: str, runs: list[str], name: str, *, allow_legacy: bo
     except ValueError:
         pass
     is_query = first_bundle.get("kind") == "query" if first_bundle else query.is_query(experiment)
+    source_groups = {}
     if is_query:
+        if groups is not None:
+            raise SystemExit("explicit groups are supported only for matrix selections")
         if len(runs) != 1:
             raise SystemExit("query selections currently require exactly one complete run")
         rd = query.run_dir(experiment, runs[0])
@@ -318,10 +424,12 @@ def select_runs(experiment: str, runs: list[str], name: str, *, allow_legacy: bo
         legacy = any(c[2] is None for c in candidates)
         if legacy and not allow_legacy:
             raise SystemExit("legacy JSONL has incomplete provenance; use --allow-legacy to record this explicitly")
-        rows = [r for c in candidates for r in _load_candidate(c)]
+        rows, source_groups = _select_groups(candidates, groups)
         validate_rows(rows)
         manifests = [c[2] for c in candidates if c[2] is not None]
         cfg = _selected_config(exp, manifests, rows)
+        if (metric or cfg.get("metric", "wall_s")) == "wall_s":
+            validate_wall_time_scopes(rows)
         kind = "matrix"
     target.parent.mkdir(parents=True, exist_ok=True)
     temporary = Path(tempfile.mkdtemp(prefix=".select-", dir=target.parent))
@@ -348,6 +456,8 @@ def select_runs(experiment: str, runs: list[str], name: str, *, allow_legacy: bo
             "coverage": [dict(zip(("suite", "benchmark", "variant", "threads"), k)) for k in sorted({key(r) for r in rows})],
             "checksums": _checksums(temporary),
         }
+        if groups is not None:
+            selection["source_groups"] = source_groups
         (temporary / "selection.json").write_text(json.dumps(selection, indent=2, sort_keys=True) + "\n")
         temporary.rename(target)
     except BaseException:

@@ -7,6 +7,7 @@ Usage: run <build-dir> <program.egg> <fact-dir|-> <threads> <out-dir> [flags...]
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -30,6 +31,11 @@ def resolve_port(port_dir: Path, name: str) -> tuple[str | None, list[str]]:
         if m and any(p.stem == m.group(1) for p in port_dir.iterdir()):
             return m.group(1), ["--instance", m.group(2)]
     return None, []
+
+
+def container_engine() -> str:
+    """$CONTAINER_ENGINE, else podman if installed, else docker."""
+    return os.environ.get("CONTAINER_ENGINE") or ("podman" if shutil.which("podman") else "docker")
 
 
 def main() -> int:
@@ -59,14 +65,25 @@ def main() -> int:
         mounts = ["-v", f"{Path(fact_dir).resolve()}:/facts:ro"]
         flags = ["--facts", "/facts", *flags]
 
-    cmd = ["podman", "run", "--rm", "--network=none", *mounts]
+    engine = container_engine()
+    cmd = [engine, "run", "--rm", "--network=none", *mounts]
     if os.environ.get("BENCH_MEMORY_GB", "0") not in ("0", "0.0"):
         cmd += ["--memory", f"{int(float(os.environ['BENCH_MEMORY_GB']) * 1024)}m"]
+    entry = []
     if os.environ.get("BENCH_TIMEOUT_S"):
-        cmd += ["--timeout", os.environ["BENCH_TIMEOUT_S"]]
+        if engine == "podman":
+            cmd += ["--timeout", os.environ["BENCH_TIMEOUT_S"]]
+        else:
+            # docker has no --timeout, and killing the `docker run` client (which is what
+            # the harness's timeout does) leaves the container running under the daemon;
+            # so the deadline is enforced inside the container by coreutils `timeout`
+            # around the image's entrypoint (exit 124 on expiry; the harness's own timeout
+            # fires at the same moment and records the status).
+            cmd += ["--entrypoint", "timeout"]
+            entry = ["-s", "KILL", os.environ["BENCH_TIMEOUT_S"], "/bench/entry.sh"]
     # No --cpuset-cpus: rootless podman on the benchmark host has no cpuset controller
     # delegated, and these engines are single-threaded anyway (BENCH_CPUS is ignored).
-    cmd += [info["image"], suite, port, *flags]
+    cmd += [info["image"], *entry, suite, port, *flags]
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
 
     t0 = time.perf_counter()
@@ -92,7 +109,7 @@ def main() -> int:
     if m:
         report["iterations"] = int(m.group(1))
     report["sizes"] = {k: int(v) for k, v in SIZE.findall(stdout)}
-    # podman exits 137 when the container's main process was SIGKILLed: by the OOM killer or
+    # podman/docker exit 137 when the container's main process was SIGKILLed: by the OOM killer or
     # by --timeout (the harness's own timeout fires at the same time and takes precedence).
     if rc == 137:
         report["status_hint"] = "oom"

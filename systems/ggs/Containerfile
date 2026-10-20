@@ -24,6 +24,7 @@ RUN mkdir -p /opt/lisp \
  && git clone -q https://github.com/kchanqvq/lp-hash-table /opt/lisp/lp-hash-table \
  && git -C /opt/lisp/lp-hash-table checkout -q --detach "$LP_HASH_TABLE_REF" \
  && git clone -q https://github.com/kchanqvq/ggs /opt/lisp/ggs \
+ && (git -C /opt/lisp/ggs fetch -q origin "$REF" || true) \
  && git -C /opt/lisp/ggs checkout -q --detach "$REF"
 
 # Compile ggs/eqsat and its dependencies once (fasls land in /root/.cache/common-lisp).

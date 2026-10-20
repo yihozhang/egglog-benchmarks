@@ -1,4 +1,5 @@
-description = "End-to-end single-threaded running time of egglog against the original egglog prototype."
+description = "End-to-end single-threaded running time of egglog against the original egglog prototype; pointer analysis excludes setup/loading."
+# Pointer analysis uses its shared saturation schedule and analysis-only timing for every variant, including v0.5.0.
 benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
 threads = [1]
 reps = 3
@@ -10,9 +11,15 @@ baseline = "egglog-0.5.0"   # speedups are reported relative to this variant
 [[variants]]
 label = "egglog"
 system = "egglog"
-ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
 
 [[variants]]
 label = "egglog-0.5.0"
 system = "egglog"
 ref = "v0.5.0"
+
+[[variants]]
+label = "egglog-no-decomp"
+system = "egglog"
+ref = "b9800506"             # same pin; --no-decomp turns off tree decomposition in query planning
+flags = ["--no-decomp"]

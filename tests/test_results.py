@@ -143,6 +143,188 @@ class ResultTests(unittest.TestCase):
         selection, _ = results.read_selection("trial", "legacy-paper")
         self.assertEqual(selection["provenance"], "legacy-incomplete")
 
+    def test_scope_metadata_defaults_aliases_and_conflicts(self):
+        self.assertEqual(results.timing_scope({}), "process")
+        self.assertEqual(results.timing_scope({"report": {"timing_scope": "analysis"}}), "analysis")
+        self.assertEqual(results.timing_scope({"timing_scope": "egglog-analysis",
+                                             "report": {"timing_scope": "analysis"}}), "analysis")
+        with self.assertRaisesRegex(SystemExit, "conflicting timing_scope"):
+            results.timing_scope({"timing_scope": "process", "report": {"timing_scope": "analysis"}})
+        with self.assertRaisesRegex(SystemExit, "unsupported timing_scope"):
+            results.timing_scope({"timing_scope": "unknown"})
+
+    def test_wall_time_scope_cannot_change_between_variants_or_repetitions(self):
+        _, _, rows = self.bundle()
+        for row in rows:
+            row["report"] = {"run_s": 0.5}
+            if row["variant"] == "new":
+                row["timing_scope"] = "analysis"
+        with self.assertRaisesRegex(SystemExit, "mixed wall-time measurement scopes"):
+            results.summarize(rows)
+        self.assertEqual(len(results.summarize(rows, "report.run_s")), 2)
+        rows = rows[:2]
+        rows[1]["timing_scope"] = "analysis"
+        with self.assertRaisesRegex(SystemExit, "mixed wall-time measurement scopes"):
+            results.summarize(rows)
+
+    def test_failed_attempt_scope_does_not_relabel_success_or_hide_failure(self):
+        _, _, rows = self.bundle()
+        for row in rows:
+            row["timing_scope"] = "analysis"
+        rows[1].update(status="timeout", timing_scope="process", wall_s=600)
+        summary = results.summarize(rows)[("suite", "a", "base", 1)]
+        self.assertEqual(summary["status"], "timeout")
+        self.assertEqual(summary["n"], 1)
+        self.assertEqual(summary["median"], rows[0]["wall_s"])
+        self.assertEqual(summary["timing_scope"], "analysis")
+
+    def test_changed_variant_env_is_rejected_even_with_same_build_id(self):
+        _, _, rows = self.bundle(labels=("base",))
+        rows[1]["env"] = {"EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH": "0"}
+        for modern in (True, False):
+            with self.subTest(modern=modern):
+                selected = [dict(row) for row in rows]
+                if not modern:
+                    for row in selected:
+                        for field in ("environment_id", "machine_id", "build_id", "input_id"):
+                            row.pop(field, None)
+                with self.assertRaisesRegex(SystemExit, "runtime environment overrides"):
+                    results.summarize(selected)
+        rows[1]["env"] = {}
+        self.assertEqual(len(results.summarize(rows)), 1)
+
+    @staticmethod
+    def group(label="base", bench="a"):
+        return {"suite": "suite", "benchmark": bench, "variant": label, "threads": 1}
+
+    @staticmethod
+    def replace_rows(rd, manifest, rows):
+        (rd / "measurements.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
+        artifacts.seal_run(rd, manifest)
+
+    def test_explicit_groups_preserve_all_repetitions_and_entire_sources(self):
+        first, _, first_rows = self.bundle()
+        second, _, second_rows = self.bundle(timing=8)
+        groups = {first.name: [self.group("base")], second.name: [self.group("new")]}
+        directory = results.select_runs("trial", [first.name, second.name], "chosen", groups=groups)
+        rows = results.load_rows(self.exp, selection="chosen")
+        self.assertEqual(rows, first_rows[:2] + second_rows[2:])
+        manifest, _ = results.read_selection("trial", "chosen")
+        self.assertEqual(manifest["source_groups"], groups)
+        self.assertEqual(manifest["provenance"], "captured")
+        for source in (first, second):
+            archived = directory / "runs" / source.name / "measurements.jsonl"
+            self.assertEqual(archived.read_bytes(), (source / "measurements.jsonl").read_bytes())
+            self.assertIn(archived.relative_to(directory).as_posix(), manifest["checksums"])
+        self.assertEqual(len(manifest["coverage"]), 2)
+
+    def test_explicit_groups_reject_incomplete_unknown_duplicate_and_rep_filters(self):
+        rd, _, _ = self.bundle()
+        valid = self.group()
+        invalid = [
+            ({}, "every exact"),
+            ({rd.name: [valid], "unknown": [valid]}, "every exact"),
+            ({rd.name: []}, "nonempty"),
+            ({rd.name: [self.group(bench="missing")]}, "unknown selected groups"),
+            ({rd.name: [valid, valid]}, "duplicate selected group"),
+            ({rd.name: [{**valid, "rep": 0}]}, "exactly suite"),
+            ({rd.name: [{**valid, "threads": True}]}, "invalid group"),
+        ]
+        for groups, message in invalid:
+            with self.subTest(groups=groups), self.assertRaisesRegex(SystemExit, message):
+                results.select_runs("trial", [rd.name], "bad-groups", groups=groups)
+        self.assertFalse((config.RESULTS / "trial" / "bad-groups").exists())
+
+    def test_group_filter_cannot_hide_incomplete_source_or_remaining_overlap(self):
+        first, manifest, rows = self.bundle()
+        second, _, _ = self.bundle()
+        with self.assertRaisesRegex(SystemExit, "overlapping"):
+            results.select_runs("trial", [first.name, second.name], "overlap-groups",
+                                groups={first.name: [self.group()], second.name: [self.group()]})
+        # Drop a repetition from an excluded group: the whole source must still validate.
+        self.replace_rows(first, manifest, rows[:-1])
+        with self.assertRaisesRegex(SystemExit, "incomplete repetitions"):
+            results.select_runs("trial", [first.name], "incomplete-source",
+                                groups={first.name: [self.group("base")]})
+
+    def test_group_selection_keeps_terminal_failure(self):
+        rd, manifest, rows = self.bundle()
+        rows[1]["status"] = "timeout"
+        self.replace_rows(rd, manifest, rows)
+        results.select_runs("trial", [rd.name], "failed-group", groups={rd.name: [self.group()]})
+        selected = results.load_rows(self.exp, selection="failed-group")
+        self.assertEqual([r["status"] for r in selected], ["ok", "timeout"])
+        self.assertEqual(results.summarize(selected)[("suite", "a", "base", 1)]["status"], "timeout")
+
+    def test_legacy_group_selection_preserves_raw_sources_and_provenance(self):
+        config.EXPERIMENTS.mkdir()
+        (config.EXPERIMENTS / "trial.toml").write_text(
+            'benchmarks=["suite/a"]\n[[variants]]\nlabel="base"\nsystem="egglog"\nref="old"\n'
+            '[[variants]]\nlabel="new"\nsystem="egglog"\nref="old"\n')
+        self.exp.results_dir.mkdir(parents=True)
+        sources = {}
+        for run in ("older", "newer"):
+            rows = [{"experiment": "trial", "run_id": run, "suite": "suite", "benchmark": "a",
+                     "variant": label, "threads": 1, "rep": rep, "status": "ok", "wall_s": 1 + rep,
+                     "host": {"hostname": "old-server"}, "commit": "old"}
+                    for label in ("base", "new") for rep in range(2)]
+            path = self.exp.results_dir / f"{run}.jsonl"
+            path.write_text("".join(json.dumps(r) + "\n" for r in rows))
+            sources[run] = path
+        groups = {"older": [self.group("base")], "newer": [self.group("new")]}
+        with self.assertRaisesRegex(SystemExit, "allow-legacy"):
+            results.select_runs("trial", list(sources), "legacy-groups", groups=groups)
+        directory = results.select_runs("trial", list(sources), "legacy-groups", allow_legacy=True, groups=groups)
+        manifest, _ = results.read_selection("trial", "legacy-groups")
+        self.assertEqual(manifest["provenance"], "legacy-incomplete")
+        self.assertEqual(manifest["source_groups"], groups)
+        for run, path in sources.items():
+            self.assertEqual((directory / "runs" / run / "measurements.jsonl").read_bytes(), path.read_bytes())
+            self.assertFalse((directory / "runs" / run / "run.json").exists())
+        self.assertEqual(len(results.load_rows(self.exp, selection="legacy-groups")), 4)
+
+    def test_legacy_selection_freezes_recorded_env_not_current_recipe(self):
+        config.EXPERIMENTS.mkdir()
+        (config.EXPERIMENTS / "trial.toml").write_text(
+            'benchmarks=["suite/a"]\n[[variants]]\nlabel="base"\nsystem="egglog"\nref="old"\n'
+            'env={MODE="today"}\n')
+        self.exp.results_dir.mkdir(parents=True)
+        row = {"experiment": "trial", "run_id": "legacy", "suite": "suite", "benchmark": "a",
+               "variant": "base", "threads": 1, "rep": 0, "status": "ok", "wall_s": 1,
+               "host": {"hostname": "old-server"}, "commit": "old"}
+        path = self.exp.results_dir / "legacy.jsonl"
+        for suffix, recorded_env in (("missing", None), ("recorded", {"MODE": "then"})):
+            sample = dict(row)
+            if recorded_env is not None:
+                sample["env"] = recorded_env
+            path.write_text(json.dumps(sample) + "\n")
+            name = f"env-{suffix}"
+            results.select_runs("trial", ["legacy"], name, allow_legacy=True)
+            manifest, _ = results.read_selection("trial", name)
+            self.assertEqual(manifest["config"]["variants"][0]["env"], recorded_env or {})
+
+    def test_selection_freezes_each_retained_benchmark_scope(self):
+        first, _, _ = self.bundle(bench="a")
+        second, manifest, rows = self.bundle(bench="b")
+        for row in rows:
+            row["timing_scope"] = "analysis"
+        manifest["config"]["benchmark_timing"] = {"suite/b": "analysis"}
+        self.replace_rows(second, manifest, rows)
+        results.select_runs("trial", [first.name, second.name], "timed")
+        selected, _ = results.read_selection("trial", "timed")
+        self.assertEqual(selected["config"]["benchmark_timing"], {"suite/a": "process", "suite/b": "analysis"})
+
+    def test_mixed_scope_wall_time_selection_is_rejected_before_writing(self):
+        rd, manifest, rows = self.bundle()
+        for row in rows:
+            if row["variant"] == "new":
+                row["timing_scope"] = "analysis"
+        self.replace_rows(rd, manifest, rows)
+        with self.assertRaisesRegex(SystemExit, "mixed wall-time measurement scopes"):
+            results.select_runs("trial", [rd.name], "bad-scopes")
+        self.assertFalse((config.RESULTS / "trial" / "bad-scopes").exists())
+        results.select_runs("trial", [rd.name], "diagnostic-scopes", metric="report.run_s")
+
     def test_raw_reports_use_captured_config_without_a_recipe(self):
         rd, _, original = self.bundle()
         exp, rows = results.report_data("trial", rd.name)

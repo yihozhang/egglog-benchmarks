@@ -1,3 +1,6 @@
 # One egglog program, run once per fact directory (one benchmark per input program).
 file = "pointer-analysis.egg"
 fact_dirs = "benchmark-input/postgresql-9.5.2/*"
+
+# Time only the marked analysis schedule after facts and rules are loaded.
+egglog_timing = "analysis"

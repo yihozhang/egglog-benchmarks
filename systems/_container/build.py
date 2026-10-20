@@ -8,6 +8,7 @@ build context and runs `podman build`.
 """
 
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -37,7 +38,13 @@ def main() -> int:
     if r.returncode != 0:
         sh("git", "-C", str(repo), "fetch", "-q", "origin", "+refs/heads/*:refs/remotes/origin/*",
            "+refs/tags/*:refs/tags/*", stdout=sys.stderr)
-        r = sh("git", "-C", str(repo), "rev-parse", "--verify", f"{ref}^{{commit}}", capture_output=True)
+        r = subprocess.run(["git", "-C", str(repo), "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
+                           capture_output=True, text=True)
+        if r.returncode != 0:
+            # a full commit hash that no branch reaches any more (upstream rebased): GitHub
+            # still serves it when asked for by hash
+            sh("git", "-C", str(repo), "fetch", "-q", "origin", ref, stdout=sys.stderr)
+            r = sh("git", "-C", str(repo), "rev-parse", "--verify", f"{ref}^{{commit}}", capture_output=True)
     sha = r.stdout.strip()
     out = root / "build" / name / sha[:12]
     image = f"egglog-bench/{name}:{sha[:12]}"
@@ -55,7 +62,8 @@ def main() -> int:
             ports.append(suite_dir.name)
 
     print(f"building {image} from {name}@{ref} ({sha})", file=sys.stderr)
-    sh("podman", "build", "-q", "--build-arg", f"REF={sha}", "-t", image,
+    engine = os.environ.get("CONTAINER_ENGINE") or ("podman" if shutil.which("podman") else "docker")
+    sh(engine, "build", "-q", "--build-arg", f"REF={sha}", "-t", image,
        "-f", str(ctx / "system" / "Containerfile"), str(ctx), stdout=sys.stderr)
 
     (out / "build.json").write_text(json.dumps({

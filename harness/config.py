@@ -24,6 +24,7 @@ class Benchmark:
     name: str
     file: Path  # the egglog program
     fact_dir: Path | None = None  # directory for `input` commands, if any
+    egglog_timing: str = "process"  # process, or analysis between explicit program markers
 
     @property
     def id(self) -> str:
@@ -49,6 +50,9 @@ def load_suite(suite: str) -> list[Benchmark]:
         raise SystemExit(f"no such suite: {suite} ({d})")
     cfg_path = d / "suite.toml"
     cfg = tomllib.loads(cfg_path.read_text()) if cfg_path.exists() else {}
+    egglog_timing = cfg.get("egglog_timing", "process")
+    if egglog_timing not in ("process", "analysis"):
+        raise SystemExit(f"suite {suite}: unknown egglog_timing {egglog_timing!r}")
     if "pairs" in cfg:
         root = d / cfg.get("facts_root", "facts")
         out = []
@@ -56,7 +60,7 @@ def load_suite(suite: str) -> list[Benchmark]:
             file = d / pair["file"]
             if not file.exists():
                 raise SystemExit(f"suite {suite}: {file} does not exist")
-            out.append(Benchmark(suite, f"{file.stem}-{pair['facts']}", file, root / pair["facts"]))
+            out.append(Benchmark(suite, f"{file.stem}-{pair['facts']}", file, root / pair["facts"], egglog_timing))
         return out
     if "file" in cfg:
         file = d / cfg["file"]
@@ -67,11 +71,11 @@ def load_suite(suite: str) -> list[Benchmark]:
                     f"suite {suite}: no fact directories match {cfg['fact_dirs']!r} "
                     f"(is the input archive unpacked?)"
                 )
-            return [Benchmark(suite, p.name, file, p) for p in dirs]
-        return [Benchmark(suite, file.stem, file)]
+            return [Benchmark(suite, p.name, file, p, egglog_timing) for p in dirs]
+        return [Benchmark(suite, file.stem, file, egglog_timing=egglog_timing)]
     excluded = {f for pat in cfg.get("exclude", []) for f in d.glob(pat)}
     files = sorted(f for f in d.glob("*.egg") if f not in excluded)
-    return [Benchmark(suite, f.stem, f) for f in files]
+    return [Benchmark(suite, f.stem, f, egglog_timing=egglog_timing) for f in files]
 
 
 def resolve_benchmarks(specs: list[str]) -> list[Benchmark]:
@@ -127,7 +131,7 @@ def load_system(name: str) -> System:
 
 @dataclass(frozen=True)
 class Variant:
-    """One configuration of one system: a label, a git ref and extra CLI flags."""
+    """One configuration of one system: a ref, CLI flags and run-time environment."""
 
     label: str
     system: str
@@ -135,6 +139,7 @@ class Variant:
     flags: tuple[str, ...] = ()
     patches: tuple[str, ...] = ()  # named system patches or explicit patch filenames
     threads: tuple[int, ...] | None = None  # overrides the experiment's thread list for this variant
+    env: dict[str, str] = field(default_factory=dict)  # run-time overrides, recorded in result rows
 
 
 @dataclass
@@ -153,6 +158,7 @@ class Experiment:
     metric: str = "wall_s"  # default metric for summary/plot: wall_s or report.<field>
     speedup_labels: dict[str, str] = field(default_factory=dict)  # display names; result labels stay stable
     source_path: Path | None = None
+    benchmark_timing: dict[str, str] = field(default_factory=dict)  # frozen per-benchmark egglog timing
 
     @property
     def results_dir(self) -> Path:
@@ -207,12 +213,19 @@ def experiment_from_dict(name: str, cfg: dict, *, source_path: Path | None = Non
     variants = [
         Variant(v["label"], v["system"], v["ref"], tuple(v.get("flags", [])),
                 tuple(recipe_patch(p, source_path) for p in v.get("patches", [])),
-                tuple(v["threads"]) if v.get("threads") is not None else None)
+                tuple(v["threads"]) if v.get("threads") is not None else None,
+                validate_env(v.get("env", {}), v["label"]))
         for v in cfg["variants"]
     ]
     labels = [v.label for v in variants]
     if len(set(labels)) != len(labels):
         raise SystemExit(f"experiment {name}: duplicate variant labels")
+    benchmark_timing = cfg.get("benchmark_timing", {})
+    if not isinstance(benchmark_timing, dict) or any(
+        not isinstance(benchmark, str) or not benchmark or scope not in ("process", "analysis")
+        for benchmark, scope in benchmark_timing.items()
+    ):
+        raise SystemExit("benchmark_timing must map benchmark names to process or analysis")
     exp = Experiment(
         name=name,
         description=cfg.get("description", ""),
@@ -228,6 +241,7 @@ def experiment_from_dict(name: str, cfg: dict, *, source_path: Path | None = Non
         metric=cfg.get("metric", "wall_s"),
         speedup_labels=cfg.get("speedup_labels", {}),
         source_path=source_path,
+        benchmark_timing=dict(benchmark_timing),
     )
     validate_settings(exp.threads, exp.reps, exp.timeout, exp.memory_gb)
     for variant in variants:
@@ -236,6 +250,16 @@ def experiment_from_dict(name: str, cfg: dict, *, source_path: Path | None = Non
     if exp.baseline is not None:
         exp.variant(exp.baseline)
     return exp
+
+
+def validate_env(env, label: str) -> dict[str, str]:
+    if not isinstance(env, dict) or any(
+        not isinstance(name, str) or not name or "=" in name or "\0" in name
+        or not isinstance(value, str) or "\0" in value
+        for name, value in env.items()
+    ):
+        raise SystemExit(f"variant {label!r}: env must map valid environment names to strings")
+    return dict(env)
 
 
 def validate_settings(threads, reps: int, timeout: float, memory_gb: float) -> None:

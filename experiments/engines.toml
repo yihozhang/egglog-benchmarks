@@ -16,24 +16,24 @@ baseline = "egglog"
 [[variants]]
 label = "egglog"
 system = "egglog"
-ref = "593df10e"             # egglog main as of 2026-10-09; move this pin deliberately
+ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
 
 [[variants]]
 label = "egglog-t4"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [4]
 
 [[variants]]
 label = "egglog-t8"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [8]
 
 [[variants]]
 label = "egglog-t16"
 system = "egglog"
-ref = "593df10e"
+ref = "b9800506"
 threads = [16]
 
 [[variants]]

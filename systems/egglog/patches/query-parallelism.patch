@@ -1,0 +1,54 @@
+diff --git a/core-relations/src/free_join/execute.rs b/core-relations/src/free_join/execute.rs
+index eb50e66b..6075e2e6 100644
+--- a/core-relations/src/free_join/execute.rs
++++ b/core-relations/src/free_join/execute.rs
+@@ -32,7 +32,7 @@ use crate::{
+     offsets::{Offsets, RowId, SortedOffsetVector, Subset},
+     parallel_heuristics::{
+         MIN_TOP_INDEX_KEYS_PER_WORKER, action_batch_size, free_join_fork_depth,
+-        parallelize_db_level_op, top_index_shape_is_eligible,
++        free_join_top_partition, parallelize_db_level_op, top_index_shape_is_eligible,
+     },
+     query::{Atom, RuleSet},
+     row_buffer::{RowBuffer, TaggedRowBuffer},
+@@ -1276,6 +1276,7 @@ impl<'a, 'state, 'exec> JoinState<'a, 'state, 'exec> {
+         // covers use borrowed ordinal ranges, avoiding row-ID copies. Buffers
+         // that cannot construct an independent partition decline this path.
+         if !stages.instrs.is_empty()
++            && free_join_top_partition()
+             && action_buf.supports_global_partition()
+             && let Some(partitions) =
+                 self.select_top_partitions::<M>(stages, prepared, atoms, &order, binding_info)
+diff --git a/core-relations/src/parallel_heuristics.rs b/core-relations/src/parallel_heuristics.rs
+index 156fcc17..5f234e47 100644
+--- a/core-relations/src/parallel_heuristics.rs
++++ b/core-relations/src/parallel_heuristics.rs
+@@ -30,6 +30,7 @@ struct Cutoffs {
+     inter_container: usize,
+     table_op: usize,
+     free_join_fork_depth: usize,
++    free_join_top_partition: bool,
+     action_batch_size: usize,
+ }
+ 
+@@ -78,6 +79,12 @@ pub(crate) fn free_join_fork_depth() -> usize {
+     cutoffs().free_join_fork_depth
+ }
+ 
++/// Whether query execution may enqueue coarse top-level join partitions.
++/// Independent of recursive query forks and all non-query parallelism.
++pub(crate) fn free_join_top_partition() -> bool {
++    cutoffs().free_join_top_partition
++}
++
+ /// Whether a top free-join index has enough work and shard coverage to partition.
+ /// Requires multiple workers, enough leader keys per worker, and at least one
+ /// nonempty shard per worker.
+@@ -129,6 +136,7 @@ fn cutoffs() -> &'static Cutoffs {
+             "EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH",
+             DEFAULT_FREE_JOIN_FORK_DEPTH,
+         ),
++        free_join_top_partition: cutoff("EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION", 1) != 0,
+         action_batch_size: cutoff(
+             "EGGLOG_PARALLEL_ACTION_BATCH_SIZE",
+             DEFAULT_ACTION_BATCH_SIZE,
