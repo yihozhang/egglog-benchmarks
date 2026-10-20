@@ -19,22 +19,20 @@ Umbra (server in a container, one per program; restarted and reloaded after a cr
   optimize, generate code), execute_ms = wall of `EXECUTE p` (verified not to re-plan: Umbra
   logs ~0.03 ms compilation for EXECUTE), adhoc_ms = wall of the same INSERT ad hoc (reference).
 """
-import argparse, csv, json, os, pathlib, statistics, subprocess, sys, threading, time
+import argparse, csv, json, os, pathlib, shutil, statistics, subprocess, sys, threading, time
 HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE)); import sqlgen
 UMBRA_IMAGE = "docker.io/umbradb/umbra:latest"
 
-ap = argparse.ArgumentParser()
-ap.add_argument("engine"); ap.add_argument("dir", type=pathlib.Path)
-ap.add_argument("--threads", type=int, default=1); ap.add_argument("--reps", type=int, default=3)
-ap.add_argument("--timeout", type=float, default=60); ap.add_argument("--only")
-a = ap.parse_args()
-D = a.dir.resolve(); schema = sqlgen.Schema(D / "schema.json")
-index = json.load(open(D / "index.json"))["queries"]
-if a.only: index = [q for q in index if q["id"] in a.only.split(",")]
-queries = [(q["id"], (D / "queries" / f"{q['id']}.sql").read_text(), json.loads((D / "queries" / f"{q['id']}.tables.json").read_text())) for q in index]
-tables = sorted({t for _, _, ts in queries for t in ts})
-SCRATCH = pathlib.Path(os.environ.get("BENCH_SCRATCH", "/tmp")); SCRATCH.mkdir(parents=True, exist_ok=True)
+def container_engine():
+    """Match the container adapters, including an explicit executable override."""
+    return os.environ.get("CONTAINER_ENGINE") or ("podman" if shutil.which("podman") else "docker")
+
+
+def remove_umbra(engine):
+    subprocess.run([engine, "rm", "-f", "umbra-bench"],
+                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 
 def rows_for(t):
     has_out, n = schema.has_out(t), schema.ncols(t)
@@ -90,53 +88,94 @@ def run_duckdb(out):
 # ---------------------------------------------------------------- Umbra
 def umbra_connect():
     import psycopg
-    for attempt in range(5):   # a crashed server's container sometimes refuses to stop at first
-        subprocess.run("podman rm -f -t 2 umbra-bench >/dev/null 2>&1", shell=True)
-        if subprocess.run(f"podman run -d --replace --name umbra-bench -p 5432:5432 {UMBRA_IMAGE} >/dev/null", shell=True).returncode == 0:
-            break
-        time.sleep(5)
-    else:
-        raise RuntimeError("could not start the Umbra container")
-    for _ in range(240):
-        try:
-            con = psycopg.connect("host=localhost port=5432 user=postgres password=postgres dbname=postgres", autocommit=True)
-            break
-        except Exception: time.sleep(0.5)
-    c = con.cursor()
-    for t in tables:
-        c.execute(schema.create_table(t, False)); rs = rows_for(t)
-        if rs: c.executemany(f'INSERT INTO "{t}" VALUES ({",".join(["%s"] * len(rs[0]))})', rs)
-        c.execute(f'ANALYZE "{t}"')
-    return con, c
+    engine = container_engine()
+    con = None
+    try:
+        for attempt in range(5):   # a crashed server's container sometimes refuses to stop at first
+            remove_umbra(engine)
+            # Explicit removal works with both engines; Docker has no --replace option.
+            if subprocess.run([engine, "run", "-d", "--name", "umbra-bench", "-p", "5432:5432", UMBRA_IMAGE],
+                              stdout=subprocess.DEVNULL).returncode == 0:
+                break
+            time.sleep(5)
+        else:
+            raise RuntimeError("could not start the Umbra container")
+        last_error = None
+        for _ in range(240):
+            try:
+                con = psycopg.connect("host=localhost port=5432 user=postgres password=postgres dbname=postgres",
+                                      autocommit=True, connect_timeout=2)
+                break
+            except Exception as error:
+                last_error = error
+                time.sleep(0.5)
+        else:
+            raise RuntimeError("Umbra did not accept a connection after 240 attempts") from last_error
+        c = con.cursor()
+        for t in tables:
+            c.execute(schema.create_table(t, False)); rs = rows_for(t)
+            if rs: c.executemany(f'INSERT INTO "{t}" VALUES ({",".join(["%s"] * len(rs[0]))})', rs)
+            c.execute(f'ANALYZE "{t}"')
+        return con, c
+    except BaseException:
+        if con is not None:
+            con.close()
+        remove_umbra(engine)
+        raise
 
 def run_umbra(out):
-    con, c = umbra_connect()
-    for qid, sql, _ in queries:
-        sel = select_of(sql); rec = {"engine": "umbra", "threads": a.threads, "query": qid}
-        timed = lambda s: (lambda t0: (c.execute(s), time.perf_counter() - t0)[1])(time.perf_counter())
-        try:
-            with Timeout(a.timeout, con.cancel) as to:
-                c.execute(f"CREATE TEMP TABLE res_{qid} AS {sel} LIMIT 0")
-                prep = timed(f"PREPARE p_{qid} AS INSERT INTO res_{qid} {sel}")
-            exe, adhoc = [], []
-            for rep in range(a.reps + 1):
-                c.execute(f"DELETE FROM res_{qid}")
-                with Timeout(a.timeout, con.cancel): exe.append(timed(f"EXECUTE p_{qid}"))
-            rows = c.execute(f"SELECT count(*) FROM res_{qid}").fetchone()[0]
-            for rep in range(a.reps + 1):
-                c.execute(f"DELETE FROM res_{qid}")
-                with Timeout(a.timeout, con.cancel): adhoc.append(timed(f"INSERT INTO res_{qid} {sel}"))
-            med = lambda xs: statistics.median(xs[1:]) * 1e3
-            rec.update(status="ok", rows=rows, prepare_ms=prep * 1e3, execute_ms=med(exe), adhoc_ms=med(adhoc))
-        except Exception as e:
-            alive = subprocess.run("podman ps -q --filter name=umbra-bench", shell=True, capture_output=True, text=True).stdout.strip()
-            rec.update(status="timeout" if "cancel" in str(e).lower() and alive else ("crash" if not alive else "error"), error=str(e)[:300])
-            if not alive or rec["status"] != "ok":
-                try: con.close()
-                except Exception: pass
-                con, c = umbra_connect()
-        out.write(json.dumps(rec) + "\n"); out.flush()
-    subprocess.run("podman rm -f umbra-bench >/dev/null 2>&1", shell=True)
+    con = None
+    try:
+        con, c = umbra_connect()
+        for qid, sql, _ in queries:
+            sel = select_of(sql); rec = {"engine": "umbra", "threads": a.threads, "query": qid}
+            timed = lambda s: (lambda t0: (c.execute(s), time.perf_counter() - t0)[1])(time.perf_counter())
+            try:
+                with Timeout(a.timeout, con.cancel) as to:
+                    c.execute(f"CREATE TEMP TABLE res_{qid} AS {sel} LIMIT 0")
+                    prep = timed(f"PREPARE p_{qid} AS INSERT INTO res_{qid} {sel}")
+                exe, adhoc = [], []
+                for rep in range(a.reps + 1):
+                    c.execute(f"DELETE FROM res_{qid}")
+                    with Timeout(a.timeout, con.cancel): exe.append(timed(f"EXECUTE p_{qid}"))
+                rows = c.execute(f"SELECT count(*) FROM res_{qid}").fetchone()[0]
+                for rep in range(a.reps + 1):
+                    c.execute(f"DELETE FROM res_{qid}")
+                    with Timeout(a.timeout, con.cancel): adhoc.append(timed(f"INSERT INTO res_{qid} {sel}"))
+                med = lambda xs: statistics.median(xs[1:]) * 1e3
+                rec.update(status="ok", rows=rows, prepare_ms=prep * 1e3, execute_ms=med(exe), adhoc_ms=med(adhoc))
+            except Exception as e:
+                alive = subprocess.run([container_engine(), "ps", "-q", "--filter", "name=umbra-bench"],
+                                       capture_output=True, text=True).stdout.strip()
+                rec.update(status="timeout" if "cancel" in str(e).lower() and alive else ("crash" if not alive else "error"), error=str(e)[:300])
+                if not alive or rec["status"] != "ok":
+                    try: con.close()
+                    except Exception: pass
+                    con, c = umbra_connect()
+            out.write(json.dumps(rec) + "\n"); out.flush()
+    finally:
+        if con is not None:
+            try: con.close()
+            except Exception: pass
+        remove_umbra(container_engine())
 
-with open(D / f"{a.engine}.jsonl", "w") as out:
-    {"duckdb": run_duckdb, "umbra": run_umbra}[a.engine](out)
+
+def main():
+    global a, D, schema, index, queries, tables, SCRATCH
+    ap = argparse.ArgumentParser()
+    ap.add_argument("engine"); ap.add_argument("dir", type=pathlib.Path)
+    ap.add_argument("--threads", type=int, default=1); ap.add_argument("--reps", type=int, default=3)
+    ap.add_argument("--timeout", type=float, default=60); ap.add_argument("--only")
+    a = ap.parse_args()
+    D = a.dir.resolve(); schema = sqlgen.Schema(D / "schema.json")
+    index = json.load(open(D / "index.json"))["queries"]
+    if a.only: index = [q for q in index if q["id"] in a.only.split(",")]
+    queries = [(q["id"], (D / "queries" / f"{q['id']}.sql").read_text(), json.loads((D / "queries" / f"{q['id']}.tables.json").read_text())) for q in index]
+    tables = sorted({t for _, _, ts in queries for t in ts})
+    SCRATCH = pathlib.Path(os.environ.get("BENCH_SCRATCH", "/tmp")); SCRATCH.mkdir(parents=True, exist_ok=True)
+    with open(D / f"{a.engine}.jsonl", "w") as out:
+        {"duckdb": run_duckdb, "umbra": run_umbra}[a.engine](out)
+
+
+if __name__ == "__main__":
+    main()

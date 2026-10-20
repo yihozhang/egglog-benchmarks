@@ -8,6 +8,12 @@ dependencies = [
     "pandas>=2.0",
 ]
 
+[project.optional-dependencies]
+query = [
+    "duckdb>=1.4",
+    "psycopg[binary]>=3.2",
+]
+
 [project.scripts]
 bench = "harness.cli:main"
 

@@ -301,8 +301,9 @@ luminal program, run once on the program's final state, in egglog and as SQL in 
 Umbra. Translation and timing rules are in `systems/egglog-query/system.toml` (`notes`).
 
 ```
-uv run bench run query                    # build driver, export, translate, run all engines
-uv run bench run query -b llama -v duckdb # one program, only DuckDB (plus egglog)
+uv sync --extra query                     # install DuckDB and the PostgreSQL client
+uv run --extra query bench run query      # build driver, export, translate, run all engines
+uv run --extra query bench run query -b llama -v duckdb # one program, only DuckDB (plus egglog)
 uv run bench summary query                # per program: summed optimize/execute, failures
 uv run bench check query                  # result rows agree across engines?
 uv run bench plot query                   # figures/query-{totals,scatter}.pdf + query.csv
@@ -316,7 +317,10 @@ and exported tables stay in `build/query/query/<run-id>/`. Query runs support th
 a harness timeout, explicitly recorded in the manifest. Query CPU/memory overrides
 are rejected because they cannot consistently constrain the container backend. Umbra
 currently requires one thread. Umbra runs in the `umbra-bench` container on port 5432, so run
-one Umbra job at a time.
+one Umbra job at a time. The container executable comes from `CONTAINER_ENGINE` when set;
+otherwise Podman is preferred if installed, with Docker as the fallback. The selected
+engine must have a running daemon/service where required. Umbra uses the
+`docker.io/umbradb/umbra:latest` image; its resolved ID and digests are recorded per run.
 
 ## Notes
 

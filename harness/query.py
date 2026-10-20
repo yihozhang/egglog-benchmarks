@@ -57,14 +57,16 @@ def _package_version(name: str) -> str:
 
 def _umbra_identity() -> dict:
     image = "docker.io/umbradb/umbra:latest"
+    engine = os.environ.get("CONTAINER_ENGINE") or ("podman" if shutil.which("podman") else "docker")
     try:
-        probe = subprocess.run(["podman", "image", "inspect", image], capture_output=True, text=True, timeout=10)
+        probe = subprocess.run([engine, "image", "inspect", image], capture_output=True, text=True, timeout=10)
         images = json.loads(probe.stdout) if probe.returncode == 0 else []
         if images:
-            return {"image": image, "id": images[0].get("Id"), "digests": images[0].get("RepoDigests", [])}
+            return {"image": image, "container_engine": engine, "id": images[0].get("Id"),
+                    "digests": images[0].get("RepoDigests", [])}
     except (OSError, subprocess.TimeoutExpired, ValueError):
         pass
-    return {"image": image, "identity": "unknown"}
+    return {"image": image, "container_engine": engine, "identity": "unknown"}
 
 
 def _positive_int(value, option: str) -> int:
