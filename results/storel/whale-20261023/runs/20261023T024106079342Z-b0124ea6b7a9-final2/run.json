@@ -1,0 +1,2476 @@
+{
+  "archive_scope": "measurements-and-provenance; raw logs omitted",
+  "builds": {
+    "egg-backoff": {
+      "adapter_snapshots": {
+        "adapters/egg/build": {
+          "path": "sources/adapters-egg-build-35dc96503543/build",
+          "sha256": "4cc11d8b3a771e3b3e87d3bb547892625d28cc4ca71c28af1c1dacb30699e1c8",
+          "size": 2003
+        },
+        "adapters/egg/run": {
+          "path": "sources/adapters-egg-run-8c56d22a39d0/run",
+          "sha256": "10b89b16e22469b6a96c5b40cafcae655b7845eb99e2f54d1a4858bba7deba03",
+          "size": 2746
+        },
+        "adapters/egg/system.toml": {
+          "path": "sources/adapters-egg-system.toml-e04936bf08d9/system.toml",
+          "sha256": "e0e028c43f0f4802e5740451221023ca6dde1e1a33012d249f58449473fc92a9",
+          "size": 563
+        }
+      },
+      "build_id": "ef3816e6f89cd6f4f72fb9a5b907ad7e28d913c9996ebbe5e0aca3a95629e4eb",
+      "commit": "fb6167957beb5dd7c784121459e08ebd1ccb1a00",
+      "engine_executable": null,
+      "env": {},
+      "flags": [
+        "--scheduler",
+        "backoff"
+      ],
+      "metadata": {
+        "commit": "fb6167957beb5dd7c784121459e08ebd1ccb1a00",
+        "ports": [
+          "horner--horner",
+          "math-microbenchmark--math-microbenchmark",
+          "math-microbenchmark--math-microbenchmark-12",
+          "matmul-assoc--matmul-assoc",
+          "storel--batax-1st",
+          "storel--batax-2nd",
+          "storel--mmm-1st",
+          "storel--mmm-2nd",
+          "storel--mmm-sum-1st",
+          "storel--mmm-sum-2nd",
+          "storel--mttkrp-1st",
+          "storel--mttkrp-2nd",
+          "storel--ttm-1st",
+          "storel--ttm-2nd"
+        ],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": false
+      },
+      "patch_hashes": [],
+      "patch_snapshots": {},
+      "patches": [],
+      "port_executables": {
+        "storel/batax-1st": {
+          "sha256": "6898d0d11afd354ad3e04a394eaead23d8d927888494148b7acef2368b8c3084",
+          "size": 991240
+        },
+        "storel/batax-2nd": {
+          "sha256": "e78b7a5bc66880182d24c9bfcaf40a22cb04be89d3b7077d32e2f8a4274e3eb4",
+          "size": 991392
+        },
+        "storel/mmm-2nd": {
+          "sha256": "96016c590045cf6480f0858031e22dc4f7cd46dfae97399af2842ad3573f11da",
+          "size": 990616
+        },
+        "storel/mmm-sum-2nd": {
+          "sha256": "e7b4b2e4e799aae437f9e2bb0b5ef7f0fc62d2e8a1e928075434f63ba43b813c",
+          "size": 992224
+        },
+        "storel/mttkrp-2nd": {
+          "sha256": "6197f91a762a08be129c14780d9f043405519fd2d606991fc5e714e27d8ba41a",
+          "size": 992240
+        },
+        "storel/ttm-2nd": {
+          "sha256": "1540c9c7c4e6cabf5d2be2074b8a2b10fad1386ac68b9467fd8a9aeab19acb5a",
+          "size": 990872
+        }
+      },
+      "provenance_scope": {
+        "executable_hashes": "known_local_layouts_only; container_images_are_adapter_reported",
+        "metadata": "reported_by_adapter",
+        "source_snapshots": "current_sources_may_differ_from_cached_build_inputs",
+        "toolchain": "observed_at_run_creation_not_necessarily_at_build_time"
+      },
+      "ref": "v0.11.0",
+      "system": "egg"
+    },
+    "egg-simple": {
+      "adapter_snapshots": {
+        "adapters/egg/build": {
+          "path": "sources/adapters-egg-build-35dc96503543/build",
+          "sha256": "4cc11d8b3a771e3b3e87d3bb547892625d28cc4ca71c28af1c1dacb30699e1c8",
+          "size": 2003
+        },
+        "adapters/egg/run": {
+          "path": "sources/adapters-egg-run-8c56d22a39d0/run",
+          "sha256": "10b89b16e22469b6a96c5b40cafcae655b7845eb99e2f54d1a4858bba7deba03",
+          "size": 2746
+        },
+        "adapters/egg/system.toml": {
+          "path": "sources/adapters-egg-system.toml-e04936bf08d9/system.toml",
+          "sha256": "e0e028c43f0f4802e5740451221023ca6dde1e1a33012d249f58449473fc92a9",
+          "size": 563
+        }
+      },
+      "build_id": "6778f78a54bb60013f77809888c5b7abfbd18143c3c71f21be72ec4b53ef8e02",
+      "commit": "fb6167957beb5dd7c784121459e08ebd1ccb1a00",
+      "engine_executable": null,
+      "env": {},
+      "flags": [
+        "--scheduler",
+        "simple"
+      ],
+      "metadata": {
+        "commit": "fb6167957beb5dd7c784121459e08ebd1ccb1a00",
+        "ports": [
+          "horner--horner",
+          "math-microbenchmark--math-microbenchmark",
+          "math-microbenchmark--math-microbenchmark-12",
+          "matmul-assoc--matmul-assoc",
+          "storel--batax-1st",
+          "storel--batax-2nd",
+          "storel--mmm-1st",
+          "storel--mmm-2nd",
+          "storel--mmm-sum-1st",
+          "storel--mmm-sum-2nd",
+          "storel--mttkrp-1st",
+          "storel--mttkrp-2nd",
+          "storel--ttm-1st",
+          "storel--ttm-2nd"
+        ],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": false
+      },
+      "patch_hashes": [],
+      "patch_snapshots": {},
+      "patches": [],
+      "port_executables": {
+        "storel/batax-1st": {
+          "sha256": "6898d0d11afd354ad3e04a394eaead23d8d927888494148b7acef2368b8c3084",
+          "size": 991240
+        },
+        "storel/batax-2nd": {
+          "sha256": "e78b7a5bc66880182d24c9bfcaf40a22cb04be89d3b7077d32e2f8a4274e3eb4",
+          "size": 991392
+        },
+        "storel/mmm-2nd": {
+          "sha256": "96016c590045cf6480f0858031e22dc4f7cd46dfae97399af2842ad3573f11da",
+          "size": 990616
+        },
+        "storel/mmm-sum-2nd": {
+          "sha256": "e7b4b2e4e799aae437f9e2bb0b5ef7f0fc62d2e8a1e928075434f63ba43b813c",
+          "size": 992224
+        },
+        "storel/mttkrp-2nd": {
+          "sha256": "6197f91a762a08be129c14780d9f043405519fd2d606991fc5e714e27d8ba41a",
+          "size": 992240
+        },
+        "storel/ttm-2nd": {
+          "sha256": "1540c9c7c4e6cabf5d2be2074b8a2b10fad1386ac68b9467fd8a9aeab19acb5a",
+          "size": 990872
+        }
+      },
+      "provenance_scope": {
+        "executable_hashes": "known_local_layouts_only; container_images_are_adapter_reported",
+        "metadata": "reported_by_adapter",
+        "source_snapshots": "current_sources_may_differ_from_cached_build_inputs",
+        "toolchain": "observed_at_run_creation_not_necessarily_at_build_time"
+      },
+      "ref": "v0.11.0",
+      "system": "egg"
+    },
+    "egglog-rust": {
+      "adapter_snapshots": {
+        "adapters/egglog-storel/build": {
+          "path": "sources/adapters-egglog-storel-build-9a05f101aa14/build",
+          "sha256": "ea2fb6ea0a8b7f8b8b73c4d21bafde732d15298e9cc32aca0fced1a6850ddc69",
+          "size": 3394
+        },
+        "adapters/egglog-storel/crate/Cargo.lock": {
+          "path": "sources/adapters-egglog-storel-crate-Cargo.lock-d425f9aa7fda/Cargo.lock",
+          "sha256": "f5bddda76f58346d82714cae24ceccc818b119cc15a376efd4b58cca13c70c40",
+          "size": 37362
+        },
+        "adapters/egglog-storel/crate/Cargo.toml": {
+          "path": "sources/adapters-egglog-storel-crate-Cargo.toml-3baa92bee8a6/Cargo.toml",
+          "sha256": "bae4711f65f743f8f0e4e472b72e60aaebb03f4be316d6341a38488635b57ac6",
+          "size": 764
+        },
+        "adapters/egglog-storel/crate/src/lib.rs": {
+          "path": "sources/adapters-egglog-storel-crate-src-lib.rs-8a441f91cf83/lib.rs",
+          "sha256": "0260b07ab8281d0fc6c4daddf6350bf88a8ceb5d53676340108268441aa5d70e",
+          "size": 10927
+        },
+        "adapters/egglog-storel/crate/src/main.rs": {
+          "path": "sources/adapters-egglog-storel-crate-src-main.rs-1bd0bf60c039/main.rs",
+          "sha256": "0c3bbc8bf6e4a1e40d03146abc02bc907d07ad30f8f587b350fa3175d322c1dc",
+          "size": 239
+        },
+        "adapters/egglog-storel/run": {
+          "path": "sources/adapters-egglog-storel-run-c585d56adc87/run",
+          "sha256": "b8808aa7049bf45c9684184e69f1313faf67cbf85a699fa0e4b8f8c7d2e7245b",
+          "size": 738
+        },
+        "adapters/egglog-storel/system.toml": {
+          "path": "sources/adapters-egglog-storel-system.toml-165b909f71ef/system.toml",
+          "sha256": "f96e8a7a39a333804d979db46ec268d8a36397407ed35d5c9521e49ee490ece0",
+          "size": 1296
+        }
+      },
+      "build_id": "497c4375509ac809e740aa108227a64164ee23208c16b8f1e8561654b4be621e",
+      "commit": "b980050610f354ebc0c0befff1d702e7f69cfb95",
+      "engine_executable": null,
+      "env": {},
+      "flags": [],
+      "metadata": {
+        "commit": "b980050610f354ebc0c0befff1d702e7f69cfb95",
+        "experimental_commit": "61e68719559145842b03c7556ddc0687cb00f162",
+        "extension_sha256": "6f678863bd8fa9382a04a0c76bfa8d7a0d5681a583eaee2c9507f56cb7ba2c48",
+        "flags": [
+          "--fact-directory",
+          "--help",
+          "--max-calls-per-function",
+          "--max-functions",
+          "--mode",
+          "--naive",
+          "--no-decomp",
+          "--proofs",
+          "--proof-testing",
+          "--report-level",
+          "--save-report",
+          "--serialize-n-inline-leaves",
+          "--serialize-split-primitive-outputs",
+          "--strict-mode",
+          "--term-encoding",
+          "--threads",
+          "--to-dot",
+          "--to-json",
+          "--to-svg",
+          "--version"
+        ],
+        "patch_sources": [],
+        "patches": [],
+        "ref": "b9800506",
+        "stats_json": true,
+        "system": "egglog-storel",
+        "threads": true
+      },
+      "patch_hashes": [],
+      "patch_snapshots": {},
+      "patches": [],
+      "port_executables": {},
+      "provenance_scope": {
+        "executable_hashes": "known_local_layouts_only; container_images_are_adapter_reported",
+        "metadata": "reported_by_adapter",
+        "source_snapshots": "current_sources_may_differ_from_cached_build_inputs",
+        "toolchain": "observed_at_run_creation_not_necessarily_at_build_time"
+      },
+      "ref": "b9800506",
+      "system": "egglog-storel"
+    },
+    "egglog-rust-backoff": {
+      "adapter_snapshots": {
+        "adapters/egglog-storel-backoff/build": {
+          "path": "sources/adapters-egglog-storel-backoff-build-74aa42cb520f/build",
+          "sha256": "410f6661d3e21772e023caf3f0896dc78f206649bc2dbda506d35dba6e66a284",
+          "size": 398
+        },
+        "adapters/egglog-storel-backoff/run": {
+          "path": "sources/adapters-egglog-storel-backoff-run-2e61d03309ab/run",
+          "sha256": "ac7a7546bf7464766cbf2bcfa3fecf27952156173efbaa8534368368d903c519",
+          "size": 1263
+        },
+        "adapters/egglog-storel-backoff/system.toml": {
+          "path": "sources/adapters-egglog-storel-backoff-system.toml-908f7380a1e6/system.toml",
+          "sha256": "f3af9752e0851e3b7ff9a3eff2ae8bf82a16a88b9b0477946baca53fb93f106a",
+          "size": 696
+        }
+      },
+      "build_id": "c92e48bf40a48bb18c41fd6b1b8f61b8ea303eca4ac0eac5109ec27da713f5cb",
+      "commit": "b980050610f354ebc0c0befff1d702e7f69cfb95",
+      "engine_executable": null,
+      "env": {},
+      "flags": [],
+      "metadata": {
+        "commit": "b980050610f354ebc0c0befff1d702e7f69cfb95",
+        "experimental_commit": "61e68719559145842b03c7556ddc0687cb00f162",
+        "extension_sha256": "6f678863bd8fa9382a04a0c76bfa8d7a0d5681a583eaee2c9507f56cb7ba2c48",
+        "flags": [
+          "--fact-directory",
+          "--help",
+          "--max-calls-per-function",
+          "--max-functions",
+          "--mode",
+          "--naive",
+          "--no-decomp",
+          "--proofs",
+          "--proof-testing",
+          "--report-level",
+          "--save-report",
+          "--serialize-n-inline-leaves",
+          "--serialize-split-primitive-outputs",
+          "--strict-mode",
+          "--term-encoding",
+          "--threads",
+          "--to-dot",
+          "--to-json",
+          "--to-svg",
+          "--version"
+        ],
+        "patch_sources": [],
+        "patches": [],
+        "ref": "b9800506",
+        "stats_json": true,
+        "system": "egglog-storel",
+        "threads": true
+      },
+      "patch_hashes": [],
+      "patch_snapshots": {},
+      "patches": [],
+      "port_executables": {},
+      "provenance_scope": {
+        "executable_hashes": "known_local_layouts_only; container_images_are_adapter_reported",
+        "metadata": "reported_by_adapter",
+        "source_snapshots": "current_sources_may_differ_from_cached_build_inputs",
+        "toolchain": "observed_at_run_creation_not_necessarily_at_build_time"
+      },
+      "ref": "b9800506",
+      "system": "egglog-storel-backoff"
+    }
+  },
+  "cases": [
+    {
+      "benchmark": "mmm-sum-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust"
+    },
+    {
+      "benchmark": "mmm-sum-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-simple"
+    },
+    {
+      "benchmark": "mmm-sum-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust-backoff"
+    },
+    {
+      "benchmark": "mmm-sum-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-backoff"
+    },
+    {
+      "benchmark": "mmm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust"
+    },
+    {
+      "benchmark": "mmm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-simple"
+    },
+    {
+      "benchmark": "mmm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust-backoff"
+    },
+    {
+      "benchmark": "mmm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-backoff"
+    },
+    {
+      "benchmark": "batax-1st",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust"
+    },
+    {
+      "benchmark": "batax-1st",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-simple"
+    },
+    {
+      "benchmark": "batax-1st",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust-backoff"
+    },
+    {
+      "benchmark": "batax-1st",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-backoff"
+    },
+    {
+      "benchmark": "mttkrp-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust"
+    },
+    {
+      "benchmark": "mttkrp-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-simple"
+    },
+    {
+      "benchmark": "mttkrp-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust-backoff"
+    },
+    {
+      "benchmark": "mttkrp-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-backoff"
+    },
+    {
+      "benchmark": "ttm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust"
+    },
+    {
+      "benchmark": "ttm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-simple"
+    },
+    {
+      "benchmark": "ttm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust-backoff"
+    },
+    {
+      "benchmark": "ttm-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-backoff"
+    },
+    {
+      "benchmark": "batax-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust"
+    },
+    {
+      "benchmark": "batax-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-simple"
+    },
+    {
+      "benchmark": "batax-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-rust-backoff"
+    },
+    {
+      "benchmark": "batax-2nd",
+      "reps": 5,
+      "suite": "storel",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egg-backoff"
+    }
+  ],
+  "completion": {
+    "planned_repetitions": 120,
+    "recorded_repetitions": 120,
+    "terminal_cases": 0
+  },
+  "config": {
+    "baseline": "egglog-rust",
+    "benchmark_timing": {
+      "storel/batax-1st": "process",
+      "storel/batax-2nd": "process",
+      "storel/mmm-2nd": "process",
+      "storel/mmm-sum-2nd": "process",
+      "storel/mttkrp-2nd": "process",
+      "storel/ttm-2nd": "process"
+    },
+    "benchmarks": [
+      "storel/mmm-sum-2nd",
+      "storel/mmm-2nd",
+      "storel/batax-1st",
+      "storel/mttkrp-2nd",
+      "storel/ttm-2nd",
+      "storel/batax-2nd"
+    ],
+    "cpus": null,
+    "description": "STOREL (SIGMOD'23) sparse tensor kernels: equality saturation with de Bruijn indices and extraction-based beta reduction; egg (the original implementation) against egglog with the STOREL extension (systems/egglog-storel), each under egg's SimpleScheduler-style schedule and under the back-off scheduler (STOREL's configuration).",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "variants",
+    "reps": 5,
+    "speedup_labels": {},
+    "threads": [
+      1
+    ],
+    "timeout": 900,
+    "variants": [
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-rust",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog-storel",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--scheduler",
+          "simple"
+        ],
+        "label": "egg-simple",
+        "patches": [],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-rust-backoff",
+        "patches": [],
+        "ref": "b9800506",
+        "system": "egglog-storel-backoff",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--scheduler",
+          "backoff"
+        ],
+        "label": "egg-backoff",
+        "patches": [],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": [
+          1
+        ]
+      }
+    ]
+  },
+  "created_at": "2026-10-23T02:41:06.079504+00:00",
+  "environment_id": "fa26b139c7e7db43cc50a2cb3282b7f627dd27356fe2e8dbe2e6439e8e510cc0",
+  "experiment": "storel",
+  "host": {
+    "architecture": "x86_64",
+    "cpu": "AMD EPYC 7702P 64-Core Processor",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127
+    ],
+    "cpu_governors": [
+      "schedutil"
+    ],
+    "hostname": "whale",
+    "kernel": "7.0.0-38-generic",
+    "memory_bytes": 536082198528,
+    "ncpu": 128,
+    "numa_nodes": {
+      "node0": "0-127"
+    },
+    "physical_cores": 64,
+    "sockets": 1
+  },
+  "inputs": {
+    "storel/batax-1st": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "batax-1st.egg": {
+          "sha256": "a19651a15e2a2a77d7aeb0445da46e33502b8b63a5d5423ad17b0506579c3947",
+          "size": 10227
+        }
+      },
+      "input_id": "d62d0dd068b3ba2fa847da12b0a6c8a3c71304aac4dde5f8350fc24c45535d9e",
+      "ports": {
+        "egg": {
+          "files": 11,
+          "sha256": "4f90b23a78e74307379199341d7d038171c3654b7eab01eb5f431346efdefe32",
+          "size": 34876
+        },
+        "egglog-storel-backoff": {
+          "files": 10,
+          "sha256": "cdc9d42f511d4669941838f59127229c8b8a8736dda51d2619dcebd2006708b2",
+          "size": 106310
+        }
+      },
+      "program": "batax-1st.egg",
+      "source_snapshots": {
+        "inputs/storel/batax-1st/batax-1st.egg": {
+          "path": "sources/inputs-storel-batax-1st-batax-1st.egg-3ed4c672fdca/batax-1st.egg",
+          "sha256": "a19651a15e2a2a77d7aeb0445da46e33502b8b63a5d5423ad17b0506579c3947",
+          "size": 10227
+        },
+        "inputs/storel/batax-1st/ports/egg/batax-1st.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-batax-1st.rs-d7e49ff62820/batax-1st.rs",
+          "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+          "size": 316
+        },
+        "inputs/storel/batax-1st/ports/egg/batax-2nd.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-batax-2nd.rs-ceef2339a39e/batax-2nd.rs",
+          "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+          "size": 474
+        },
+        "inputs/storel/batax-1st/ports/egg/mmm-1st.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-mmm-1st.rs-12ef701511aa/mmm-1st.rs",
+          "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+          "size": 290
+        },
+        "inputs/storel/batax-1st/ports/egg/mmm-2nd.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-mmm-2nd.rs-370f311dacf0/mmm-2nd.rs",
+          "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+          "size": 521
+        },
+        "inputs/storel/batax-1st/ports/egg/mmm-sum-1st.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-mmm-sum-1st.rs-3248c3b90e72/mmm-sum-1st.rs",
+          "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+          "size": 278
+        },
+        "inputs/storel/batax-1st/ports/egg/mmm-sum-2nd.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-mmm-sum-2nd.rs-a5bd05a5cdc3/mmm-sum-2nd.rs",
+          "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+          "size": 527
+        },
+        "inputs/storel/batax-1st/ports/egg/mttkrp-1st.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-mttkrp-1st.rs-fbc50b42507c/mttkrp-1st.rs",
+          "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+          "size": 339
+        },
+        "inputs/storel/batax-1st/ports/egg/mttkrp-2nd.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-mttkrp-2nd.rs-d568adb5afa3/mttkrp-2nd.rs",
+          "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+          "size": 882
+        },
+        "inputs/storel/batax-1st/ports/egg/storel.rs.in": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-storel.rs.in-15519090a97d/storel.rs.in",
+          "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+          "size": 30219
+        },
+        "inputs/storel/batax-1st/ports/egg/ttm-1st.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-ttm-1st.rs-5d45f3c035e8/ttm-1st.rs",
+          "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+          "size": 309
+        },
+        "inputs/storel/batax-1st/ports/egg/ttm-2nd.rs": {
+          "path": "sources/inputs-storel-batax-1st-ports-egg-ttm-2nd.rs-0c414c4fce95/ttm-2nd.rs",
+          "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+          "size": 721
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/batax-1st.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-batax-1st.egg-6a9046e974a7/batax-1st.egg",
+          "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+          "size": 10452
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/batax-2nd.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-batax-2nd.egg-f27206c703d5/batax-2nd.egg",
+          "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+          "size": 10682
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/mmm-1st.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-1st.egg-880197faaaf2/mmm-1st.egg",
+          "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+          "size": 10309
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-2nd.egg-147752c00e3e/mmm-2nd.egg",
+          "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+          "size": 10760
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/mmm-sum-1st.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-sum-1st.egg-d4e0e8d1909d/mmm-sum-1st.egg",
+          "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+          "size": 10287
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-sum-2nd.egg-e94cb5dc5593/mmm-sum-2nd.egg",
+          "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+          "size": 10766
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/mttkrp-1st.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mttkrp-1st.egg-c64242a780b6/mttkrp-1st.egg",
+          "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+          "size": 10380
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mttkrp-2nd.egg-87e92f0157b2/mttkrp-2nd.egg",
+          "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+          "size": 11285
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/ttm-1st.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-ttm-1st.egg-167d40f09483/ttm-1st.egg",
+          "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+          "size": 10338
+        },
+        "inputs/storel/batax-1st/ports/egglog-storel-backoff/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-ttm-2nd.egg-ee5e23c36ee1/ttm-2nd.egg",
+          "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+          "size": 11051
+        },
+        "inputs/storel/batax-1st/suite.toml": {
+          "path": "sources/inputs-storel-batax-1st-suite.toml-b7afb3e70328/suite.toml",
+          "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+          "size": 554
+        }
+      },
+      "suite": {
+        "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+        "size": 554
+      }
+    },
+    "storel/batax-2nd": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "batax-2nd.egg": {
+          "sha256": "9a6ce8296562a0918efa7afef0a47f0ad722a5f816217d67a01b395d0c0707bd",
+          "size": 10457
+        }
+      },
+      "input_id": "1f0e1e185ca5f4cc3f96b67273e0865b52374641aaea03f2ac26084eb9f9702d",
+      "ports": {
+        "egg": {
+          "files": 11,
+          "sha256": "4f90b23a78e74307379199341d7d038171c3654b7eab01eb5f431346efdefe32",
+          "size": 34876
+        },
+        "egglog-storel-backoff": {
+          "files": 10,
+          "sha256": "cdc9d42f511d4669941838f59127229c8b8a8736dda51d2619dcebd2006708b2",
+          "size": 106310
+        }
+      },
+      "program": "batax-2nd.egg",
+      "source_snapshots": {
+        "inputs/storel/batax-2nd/batax-2nd.egg": {
+          "path": "sources/inputs-storel-batax-2nd-batax-2nd.egg-86f1e7c35206/batax-2nd.egg",
+          "sha256": "9a6ce8296562a0918efa7afef0a47f0ad722a5f816217d67a01b395d0c0707bd",
+          "size": 10457
+        },
+        "inputs/storel/batax-2nd/ports/egg/batax-1st.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-batax-1st.rs-d117d2cbba2c/batax-1st.rs",
+          "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+          "size": 316
+        },
+        "inputs/storel/batax-2nd/ports/egg/batax-2nd.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-batax-2nd.rs-4093998c8630/batax-2nd.rs",
+          "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+          "size": 474
+        },
+        "inputs/storel/batax-2nd/ports/egg/mmm-1st.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-mmm-1st.rs-b7c8d38df3de/mmm-1st.rs",
+          "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+          "size": 290
+        },
+        "inputs/storel/batax-2nd/ports/egg/mmm-2nd.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-mmm-2nd.rs-d10fc0d17c20/mmm-2nd.rs",
+          "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+          "size": 521
+        },
+        "inputs/storel/batax-2nd/ports/egg/mmm-sum-1st.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-mmm-sum-1st.rs-410f0b321b46/mmm-sum-1st.rs",
+          "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+          "size": 278
+        },
+        "inputs/storel/batax-2nd/ports/egg/mmm-sum-2nd.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-mmm-sum-2nd.rs-b53558b97f30/mmm-sum-2nd.rs",
+          "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+          "size": 527
+        },
+        "inputs/storel/batax-2nd/ports/egg/mttkrp-1st.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-mttkrp-1st.rs-17e0b47a9736/mttkrp-1st.rs",
+          "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+          "size": 339
+        },
+        "inputs/storel/batax-2nd/ports/egg/mttkrp-2nd.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-mttkrp-2nd.rs-d9ae36551f6d/mttkrp-2nd.rs",
+          "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+          "size": 882
+        },
+        "inputs/storel/batax-2nd/ports/egg/storel.rs.in": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-storel.rs.in-4217d922c3d1/storel.rs.in",
+          "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+          "size": 30219
+        },
+        "inputs/storel/batax-2nd/ports/egg/ttm-1st.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-ttm-1st.rs-e630970a7f2d/ttm-1st.rs",
+          "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+          "size": 309
+        },
+        "inputs/storel/batax-2nd/ports/egg/ttm-2nd.rs": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egg-ttm-2nd.rs-41cb5cf1444e/ttm-2nd.rs",
+          "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+          "size": 721
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/batax-1st.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-batax-1st.egg-bcaa1376375f/batax-1st.egg",
+          "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+          "size": 10452
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/batax-2nd.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-batax-2nd.egg-b8dd7600752f/batax-2nd.egg",
+          "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+          "size": 10682
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/mmm-1st.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-1st.egg-b9c80ae83c01/mmm-1st.egg",
+          "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+          "size": 10309
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-8916c840d440/mmm-2nd.egg",
+          "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+          "size": 10760
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/mmm-sum-1st.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-bc0052f97860/mmm-sum-1st.egg",
+          "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+          "size": 10287
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-5b8a00a7226a/mmm-sum-2nd.egg",
+          "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+          "size": 10766
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/mttkrp-1st.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-405fa7070920/mttkrp-1st.egg",
+          "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+          "size": 10380
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-7f2adce8eeff/mttkrp-2nd.egg",
+          "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+          "size": 11285
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/ttm-1st.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-ttm-1st.egg-65a8e40e00eb/ttm-1st.egg",
+          "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+          "size": 10338
+        },
+        "inputs/storel/batax-2nd/ports/egglog-storel-backoff/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-2671ac3ecbd6/ttm-2nd.egg",
+          "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+          "size": 11051
+        },
+        "inputs/storel/batax-2nd/suite.toml": {
+          "path": "sources/inputs-storel-batax-2nd-suite.toml-79ef4ff84e9f/suite.toml",
+          "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+          "size": 554
+        }
+      },
+      "suite": {
+        "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+        "size": 554
+      }
+    },
+    "storel/mmm-2nd": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "mmm-2nd.egg": {
+          "sha256": "c88f28a8bd0954739b07e4fedcd57f909aa3827203eefd0e3524525ff9ef9a6c",
+          "size": 10535
+        }
+      },
+      "input_id": "2e2903822bd5e23ebacb7c5fc765e5977bc77596f4fef9fba7ad6c636c044c86",
+      "ports": {
+        "egg": {
+          "files": 11,
+          "sha256": "4f90b23a78e74307379199341d7d038171c3654b7eab01eb5f431346efdefe32",
+          "size": 34876
+        },
+        "egglog-storel-backoff": {
+          "files": 10,
+          "sha256": "cdc9d42f511d4669941838f59127229c8b8a8736dda51d2619dcebd2006708b2",
+          "size": 106310
+        }
+      },
+      "program": "mmm-2nd.egg",
+      "source_snapshots": {
+        "inputs/storel/mmm-2nd/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-mmm-2nd.egg-8f6a32097e86/mmm-2nd.egg",
+          "sha256": "c88f28a8bd0954739b07e4fedcd57f909aa3827203eefd0e3524525ff9ef9a6c",
+          "size": 10535
+        },
+        "inputs/storel/mmm-2nd/ports/egg/batax-1st.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-batax-1st.rs-eb03196a8d09/batax-1st.rs",
+          "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+          "size": 316
+        },
+        "inputs/storel/mmm-2nd/ports/egg/batax-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-batax-2nd.rs-8bb41e8b16b9/batax-2nd.rs",
+          "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+          "size": 474
+        },
+        "inputs/storel/mmm-2nd/ports/egg/mmm-1st.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-mmm-1st.rs-c30cf44dde35/mmm-1st.rs",
+          "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+          "size": 290
+        },
+        "inputs/storel/mmm-2nd/ports/egg/mmm-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-mmm-2nd.rs-158f4016932c/mmm-2nd.rs",
+          "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+          "size": 521
+        },
+        "inputs/storel/mmm-2nd/ports/egg/mmm-sum-1st.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-mmm-sum-1st.rs-d1e7d8ada6d0/mmm-sum-1st.rs",
+          "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+          "size": 278
+        },
+        "inputs/storel/mmm-2nd/ports/egg/mmm-sum-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-mmm-sum-2nd.rs-9865d164bc3b/mmm-sum-2nd.rs",
+          "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+          "size": 527
+        },
+        "inputs/storel/mmm-2nd/ports/egg/mttkrp-1st.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-mttkrp-1st.rs-367f8c4111d4/mttkrp-1st.rs",
+          "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+          "size": 339
+        },
+        "inputs/storel/mmm-2nd/ports/egg/mttkrp-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-mttkrp-2nd.rs-6f97a68b8c06/mttkrp-2nd.rs",
+          "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+          "size": 882
+        },
+        "inputs/storel/mmm-2nd/ports/egg/storel.rs.in": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-storel.rs.in-ed8fd9ce8a09/storel.rs.in",
+          "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+          "size": 30219
+        },
+        "inputs/storel/mmm-2nd/ports/egg/ttm-1st.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-ttm-1st.rs-e0c5eb490bf4/ttm-1st.rs",
+          "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+          "size": 309
+        },
+        "inputs/storel/mmm-2nd/ports/egg/ttm-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egg-ttm-2nd.rs-47899bb9a978/ttm-2nd.rs",
+          "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+          "size": 721
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/batax-1st.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-batax-1st.egg-f4cc4f0447f4/batax-1st.egg",
+          "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+          "size": 10452
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/batax-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-batax-2nd.egg-6982260f618f/batax-2nd.egg",
+          "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+          "size": 10682
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/mmm-1st.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-1st.egg-bd693bc28d13/mmm-1st.egg",
+          "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+          "size": 10309
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-76a399cd9da0/mmm-2nd.egg",
+          "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+          "size": 10760
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/mmm-sum-1st.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-203c6ae1e873/mmm-sum-1st.egg",
+          "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+          "size": 10287
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-6db9816fc6e1/mmm-sum-2nd.egg",
+          "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+          "size": 10766
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/mttkrp-1st.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-46541310bb4a/mttkrp-1st.egg",
+          "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+          "size": 10380
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-a5c5058f48b8/mttkrp-2nd.egg",
+          "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+          "size": 11285
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/ttm-1st.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-ttm-1st.egg-d2542f14a6e8/ttm-1st.egg",
+          "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+          "size": 10338
+        },
+        "inputs/storel/mmm-2nd/ports/egglog-storel-backoff/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-b9ccf597fa5c/ttm-2nd.egg",
+          "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+          "size": 11051
+        },
+        "inputs/storel/mmm-2nd/suite.toml": {
+          "path": "sources/inputs-storel-mmm-2nd-suite.toml-5ef08a060147/suite.toml",
+          "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+          "size": 554
+        }
+      },
+      "suite": {
+        "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+        "size": 554
+      }
+    },
+    "storel/mmm-sum-2nd": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "mmm-sum-2nd.egg": {
+          "sha256": "77633dfdb71272ce730e7a8254fdfe7937f3fa919050634fc5589b915118b32a",
+          "size": 10541
+        }
+      },
+      "input_id": "6b99b1ca1c47e585466d206ad5abbf921caee8de2d88ccf121f67b491ccba334",
+      "ports": {
+        "egg": {
+          "files": 11,
+          "sha256": "4f90b23a78e74307379199341d7d038171c3654b7eab01eb5f431346efdefe32",
+          "size": 34876
+        },
+        "egglog-storel-backoff": {
+          "files": 10,
+          "sha256": "cdc9d42f511d4669941838f59127229c8b8a8736dda51d2619dcebd2006708b2",
+          "size": 106310
+        }
+      },
+      "program": "mmm-sum-2nd.egg",
+      "source_snapshots": {
+        "inputs/storel/mmm-sum-2nd/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-mmm-sum-2nd.egg-7ee42c0f0d73/mmm-sum-2nd.egg",
+          "sha256": "77633dfdb71272ce730e7a8254fdfe7937f3fa919050634fc5589b915118b32a",
+          "size": 10541
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/batax-1st.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-batax-1st.rs-a90830d70604/batax-1st.rs",
+          "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+          "size": 316
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/batax-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-batax-2nd.rs-1fa8861303e1/batax-2nd.rs",
+          "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+          "size": 474
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/mmm-1st.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-1st.rs-184acc22a661/mmm-1st.rs",
+          "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+          "size": 290
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/mmm-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-2nd.rs-da47a5216d59/mmm-2nd.rs",
+          "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+          "size": 521
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/mmm-sum-1st.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-sum-1st.rs-e239a16b2484/mmm-sum-1st.rs",
+          "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+          "size": 278
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/mmm-sum-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-sum-2nd.rs-4b85b0a72171/mmm-sum-2nd.rs",
+          "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+          "size": 527
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/mttkrp-1st.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-mttkrp-1st.rs-516c90d66454/mttkrp-1st.rs",
+          "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+          "size": 339
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/mttkrp-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-mttkrp-2nd.rs-afc24d3d6857/mttkrp-2nd.rs",
+          "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+          "size": 882
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/storel.rs.in": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-storel.rs.in-4285a421349d/storel.rs.in",
+          "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+          "size": 30219
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/ttm-1st.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-ttm-1st.rs-74b26a98f950/ttm-1st.rs",
+          "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+          "size": 309
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egg/ttm-2nd.rs": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egg-ttm-2nd.rs-aa40ffaeb021/ttm-2nd.rs",
+          "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+          "size": 721
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/batax-1st.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-batax-1st.egg-3aeb74587a7a/batax-1st.egg",
+          "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+          "size": 10452
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/batax-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-batax-2nd.egg-3e97560c4e67/batax-2nd.egg",
+          "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+          "size": 10682
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/mmm-1st.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-1st.egg-73eb05802e12/mmm-1st.egg",
+          "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+          "size": 10309
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-d91852a1cb2b/mmm-2nd.egg",
+          "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+          "size": 10760
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/mmm-sum-1st.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-3877e98c5519/mmm-sum-1st.egg",
+          "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+          "size": 10287
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-9013641f5e58/mmm-sum-2nd.egg",
+          "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+          "size": 10766
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/mttkrp-1st.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-0da001647f03/mttkrp-1st.egg",
+          "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+          "size": 10380
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-c0dc9ba16155/mttkrp-2nd.egg",
+          "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+          "size": 11285
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/ttm-1st.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-ttm-1st.egg-89061dcc606e/ttm-1st.egg",
+          "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+          "size": 10338
+        },
+        "inputs/storel/mmm-sum-2nd/ports/egglog-storel-backoff/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-133880d8416f/ttm-2nd.egg",
+          "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+          "size": 11051
+        },
+        "inputs/storel/mmm-sum-2nd/suite.toml": {
+          "path": "sources/inputs-storel-mmm-sum-2nd-suite.toml-d82e417f2116/suite.toml",
+          "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+          "size": 554
+        }
+      },
+      "suite": {
+        "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+        "size": 554
+      }
+    },
+    "storel/mttkrp-2nd": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "mttkrp-2nd.egg": {
+          "sha256": "52fc01072c1efe11551d9d4f674a665797c323edf09228e57a7f94d0a6056476",
+          "size": 11060
+        }
+      },
+      "input_id": "ba36ee884a9b3e9d234134831c8f41a84c153b5975a476381d704b4c9302d51d",
+      "ports": {
+        "egg": {
+          "files": 11,
+          "sha256": "4f90b23a78e74307379199341d7d038171c3654b7eab01eb5f431346efdefe32",
+          "size": 34876
+        },
+        "egglog-storel-backoff": {
+          "files": 10,
+          "sha256": "cdc9d42f511d4669941838f59127229c8b8a8736dda51d2619dcebd2006708b2",
+          "size": 106310
+        }
+      },
+      "program": "mttkrp-2nd.egg",
+      "source_snapshots": {
+        "inputs/storel/mttkrp-2nd/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-mttkrp-2nd.egg-a6d19d4201dd/mttkrp-2nd.egg",
+          "sha256": "52fc01072c1efe11551d9d4f674a665797c323edf09228e57a7f94d0a6056476",
+          "size": 11060
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/batax-1st.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-batax-1st.rs-66d0e0052a43/batax-1st.rs",
+          "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+          "size": 316
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/batax-2nd.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-batax-2nd.rs-c594e813f2cc/batax-2nd.rs",
+          "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+          "size": 474
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/mmm-1st.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-1st.rs-292cc4e777b2/mmm-1st.rs",
+          "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+          "size": 290
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/mmm-2nd.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-2nd.rs-f85b844c5003/mmm-2nd.rs",
+          "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+          "size": 521
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/mmm-sum-1st.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-sum-1st.rs-51a04166d507/mmm-sum-1st.rs",
+          "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+          "size": 278
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/mmm-sum-2nd.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-sum-2nd.rs-76186800ccb7/mmm-sum-2nd.rs",
+          "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+          "size": 527
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/mttkrp-1st.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-mttkrp-1st.rs-a78c91047e04/mttkrp-1st.rs",
+          "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+          "size": 339
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/mttkrp-2nd.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-mttkrp-2nd.rs-7d4f0788bc3e/mttkrp-2nd.rs",
+          "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+          "size": 882
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/storel.rs.in": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-storel.rs.in-bdf344b4741f/storel.rs.in",
+          "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+          "size": 30219
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/ttm-1st.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-ttm-1st.rs-f10186dbc900/ttm-1st.rs",
+          "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+          "size": 309
+        },
+        "inputs/storel/mttkrp-2nd/ports/egg/ttm-2nd.rs": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egg-ttm-2nd.rs-3e840f42fe08/ttm-2nd.rs",
+          "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+          "size": 721
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/batax-1st.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-batax-1st.egg-de5d178a9627/batax-1st.egg",
+          "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+          "size": 10452
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/batax-2nd.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-batax-2nd.egg-41a8bd4ad5b2/batax-2nd.egg",
+          "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+          "size": 10682
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/mmm-1st.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-1st.egg-b0efe47519f3/mmm-1st.egg",
+          "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+          "size": 10309
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-1b1e83967595/mmm-2nd.egg",
+          "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+          "size": 10760
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/mmm-sum-1st.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-9671da190a66/mmm-sum-1st.egg",
+          "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+          "size": 10287
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-3d8e45946580/mmm-sum-2nd.egg",
+          "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+          "size": 10766
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/mttkrp-1st.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-9e900c180cef/mttkrp-1st.egg",
+          "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+          "size": 10380
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-1a13c06f977e/mttkrp-2nd.egg",
+          "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+          "size": 11285
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/ttm-1st.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-ttm-1st.egg-3261e696de75/ttm-1st.egg",
+          "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+          "size": 10338
+        },
+        "inputs/storel/mttkrp-2nd/ports/egglog-storel-backoff/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-74b14261e61d/ttm-2nd.egg",
+          "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+          "size": 11051
+        },
+        "inputs/storel/mttkrp-2nd/suite.toml": {
+          "path": "sources/inputs-storel-mttkrp-2nd-suite.toml-de0b529b7ec6/suite.toml",
+          "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+          "size": 554
+        }
+      },
+      "suite": {
+        "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+        "size": 554
+      }
+    },
+    "storel/ttm-2nd": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "ttm-2nd.egg": {
+          "sha256": "006f2cf9a0e5acaf1eac9f7bc08709a605bcdc4d9a0589b02acc0b212377e7fa",
+          "size": 10826
+        }
+      },
+      "input_id": "8240b7f2f7c09bb778e9087efdfc220b71ad8fb45c14f2f71152c7eb1326f780",
+      "ports": {
+        "egg": {
+          "files": 11,
+          "sha256": "4f90b23a78e74307379199341d7d038171c3654b7eab01eb5f431346efdefe32",
+          "size": 34876
+        },
+        "egglog-storel-backoff": {
+          "files": 10,
+          "sha256": "cdc9d42f511d4669941838f59127229c8b8a8736dda51d2619dcebd2006708b2",
+          "size": 106310
+        }
+      },
+      "program": "ttm-2nd.egg",
+      "source_snapshots": {
+        "inputs/storel/ttm-2nd/ports/egg/batax-1st.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-batax-1st.rs-c27ff26368d6/batax-1st.rs",
+          "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+          "size": 316
+        },
+        "inputs/storel/ttm-2nd/ports/egg/batax-2nd.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-batax-2nd.rs-9ce4ac5654bf/batax-2nd.rs",
+          "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+          "size": 474
+        },
+        "inputs/storel/ttm-2nd/ports/egg/mmm-1st.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-mmm-1st.rs-3153fe860620/mmm-1st.rs",
+          "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+          "size": 290
+        },
+        "inputs/storel/ttm-2nd/ports/egg/mmm-2nd.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-mmm-2nd.rs-3df1c5ad7839/mmm-2nd.rs",
+          "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+          "size": 521
+        },
+        "inputs/storel/ttm-2nd/ports/egg/mmm-sum-1st.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-mmm-sum-1st.rs-882cd60126d9/mmm-sum-1st.rs",
+          "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+          "size": 278
+        },
+        "inputs/storel/ttm-2nd/ports/egg/mmm-sum-2nd.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-mmm-sum-2nd.rs-47c8a50f6abd/mmm-sum-2nd.rs",
+          "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+          "size": 527
+        },
+        "inputs/storel/ttm-2nd/ports/egg/mttkrp-1st.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-mttkrp-1st.rs-0bf5764710a2/mttkrp-1st.rs",
+          "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+          "size": 339
+        },
+        "inputs/storel/ttm-2nd/ports/egg/mttkrp-2nd.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-mttkrp-2nd.rs-fc950f66a850/mttkrp-2nd.rs",
+          "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+          "size": 882
+        },
+        "inputs/storel/ttm-2nd/ports/egg/storel.rs.in": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-storel.rs.in-1aff428a5816/storel.rs.in",
+          "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+          "size": 30219
+        },
+        "inputs/storel/ttm-2nd/ports/egg/ttm-1st.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-ttm-1st.rs-ee51b97b26a6/ttm-1st.rs",
+          "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+          "size": 309
+        },
+        "inputs/storel/ttm-2nd/ports/egg/ttm-2nd.rs": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egg-ttm-2nd.rs-7c24ab54d633/ttm-2nd.rs",
+          "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+          "size": 721
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/batax-1st.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-batax-1st.egg-6da913892751/batax-1st.egg",
+          "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+          "size": 10452
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/batax-2nd.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-batax-2nd.egg-c08fb994c79d/batax-2nd.egg",
+          "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+          "size": 10682
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/mmm-1st.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-1st.egg-aab5a8060bf1/mmm-1st.egg",
+          "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+          "size": 10309
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/mmm-2nd.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-b9fd91f25daa/mmm-2nd.egg",
+          "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+          "size": 10760
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/mmm-sum-1st.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-de66d0b9c6ef/mmm-sum-1st.egg",
+          "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+          "size": 10287
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/mmm-sum-2nd.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-f5768da80078/mmm-sum-2nd.egg",
+          "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+          "size": 10766
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/mttkrp-1st.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-13c23a1c303f/mttkrp-1st.egg",
+          "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+          "size": 10380
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/mttkrp-2nd.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-5dc9a9ba869a/mttkrp-2nd.egg",
+          "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+          "size": 11285
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/ttm-1st.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-ttm-1st.egg-5306207bafee/ttm-1st.egg",
+          "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+          "size": 10338
+        },
+        "inputs/storel/ttm-2nd/ports/egglog-storel-backoff/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-4522d5a58694/ttm-2nd.egg",
+          "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+          "size": 11051
+        },
+        "inputs/storel/ttm-2nd/suite.toml": {
+          "path": "sources/inputs-storel-ttm-2nd-suite.toml-c45e41d001f4/suite.toml",
+          "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+          "size": 554
+        },
+        "inputs/storel/ttm-2nd/ttm-2nd.egg": {
+          "path": "sources/inputs-storel-ttm-2nd-ttm-2nd.egg-cccf9613cf5b/ttm-2nd.egg",
+          "sha256": "006f2cf9a0e5acaf1eac9f7bc08709a605bcdc4d9a0589b02acc0b212377e7fa",
+          "size": 10826
+        }
+      },
+      "suite": {
+        "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+        "size": 554
+      }
+    }
+  },
+  "kind": "matrix",
+  "machine_id": "whale",
+  "measurement_policy": {
+    "cpus": null,
+    "memory_cap_method": "systemd",
+    "memory_cap_prefix": [
+      "systemd-run",
+      "--user",
+      "--scope",
+      "--quiet",
+      "-p",
+      "MemoryMax=32768M",
+      "-p",
+      "MemorySwapMax=0",
+      "-p",
+      "OOMPolicy=continue",
+      "--"
+    ],
+    "memory_gb": 32,
+    "repetition_policy": "stop_case_on_first_non_ok",
+    "schedule": "benchmark,variant,threads,repetition",
+    "timeout": 900
+  },
+  "measurement_sources": {
+    "harness/__init__.py": {
+      "path": "sources/harness-__init__.py-7a293fe28a35/__init__.py",
+      "sha256": "a4f06b42b9d54905915f6aef392324d0e1ec693b87be0b3ffef8cb89bf15f9c0",
+      "size": 594
+    },
+    "harness/config.py": {
+      "path": "sources/harness-config.py-e851d77c3787/config.py",
+      "sha256": "69661ad8ddac15c280db42d3f8ea289045efbc59f059ad7fba4acdb452f71951",
+      "size": 11035
+    },
+    "harness/runner.py": {
+      "path": "sources/harness-runner.py-f71e841ba471/runner.py",
+      "sha256": "16272c7417b7fbc141ee9d66154f8d9e740af83e212099a5252eabd435f002c2",
+      "size": 24613
+    }
+  },
+  "payload_checksums": {
+    "measurements.jsonl": {
+      "sha256": "6c1cc7d8f1653240d38d1d9d4a23cb044fd29c54fabd44e03cf65c255b321b7a",
+      "size": 317450
+    },
+    "sources/adapters-egg-build-35dc96503543/build": {
+      "sha256": "4cc11d8b3a771e3b3e87d3bb547892625d28cc4ca71c28af1c1dacb30699e1c8",
+      "size": 2003
+    },
+    "sources/adapters-egg-run-8c56d22a39d0/run": {
+      "sha256": "10b89b16e22469b6a96c5b40cafcae655b7845eb99e2f54d1a4858bba7deba03",
+      "size": 2746
+    },
+    "sources/adapters-egg-system.toml-e04936bf08d9/system.toml": {
+      "sha256": "e0e028c43f0f4802e5740451221023ca6dde1e1a33012d249f58449473fc92a9",
+      "size": 563
+    },
+    "sources/adapters-egglog-storel-backoff-build-74aa42cb520f/build": {
+      "sha256": "410f6661d3e21772e023caf3f0896dc78f206649bc2dbda506d35dba6e66a284",
+      "size": 398
+    },
+    "sources/adapters-egglog-storel-backoff-run-2e61d03309ab/run": {
+      "sha256": "ac7a7546bf7464766cbf2bcfa3fecf27952156173efbaa8534368368d903c519",
+      "size": 1263
+    },
+    "sources/adapters-egglog-storel-backoff-system.toml-908f7380a1e6/system.toml": {
+      "sha256": "f3af9752e0851e3b7ff9a3eff2ae8bf82a16a88b9b0477946baca53fb93f106a",
+      "size": 696
+    },
+    "sources/adapters-egglog-storel-build-9a05f101aa14/build": {
+      "sha256": "ea2fb6ea0a8b7f8b8b73c4d21bafde732d15298e9cc32aca0fced1a6850ddc69",
+      "size": 3394
+    },
+    "sources/adapters-egglog-storel-crate-Cargo.lock-d425f9aa7fda/Cargo.lock": {
+      "sha256": "f5bddda76f58346d82714cae24ceccc818b119cc15a376efd4b58cca13c70c40",
+      "size": 37362
+    },
+    "sources/adapters-egglog-storel-crate-Cargo.toml-3baa92bee8a6/Cargo.toml": {
+      "sha256": "bae4711f65f743f8f0e4e472b72e60aaebb03f4be316d6341a38488635b57ac6",
+      "size": 764
+    },
+    "sources/adapters-egglog-storel-crate-src-lib.rs-8a441f91cf83/lib.rs": {
+      "sha256": "0260b07ab8281d0fc6c4daddf6350bf88a8ceb5d53676340108268441aa5d70e",
+      "size": 10927
+    },
+    "sources/adapters-egglog-storel-crate-src-main.rs-1bd0bf60c039/main.rs": {
+      "sha256": "0c3bbc8bf6e4a1e40d03146abc02bc907d07ad30f8f587b350fa3175d322c1dc",
+      "size": 239
+    },
+    "sources/adapters-egglog-storel-run-c585d56adc87/run": {
+      "sha256": "b8808aa7049bf45c9684184e69f1313faf67cbf85a699fa0e4b8f8c7d2e7245b",
+      "size": 738
+    },
+    "sources/adapters-egglog-storel-system.toml-165b909f71ef/system.toml": {
+      "sha256": "f96e8a7a39a333804d979db46ec268d8a36397407ed35d5c9521e49ee490ece0",
+      "size": 1296
+    },
+    "sources/experiment-config-79623b13c9d5/storel.toml": {
+      "sha256": "bcb72db724a30700463028e0bfe6d23937655a0a3e5508c6a01590c13ac0d359",
+      "size": 2833
+    },
+    "sources/harness-__init__.py-7a293fe28a35/__init__.py": {
+      "sha256": "a4f06b42b9d54905915f6aef392324d0e1ec693b87be0b3ffef8cb89bf15f9c0",
+      "size": 594
+    },
+    "sources/harness-config.py-e851d77c3787/config.py": {
+      "sha256": "69661ad8ddac15c280db42d3f8ea289045efbc59f059ad7fba4acdb452f71951",
+      "size": 11035
+    },
+    "sources/harness-runner.py-f71e841ba471/runner.py": {
+      "sha256": "16272c7417b7fbc141ee9d66154f8d9e740af83e212099a5252eabd435f002c2",
+      "size": 24613
+    },
+    "sources/inputs-storel-batax-1st-batax-1st.egg-3ed4c672fdca/batax-1st.egg": {
+      "sha256": "a19651a15e2a2a77d7aeb0445da46e33502b8b63a5d5423ad17b0506579c3947",
+      "size": 10227
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-batax-1st.rs-d7e49ff62820/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-batax-2nd.rs-ceef2339a39e/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-mmm-1st.rs-12ef701511aa/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-mmm-2nd.rs-370f311dacf0/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-mmm-sum-1st.rs-3248c3b90e72/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-mmm-sum-2nd.rs-a5bd05a5cdc3/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-mttkrp-1st.rs-fbc50b42507c/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-mttkrp-2nd.rs-d568adb5afa3/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-storel.rs.in-15519090a97d/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-ttm-1st.rs-5d45f3c035e8/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "sources/inputs-storel-batax-1st-ports-egg-ttm-2nd.rs-0c414c4fce95/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-batax-1st.egg-6a9046e974a7/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-batax-2nd.egg-f27206c703d5/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-1st.egg-880197faaaf2/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-2nd.egg-147752c00e3e/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-sum-1st.egg-d4e0e8d1909d/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-sum-2nd.egg-e94cb5dc5593/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mttkrp-1st.egg-c64242a780b6/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mttkrp-2nd.egg-87e92f0157b2/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-ttm-1st.egg-167d40f09483/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-ttm-2nd.egg-ee5e23c36ee1/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "sources/inputs-storel-batax-1st-suite.toml-b7afb3e70328/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "sources/inputs-storel-batax-2nd-batax-2nd.egg-86f1e7c35206/batax-2nd.egg": {
+      "sha256": "9a6ce8296562a0918efa7afef0a47f0ad722a5f816217d67a01b395d0c0707bd",
+      "size": 10457
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-batax-1st.rs-d117d2cbba2c/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-batax-2nd.rs-4093998c8630/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-mmm-1st.rs-b7c8d38df3de/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-mmm-2nd.rs-d10fc0d17c20/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-mmm-sum-1st.rs-410f0b321b46/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-mmm-sum-2nd.rs-b53558b97f30/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-mttkrp-1st.rs-17e0b47a9736/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-mttkrp-2nd.rs-d9ae36551f6d/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-storel.rs.in-4217d922c3d1/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-ttm-1st.rs-e630970a7f2d/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "sources/inputs-storel-batax-2nd-ports-egg-ttm-2nd.rs-41cb5cf1444e/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-batax-1st.egg-bcaa1376375f/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-batax-2nd.egg-b8dd7600752f/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-1st.egg-b9c80ae83c01/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-8916c840d440/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-bc0052f97860/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-5b8a00a7226a/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-405fa7070920/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-7f2adce8eeff/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-ttm-1st.egg-65a8e40e00eb/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-2671ac3ecbd6/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "sources/inputs-storel-batax-2nd-suite.toml-79ef4ff84e9f/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "sources/inputs-storel-mmm-2nd-mmm-2nd.egg-8f6a32097e86/mmm-2nd.egg": {
+      "sha256": "c88f28a8bd0954739b07e4fedcd57f909aa3827203eefd0e3524525ff9ef9a6c",
+      "size": 10535
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-batax-1st.rs-eb03196a8d09/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-batax-2nd.rs-8bb41e8b16b9/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-mmm-1st.rs-c30cf44dde35/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-mmm-2nd.rs-158f4016932c/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-mmm-sum-1st.rs-d1e7d8ada6d0/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-mmm-sum-2nd.rs-9865d164bc3b/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-mttkrp-1st.rs-367f8c4111d4/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-mttkrp-2nd.rs-6f97a68b8c06/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-storel.rs.in-ed8fd9ce8a09/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-ttm-1st.rs-e0c5eb490bf4/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egg-ttm-2nd.rs-47899bb9a978/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-batax-1st.egg-f4cc4f0447f4/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-batax-2nd.egg-6982260f618f/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-1st.egg-bd693bc28d13/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-76a399cd9da0/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-203c6ae1e873/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-6db9816fc6e1/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-46541310bb4a/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-a5c5058f48b8/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-ttm-1st.egg-d2542f14a6e8/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-b9ccf597fa5c/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "sources/inputs-storel-mmm-2nd-suite.toml-5ef08a060147/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "sources/inputs-storel-mmm-sum-2nd-mmm-sum-2nd.egg-7ee42c0f0d73/mmm-sum-2nd.egg": {
+      "sha256": "77633dfdb71272ce730e7a8254fdfe7937f3fa919050634fc5589b915118b32a",
+      "size": 10541
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-batax-1st.rs-a90830d70604/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-batax-2nd.rs-1fa8861303e1/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-1st.rs-184acc22a661/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-2nd.rs-da47a5216d59/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-sum-1st.rs-e239a16b2484/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-sum-2nd.rs-4b85b0a72171/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-mttkrp-1st.rs-516c90d66454/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-mttkrp-2nd.rs-afc24d3d6857/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-storel.rs.in-4285a421349d/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-ttm-1st.rs-74b26a98f950/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egg-ttm-2nd.rs-aa40ffaeb021/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-batax-1st.egg-3aeb74587a7a/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-batax-2nd.egg-3e97560c4e67/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-1st.egg-73eb05802e12/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-d91852a1cb2b/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-3877e98c5519/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-9013641f5e58/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-0da001647f03/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-c0dc9ba16155/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-ttm-1st.egg-89061dcc606e/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-133880d8416f/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "sources/inputs-storel-mmm-sum-2nd-suite.toml-d82e417f2116/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "sources/inputs-storel-mttkrp-2nd-mttkrp-2nd.egg-a6d19d4201dd/mttkrp-2nd.egg": {
+      "sha256": "52fc01072c1efe11551d9d4f674a665797c323edf09228e57a7f94d0a6056476",
+      "size": 11060
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-batax-1st.rs-66d0e0052a43/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-batax-2nd.rs-c594e813f2cc/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-1st.rs-292cc4e777b2/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-2nd.rs-f85b844c5003/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-sum-1st.rs-51a04166d507/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-sum-2nd.rs-76186800ccb7/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-mttkrp-1st.rs-a78c91047e04/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-mttkrp-2nd.rs-7d4f0788bc3e/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-storel.rs.in-bdf344b4741f/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-ttm-1st.rs-f10186dbc900/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egg-ttm-2nd.rs-3e840f42fe08/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-batax-1st.egg-de5d178a9627/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-batax-2nd.egg-41a8bd4ad5b2/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-1st.egg-b0efe47519f3/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-1b1e83967595/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-9671da190a66/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-3d8e45946580/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-9e900c180cef/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-1a13c06f977e/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-ttm-1st.egg-3261e696de75/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-74b14261e61d/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "sources/inputs-storel-mttkrp-2nd-suite.toml-de0b529b7ec6/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-batax-1st.rs-c27ff26368d6/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-batax-2nd.rs-9ce4ac5654bf/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-mmm-1st.rs-3153fe860620/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-mmm-2nd.rs-3df1c5ad7839/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-mmm-sum-1st.rs-882cd60126d9/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-mmm-sum-2nd.rs-47c8a50f6abd/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-mttkrp-1st.rs-0bf5764710a2/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-mttkrp-2nd.rs-fc950f66a850/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-storel.rs.in-1aff428a5816/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-ttm-1st.rs-ee51b97b26a6/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egg-ttm-2nd.rs-7c24ab54d633/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-batax-1st.egg-6da913892751/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-batax-2nd.egg-c08fb994c79d/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-1st.egg-aab5a8060bf1/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-b9fd91f25daa/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-de66d0b9c6ef/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-f5768da80078/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-13c23a1c303f/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-5dc9a9ba869a/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-ttm-1st.egg-5306207bafee/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-4522d5a58694/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "sources/inputs-storel-ttm-2nd-suite.toml-c45e41d001f4/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "sources/inputs-storel-ttm-2nd-ttm-2nd.egg-cccf9613cf5b/ttm-2nd.egg": {
+      "sha256": "006f2cf9a0e5acaf1eac9f7bc08709a605bcdc4d9a0589b02acc0b212377e7fa",
+      "size": 10826
+    },
+    "sources/untracked-experiments-retained-row-ordering.toml-0bf0b6d754d5/retained-row-ordering.toml": {
+      "sha256": "f314640909e231878b3aa577e9dd8031818682759b20ea5b28b3acdc2b3c4d74",
+      "size": 1602
+    },
+    "sources/untracked-experiments-storel.toml-dcc5ea369a36/storel.toml": {
+      "sha256": "bcb72db724a30700463028e0bfe6d23937655a0a3e5508c6a01590c13ac0d359",
+      "size": 2833
+    },
+    "sources/untracked-systems-egglog-experimental-build-e08622fe3ebe/build": {
+      "sha256": "b69d440155e04d662086ba4498165d751e2b4cbb6fc57d3fa30b3005cd562154",
+      "size": 3845
+    },
+    "sources/untracked-systems-egglog-experimental-run-422523d8446c/run": {
+      "sha256": "4c0f534981b7eaadffb3a1bef61a54dfe8360e22d230b84986ff80ff1aa00fe0",
+      "size": 1409
+    },
+    "sources/untracked-systems-egglog-experimental-system.toml-9cb2719491ce/system.toml": {
+      "sha256": "fe8a396769b6547a48eee4084bebe3a29dba4c56e8687656e3bfcf3e7cd79c18",
+      "size": 1291
+    },
+    "sources/untracked-systems-egglog-patches-retained-row-ordering.patch-d7b5e363652a/retained-row-ordering.patch": {
+      "sha256": "91f2b8f3daad277b781d4b46b58b3bedd923a1788435923f36376f4b40c6eac9",
+      "size": 54908
+    },
+    "sources/untracked-systems-egglog-storel-backoff-build-1bf62a744aab/build": {
+      "sha256": "410f6661d3e21772e023caf3f0896dc78f206649bc2dbda506d35dba6e66a284",
+      "size": 398
+    },
+    "sources/untracked-systems-egglog-storel-backoff-run-066bee64a459/run": {
+      "sha256": "ac7a7546bf7464766cbf2bcfa3fecf27952156173efbaa8534368368d903c519",
+      "size": 1263
+    },
+    "sources/untracked-systems-egglog-storel-backoff-system.toml-45a136f0e198/system.toml": {
+      "sha256": "f3af9752e0851e3b7ff9a3eff2ae8bf82a16a88b9b0477946baca53fb93f106a",
+      "size": 696
+    },
+    "sources/untracked-systems-egglog-storel-build-5d667444eb9a/build": {
+      "sha256": "ea2fb6ea0a8b7f8b8b73c4d21bafde732d15298e9cc32aca0fced1a6850ddc69",
+      "size": 3394
+    },
+    "sources/untracked-systems-egglog-storel-crate-Cargo.lock-837fdb950fb4/Cargo.lock": {
+      "sha256": "f5bddda76f58346d82714cae24ceccc818b119cc15a376efd4b58cca13c70c40",
+      "size": 37362
+    },
+    "sources/untracked-systems-egglog-storel-crate-Cargo.toml-7c2297c67354/Cargo.toml": {
+      "sha256": "bae4711f65f743f8f0e4e472b72e60aaebb03f4be316d6341a38488635b57ac6",
+      "size": 764
+    },
+    "sources/untracked-systems-egglog-storel-crate-src-lib.rs-4a02775488b1/lib.rs": {
+      "sha256": "0260b07ab8281d0fc6c4daddf6350bf88a8ceb5d53676340108268441aa5d70e",
+      "size": 10927
+    },
+    "sources/untracked-systems-egglog-storel-crate-src-main.rs-1aeaa553b1e8/main.rs": {
+      "sha256": "0c3bbc8bf6e4a1e40d03146abc02bc907d07ad30f8f587b350fa3175d322c1dc",
+      "size": 239
+    },
+    "sources/untracked-systems-egglog-storel-run-dddfed55ad75/run": {
+      "sha256": "b8808aa7049bf45c9684184e69f1313faf67cbf85a699fa0e4b8f8c7d2e7245b",
+      "size": 738
+    },
+    "sources/untracked-systems-egglog-storel-system.toml-f6eb65019b20/system.toml": {
+      "sha256": "f96e8a7a39a333804d979db46ec268d8a36397407ed35d5c9521e49ee490ece0",
+      "size": 1296
+    },
+    "sources/working-tree.patch": {
+      "sha256": "8df9d5a842b9e38b31e8db346a45cb2788e017c7729ef3b460d5d0bd4dae4e39",
+      "size": 25868
+    }
+  },
+  "provenance": {
+    "dirty": true,
+    "dirty_patch": {
+      "path": "sources/working-tree.patch",
+      "sha256": "8df9d5a842b9e38b31e8db346a45cb2788e017c7729ef3b460d5d0bd4dae4e39",
+      "size": 25868
+    },
+    "harness_commit": "772a661b838d97128d104393b75a20a4bd7f60d8",
+    "sources": {
+      "experiment-config": {
+        "path": "sources/experiment-config-79623b13c9d5/storel.toml",
+        "sha256": "bcb72db724a30700463028e0bfe6d23937655a0a3e5508c6a01590c13ac0d359",
+        "size": 2833
+      },
+      "untracked/experiments/retained-row-ordering.toml": {
+        "path": "sources/untracked-experiments-retained-row-ordering.toml-0bf0b6d754d5/retained-row-ordering.toml",
+        "sha256": "f314640909e231878b3aa577e9dd8031818682759b20ea5b28b3acdc2b3c4d74",
+        "size": 1602
+      },
+      "untracked/experiments/storel.toml": {
+        "path": "sources/untracked-experiments-storel.toml-dcc5ea369a36/storel.toml",
+        "sha256": "bcb72db724a30700463028e0bfe6d23937655a0a3e5508c6a01590c13ac0d359",
+        "size": 2833
+      },
+      "untracked/systems/egglog-experimental/build": {
+        "path": "sources/untracked-systems-egglog-experimental-build-e08622fe3ebe/build",
+        "sha256": "b69d440155e04d662086ba4498165d751e2b4cbb6fc57d3fa30b3005cd562154",
+        "size": 3845
+      },
+      "untracked/systems/egglog-experimental/run": {
+        "path": "sources/untracked-systems-egglog-experimental-run-422523d8446c/run",
+        "sha256": "4c0f534981b7eaadffb3a1bef61a54dfe8360e22d230b84986ff80ff1aa00fe0",
+        "size": 1409
+      },
+      "untracked/systems/egglog-experimental/system.toml": {
+        "path": "sources/untracked-systems-egglog-experimental-system.toml-9cb2719491ce/system.toml",
+        "sha256": "fe8a396769b6547a48eee4084bebe3a29dba4c56e8687656e3bfcf3e7cd79c18",
+        "size": 1291
+      },
+      "untracked/systems/egglog-storel-backoff/build": {
+        "path": "sources/untracked-systems-egglog-storel-backoff-build-1bf62a744aab/build",
+        "sha256": "410f6661d3e21772e023caf3f0896dc78f206649bc2dbda506d35dba6e66a284",
+        "size": 398
+      },
+      "untracked/systems/egglog-storel-backoff/run": {
+        "path": "sources/untracked-systems-egglog-storel-backoff-run-066bee64a459/run",
+        "sha256": "ac7a7546bf7464766cbf2bcfa3fecf27952156173efbaa8534368368d903c519",
+        "size": 1263
+      },
+      "untracked/systems/egglog-storel-backoff/system.toml": {
+        "path": "sources/untracked-systems-egglog-storel-backoff-system.toml-45a136f0e198/system.toml",
+        "sha256": "f3af9752e0851e3b7ff9a3eff2ae8bf82a16a88b9b0477946baca53fb93f106a",
+        "size": 696
+      },
+      "untracked/systems/egglog-storel/build": {
+        "path": "sources/untracked-systems-egglog-storel-build-5d667444eb9a/build",
+        "sha256": "ea2fb6ea0a8b7f8b8b73c4d21bafde732d15298e9cc32aca0fced1a6850ddc69",
+        "size": 3394
+      },
+      "untracked/systems/egglog-storel/crate/Cargo.lock": {
+        "path": "sources/untracked-systems-egglog-storel-crate-Cargo.lock-837fdb950fb4/Cargo.lock",
+        "sha256": "f5bddda76f58346d82714cae24ceccc818b119cc15a376efd4b58cca13c70c40",
+        "size": 37362
+      },
+      "untracked/systems/egglog-storel/crate/Cargo.toml": {
+        "path": "sources/untracked-systems-egglog-storel-crate-Cargo.toml-7c2297c67354/Cargo.toml",
+        "sha256": "bae4711f65f743f8f0e4e472b72e60aaebb03f4be316d6341a38488635b57ac6",
+        "size": 764
+      },
+      "untracked/systems/egglog-storel/crate/src/lib.rs": {
+        "path": "sources/untracked-systems-egglog-storel-crate-src-lib.rs-4a02775488b1/lib.rs",
+        "sha256": "0260b07ab8281d0fc6c4daddf6350bf88a8ceb5d53676340108268441aa5d70e",
+        "size": 10927
+      },
+      "untracked/systems/egglog-storel/crate/src/main.rs": {
+        "path": "sources/untracked-systems-egglog-storel-crate-src-main.rs-1aeaa553b1e8/main.rs",
+        "sha256": "0c3bbc8bf6e4a1e40d03146abc02bc907d07ad30f8f587b350fa3175d322c1dc",
+        "size": 239
+      },
+      "untracked/systems/egglog-storel/run": {
+        "path": "sources/untracked-systems-egglog-storel-run-dddfed55ad75/run",
+        "sha256": "b8808aa7049bf45c9684184e69f1313faf67cbf85a699fa0e4b8f8c7d2e7245b",
+        "size": 738
+      },
+      "untracked/systems/egglog-storel/system.toml": {
+        "path": "sources/untracked-systems-egglog-storel-system.toml-f6eb65019b20/system.toml",
+        "sha256": "f96e8a7a39a333804d979db46ec268d8a36397407ed35d5c9521e49ee490ece0",
+        "size": 1296
+      },
+      "untracked/systems/egglog/patches/retained-row-ordering.patch": {
+        "path": "sources/untracked-systems-egglog-patches-retained-row-ordering.patch-d7b5e363652a/retained-row-ordering.patch",
+        "sha256": "91f2b8f3daad277b781d4b46b58b3bedd923a1788435923f36376f4b40c6eac9",
+        "size": 54908
+      }
+    },
+    "toolchain": {
+      "cargo": "cargo 1.98.1 (797e8a9bc 2026-08-05)",
+      "python": "3.12.15",
+      "rustc": "rustc 1.98.1 (48a229cea 2026-09-01)"
+    }
+  },
+  "run_id": "20261023T024106079342Z-b0124ea6b7a9-final2",
+  "schema_version": 1,
+  "state": "complete",
+  "updated_at": "2026-10-23T03:34:55.903632+00:00"
+}

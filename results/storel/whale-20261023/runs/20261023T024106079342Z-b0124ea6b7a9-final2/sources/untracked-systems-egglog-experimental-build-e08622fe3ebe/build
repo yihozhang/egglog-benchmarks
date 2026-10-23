@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# Build egglog-experimental (https://github.com/egraphs-good/egglog-experimental) on top of
+# an egglog build. `ref` and the patches refer to egglog, exactly as for systems/egglog/build:
+# that build's checkout replaces the crate's egglog git dependencies through a Cargo [patch]
+# section, so the engine inside the binary is the variant's egglog. The experimental crate
+# itself is pinned to $experimental_commit; its rust-toolchain.toml picks the compiler
+# (rustup installs it). Only egglog refs that are API-compatible with the pin (recent refs
+# with egglog-ast and egglog-reports in the workspace) build; egglog 0.5.0 does not.
+# Usage: build <ref> [patch-name|path.patch ...]
+# Prints the build directory (build/egglog-experimental/<egglog build id>) on stdout; idempotent.
+set -euo pipefail
+ref=${1:?usage: build <ref> [patch-name|path.patch ...]}
+shift
+here=$(dirname "$(readlink -f "$0")")
+root=$(readlink -f "$here/../..")
+repo=$root/build/egglog-experimental/repo
+url=https://github.com/egraphs-good/egglog-experimental
+experimental_commit=61e68719559145842b03c7556ddc0687cb00f162  # main as of 2026-10-20
+
+# One experimental build per egglog build (<commit>[+<patch-hash>]).
+egglog_dir=$("$root/systems/egglog/build" "$ref" "$@")
+out=$root/build/egglog-experimental/$(basename "$egglog_dir")
+
+if [ ! -x "$out/egglog" ]; then
+  if [ ! -d "$repo/.git" ]; then
+    mkdir -p "$root/build/egglog-experimental"
+    git clone -q "$url" "$repo" >&2
+  fi
+  if ! git -C "$repo" rev-parse --verify --quiet "$experimental_commit^{commit}" >/dev/null; then
+    git -C "$repo" fetch -q origin "+refs/heads/*:refs/remotes/origin/*" >&2
+  fi
+  mkdir -p "$out"
+  if [ ! -f "$out/src/Cargo.toml" ]; then
+    rm -rf "$out/src"
+    git -C "$repo" worktree prune
+    git -C "$repo" worktree add -q --detach "$out/src" "$experimental_commit" >&2
+  fi
+  # Point the crate's egglog git dependencies at the egglog build's checkout. Start from
+  # the pristine Cargo.toml so a re-run after a failed build does not append twice.
+  git -C "$out/src" checkout -- Cargo.toml
+  cat >> "$out/src/Cargo.toml" <<TOML
+
+[patch."https://github.com/egraphs-good/egglog.git"]
+egglog = { path = "$egglog_dir/src" }
+egglog-ast = { path = "$egglog_dir/src/egglog-ast" }
+egglog-reports = { path = "$egglog_dir/src/egglog-reports" }
+TOML
+  echo "building egglog-experimental@${experimental_commit:0:8} with egglog@$ref in $out" >&2
+  (cd "$out/src" && cargo build --release -q) >&2
+  ln -sf src/target/release/egglog-experimental "$out/egglog"
+
+  # Probe what this build supports, as systems/egglog/build does, so `run` can refuse
+  # unsupported configurations.
+  help=$("$out/egglog" --help 2>&1 || true)
+  flags=$(printf '%s\n' "$help" | grep -oE -- '--[a-z][a-z0-9-]*' | sort -u | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().split()))')
+  tmp=$(mktemp -d)
+  printf '(relation R (i64))\n(R 1)\n(run 1)\n(print-size)\n' > "$tmp/a.egg"
+  printf '(print-stats :file "%s/s.json")\n' "$tmp" > "$tmp/stats.egg"
+  if RUST_LOG=error "$out/egglog" "$tmp/a.egg" "$tmp/stats.egg" >/dev/null 2>&1 && [ -s "$tmp/s.json" ]; then stats_json=true; else stats_json=false; fi
+  rm -rf "$tmp"
+  python3 - "$out/build.json" "$egglog_dir/build.json" "$ref" "$experimental_commit" "$stats_json" "$flags" <<'PY'
+import json, sys
+path, egglog_info, ref, experimental_commit, stats_json, flags = sys.argv[1:]
+egglog = json.load(open(egglog_info))
+flags = json.loads(flags)
+json.dump({
+    "system": "egglog-experimental",
+    "ref": ref,
+    "commit": egglog["commit"],
+    "patches": egglog.get("patches", []),
+    "patch_sources": egglog.get("patch_sources", []),
+    "experimental_commit": experimental_commit,
+    "flags": flags,
+    "threads": "--threads" in flags,
+    "stats_json": stats_json == "true",
+}, open(path, "w"), indent=1)
+PY
+fi
+echo "$out"

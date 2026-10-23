@@ -1,0 +1,11 @@
+# The STOREL extension binary of systems/egglog-storel, with the ports that run the rules
+# under egglog-experimental's back-off scheduler (benchmarks/<suite>/egglog-storel-backoff/<name>.egg).
+port_dir = "egglog-storel-backoff"
+
+notes = """
+Same binary and build as systems/egglog-storel. Port = the suite's program with
+(let-scheduler bo (back-off)) and (run-with bo ...) steps: STOREL's egg configuration (match
+limit 1000, ban length 5), except that egglog counts a rule's new matches per step (semi-naive),
+so bans fire at different times than egg's; the Frozen-term analysis rules are not scheduled by
+the back-off. wall_s as for egglog (whole process or the node-limited REPL driver).
+"""

@@ -1,0 +1,51 @@
+description = "DVO comparison: minimum residual rows versus a cached retained-row guard for untouched binary lookups."
+# Local merge of origin/main 4b5686bed78c and PR #1056 38bd3f43e1bb.
+# The experiment source includes both parents. Its pristine tree also equals b9800506.
+# The retained-row-ordering patch is applied after the existing DVO ablation patch.
+benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+threads = [1]
+reps = 3
+timeout = 600
+memory_gb = 32
+plot = "bars"
+baseline = "current-no-decomp"
+
+[[variants]]
+label = "current-no-decomp"
+system = "egglog"
+ref = "9016bd95fd3cb4e82b025dce1ca2ea0f3deeaf6d"
+patches = ["no-dynamic-order"]
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "retained-no-decomp"
+system = "egglog"
+ref = "9016bd95fd3cb4e82b025dce1ca2ea0f3deeaf6d"
+patches = ["no-dynamic-order", "retained-row-ordering"]
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "current-decomp"
+system = "egglog"
+ref = "9016bd95fd3cb4e82b025dce1ca2ea0f3deeaf6d"
+patches = ["no-dynamic-order"]
+
+[[variants]]
+label = "retained-decomp"
+system = "egglog"
+ref = "9016bd95fd3cb4e82b025dce1ca2ea0f3deeaf6d"
+patches = ["no-dynamic-order", "retained-row-ordering"]
+
+[[variants]]
+label = "disabled-no-decomp"
+system = "egglog"
+ref = "9016bd95fd3cb4e82b025dce1ca2ea0f3deeaf6d"
+patches = ["no-dynamic-order"]
+flags = ["--no-decomp", "--no-dynamic-order"]
+
+[[variants]]
+label = "disabled-decomp"
+system = "egglog"
+ref = "9016bd95fd3cb4e82b025dce1ca2ea0f3deeaf6d"
+patches = ["no-dynamic-order"]
+flags = ["--no-dynamic-order"]

@@ -1,0 +1,1345 @@
+diff --git a/core-relations/src/free_join/execute.rs b/core-relations/src/free_join/execute.rs
+index 0c3abab948d6c0dd6b6ccc49e2d4d59292cd4d02..98a5f326e2f3e666773dd29e8a49e9fe39d7f1f7 100644
+--- a/core-relations/src/free_join/execute.rs
++++ b/core-relations/src/free_join/execute.rs
+@@ -43,8 +43,8 @@ use super::{
+     ActionId, AtomId, ColumnIds, Database, TableId, Variable,
+     frame_update::{FrameUpdates, UpdateInstr},
+     join_tail::{
+-        BindingInfo, BindingSet, BorrowedLocalState, InstrOrder, JoinOrderContext, LeafScans,
+-        LocalState, MatchCounter, RetiredLocalStates, SubsetClonePlan, atom_tail_use,
++        BindingInfo, BindingSet, BorrowedLocalState, InstrOrder, JoinOrderContext, JoinOrderHints,
++        LeafScans, LocalState, MatchCounter, RetiredLocalStates, SubsetClonePlan, atom_tail_use,
+         dynamic_variable_ordering_enabled, estimate_size, materialization_is_live_in_tail,
+         sort_plan_by_size,
+     },
+@@ -236,7 +236,6 @@ impl Database {
+                                 }
+                             }
+                         }
+-
+                         // Prepared slots are execution-local and can be large.
+                         // Empty roots are common in fixpoint confirmation
+                         // passes, so do not construct the sidecar until the
+@@ -1443,10 +1442,15 @@ impl<'a, 'state, 'exec> JoinState<'a, 'state, 'exec> {
+             // Keep cur=0 fixed: top-level partitions describe that first
+             // stage's scan, so changing it would invalidate their boundaries.
+             // Packed child families support each new successor choice.
++            let hints = JoinOrderHints {
++                start: cur,
++                prepared,
++                remaining_stages: remaining_stages.map(StageMask::as_u128),
++            };
+             sort_plan_by_size(
+                 instr_order,
+                 leaf_scans,
+-                JoinOrderContext::Runtime { start: cur },
++                JoinOrderContext::RuntimeWithIndexes(&hints),
+                 &stages.instrs,
+                 binding_info,
+             );
+diff --git a/core-relations/src/free_join/execute_tests.rs b/core-relations/src/free_join/execute_tests.rs
+index 5fbdf4612c01fa0846b6cd0bd5395e2039128e2f..f91408c3694ea80e9ccba499986499dbc74dab0d 100644
+--- a/core-relations/src/free_join/execute_tests.rs
++++ b/core-relations/src/free_join/execute_tests.rs
+@@ -19,9 +19,9 @@ use crate::{
+ 
+ use crate::free_join::{
+     join_tail::{
+-        BindingInfo, InstrOrder, JoinOrderContext, for_each_stage_atom,
++        BindingInfo, InstrOrder, JoinOrderContext, estimated_retained_work, for_each_stage_atom,
+         materialization_is_live_in_tail, packed_child_shape_in_tail, scan_atom_tail_use,
+-        sort_plan_by_size, sort_plan_by_size_inner, suffix_stage_mask,
++        select_runtime_stage, sort_plan_by_size, sort_plan_by_size_inner, suffix_stage_mask,
+     },
+     packed_cache::{FamilyId, OwnedAtomRows},
+     packed_trie::ChildShape,
+@@ -31,6 +31,18 @@ use crate::free_join::{
+     },
+ };
+ 
++#[test]
++fn ordering_context_stays_compact_on_the_no_swap_path() {
++    assert_eq!(
++        std::mem::size_of::<JoinOrderContext<'_, '_>>(),
++        2 * std::mem::size_of::<usize>()
++    );
++    assert_eq!(
++        std::mem::align_of::<JoinOrderContext<'_, '_>>(),
++        std::mem::align_of::<usize>()
++    );
++}
++
+ #[test]
+ fn catalog_candidates_require_live_rows_before_terminal_match() {
+     terminal_catalog_filter_cases(true);
+@@ -412,6 +424,250 @@ fn runtime_dvo_compares_residual_rows_regardless_of_prior_refinement() {
+     }
+ }
+ 
++#[test]
++fn retained_work_counts_live_row_storage_without_cartesian_expansion() {
++    assert_eq!(
++        estimated_retained_work([(2_000, 2, true), (2_000, 2, true)]),
++        3_998.0
++    );
++    assert_eq!(
++        estimated_retained_work([(2_000, 2, false), (2_000, 2, false)]),
++        2.0
++    );
++    assert_eq!(
++        estimated_retained_work([(2_000, 2, true), (2_000, 2, false)]),
++        2_000.0
++    );
++    assert_eq!(
++        estimated_retained_work([(17, 17, true), (83, 83, true)]),
++        17.0
++    );
++    assert_eq!(estimated_retained_work([(0, 0, true), (83, 83, true)]), 0.0);
++    // A structural join may scan more keys but retain fewer duplicate rows
++    // than joining a small dictionary to a repeated attribute.
++    assert!(
++        estimated_retained_work([(15_119, 3_558, true), (498, 193, true), (98, 86, true)])
++            < estimated_retained_work([(12, 13, true), (1_533, 13, true)])
++    );
++    // Small shape domains can be cheaper than following a broad list filter.
++    assert!(
++        estimated_retained_work([(18, 15, true), (18, 15, true), (48, 29, true)])
++            < estimated_retained_work([(697, 697, true), (1_542, 970, true)])
++    );
++}
++
++#[test]
++fn runtime_retained_guard_uses_cached_access_identity_and_keeps_singletons_first() {
++    use crate::free_join::packed_trie::{TrieNode, packed_node_builds};
++    let mut stages = vec![
++        intersect_stage(0, 0),
++        intersect_atoms_stage(&[1, 2], 1),
++        intersect_atoms_stage(&[1, 3], 2),
++    ];
++    // Atom 1 is accessed through a unique ID in stage 1, and a repeated
++    // attribute in stage 2. The prepared cache must distinguish the accesses.
++    let JoinStage::Intersect { scans, .. } = &mut stages[2] else {
++        unreachable!()
++    };
++    scans[0].column = ColumnId::from_usize(1);
++    let layout = prepared_for(&stages);
++    let prepared = PreparedJoinIndexes::from_layout(&layout, &[]);
++    let mut bindings = BindingInfo::default();
++    for (atom, rows) in [1, 100, 3, 2].into_iter().enumerate() {
++        bindings.insert_node(
++            AtomId::from_usize(atom),
++            Arc::new(OwnedAtomRows::new(Subset::Dense(crate::OffsetRange::new(
++                crate::RowId::from_usize(0),
++                crate::RowId::from_usize(rows),
++            )))),
++        );
++    }
++    let order = InstrOrder::from_iter(0..stages.len());
++    let pick = |bindings: &BindingInfo<'_, '_>| {
++        select_runtime_stage(
++            &order,
++            1..3,
++            &stages,
++            bindings,
++            Some(&prepared),
++            Some(0b110),
++        )
++    };
++    assert_eq!(
++        pick(&bindings),
++        Some(2),
++        "unknown statistics retain the minimum-row choice"
++    );
++    for stage in 1..3 {
++        assert!(
++            prepared
++                .stage(stage)
++                .iter()
++                .all(|slot| prepared.resolve(slot).cached_root_key_count().is_none())
++        );
++    }
++    let arena = egglog_concurrency::SharedArena::new();
++    let handle = arena.new_handle();
++    for stage in 1..3 {
++        let JoinStage::Intersect { scans, .. } = &stages[stage] else {
++            unreachable!()
++        };
++        for (scan, slot) in scans.iter().zip(prepared.stage(stage)) {
++            let rows = bindings.subsets[scan.atom].size();
++            let distinct = if stage == 2 && scan.atom == AtomId::from_usize(1) {
++                10
++            } else {
++                rows
++            };
++            let mut pairs: Vec<_> = (0..rows)
++                .map(|row| {
++                    (
++                        Value::from_usize(row % distinct),
++                        crate::RowId::from_usize(row),
++                    )
++                })
++                .collect();
++            pairs.sort_unstable();
++            let node = TrieNode::build_from_sorted_pairs(&handle, &pairs, ChildShape::Leaf, false);
++            prepared
++                .resolve(slot)
++                .packed_root(|| node as *const _ as usize);
++        }
++    }
++    let builds_before = packed_node_builds();
++    assert_eq!(
++        pick(&bindings),
++        Some(1),
++        "three identity matches retain less than two repeated attributes"
++    );
++    let replace_root_rows = |bindings: &mut BindingInfo<'_, '_>, size| {
++        bindings.insert_node(
++            AtomId::from_usize(3),
++            Arc::new(OwnedAtomRows::new(Subset::Dense(crate::OffsetRange::new(
++                crate::RowId::from_usize(0),
++                crate::RowId::from_usize(size),
++            )))),
++        );
++    };
++    replace_root_rows(&mut bindings, 2);
++    assert_eq!(
++        pick(&bindings),
++        Some(1),
++        "an untouched root supplies no binding evidence"
++    );
++    let mut multiway_stages = stages.clone();
++    let JoinStage::Intersect { scans, .. } = &mut multiway_stages[2] else {
++        unreachable!()
++    };
++    scans.push(SingleScanSpec {
++        atom: AtomId::from_usize(2),
++        column: ColumnId::from_usize(0),
++        cs: Vec::new(),
++    });
++    let multiway_layout = prepared_for(&multiway_stages);
++    let multiway_prepared = PreparedJoinIndexes::from_layout(&multiway_layout, &[]);
++    for stage in 1..3 {
++        for (source, destination) in prepared
++            .stage(stage)
++            .iter()
++            .zip(multiway_prepared.stage(stage))
++        {
++            let node = prepared.resolve(source).packed_root(|| unreachable!());
++            multiway_prepared.resolve(destination).packed_root(|| node);
++        }
++    }
++    assert_eq!(
++        select_runtime_stage(
++            &order,
++            1..3,
++            &multiway_stages,
++            &bindings,
++            Some(&multiway_prepared),
++            Some(0b110),
++        ),
++        Some(2),
++        "multiway filters keep their minimum-row priority despite duplicate groups"
++    );
++    // A retained match is a residual even when its bound key matches every
++    // row in the original root. No cardinality-history allocation is needed.
++    bindings.insert_node(
++        AtomId::from_usize(3),
++        crate::free_join::probe::AtomRows::from_owned(Subset::Dense(crate::OffsetRange::new(
++            crate::RowId::from_usize(0),
++            crate::RowId::from_usize(2),
++        ))),
++    );
++    assert_eq!(
++        pick(&bindings),
++        Some(2),
++        "a same-size input bound by an earlier stage keeps its priority"
++    );
++    replace_root_rows(&mut bindings, 2);
++    assert_eq!(
++        select_runtime_stage(&order, 1..3, &stages, &bindings, Some(&prepared), None),
++        Some(2),
++        "plans without execution masks preserve the minimum-row choice"
++    );
++    let focused_prepared = PreparedJoinIndexes::from_layout(&layout, &[])
++        .with_seminaive_focus(Some(AtomId::from_usize(3)));
++    for stage in 1..3 {
++        for (source, destination) in prepared
++            .stage(stage)
++            .iter()
++            .zip(focused_prepared.stage(stage))
++        {
++            let node = prepared.resolve(source).packed_root(|| unreachable!());
++            focused_prepared.resolve(destination).packed_root(|| node);
++        }
++    }
++    assert_eq!(
++        select_runtime_stage(
++            &order,
++            1..3,
++            &stages,
++            &bindings,
++            Some(&focused_prepared),
++            Some(0b110),
++        ),
++        Some(2),
++        "an explicitly marked delta keeps its minimum-row priority"
++    );
++    assert_eq!(pick(&bindings), Some(1), "focus is execution-local");
++    bindings.insert_node(
++        AtomId::from_usize(3),
++        Arc::new(OwnedAtomRows::new_residual(Subset::Dense(
++            crate::OffsetRange::new(crate::RowId::from_usize(0), crate::RowId::from_usize(2)),
++        ))),
++    );
++    assert_eq!(
++        pick(&bindings),
++        Some(2),
++        "an owned filtered residual also keeps its priority"
++    );
++    // Recursive tasks retain the same residual origin without copying a
++    // per-atom cardinality history.
++    let later_block = bindings.clone_for_join_tail(&stages, &order, 1);
++    assert!(!later_block.subsets[AtomId::from_usize(3)].is_plan_root());
++    assert_eq!(pick(&later_block), Some(2));
++    bindings.insert_subset(
++        AtomId::from_usize(3),
++        Subset::Dense(crate::OffsetRange::new(
++            crate::RowId::from_usize(0),
++            crate::RowId::from_usize(1),
++        )),
++    );
++    assert_eq!(
++        pick(&bindings),
++        Some(2),
++        "a singleton cannot multiply the current branch's frames"
++    );
++    assert_eq!(
++        packed_node_builds(),
++        builds_before,
++        "ordering must not construct indexes"
++    );
++}
++
+ #[test]
+ fn runtime_dvo_breaks_equal_row_counts_by_number_of_scans() {
+     let stages = vec![
+@@ -534,6 +790,71 @@ fn runtime_dvo_leaves_unexecuted_suffix_in_its_existing_order() {
+     assert_eq!(order, InstrOrder::from_iter([0, 1, 2, 3].into_iter()));
+ }
+ 
++#[test]
++fn leaf_flags_initialize_without_swaps_and_follow_runtime_order_changes() {
++    let stages = vec![
++        intersect_stage(2, 0),
++        JoinStage::FusedIntersect {
++            cover: ScanSpec {
++                to_index: SubAtom {
++                    atom: AtomId::from_usize(0),
++                    vars: smallvec![ColumnId::from_usize(0)],
++                },
++                constraints: Vec::new(),
++            },
++            bind: smallvec![(ColumnId::from_usize(0), Variable::from_usize(1))],
++            to_intersect: Vec::new(),
++        },
++        intersect_stage(1, 2),
++    ];
++    let mut bindings = binding_info_with_sizes(&[2, 5, 1]);
++    let mut order = InstrOrder::from_iter(0..stages.len());
++    let mut flags = smallvec![false; stages.len()];
++    sort_plan_by_size(
++        &mut order,
++        &mut flags,
++        JoinOrderContext::Initial,
++        &stages,
++        &mut bindings,
++    );
++    assert_eq!(order, InstrOrder::from_iter(0..stages.len()));
++    assert_eq!(flags.as_slice(), &[false, true, false]);
++    assert!(!sort_plan_by_size_inner(
++        &mut order,
++        1..3,
++        JoinOrderContext::Runtime { start: 1 },
++        &stages,
++        &mut bindings,
++    ));
++    sort_plan_by_size(
++        &mut order,
++        &mut flags,
++        JoinOrderContext::Runtime { start: 1 },
++        &stages,
++        &mut bindings,
++    );
++    assert_eq!(flags.as_slice(), &[false, true, false]);
++
++    bindings = binding_info_with_sizes(&[20, 5, 1]);
++    let mut probe_order = order.clone();
++    assert!(sort_plan_by_size_inner(
++        &mut probe_order,
++        1..3,
++        JoinOrderContext::Runtime { start: 1 },
++        &stages,
++        &mut bindings,
++    ));
++    sort_plan_by_size(
++        &mut order,
++        &mut flags,
++        JoinOrderContext::Runtime { start: 1 },
++        &stages,
++        &mut bindings,
++    );
++    assert_eq!(order, probe_order);
++    assert_eq!(flags.as_slice(), &[false, false, true]);
++}
++
+ #[test]
+ fn runtime_dvo_reconsiders_the_next_stage_after_residuals_change() {
+     let stages = vec![
+@@ -688,6 +1009,14 @@ fn assert_tail_masks_match_scanner<M: StageMask>(
+                     scan_atom_tail_use(atom, stages, &prepared, &instr_order, resume_pos),
+                     "tail metadata diverged for order {order:?}, suffix {resume_pos}, atom {atom_index}"
+                 );
++                assert_eq!(
++                    prepared.rows_live_in_mask(atom, remaining.as_u128()),
++                    Some(
++                        scan_atom_tail_use(atom, stages, &prepared, &instr_order, resume_pos)
++                            .keep_rows
++                    ),
++                    "retained-row liveness diverged for order {order:?}, suffix {resume_pos}, atom {atom_index}"
++                );
+             }
+         }
+     }
+diff --git a/core-relations/src/free_join/join_tail.rs b/core-relations/src/free_join/join_tail.rs
+index 6b67a35d23431ac5a399d58cf91217766b003c94..2102ec507c50281c52ea55d11db425098909d016 100644
+--- a/core-relations/src/free_join/join_tail.rs
++++ b/core-relations/src/free_join/join_tail.rs
+@@ -401,13 +401,24 @@ pub(super) fn is_reorder_barrier(stage: &JoinStage) -> bool {
+ 
+ /// Whether ordering prepares a new plan or resumes an executing join.
+ #[derive(Clone, Copy)]
+-pub(super) enum JoinOrderContext {
++pub(super) enum JoinOrderContext<'a, 'plan> {
+     Initial,
+     /// Select only the next execution position, `start`. Later positions and
+     /// phases keep their order until execution provides fresh residual sizes.
++    #[allow(dead_code)] // Also supports direct ordering tests without index hints.
+     Runtime {
+         start: usize,
+     },
++    RuntimeWithIndexes(&'a JoinOrderHints<'a, 'plan>),
++}
++
++/// Rare-swap metadata borrowed by the compact ordering context. In particular,
++/// the wide optional stage mask must not enlarge every context copy in the
++/// minimum-row selector or its per-barrier calls.
++pub(super) struct JoinOrderHints<'a, 'plan> {
++    pub(super) start: usize,
++    pub(super) prepared: &'a PreparedJoinIndexes<'plan>,
++    pub(super) remaining_stages: Option<u128>,
+ }
+ 
+ /// Whether dynamic variable ordering *during* query execution is enabled. The
+@@ -427,12 +438,184 @@ pub(super) fn dynamic_variable_ordering_enabled() -> bool {
+     DYNAMIC_VARIABLE_ORDERING.load(Ordering::Relaxed)
+ }
+ 
++/// Estimate key processing and the surplus retained rows that later stages
++/// may read: K * (1 + sum_live(rows_i / distinct_i - 1)).
++///
++/// Each matching key costs one unit. Unique inputs add no surplus; repeated
++/// rows add work only if another stage still consumes them. Cover scans count
++/// as consumers because even a factorized leaf must read its surviving rows
++/// once. Summing rather than multiplying respects factorized execution.
++pub(super) fn estimated_retained_work(
++    inputs: impl IntoIterator<Item = (usize, usize, bool)>,
++) -> f64 {
++    let mut keys = usize::MAX;
++    let mut work_per_key = 1.0f64;
++    for (rows, distinct, live) in inputs {
++        let distinct = distinct.min(rows);
++        if distinct == 0 {
++            return 0.0;
++        }
++        keys = keys.min(distinct);
++        if live {
++            work_per_key += rows as f64 / distinct as f64 - 1.0;
++        }
++    }
++    if keys == usize::MAX {
++        0.0
++    } else {
++        keys as f64 * work_per_key
++    }
++}
++
++#[allow(clippy::too_many_arguments)]
++fn retained_cost(
++    stage_index: usize,
++    instrs: &[JoinStage],
++    binding_info: &BindingInfo<'_, '_>,
++    prepared: Option<&PreparedJoinIndexes<'_>>,
++    order: &InstrOrder,
++    start: usize,
++    remaining_stages: Option<u128>,
++) -> f64 {
++    let stage = &instrs[stage_index];
++    let (JoinStage::Intersect { scans, .. }, Some(prepared)) = (stage, prepared) else {
++        return estimate_size(stage, binding_info) as f64;
++    };
++    let slots = prepared.stage(stage_index);
++    if slots.len() != scans.len() {
++        return estimate_size(stage, binding_info) as f64;
++    }
++    let later = remaining_stages.map(|remaining| remaining & !(1u128 << stage_index));
++    estimated_retained_work(scans.iter().zip(slots).map(|(scan, slot)| {
++        let rows = &binding_info.subsets[scan.atom];
++        let live = later
++            .and_then(|mask| prepared.rows_live_in_mask(scan.atom, mask))
++            .unwrap_or_else(|| {
++                // Only over-width plans lack prepared masks. Inspect their
++                // actual unexecuted suffix, never the already-executed prefix.
++                (start..order.len()).any(|position| {
++                    let candidate = order.get(position);
++                    let mut touched = false;
++                    if candidate != stage_index {
++                        for_each_stage_atom(&instrs[candidate], |atom| {
++                            touched |= atom == scan.atom;
++                        });
++                    }
++                    touched
++                })
++            });
++        (
++            rows.size(),
++            rows.cached_column_size(prepared.resolve(slot)),
++            live,
++        )
++    }))
++}
++
++/// Preserve the existing minimum-row choice unless a multirow swap would
++/// retain more rows for later processing. Only consider vetoing a disconnected
++/// binary lookup: its two atoms have not participated in the executed prefix.
++/// Singleton filters, seminaive delta inputs, and already-bound residuals
++/// also keep priority. Their row bounds or bindings carry selectivity evidence
++/// that cached average group sizes cannot capture.
++/// Statistics only inspect indexes that already exist; missing statistics
++/// preserve the old minimum-row estimate.
++#[cfg(test)]
++pub(super) fn select_runtime_stage(
++    order: &InstrOrder,
++    range: Range<usize>,
++    instrs: &[JoinStage],
++    binding_info: &BindingInfo<'_, '_>,
++    prepared: Option<&PreparedJoinIndexes<'_>>,
++    remaining_stages: Option<u128>,
++) -> Option<usize> {
++    let winner = range.clone().min_by_key(|&position| {
++        let stage = &instrs[order.get(position)];
++        (
++            estimate_size(stage, binding_info),
++            -num_intersected_rels(stage),
++        )
++    })?;
++    if winner == range.start {
++        return Some(winner);
++    }
++    Some(guard_runtime_swap(
++        order,
++        range.start,
++        winner,
++        instrs,
++        binding_info,
++        prepared,
++        remaining_stages,
++    ))
++}
++
++/// Keep the normal row-minimum selector and no-swap return in the original
++/// sorting function. This relatively rare guard should not enlarge that hot
++/// loop or force it to carry the retained-cost calculation's temporaries.
++#[inline(never)]
++fn guard_runtime_swap(
++    order: &InstrOrder,
++    start: usize,
++    winner: usize,
++    instrs: &[JoinStage],
++    binding_info: &BindingInfo<'_, '_>,
++    prepared: Option<&PreparedJoinIndexes<'_>>,
++    remaining_stages: Option<u128>,
++) -> usize {
++    let winner_stage = &instrs[order.get(winner)];
++    // This guard models opening one new key domain and retaining the matching
++    // rows from one other input. Multiway intersections can use additional
++    // simultaneous predicates to reject a key or constrain several downstream
++    // branches before those rows are consumed. Preserve their existing DVO
++    // priority rather than interpreting a sum of group sizes as their cost.
++    let JoinStage::Intersect { scans, .. } = winner_stage else {
++        return winner;
++    };
++    if scans.len() != 2 || estimate_size(winner_stage, binding_info) <= 1 {
++        return winner;
++    }
++    // Restrict the estimate to opening a new, disconnected domain. Reusing
++    // an existing binding can reveal correlations even if its row bound did
++    // not shrink. This is a limit on where to trust average group sizes, not
++    // a preference for a stage with more bound variables.
++    let (Some(prepared), Some(_)) = (prepared, remaining_stages) else {
++        // Over-width plans have no mask; preserve the existing choice rather
++        // than scan or allocate a representation of their executed prefix.
++        return winner;
++    };
++    if scans.iter().any(|scan| {
++        prepared.seminaive_focus() == Some(scan.atom)
++            || !binding_info.subsets[scan.atom].is_plan_root()
++    }) {
++        return winner;
++    }
++    let cost = |position| {
++        retained_cost(
++            order.get(position),
++            instrs,
++            binding_info,
++            Some(prepared),
++            order,
++            start,
++            remaining_stages,
++        )
++    };
++    if cost(winner) <= cost(start) {
++        winner
++    } else {
++        start
++    }
++}
++
+ /// Reorder a suffix of the current execution schedule using the DVO policy.
+ ///
+-/// At runtime, select only the next executable stage by increasing residual
+-/// row count, then decreasing number of intersected relations. Exact ties keep
+-/// the first stage in physical order. Rows bound the candidates an intersection
+-/// or fused cover can enumerate and already reflect earlier filtering.
++/// At runtime, consider the minimum-residual-row stage, breaking ties by the
++/// number of intersected relations and then physical order. Keep empty and
++/// singleton filters, seminaive focuses, and stages reusing prior bindings
++/// first. For binary lookups that open a disconnected domain, use already-cached
++/// key counts to veto choices that retain more rows for later stages. This
++/// guard accounts for repeated join keys without building indexes to estimate.
+ ///
+ /// Swap the selected stage into the next position without sorting the rest of
+ /// the suffix: its cardinalities will change when that stage executes. Initial
+@@ -449,16 +632,24 @@ pub(super) fn sort_plan_by_size(
+     let start = match context {
+         JoinOrderContext::Initial => 0,
+         JoinOrderContext::Runtime { start } => start,
++        JoinOrderContext::RuntimeWithIndexes(hints) => hints.start,
+     };
++    // Initial flags have not been computed yet, even if the initial order is
++    // already optimal. Runtime flags depend only on the stage permutation,
++    // so residual-size changes alone do not invalidate them.
++    let mut changed = matches!(context, JoinOrderContext::Initial);
+     let mut last_pos = start;
+     for i in start..instrs.len() {
+         if is_reorder_barrier(&instrs[i]) {
+-            sort_plan_by_size_inner(order, last_pos..i, context, instrs, binding_info);
++            changed |= sort_plan_by_size_inner(order, last_pos..i, context, instrs, binding_info);
+             last_pos = i + 1;
+         }
+     }
+-    sort_plan_by_size_inner(order, last_pos..instrs.len(), context, instrs, binding_info);
+-    recompute_leaf_scans(order, leaf_scans, instrs, start);
++    changed |=
++        sort_plan_by_size_inner(order, last_pos..instrs.len(), context, instrs, binding_info);
++    if changed {
++        recompute_leaf_scans(order, leaf_scans, instrs, start);
++    }
+ }
+ 
+ /// Recompute which scheduled stages can emit a factorized binding set.
+@@ -564,28 +755,54 @@ pub(super) fn sort_plan_by_size_inner(
+     context: JoinOrderContext,
+     instrs: &[JoinStage],
+     binding_info: &mut BindingInfo<'_, '_>,
+-) {
++) -> bool {
+     // Choose only the immediate stage at runtime. A later phase cannot use
+     // these cardinalities until its preceding barrier has actually executed.
+-    if let JoinOrderContext::Runtime { start } = context {
++    let runtime_start = match context {
++        JoinOrderContext::Initial => None,
++        JoinOrderContext::Runtime { start } => Some(start),
++        JoinOrderContext::RuntimeWithIndexes(hints) => Some(hints.start),
++    };
++    if let Some(start) = runtime_start {
+         if range.start != start {
+-            return;
++            return false;
+         }
+-        let best = range.clone().min_by_key(|&position| {
++        let Some(best) = range.min_by_key(|&position| {
+             let stage = &instrs[order.get(position)];
+             (
+                 estimate_size(stage, binding_info),
+                 -num_intersected_rels(stage),
+             )
+-        });
+-        if let Some(best) = best {
++        }) else {
++            return false;
++        };
++        if best == start {
++            return false;
++        }
++        let (prepared, remaining_stages) = match context {
++            JoinOrderContext::RuntimeWithIndexes(hints) => {
++                (Some(hints.prepared), hints.remaining_stages)
++            }
++            _ => (None, None),
++        };
++        let best = guard_runtime_swap(
++            order,
++            start,
++            best,
++            instrs,
++            binding_info,
++            prepared,
++            remaining_stages,
++        );
++        if best != start {
+             order.data.swap(start, best);
++            return true;
+         }
+-        return;
++        return false;
+     }
+     // Nothing to sort if there's 0 or 1 element.
+     if range.len() <= 1 {
+-        return;
++        return false;
+     }
+     // How many times an atom has been intersected/joined
+     let mut times_refined = with_pool_set(|ps| ps.get::<DenseIdMap<AtomId, i64>>());
+@@ -643,18 +860,21 @@ pub(super) fn sort_plan_by_size_inner(
+         (-refine, rows, -relations, 0)
+     };
+ 
++    let mut changed = false;
+     for i in range.clone() {
+         let mut key_i = key_fn(&instrs[order.get(i)], binding_info, &times_refined);
+         for j in (i + 1)..range.end {
+             let key_j = key_fn(&instrs[order.get(j)], binding_info, &times_refined);
+             if key_j < key_i {
+                 order.data.swap(i, j);
++                changed = true;
+                 key_i = key_j;
+             }
+         }
+         // Update the counts after a new instruction is selected.
+         update_refinements(&instrs[order.get(i)], &mut times_refined);
+     }
++    changed
+ }
+ 
+ /// Maps execution positions to stage indices in the logical plan. Dynamic
+diff --git a/core-relations/src/free_join/packed_cache.rs b/core-relations/src/free_join/packed_cache.rs
+index 9fb349484efc58e2492417583fe52e29e0a392a5..9eeac9764aa83783e44852dfd646ba94c885d398 100644
+--- a/core-relations/src/free_join/packed_cache.rs
++++ b/core-relations/src/free_join/packed_cache.rs
+@@ -258,6 +258,16 @@ impl OwnedAtomRows {
+         self.plan_root
+     }
+ 
++    /// Read a shared packed root without allocating its array or index.
++    pub(super) fn cached_packed_root_key_count(&self, family: FamilyId) -> Option<usize> {
++        let slots = self.shared.as_ref()?.packed_roots.get()?;
++        let address = *slots.get(family.index())?.get()?;
++        // SAFETY: shared roots publish nodes from the current execution arena,
++        // which is alive for all uses of the root.
++        let node = unsafe { &*(address as *const super::packed_trie::TrieNode<'_>) };
++        Some(node.values().len())
++    }
++
+     /// Find the packed-root slot for an interned `(column, slow constraints)` family.
+     /// As in the original column-index cache, dense slots avoid a separate
+     /// hash table and canonicalization for each root. Families are fixed while
+diff --git a/core-relations/src/free_join/packed_trie.rs b/core-relations/src/free_join/packed_trie.rs
+index a37e938ba50882732d3203ea63ae7b3e1102aa94..6feeec86fd28884b4764bfc8d87138935b5fb560 100644
+--- a/core-relations/src/free_join/packed_trie.rs
++++ b/core-relations/src/free_join/packed_trie.rs
+@@ -204,6 +204,24 @@ where
+         boundaries[self.key_index() + 1] as usize - boundaries[self.key_index()] as usize
+     }
+ 
++    /// Inspect a published successor without allocating its family or index.
++    pub(crate) fn cached_child_key_count(self, family: usize) -> Option<usize> {
++        let slot = match self.node.children() {
++            PackedChildren::Leaf => return None,
++            PackedChildren::Direct(slots) => &slots[self.key_index()],
++            PackedChildren::Families(families) => {
++                let slots = families.get(family)?.load(Ordering::Acquire);
++                if slots.is_null() {
++                    return None;
++                }
++                // SAFETY: a published family has one initialized slot per
++                // parent key and lives as long as the parent arena node.
++                unsafe { &*slots.add(self.key_index()) }
++            }
++        };
++        slot.get().map(|node| node.key_len())
++    }
++
+     /// Return the next scalar index below this cursor, building and publishing
+     /// it once for the current key when necessary.
+     ///
+@@ -1178,9 +1196,11 @@ mod tests {
+ 
+         WrappedTableRef::with_wrapper(&table, |table| {
+             let mut scratch = Vec::new();
++            assert_eq!(cursor.cached_child_key_count(7), None);
+             let first =
+                 cursor.child_index(&handle, table, column(1), 7, ChildShape::Leaf, &mut scratch);
+             assert_eq!(first.values(), &[value(0), value(1), value(2)]);
++            assert_eq!(cursor.cached_child_key_count(7), Some(3));
+ 
+             let sentinel = (value(999), row(999));
+             scratch.clear();
+@@ -1215,6 +1235,8 @@ mod tests {
+                 PackedKeyLen::new(1, ChildShape::Dynamic { families: 2 }, false)
+             );
+             let cursor = PackedCursor::new(parent, 0);
++            assert_eq!(cursor.cached_child_key_count(0), None);
++            assert_eq!(cursor.cached_child_key_count(1), None);
+ 
+             WrappedTableRef::with_wrapper(&table, |table| {
+                 let mut scratch = Vec::new();
+@@ -1227,6 +1249,8 @@ mod tests {
+                     &mut scratch,
+                 );
+                 assert_eq!(first_family.values(), &[value(0), value(1)]);
++                assert_eq!(cursor.cached_child_key_count(0), Some(2));
++                assert_eq!(cursor.cached_child_key_count(1), None);
+ 
+                 let second_family = cursor.child_index(
+                     &handle,
+@@ -1237,6 +1261,7 @@ mod tests {
+                     &mut scratch,
+                 );
+                 assert_eq!(second_family.values(), &[value(0), value(1), value(2)]);
++                assert_eq!(cursor.cached_child_key_count(1), Some(3));
+                 assert!(!ptr::eq(first_family, second_family));
+ 
+                 let cached_first = cursor.child_index(
+diff --git a/core-relations/src/free_join/plan.rs b/core-relations/src/free_join/plan.rs
+index c939d019caff1710d7d6fe03e606f13378422a93..bfdd5ce2c9c54d89f3dd26c2c8cb0e7c0f5ac452 100644
+--- a/core-relations/src/free_join/plan.rs
++++ b/core-relations/src/free_join/plan.rs
+@@ -283,6 +283,15 @@ impl Plan {
+         }
+     }
+ 
++    /// The atom restricted to new tuples by this seminaive variant, if supplied
++    /// by the caller. Ordinary lower-bound constraints do not imply a focus.
++    pub(crate) fn seminaive_focus(&self) -> Option<AtomId> {
++        match self {
++            Plan::SinglePlan(p) => p.seminaive_focus,
++            Plan::DecomposedPlan(p) => p.seminaive_focus,
++        }
++    }
++
+     /// Visit every stage block of the plan.
+     pub(crate) fn for_each_stages_mut(&mut self, mut f: impl FnMut(&mut JoinStages)) {
+         match self {
+@@ -301,6 +310,7 @@ impl Plan {
+ pub(crate) struct SinglePlan {
+     pub atoms: Arc<DenseIdMap<AtomId, Atom>>,
+     pub header: Vec<JoinHeader>,
++    pub seminaive_focus: Option<AtomId>,
+     pub stages: JoinStages,
+     pub actions: ActionId,
+ }
+@@ -401,6 +411,7 @@ pub(crate) struct JoinStageBlocks {
+ pub(crate) struct DecomposedPlan {
+     pub atoms: Arc<DenseIdMap<AtomId, Atom>>,
+     pub header: Vec<JoinHeader>,
++    pub seminaive_focus: Option<AtomId>,
+     pub stages: JoinStageBlocks,
+     pub result_block: JoinStages,
+     pub actions: ActionId,
+@@ -1222,6 +1233,7 @@ pub(crate) fn tree_decompose_and_plan(
+             Plan::SinglePlan(SinglePlan {
+                 atoms: Arc::new(ctx.atoms),
+                 header,
++                seminaive_focus: None,
+                 stages,
+                 actions,
+             })
+@@ -1280,6 +1292,7 @@ pub(crate) fn tree_decompose_and_plan(
+     Plan::DecomposedPlan(DecomposedPlan {
+         atoms: Arc::new(ctx.atoms),
+         header,
++        seminaive_focus: None,
+         stages: JoinStageBlocks { blocks },
+         result_block,
+         actions,
+diff --git a/core-relations/src/free_join/prepared_index.rs b/core-relations/src/free_join/prepared_index.rs
+index 72baf88eb693cd4df051a65d4e18b9602783c9eb..24d39b12053b1cb6d813cdc2ab55f1f076a270e0 100644
+--- a/core-relations/src/free_join/prepared_index.rs
++++ b/core-relations/src/free_join/prepared_index.rs
+@@ -260,6 +260,23 @@ impl RootContinuationCache {
+         let slots = self.slots(family);
+         &slots[position.shard as usize][position.slot as usize]
+     }
++
++    /// Read an existing continuation without allocating its family or slots.
++    pub(super) fn cached_child_key_count(
++        &self,
++        position: ContinuationPosition,
++        family: usize,
++    ) -> Option<usize> {
++        let slots = match self.storage.get()? {
++            RootContinuationStorage::Direct { slots, .. } => slots.get()?,
++            RootContinuationStorage::Dynamic { families, .. } => families.get(family)?.get()?,
++        };
++        let address = *slots[position.shard as usize][position.slot as usize].get()?;
++        // SAFETY: these slots publish only nodes from the current run's arena,
++        // which outlives every use of this continuation cache.
++        let node = unsafe { &*(address as *const super::packed_trie::TrieNode<'_>) };
++        Some(node.values().len())
++    }
+ }
+ 
+ /// The persistent-index strategy available to one logical join access.
+@@ -367,6 +384,21 @@ pub(super) struct PreparedIndexRef<'a> {
+ }
+ 
+ impl<'a> PreparedIndexRef<'a> {
++    /// Read an index acquired earlier in this execution, without refreshing
++    /// it. A catalog can include keys outside the current header subset.
++    pub(super) fn cached_root_key_count(self) -> Option<usize> {
++        match self.state.root.get()? {
++            PreparedRootIndex::Tuple(index) => index.get().map(|index| index.len()),
++            PreparedRootIndex::Column(index) => index.get().map(|index| index.len()),
++            PreparedRootIndex::Packed(address) => {
++                // SAFETY: prepared roots belong to this execution's arena,
++                // which is alive for every use of the prepared state.
++                let node = unsafe { &*(*address as *const super::packed_trie::TrieNode<'_>) };
++                Some(node.values().len())
++            }
++        }
++    }
++
+     pub(super) fn packed_root(self, build: impl FnOnce() -> usize) -> usize {
+         let PreparedRootIndex::Packed(address) = self
+             .state
+@@ -480,6 +512,7 @@ pub(super) trait StageMask:
+     const EMPTY: Self;
+     fn stage_bit(stage: usize) -> Self;
+     fn count_ones(self) -> u32;
++    fn as_u128(self) -> u128;
+     /// The tail masks prepared at this width, if the plan was prepared at it.
+     fn tail_masks(width: &PreparedTailMaskWidth) -> Option<&PreparedTailMasks<Self>>;
+ }
+@@ -495,6 +528,9 @@ macro_rules! impl_stage_mask {
+             fn count_ones(self) -> u32 {
+                 <$ty>::count_ones(self)
+             }
++            fn as_u128(self) -> u128 {
++                self as u128
++            }
+             fn tail_masks(width: &PreparedTailMaskWidth) -> Option<&PreparedTailMasks<Self>> {
+                 match width {
+                     PreparedTailMaskWidth::$variant(masks) => Some(masks),
+@@ -587,6 +623,12 @@ pub(super) struct PreparedTailMasks<M> {
+ }
+ 
+ impl<M: StageMask> PreparedTailMasks<M> {
++    fn rows_live_in_mask(&self, atom: AtomId, remaining_stages: M) -> bool {
++        self.atom_uses
++            .get(atom.index())
++            .is_some_and(|use_| remaining_stages & use_.touched_stages != M::EMPTY)
++    }
++
+     pub(super) fn new(
+         stages: &[JoinStage],
+         prepared_stages: &[SmallVec<[PreparedIndexSlot; 4]>],
+@@ -712,6 +754,8 @@ pub(super) enum PreparedJoinIndexes<'plan> {
+         layout: &'plan PreparedJoinLayout,
+         states: Box<[PreparedIndexState]>,
+         families: &'plan [AccessFamilies],
++        /// Variant-local provenance; never stored in the shared plan layout.
++        seminaive_focus: Option<AtomId>,
+     },
+ }
+ 
+@@ -825,6 +869,26 @@ impl<'plan> PreparedJoinIndexes<'plan> {
+                 .take(layout.state_count)
+                 .collect(),
+             families,
++            seminaive_focus: None,
++        }
++    }
++
++    pub(super) fn with_seminaive_focus(mut self, focus: Option<AtomId>) -> Self {
++        if let Self::Indexed {
++            seminaive_focus, ..
++        } = &mut self
++        {
++            *seminaive_focus = focus;
++        }
++        self
++    }
++
++    pub(super) fn seminaive_focus(&self) -> Option<AtomId> {
++        match self {
++            Self::NoIndexes => None,
++            Self::Indexed {
++                seminaive_focus, ..
++            } => *seminaive_focus,
+         }
+     }
+ 
+@@ -881,6 +945,24 @@ impl<'plan> PreparedJoinIndexes<'plan> {
+             Self::Indexed { layout, .. } => M::tail_masks(&layout.tail_masks),
+         }
+     }
++
++    /// Whether any stage in this logical-stage mask still consumes the atom's
++    /// rows. Cover scans count too: factorization avoids Cartesian expansion,
++    /// but a cover still reads each surviving row into its binding factor.
++    pub(super) fn rows_live_in_mask(&self, atom: AtomId, remaining_stages: u128) -> Option<bool> {
++        let Self::Indexed { layout, .. } = self else {
++            return None;
++        };
++        match &layout.tail_masks {
++            PreparedTailMaskWidth::None => None,
++            PreparedTailMaskWidth::Narrow(masks) => {
++                Some(masks.rows_live_in_mask(atom, remaining_stages as u64))
++            }
++            PreparedTailMaskWidth::Wide(masks) => {
++                Some(masks.rows_live_in_mask(atom, remaining_stages))
++            }
++        }
++    }
+ }
+ 
+ /// Execution-scoped index sidecar mirroring the shape of a logical [`Plan`].
+@@ -894,18 +976,23 @@ pub(super) enum PreparedPlanIndexes<'plan> {
+ 
+ impl<'plan> PreparedPlanIndexes<'plan> {
+     pub(super) fn new(db: &Database, plan: &'plan Plan) -> Self {
++        let focus = plan.seminaive_focus();
+         match plan {
+-            Plan::SinglePlan(plan) => {
+-                Self::Single(PreparedJoinIndexes::new(db, &plan.atoms, &plan.stages))
+-            }
++            Plan::SinglePlan(plan) => Self::Single(
++                PreparedJoinIndexes::new(db, &plan.atoms, &plan.stages).with_seminaive_focus(focus),
++            ),
+             Plan::DecomposedPlan(plan) => Self::Decomposed {
+                 blocks: plan
+                     .stages
+                     .blocks
+                     .iter()
+-                    .map(|(stages, _)| PreparedJoinIndexes::new(db, &plan.atoms, stages))
++                    .map(|(stages, _)| {
++                        PreparedJoinIndexes::new(db, &plan.atoms, stages)
++                            .with_seminaive_focus(focus)
++                    })
+                     .collect(),
+-                result: PreparedJoinIndexes::new(db, &plan.atoms, &plan.result_block),
++                result: PreparedJoinIndexes::new(db, &plan.atoms, &plan.result_block)
++                    .with_seminaive_focus(focus),
+             },
+         }
+     }
+diff --git a/core-relations/src/free_join/prepared_index_tests.rs b/core-relations/src/free_join/prepared_index_tests.rs
+index 5e6b78809030545e1b88c953585da4ab3fd85f8f..5b053473cf0df1ad1c43792290dcd322c46fd1da 100644
+--- a/core-relations/src/free_join/prepared_index_tests.rs
++++ b/core-relations/src/free_join/prepared_index_tests.rs
+@@ -118,7 +118,9 @@ fn cached_plan_layout_reuses_analysis_but_not_execution_state() {
+     };
+     let cloned_stages = plan.stages.clone();
+     assert!(plan.stages.prepared_layout.get().is_none());
+-    let first = PreparedJoinIndexes::new(&db, &plan.atoms, &plan.stages);
++    let focus = Some(AtomId::from_usize(0));
++    let first =
++        PreparedJoinIndexes::new(&db, &plan.atoms, &plan.stages).with_seminaive_focus(focus);
+     let PreparedJoinIndexes::Indexed { layout, states, .. } = &first else {
+         panic!("fixture must prepare indexed accesses")
+     };
+@@ -136,10 +138,45 @@ fn cached_plan_layout_reuses_analysis_but_not_execution_state() {
+         unreachable!()
+     };
+     assert!(std::ptr::eq(*layout, *next_layout));
++    assert_eq!(first.seminaive_focus(), focus);
++    assert_eq!(next.seminaive_focus(), None);
+     assert!(next_states[0].root.get().is_none());
+     assert!(!std::ptr::eq(states.as_ptr(), next_states.as_ptr()));
+     drop(first);
+     drop(next);
++    let mut focused_plan = plan.clone();
++    focused_plan.seminaive_focus = focus;
++    let focused_plan = Plan::SinglePlan(focused_plan);
++    let PreparedPlanIndexes::Single(single) = PreparedPlanIndexes::new(&db, &focused_plan) else {
++        unreachable!()
++    };
++    assert_eq!(single.seminaive_focus(), focus);
++
++    // The same provenance reaches every decomposition block and its result,
++    // while all blocks may still share their immutable index layout.
++    let decomposed = Plan::DecomposedPlan(crate::free_join::plan::DecomposedPlan {
++        atoms: plan.atoms.clone(),
++        header: plan.header.clone(),
++        seminaive_focus: focus,
++        stages: crate::free_join::plan::JoinStageBlocks {
++            blocks: vec![(
++                plan.stages.clone(),
++                crate::free_join::plan::MatSpec {
++                    msg_vars: SmallVec::new(),
++                    val_vars: SmallVec::new(),
++                },
++            )],
++        },
++        result_block: plan.stages.clone(),
++        actions: plan.actions,
++    });
++    let PreparedPlanIndexes::Decomposed { blocks, result } =
++        PreparedPlanIndexes::new(&db, &decomposed)
++    else {
++        unreachable!()
++    };
++    assert!(blocks.iter().all(|block| block.seminaive_focus() == focus));
++    assert_eq!(result.seminaive_focus(), focus);
+     // The same layout remains valid after table mutations; catalog handles
+     // are reacquired from the fresh execution state.
+     let mut buffer = db.new_buffer(table);
+diff --git a/core-relations/src/free_join/probe.rs b/core-relations/src/free_join/probe.rs
+index 2dc450eea79600313a3182edaa083a7315e273ac..6968e992849ca0188991481db772f2a6700bebc6 100644
+--- a/core-relations/src/free_join/probe.rs
++++ b/core-relations/src/free_join/probe.rs
+@@ -210,10 +210,49 @@ where
+         self.cardinality
+     }
+ 
++    /// Estimate distinct keys using an existing index for exactly this scalar
++    /// access. Missing statistics fall back to the residual row count, and
++    /// merely considering an access never constructs or refreshes its index.
++    /// Catalog indexes can cover a wider header range than these rows, so
++    /// their capped key count remains an approximation for filtered subsets.
++    pub(super) fn cached_column_size(&self, prepared: PreparedIndexRef<'_>) -> usize {
++        let family = |shared: bool| {
++            if shared {
++                prepared.families.first().map(|family| family.index())
++            } else {
++                Some(prepared.access.index())
++            }
++        };
++        let cached = match self.kind() {
++            AtomRowsKind::Owned(root) if root.is_plan_root() => prepared
++                .cached_root_key_count()
++                .or_else(|| root.cached_packed_root_key_count(*prepared.families.first()?)),
++            AtomRowsKind::Catalog {
++                continuation: Some(continuation),
++                ..
++            } => family(continuation.cache.is_shared()).and_then(|family| {
++                continuation
++                    .cache
++                    .cached_child_key_count(continuation.position, family)
++            }),
++            AtomRowsKind::Packed(cursor) => family(cursor.node().is_shared())
++                .and_then(|family| cursor.cached_child_key_count(family)),
++            _ => None,
++        };
++        cached.map_or(self.size(), |keys| keys.min(self.size()))
++    }
++
+     pub(super) fn kind(&self) -> &AtomRowsKind<'rows, 'exec> {
+         &self.kind
+     }
+ 
++    /// Whether these are still the atom's original header-filtered rows.
++    /// Every retained match or cover binding creates a non-root residual,
++    /// even when binding a key leaves the row count unchanged.
++    pub(super) fn is_plan_root(&self) -> bool {
++        matches!(&self.kind, AtomRowsKind::Owned(root) if root.is_plan_root())
++    }
++
+     pub(super) fn owned(root: Arc<OwnedAtomRows>) -> Self {
+         Self {
+             cardinality: root.subset.size(),
+diff --git a/core-relations/src/query.rs b/core-relations/src/query.rs
+index 47a5d8c5ebfdc9cd696e266eba8008e0f1688ad5..43368debc8226dd7c596da4ca65e1a10d13ba54c 100644
+--- a/core-relations/src/query.rs
++++ b/core-relations/src/query.rs
+@@ -220,6 +220,7 @@ impl<'outer> RuleSetBuilder<'outer> {
+         cached: &CachedPlan,
+         action_id: ActionId,
+         extra_constraints: &[(AtomId, Constraint)],
++        seminaive_focus: Option<AtomId>,
+     ) -> Option<Plan> {
+         match &cached.plan {
+             Plan::SinglePlan(cached_plan) => {
+@@ -234,6 +235,7 @@ impl<'outer> RuleSetBuilder<'outer> {
+                 Some(Plan::SinglePlan(SinglePlan {
+                     atoms: cached_plan.atoms.clone(),
+                     header: headers,
++                    seminaive_focus,
+                     stages,
+                     actions: action_id,
+                 }))
+@@ -255,6 +257,7 @@ impl<'outer> RuleSetBuilder<'outer> {
+                 Some(Plan::DecomposedPlan(DecomposedPlan {
+                     atoms: cached_plan.atoms.clone(),
+                     header: headers,
++                    seminaive_focus,
+                     stages: JoinStageBlocks { blocks },
+                     actions: action_id,
+                     result_block,
+@@ -280,10 +283,35 @@ impl<'outer> RuleSetBuilder<'outer> {
+         cached: &CachedPlan,
+         extra_constraints: &[(AtomId, Constraint)],
+     ) -> Option<RuleId> {
++        self.add_rule_from_cached_plan_with_focus(cached, extra_constraints, None)
++    }
++
++    /// Add a cached rule variant with explicit seminaive provenance.
++    ///
++    /// `seminaive_focus` identifies the atom that `extra_constraints` restrict
++    /// to newly added tuples. This is an ordering hint only: the constraints
++    /// still determine the query's results. Other atoms restricted to older
++    /// tuples are not focuses, and ordinary lower bounds are never inferred
++    /// to be timestamp constraints.
++    pub fn add_rule_from_cached_plan_with_focus(
++        &mut self,
++        cached: &CachedPlan,
++        extra_constraints: &[(AtomId, Constraint)],
++        seminaive_focus: Option<AtomId>,
++    ) -> Option<RuleId> {
++        assert!(
++            seminaive_focus.is_none_or(|atom| cached.plan.atoms().contains_key(atom)),
++            "seminaive focus must belong to the cached plan"
++        );
+         // Peek at the action_id without allocating it yet, so we don't break
+         // the rules<->actions bijection if the query turns out to be empty.
+         let action_id = self.rule_set.actions.next_id();
+-        let plan = self.get_rule_with_extra_constraints(cached, action_id, extra_constraints)?;
++        let plan = self.get_rule_with_extra_constraints(
++            cached,
++            action_id,
++            extra_constraints,
++            seminaive_focus,
++        )?;
+         // The query is non-empty: now commit the action and the plan.
+         let actual_action_id = self.rule_set.actions.push(cached.actions.clone());
+         debug_assert_eq!(action_id, actual_action_id);
+diff --git a/core-relations/src/query/tests.rs b/core-relations/src/query/tests.rs
+index c37278f5a00e9861609a945ab166d1048651170e..5cd32ce3486ac46734f301363a35d0b80a15fc0a 100644
+--- a/core-relations/src/query/tests.rs
++++ b/core-relations/src/query/tests.rs
+@@ -233,9 +233,26 @@ fn cached_seminaive_variants_share_base_headers_and_produce_correct_rows() {
+         ));
+         (cached, first, second)
+     };
++    // An ordinary lower bound is not enough to establish delta provenance.
++    {
++        let mut builder = db.new_rule_set();
++        let unmarked = builder
++            .add_rule_from_cached_plan(
++                &cached,
++                &[(
++                    first_atom,
++                    Constraint::GeConst {
++                        col: ColumnId::new(2),
++                        val: v(6),
++                    },
++                )],
++            )
++            .unwrap();
++        assert_eq!(builder.build().plans[unmarked].0.seminaive_focus(), None);
++    }
+     let mut builder = db.new_rule_set();
+     let first = builder
+-        .add_rule_from_cached_plan(
++        .add_rule_from_cached_plan_with_focus(
+             &cached,
+             &[(
+                 first_atom,
+@@ -244,6 +261,7 @@ fn cached_seminaive_variants_share_base_headers_and_produce_correct_rows() {
+                     val: v(6),
+                 },
+             )],
++            Some(first_atom),
+         )
+         .unwrap();
+     let second = builder
+@@ -277,6 +295,13 @@ fn cached_seminaive_variants_share_base_headers_and_produce_correct_rows() {
+     let rules = builder.build();
+     assert_eq!(rules.plans.len(), 2);
+     assert_eq!(rules.actions.iter().count(), 2);
++    assert_eq!(rules.plans[first].0.seminaive_focus(), Some(first_atom));
++    assert_eq!(rules.plans[second].0.seminaive_focus(), None);
++    assert_eq!(cached.plan.seminaive_focus(), None);
++    assert_eq!(
++        rules.build_cached_plan(first).plan.seminaive_focus(),
++        Some(first_atom)
++    );
+     let first_headers = rules.plans[first].0.header();
+     let second_headers = rules.plans[second].0.header();
+     assert!(matches!(
+@@ -348,12 +373,19 @@ fn cached_decomposed_plans_share_headers_without_changing_results() {
+     };
+     let mut builder = db.new_rule_set();
+     let first = builder
+-        .add_rule_from_cached_plan(&cached, &[(first_atom, eq(0, 1))])
++        .add_rule_from_cached_plan_with_focus(&cached, &[(first_atom, eq(0, 1))], Some(first_atom))
+         .unwrap();
+     let second = builder
+         .add_rule_from_cached_plan(&cached, &[(first_atom, eq(0, 3))])
+         .unwrap();
+     let rules = builder.build();
++    assert_eq!(cached.plan.seminaive_focus(), None);
++    assert_eq!(rules.plans[first].0.seminaive_focus(), Some(first_atom));
++    assert_eq!(rules.plans[second].0.seminaive_focus(), None);
++    assert_eq!(
++        rules.build_cached_plan(first).plan.seminaive_focus(),
++        Some(first_atom)
++    );
+     for (left, right) in rules.plans[first].0.header()[1..]
+         .iter()
+         .zip(&rules.plans[second].0.header()[1..])
+diff --git a/egglog-bridge/src/rule.rs b/egglog-bridge/src/rule.rs
+index aaaee5a5447915d670ec37fd2718d8f5e458a9eb..49d361adfb26e9e00a0f5baf7b313774e4592821 100644
+--- a/egglog-bridge/src/rule.rs
++++ b/egglog-bridge/src/rule.rs
+@@ -782,7 +782,7 @@ impl Query {
+             // There is a single "focus" atom that we will constrain to look at new values.
+             let (_, _, schema_info) = &self.atoms[focus_atom];
+             let ts_col = ColumnId::from_usize(schema_info.ts_col());
+-            let _ = rsb.add_rule_from_cached_plan(
++            let _ = rsb.add_rule_from_cached_plan_with_focus(
+                 &cached_plan.plan,
+                 &[(
+                     cached_plan.atom_mapping[focus_atom],
+@@ -791,6 +791,7 @@ impl Query {
+                         val: mid_ts.to_value(),
+                     },
+                 )],
++                Some(cached_plan.atom_mapping[focus_atom]),
+             );
+             return;
+         }
+@@ -831,7 +832,11 @@ impl Query {
+                     },
+                 ));
+             }
+-            let _ = rsb.add_rule_from_cached_plan(&cached_plan.plan, &constraints);
++            let _ = rsb.add_rule_from_cached_plan_with_focus(
++                &cached_plan.plan,
++                &constraints,
++                Some(cached_plan.atom_mapping[focus_atom]),
++            );
+         }
+     }
+ }

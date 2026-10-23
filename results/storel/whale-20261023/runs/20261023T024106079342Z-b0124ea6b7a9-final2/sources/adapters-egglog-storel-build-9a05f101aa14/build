@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# Build the STOREL extension binary (crate/: egglog-experimental's e-graph + the F sort and
+# thaw primitive of crate/src/lib.rs) on top of an egglog build. `ref` and the patches refer
+# to egglog, exactly as for systems/egglog/build: a Cargo [patch] section redirects the crate's
+# egglog git dependencies to that build's checkout and egglog-experimental to the worktree of
+# systems/egglog-experimental/build (same pin), so the engine inside the binary is the
+# variant's egglog. Only egglog refs that build egglog-experimental build this.
+# Usage: build <ref> [patch-name|path.patch ...]
+# Prints the build directory (build/egglog-storel/<egglog build id>) on stdout; idempotent.
+set -euo pipefail
+ref=${1:?usage: build <ref> [patch-name|path.patch ...]}
+shift
+here=$(dirname "$(readlink -f "$0")")
+root=$(readlink -f "$here/../..")
+
+egglog_dir=$("$root/systems/egglog/build" "$ref" "$@")
+experimental_dir=$("$root/systems/egglog-experimental/build" "$ref" "$@")
+out=$root/build/egglog-storel/$(basename "$egglog_dir")
+
+# Rebuild when the crate sources changed (cargo only sees the copy in the build directory).
+if [ -x "$out/egglog" ] && [ -n "$(find "$here/crate" -newer "$out/egglog" -type f)" ]; then
+  rm -f "$out/egglog"
+fi
+if [ ! -x "$out/egglog" ]; then
+  mkdir -p "$out/src"
+  cp -r "$here/crate/." "$out/src/"
+  cat >> "$out/src/Cargo.toml" <<TOML
+
+[patch."https://github.com/egraphs-good/egglog.git"]
+egglog = { path = "$egglog_dir/src" }
+egglog-ast = { path = "$egglog_dir/src/egglog-ast" }
+egglog-reports = { path = "$egglog_dir/src/egglog-reports" }
+
+[patch."https://github.com/egraphs-good/egglog-experimental"]
+egglog-experimental = { path = "$experimental_dir/src" }
+TOML
+  cp "$experimental_dir/src/rust-toolchain.toml" "$out/src/"
+  echo "building egglog-storel with egglog@$ref in $out" >&2
+  (cd "$out/src" && cargo build --release -q) >&2
+  ln -sf src/target/release/egglog-storel "$out/egglog"
+
+  # Probe what this build supports, as systems/egglog/build does.
+  help=$("$out/egglog" --help 2>&1 || true)
+  flags=$(printf '%s\n' "$help" | grep -oE -- '--[a-z][a-z0-9-]*' | sort -u | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().split()))')
+  tmp=$(mktemp -d)
+  printf '(relation R (i64))\n(R 1)\n(run 1)\n(print-size)\n' > "$tmp/a.egg"
+  printf '(print-stats :file "%s/s.json")\n' "$tmp" > "$tmp/stats.egg"
+  if RUST_LOG=error "$out/egglog" "$tmp/a.egg" "$tmp/stats.egg" >/dev/null 2>&1 && [ -s "$tmp/s.json" ]; then stats_json=true; else stats_json=false; fi
+  rm -rf "$tmp"
+  python3 - "$out/build.json" "$experimental_dir/build.json" "$ref" "$stats_json" "$flags" <<'PY'
+import hashlib, json, sys
+from pathlib import Path
+path, experimental_info, ref, stats_json, flags = sys.argv[1:]
+info = json.load(open(experimental_info))
+crate = Path(path).parent / "src"
+sources = sorted(p for p in crate.glob("src/*.rs")) + [crate / "Cargo.toml"]
+json.dump({
+    "system": "egglog-storel",
+    "ref": ref,
+    "commit": info["commit"],
+    "patches": info.get("patches", []),
+    "patch_sources": info.get("patch_sources", []),
+    "experimental_commit": info["experimental_commit"],
+    "extension_sha256": hashlib.sha256(b"".join(p.read_bytes() for p in sources)).hexdigest(),
+    "flags": json.loads(flags),
+    "threads": "--threads" in flags,
+    "stats_json": stats_json == "true",
+}, open(path, "w"), indent=1)
+PY
+fi
+echo "$out"

@@ -324,13 +324,13 @@ result): `egg-simple` vs `egglog-rust` (every rule applied every iteration: egg'
 `BackoffScheduler` and egglog-experimental's `back-off`, both with match limit 1000 and ban
 length 5; egglog counts a rule's new matches per step, so bans fall at different times).
 `scripts/plot-storel.py --run <id>` draws both with the e-graph size each run reached. The
-egglog ports choose the same smallest term (ties broken by a structural hash) and reach
-identical e-graphs on the saturating stage-1 kernels; `egg` keeps STOREL's "first seen"
-tie-breaking. On the
-benchmarked kernels the variants stop on different e-graphs (so `bench check storel` reports
-mismatches by design); `report.nodes` records the size each run actually reached, which can
-exceed the limit by one iteration's growth (egglog's iterations are few and large, egg's many
-and small).
+two egglog variants choose the same smallest term (ties broken by a structural hash) and
+reach the same e-graphs as each other on the saturating stage-1 kernels, but not egg's:
+`egg` keeps STOREL's "first seen" tie-breaking, and which e-graph a run explores depends on
+such ties and on the apply order. On the benchmarked kernels every variant stops on a
+different e-graph (so `bench check storel` reports mismatches by design); `report.nodes`
+records the size each run actually reached, which can exceed the limit by one iteration's
+growth (egglog's iterations are few and large, egg's many and small).
 
 ## Query-only comparison with DuckDB and Umbra
 

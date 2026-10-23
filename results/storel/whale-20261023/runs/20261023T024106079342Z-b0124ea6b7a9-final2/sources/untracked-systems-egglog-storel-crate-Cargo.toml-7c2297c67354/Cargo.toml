@@ -1,0 +1,15 @@
+# egglog + the STOREL extension (src/lib.rs). The git dependencies are pins only:
+# systems/egglog-storel/build appends a [patch] section that redirects egglog to the variant's
+# checkout and egglog-experimental to its pinned worktree, so the engine is the variant's egglog.
+[package]
+name = "egglog-storel"
+version = "0.0.0"
+edition = "2024"
+
+[dependencies]
+egglog = { version = "3.0.0", git = "https://github.com/egraphs-good/egglog.git", rev = "90635860397ce710f8c0a4eeb04154a8ebc3ac05", default-features = false, features = ["bin"] }
+egglog-experimental = { version = "3.0.0", git = "https://github.com/egraphs-good/egglog-experimental", rev = "61e68719559145842b03c7556ddc0687cb00f162", default-features = false }
+log = "0.4"
+
+[profile.release]
+debug = false

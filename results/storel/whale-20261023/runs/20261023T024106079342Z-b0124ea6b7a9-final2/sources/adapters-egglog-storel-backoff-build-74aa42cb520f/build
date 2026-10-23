@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# The same binary as systems/egglog-storel (the STOREL extension); this system only selects
+# the ports that run STOREL's rules under egglog-experimental's back-off scheduler
+# (benchmarks/<suite>/egglog-storel-backoff/<name>.egg). Usage and output as systems/egglog-storel/build.
+set -euo pipefail
+here=$(dirname "$(readlink -f "$0")")
+exec "$here/../egglog-storel/build" "$@"
