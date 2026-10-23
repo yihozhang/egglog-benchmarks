@@ -11,4 +11,11 @@ The report retains process_wall_s and setup_wall_s for those rows; timing_scope 
 the interval. report.run_s = sum of egglog's own per-ruleset
 search/merge/rebuild times (reference only). egglog 0.5.0 has no -j, so threads > 1 are
 unsupported for it. Local modifications are patches in patches/ (e.g. --no-dynamic-order).
+A program with `;; BENCHMARK_NODE_LIMIT <N> <table>...` (egg's node limit, for programs that
+never saturate) is driven through the same REPL protocols: the text before the marker is loaded
+once, the text after it is one step, repeated until the listed tables hold >= N rows
+(stop_reason node-limit) or no table size changed for more than (steps so far + 5) consecutive
+steps (stalled; egglog does not report whether a step changed anything, and a back-off scheduler
+can leave every rule banned for that long). wall_s = the whole process including the per-step
+(print-size) round trips; the report adds iterations, stop_reason, node_limit and nodes.
 """

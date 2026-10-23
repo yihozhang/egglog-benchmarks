@@ -1,0 +1,17 @@
+# egglog with a Rust extension for the STOREL benchmark (crate/src/lib.rs): STOREL's frozen
+# terms as a base sort, index shifting and substitution as primitives, `thaw` to add a term
+# to the e-graph. It runs the suite's programs directly (they are written for the extension);
+# systems/egglog-storel-backoff selects the back-off ports of the same binary.
+
+notes = """
+Runs the benchmark program directly: the smallest term of each class is computed by rules
+(best : Term -> Frozen, a base value of the extension, :merge (frozen-min old new) = the smaller
+by (size, structural hash)), and STOREL's beta reduction and index shifting are the extension's
+fsubst/fshift primitives whose result `thaw` adds to the e-graph, like egg's custom appliers;
+the rules calling thaw are :unsafe-seminaive (thaw writes the e-graph, which egglog admits
+only outside plain semi-naive rules; the action depends only on query-bound immutable values). The engine is the variant's
+egglog build compiled with egglog-experimental (same pin as systems/egglog-experimental, for
+the back-off scheduler) through Cargo [patch] sections; builds are keyed by the egglog build id
+and record the extension's source hash. CLI, run adapter and report are egglog's: wall_s =
+the whole process or the node-limited REPL driver.
+"""

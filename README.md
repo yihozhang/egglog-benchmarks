@@ -161,6 +161,11 @@ the later e2e pointer measurements used `(run-schedule (saturate (run)))`.
 
 - **A benchmark**: drop a `.egg` file into a suite directory. Files a suite's programs `include`
   (like `benchmarks/luminal/luminal-header.egg`) are listed under `exclude` in its `suite.toml`.
+  A program that never saturates can end with a marker line `;; BENCHMARK_NODE_LIMIT <N> <table> ...`
+  followed by one step (e.g. `(run 1)`): the egglog adapters then drive the REPL, repeating the step
+  until the listed tables hold N rows (`report.stop_reason` = `node-limit`, or `stalled` once nothing
+  changed for more steps than had run before plus five, the allowance a back-off scheduler's bans
+  need); `wall_s` stays the whole process.
 - **An egglog commit to compare**: add a `[[variants]]` block with `ref = "<commit|tag|branch>"`.
 - **An ablation**: a variant with `flags = [...]`. Flags a build does not know are reported as `unsupported`.
 - **A local change to egglog** (e.g. a new ablation flag): a patch in `systems/egglog/patches/<name>.patch`,
@@ -194,7 +199,10 @@ adapter's measured wall-clock interval, identified by `timing_scope` (`process`
 by default, `analysis` for egglog pointer analysis). `harness_wall_s` is measured
 around everything, including the adapter and cgroup setup; the other
 `report.*` fields are the system's own numbers (for egglog, from `(print-stats)`
-and `(print-size)` appended as a trailer file).
+and `(print-size)` appended as a trailer file). Node-limited runs (STOREL) add
+`report.iterations`, `report.stop_reason` (`node-limit` or `stalled`) and
+`report.nodes`, the e-node count at the stop, which can exceed the limit by up to one
+iteration's growth.
 
 Every run gets `timeout` seconds and `memory_gb` GB (defaults 600 s and 32 GB,
 per experiment or `--timeout`/`--memory-gb` on `bench run`). The memory cap is a
@@ -207,7 +215,9 @@ address-space rlimit.
 | system | how it is built | pinned ref in `experiments/engines.toml` | notes |
 |---|---|---|---|
 | `egglog` | host cargo, any ref of the submodule, optional patches | b9800506 (branch yihozhang-bench-20261016), v0.5.0 | `-j`, `--no-decomp`, `--no-dynamic-order` (patch) |
-| `egg` | host cargo; Rust port per benchmark | v0.11.0 | `SimpleScheduler`, no limits |
+| `egglog-experimental` | host cargo; egglog-experimental 61e68719 with the variant's egglog checkout substituted through a Cargo `[patch]` | (no experiment at the moment) | port = the program in the experimental scheduling language, e.g. `(let-scheduler bo (back-off))` + `(run-with bo ...)` |
+| `egglog-storel`, `egglog-storel-backoff` | host cargo; `systems/egglog-storel/crate` (egglog-experimental's e-graph + a Rust extension) on the variant's egglog | b9800506 (`experiments/storel.toml`) | STOREL's beta reduction and index shifting in Rust on the smallest term of a class, kept as a value of the extension's `Frozen` base sort (`thaw` adds the result); the suite's programs, and the same under the back-off scheduler; the rules calling `thaw` are `:unsafe-seminaive` |
+| `egg` | host cargo; Rust port per benchmark | v0.11.0 | `SimpleScheduler`, no limits (math, horner, matmul-assoc); the `storel` port takes `--scheduler backoff\|simple` (STOREL's `BackoffScheduler` or `SimpleScheduler`) and stops at the kernel's node limit |
 | `oatlog` | host cargo; port = egglog program compiled by the proc macro | 6b73396 (main) | strict mode; relaxed mode exceeds 32 GB |
 | `hegg` | container (GHC 9.6); Haskell port | v0.5.0.0 | driver loop in the port (hegg's own caps iterations at 30 and bans rules); the port canonicalizes the e-matching database because hegg's leaves stale ids |
 | `metatheory` | container (Julia 1.11); Julia port | v2.0.2 (latest release; no 3.x release) | `SimpleScheduler`, limits disabled, JIT warm-up excluded from `run_s` |
@@ -293,6 +303,34 @@ uv run bench plot math-microbenchmark-12
 
 The figure is written to `figures/math-microbenchmark-12.pdf` and `.png`, with
 summary data in `figures/math-microbenchmark-12.csv`.
+
+## STOREL: tensor kernels with binders
+
+`experiments/storel.toml` runs STOREL's optimizer (SIGMOD'23; the egg 0.6 implementation
+from the slotted e-graphs artifact: 44 rewrite rules over SDQL with de Bruijn indices, and
+beta reduction / index shifting implemented as custom appliers that substitute the *smallest
+known term* of an e-class) on its ten evaluation kernels; `benchmarks/storel/gen.py`
+generates every port from the original inputs and documents the encoding. The six kernels
+that take more than 100 ms are benchmarked. Because the appliers substitute whichever term is
+smallest *at the moment they run*, the e-graph a run explores depends on the engine's apply
+order (egg 0.6 and 0.11 differ 25x on `mmm-2nd` with identical code), so no run goes to
+saturation: every kernel stops after the iteration that reaches a fixed number of e-nodes
+(10K, 150K or 1M) and the metric is the time to grow the e-graph to that size. Two
+head-to-head comparisons, each between the original code on egg 0.11 and egglog with
+`systems/egglog-storel`, a Rust extension that does what STOREL's appliers do (the smallest
+term of a class is computed by rules; the extension substitutes or shifts it and adds the
+result): `egg-simple` vs `egglog-rust` (every rule applied every iteration: egg's
+`SimpleScheduler`, egglog's plain `run`) and `egg-backoff` vs `egglog-rust-backoff` (STOREL's
+`BackoffScheduler` and egglog-experimental's `back-off`, both with match limit 1000 and ban
+length 5; egglog counts a rule's new matches per step, so bans fall at different times).
+`scripts/plot-storel.py --run <id>` draws both with the e-graph size each run reached. The
+egglog ports choose the same smallest term (ties broken by a structural hash) and reach
+identical e-graphs on the saturating stage-1 kernels; `egg` keeps STOREL's "first seen"
+tie-breaking. On the
+benchmarked kernels the variants stop on different e-graphs (so `bench check storel` reports
+mismatches by design); `report.nodes` records the size each run actually reached, which can
+exceed the limit by one iteration's growth (egglog's iterations are few and large, egg's many
+and small).
 
 ## Query-only comparison with DuckDB and Umbra
 

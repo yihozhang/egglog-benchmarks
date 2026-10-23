@@ -10,6 +10,13 @@ final table sizes (from `(print-size)`), which are appended to the program as a
 trailer so benchmark files stay untouched. BENCH_EGGLOG_TIMING=analysis instead
 uses interactive phase barriers around explicit timing markers in the program;
 wall_s then excludes setup/loading, final reporting and process shutdown.
+
+A program with a marker line `;; BENCHMARK_NODE_LIMIT <N> <table> <table> ...` is
+driven through the REPL instead (egg's node limit for programs that never saturate):
+the part before the marker is loaded once, the part after it is one step, repeated
+until the listed tables hold at least N rows (stop_reason node-limit) or the sizes
+stopped changing (stalled). The report then also has iterations, stop_reason,
+node_limit and nodes; wall_s stays the whole process.
 """
 
 import json
@@ -20,7 +27,7 @@ import sys
 import time
 from pathlib import Path
 
-from interactive import run_interactive
+from interactive import has_node_limit, parse_sizes, run_interactive, run_node_limit
 
 UNSUPPORTED = 3
 
@@ -45,12 +52,18 @@ def main() -> int:
         print(f"unknown BENCH_EGGLOG_TIMING: {timing!r}", file=sys.stderr)
         return 1
     protocol = "command-done" if "--mode" in info["flags"] else "legacy-done"
-    if timing == "analysis":
+    node_limit = has_node_limit(Path(program).read_text())
+    if timing == "analysis" and node_limit:
+        print("a program cannot combine analysis timing markers with a node limit", file=sys.stderr)
+        return 1
+    mode = "analysis" if timing == "analysis" else "node-limit" if node_limit else "process"
+    driver = {"analysis": run_interactive, "node-limit": run_node_limit}.get(mode)  # REPL drivers
+    if driver is not None:
         if "--mode" not in info["flags"] and "--show" not in info["flags"]:
             print(f"egglog@{info['ref']} has no supported REPL protocol", file=sys.stderr)
             return UNSUPPORTED
         if any(f.split("=")[0] in ("--mode", "--save-report", "--show", "--no-messages") for f in flags):
-            print("analysis timing owns REPL output and cannot use output-control or --save-report flags", file=sys.stderr)
+            print("the REPL driver owns its output and cannot use output-control or --save-report flags", file=sys.stderr)
             return UNSUPPORTED
 
     trailer = out_dir / "trailer.egg"
@@ -61,7 +74,7 @@ def main() -> int:
         cmd += ["-j", str(threads)]
     if fact_dir != "-":
         cmd += ["-F", fact_dir]
-    if timing == "analysis":
+    if driver is not None:
         if protocol == "command-done":
             cmd += ["--mode", "interactive"]
     else:
@@ -71,13 +84,13 @@ def main() -> int:
     env.setdefault("RUST_LOG", "error")  # egglog 0.5 logs every declaration at INFO by default
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
 
-    if timing == "analysis":
+    if driver is not None:
         try:
-            rc, timing_report = run_interactive(
+            rc, timing_report = driver(
                 cmd, Path(program), out_dir, env, float(env.get("BENCH_TIMEOUT_S", "600")), protocol,
             )
         except (OSError, ValueError) as error:
-            print(f"analysis timing setup failed: {error}", file=sys.stderr)
+            print(f"{mode} setup failed: {error}", file=sys.stderr)
             return 1
     else:
         t0 = time.perf_counter()
@@ -132,18 +145,6 @@ def parse_stats(stdout: str) -> dict:
         "rebuild_s": rebuild,
         "run_s": search_apply + merge + rebuild,
     }
-
-
-NEW_SIZE = re.compile(r"^\s*\(?\((\S+) (\d+)\)\)?\s*$", re.M)  # ((f 12)\n (g 3))
-OLD_SIZE = re.compile(r"^(\S+): (\d+)$", re.M)  # f: 12
-
-
-def parse_sizes(stdout: str) -> dict:
-    sizes = {}
-    for pat in (NEW_SIZE, OLD_SIZE):
-        for name, n in pat.findall(stdout):
-            sizes[name] = int(n)
-    return sizes
 
 
 if __name__ == "__main__":

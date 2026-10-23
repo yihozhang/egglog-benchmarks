@@ -1,0 +1,18 @@
+# egglog-experimental (https://github.com/egraphs-good/egglog-experimental) wraps egglog
+# with experimental commands, notably named schedulers for run-schedule. A benchmark is
+# supported when benchmarks/<suite>/egglog-experimental/<name>.egg exists: the benchmark
+# program written for the experimental scheduling language.
+port_dir = "egglog-experimental"
+
+notes = """
+Port = the benchmark's egglog program using the experimental scheduling extensions
+(benchmarks/<suite>/egglog-experimental/<name>.egg), e.g. (let-scheduler bo (back-off :match-limit
+1000 :ban-length 5)) and (run-schedule (run-with bo)). The engine is the variant's egglog build
+(same ref and patches, the checkout under build/egglog/<id>/src) compiled into egglog-experimental
+at commit 61e68719 (main as of 2026-10-20) through a Cargo [patch] section; builds are keyed by
+the egglog build id. The CLI, run adapter and report are egglog's: wall_s = the whole process
+(parsing, type checking, the schedule, printing sizes/stats), or the node-limited REPL driver when
+the port carries ;; BENCHMARK_NODE_LIMIT; report.run_s = egglog's own per-ruleset stats
+(reference only). -j works as for egglog. The harness applies pointer-analysis timing
+(BENCH_EGGLOG_TIMING=analysis) only to the egglog system, not to this one.
+"""

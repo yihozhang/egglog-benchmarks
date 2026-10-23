@@ -4,7 +4,8 @@
 Usage: run <build-dir> <program.egg> <fact-dir|-> <threads> <out-dir> [flags...]
 
 The port binary build/egg/<commit>/ports/target/release/<suite>--<name> must exist
-(exit 3 otherwise); egg is single-threaded and takes no flags. The port prints the
+(exit 3 otherwise); egg is single-threaded. Flags are passed to the port binary (the storel
+port takes --scheduler backoff|simple; the others take none). The port prints the
 e-graph size per constructor in egglog's (print-size) format and writes run time and
 phase times to a JSON report; this script adds wall time and sizes to it.
 """
@@ -36,12 +37,12 @@ def main() -> int:
         else:
             print(f"no egg port for {suite}/{program.stem}", file=sys.stderr)
             return UNSUPPORTED
-    if int(threads) != 1 or flags or fact_dir != "-":
-        print("egg port supports only one thread, no flags and no fact directory", file=sys.stderr)
+    if int(threads) != 1 or fact_dir != "-":
+        print("egg port supports only one thread and no fact directory", file=sys.stderr)
         return UNSUPPORTED
 
     report_path = out_dir / "port-report.json"
-    cmd = [str(binary), *extra, "--report", str(report_path)]
+    cmd = [str(binary), *extra, *flags, "--report", str(report_path)]
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
     t0 = time.perf_counter()
     with open(out_dir / "stdout", "w") as so, open(out_dir / "stderr", "w") as se:
