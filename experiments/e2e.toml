@@ -1,25 +1,21 @@
-description = "End-to-end single-threaded running time of egglog against the original egglog prototype; pointer analysis excludes setup/loading."
-# Pointer analysis uses its shared saturation schedule and analysis-only timing for every variant, including v0.5.0.
-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+description = "Paper rerun: e2e; egglog-cracked always uses --no-decomp."
+benchmarks = ["hardboiled", "luminal", "eggcc"]
 threads = [1]
 reps = 3
-timeout = 600       # seconds per run
-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
 plot = "bars"
-baseline = "egglog-0.5.0"   # speedups are reported relative to this variant
+baseline = "egglog-prior"
 
 [[variants]]
-label = "egglog"
+label = "egglog-cracked"
 system = "egglog"
-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-0.5.0"
+label = "egglog-prior"
 system = "egglog"
 ref = "v0.5.0"
-
-[[variants]]
-label = "egglog-no-decomp"
-system = "egglog"
-ref = "b9800506"             # same pin; --no-decomp turns off tree decomposition in query planning
-flags = ["--no-decomp"]
+flags = []

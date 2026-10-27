@@ -1,0 +1,3 @@
+# Matrix-chain associativity (foresight CC'26, section 7.2): see gen.py. 20, 40, 80 are the
+# paper's instances; 160 and 320 are ours. Ports as for horner.
+exclude = ["gen.py"]

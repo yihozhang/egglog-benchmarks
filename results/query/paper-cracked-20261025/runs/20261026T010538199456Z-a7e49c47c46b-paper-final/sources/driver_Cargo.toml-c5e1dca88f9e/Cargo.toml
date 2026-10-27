@@ -1,0 +1,15 @@
+[package]
+name = "egglog-query-driver"
+version = "0.0.0"
+edition = "2024"
+
+# Path dependencies are rewritten by systems/egglog-query/build to the requested egglog checkout.
+[dependencies]
+egglog = { path = "/home/yz489/egglog-benchmarks/.worktrees/paper-cracked-20261025/build/egglog/c1e12aef4907/src" }
+egglog-reports = { path = "/home/yz489/egglog-benchmarks/.worktrees/paper-cracked-20261025/build/egglog/c1e12aef4907/src/egglog-reports" }
+egglog-numeric-id = { path = "/home/yz489/egglog-benchmarks/.worktrees/paper-cracked-20261025/build/egglog/c1e12aef4907/src/numeric-id" }
+serde_json = "1"
+pprof = { version = "0.15", features = ["flamegraph"] }
+
+[profile.release]
+debug = false

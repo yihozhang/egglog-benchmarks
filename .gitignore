@@ -1,21 +1,26 @@
 # built systems (git worktrees + cargo targets)
 /build/
 # python
-/.venv/
+/.venv
 __pycache__/
 *.pyc
 # legacy raw logs (new runs are isolated below)
 /results/*/logs/
 # large benchmark inputs (unpacked from the .zip)
-/benchmarks/pointer-analysis/benchmark-input/
+/benchmarks/pointer-analysis/benchmark-input
 *.png
 /results/*.log
 # Datalog datasets (downloaded by benchmarks/datalog/fetch.py)
 /benchmarks/datalog/facts/
 /benchmarks/datalog/cache/
 
-/figures/
+/figures/*
+!/figures/paper/
+!/figures/paper/*.png
+/figures/paper/.plot.lock
 
 # ad hoc recipes/scripts and all unselected run bundles
 /scratch/
 /runs/
+
+/logs/

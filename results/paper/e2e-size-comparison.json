@@ -1,0 +1,847 @@
+{
+  "cracked_vs_historical_no_decomp_size_differences": [
+    [
+      "eggcc",
+      "3mm"
+    ],
+    [
+      "eggcc",
+      "ackermann"
+    ],
+    [
+      "eggcc",
+      "adi"
+    ],
+    [
+      "eggcc",
+      "correlation"
+    ],
+    [
+      "eggcc",
+      "raytrace"
+    ]
+  ],
+  "prior_vs_historical_prior_size_differences": [],
+  "within_new_run_size_differences": [
+    {
+      "suite": "eggcc",
+      "benchmark": "3mm",
+      "tables": {
+        "TermSingle": [
+          4305,
+          4505
+        ],
+        "Smaller": [
+          52271,
+          57673
+        ],
+        "TCPair": [
+          68787,
+          71205
+        ],
+        "TermConcat": [
+          19287,
+          19773
+        ],
+        "bound-max": [
+          56,
+          58
+        ],
+        "PotentialExtractedExpr": [
+          100420,
+          100410
+        ],
+        "TermGet": [
+          40936,
+          42571
+        ],
+        "InvCodeMotionCandidate": [
+          56874,
+          57384
+        ],
+        "TermBop": [
+          3574,
+          3649
+        ],
+        "TermTop": [
+          655,
+          677
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "ackermann",
+      "tables": {
+        "TermSingle": [
+          81,
+          80
+        ],
+        "Smaller": [
+          1956,
+          2131
+        ],
+        "bound-min": [
+          10,
+          12
+        ],
+        "TCPair": [
+          2500,
+          2288
+        ],
+        "TermConcat": [
+          1065,
+          949
+        ],
+        "bound-max": [
+          8,
+          10
+        ],
+        "PotentialExtractedExpr": [
+          16883,
+          16887
+        ],
+        "TermGet": [
+          1153,
+          1076
+        ],
+        "InvCodeMotionCandidate": [
+          86574,
+          96467
+        ],
+        "TermBop": [
+          185,
+          167
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "adi",
+      "tables": {
+        "TermSingle": [
+          4679,
+          4863
+        ],
+        "Smaller": [
+          47270,
+          54794
+        ],
+        "bound-min": [
+          11,
+          13
+        ],
+        "TCPair": [
+          69471,
+          75825
+        ],
+        "TermConcat": [
+          18219,
+          22256
+        ],
+        "bound-max": [
+          13,
+          17
+        ],
+        "PotentialExtractedExpr": [
+          165916,
+          165735
+        ],
+        "TermGet": [
+          40254,
+          42277
+        ],
+        "TermBop": [
+          5660,
+          5734
+        ],
+        "TermTop": [
+          641,
+          677
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "armstrong",
+      "tables": {
+        "Smaller": [
+          521,
+          658
+        ],
+        "TCPair": [
+          583,
+          576
+        ],
+        "TermConcat": [
+          222,
+          219
+        ],
+        "PotentialExtractedExpr": [
+          2304,
+          2306
+        ],
+        "TermGet": [
+          262,
+          258
+        ],
+        "InvCodeMotionCandidate": [
+          2775,
+          2915
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "bicg",
+      "tables": {
+        "TermSingle": [
+          545,
+          561
+        ],
+        "Smaller": [
+          5471,
+          6187
+        ],
+        "TCPair": [
+          7081,
+          7213
+        ],
+        "TermConcat": [
+          2082,
+          2129
+        ],
+        "bound-max": [
+          21,
+          23
+        ],
+        "PotentialExtractedExpr": [
+          11298,
+          11293
+        ],
+        "TermGet": [
+          3924,
+          3975
+        ],
+        "TermBop": [
+          405,
+          422
+        ],
+        "TermTop": [
+          112,
+          113
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "binary-fmt",
+      "tables": {
+        "Smaller": [
+          85,
+          127
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "bitshift",
+      "tables": {
+        "Smaller": [
+          500,
+          576
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "bubblesort",
+      "tables": {
+        "TermSingle": [
+          58,
+          57
+        ],
+        "Smaller": [
+          590,
+          780
+        ],
+        "bound-min": [
+          9,
+          12
+        ],
+        "TCPair": [
+          682,
+          694
+        ],
+        "TermConcat": [
+          289,
+          294
+        ],
+        "bound-max": [
+          9,
+          12
+        ],
+        "PotentialExtractedExpr": [
+          1992,
+          2004
+        ],
+        "TermGet": [
+          270,
+          278
+        ],
+        "InvCodeMotionCandidate": [
+          1359,
+          1376
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "check-primes",
+      "tables": {
+        "Smaller": [
+          100,
+          158
+        ],
+        "InvCodeMotionCandidate": [
+          434,
+          430
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "cholesky_decomp",
+      "tables": {
+        "TermSingle": [
+          330,
+          334
+        ],
+        "Smaller": [
+          3847,
+          4349
+        ],
+        "TCPair": [
+          4871,
+          4913
+        ],
+        "TermConcat": [
+          1682,
+          1707
+        ],
+        "PotentialExtractedExpr": [
+          16706,
+          16716
+        ],
+        "TermGet": [
+          2234,
+          2238
+        ],
+        "TermBop": [
+          489,
+          499
+        ],
+        "TermTop": [
+          98,
+          97
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "conjugate-gradient",
+      "tables": {
+        "TermSingle": [
+          148,
+          151
+        ],
+        "Smaller": [
+          2275,
+          2725
+        ],
+        "TCPair": [
+          3169,
+          3068
+        ],
+        "TermConcat": [
+          1245,
+          1249
+        ],
+        "PotentialExtractedExpr": [
+          17557,
+          17530
+        ],
+        "TermGet": [
+          1094,
+          1088
+        ],
+        "InvCodeMotionCandidate": [
+          47936,
+          48496
+        ],
+        "TermBop": [
+          621,
+          519
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "correlation",
+      "tables": {
+        "TermSingle": [
+          12256,
+          12413
+        ],
+        "Smaller": [
+          92462,
+          102271
+        ],
+        "bound-min": [
+          15,
+          16
+        ],
+        "TCPair": [
+          103569,
+          113742
+        ],
+        "TermConcat": [
+          22271,
+          27665
+        ],
+        "bound-max": [
+          17,
+          21
+        ],
+        "PotentialExtractedExpr": [
+          151607,
+          151446
+        ],
+        "TermGet": [
+          56457,
+          60971
+        ],
+        "InvCodeMotionCandidate": [
+          46850,
+          47782
+        ],
+        "TermBop": [
+          11160,
+          11227
+        ],
+        "TermTop": [
+          1407,
+          1448
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "csrmv",
+      "tables": {
+        "TermSingle": [
+          362,
+          384
+        ],
+        "Smaller": [
+          6796,
+          8116
+        ],
+        "bound-min": [
+          29,
+          27
+        ],
+        "TCPair": [
+          8358,
+          8574
+        ],
+        "TermConcat": [
+          3776,
+          3914
+        ],
+        "bound-max": [
+          34,
+          35
+        ],
+        "PotentialExtractedExpr": [
+          37771,
+          37854
+        ],
+        "TermGet": [
+          3454,
+          3610
+        ],
+        "InvCodeMotionCandidate": [
+          255897,
+          267552
+        ],
+        "TermBop": [
+          669,
+          567
+        ],
+        "TermTop": [
+          74,
+          76
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "dead-branch",
+      "tables": {
+        "Smaller": [
+          45,
+          63
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "digital-root",
+      "tables": {
+        "TermSingle": [
+          22,
+          21
+        ],
+        "Smaller": [
+          145,
+          210
+        ],
+        "TCPair": [
+          190,
+          193
+        ],
+        "PotentialExtractedExpr": [
+          340,
+          341
+        ],
+        "TermBop": [
+          46,
+          50
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "dot-product",
+      "tables": {
+        "Smaller": [
+          103,
+          158
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "euclid",
+      "tables": {
+        "Smaller": [
+          284,
+          346
+        ],
+        "TCPair": [
+          313,
+          312
+        ],
+        "TermConcat": [
+          131,
+          130
+        ],
+        "PotentialExtractedExpr": [
+          1755,
+          1763
+        ],
+        "InvCodeMotionCandidate": [
+          1808,
+          1904
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "fact",
+      "tables": {
+        "Smaller": [
+          45,
+          64
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "fenwick_tree",
+      "tables": {
+        "Smaller": [
+          291,
+          430
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "fib",
+      "tables": {
+        "Smaller": [
+          97,
+          144
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "gcd",
+      "tables": {
+        "Smaller": [
+          95,
+          153
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "hanoi",
+      "tables": {
+        "Smaller": [
+          2483,
+          2771
+        ],
+        "TCPair": [
+          2489,
+          2497
+        ],
+        "TermConcat": [
+          1405,
+          1381
+        ],
+        "bound-max": [
+          6,
+          7
+        ],
+        "TermGet": [
+          823,
+          853
+        ],
+        "TermBop": [
+          187,
+          189
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "lcm",
+      "tables": {
+        "Smaller": [
+          176,
+          234
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "mat-mul",
+      "tables": {
+        "TermSingle": [
+          103,
+          105
+        ],
+        "Smaller": [
+          1424,
+          1678
+        ],
+        "TCPair": [
+          1756,
+          1776
+        ],
+        "TermConcat": [
+          819,
+          829
+        ],
+        "TermGet": [
+          589,
+          591
+        ],
+        "TermBop": [
+          216,
+          222
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "mod_inv",
+      "tables": {
+        "Smaller": [
+          114,
+          165
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "palindrome",
+      "tables": {
+        "TermSingle": [
+          45,
+          44
+        ],
+        "Smaller": [
+          648,
+          841
+        ],
+        "TCPair": [
+          884,
+          865
+        ],
+        "TermConcat": [
+          365,
+          358
+        ],
+        "PotentialExtractedExpr": [
+          8255,
+          8271
+        ],
+        "TermGet": [
+          390,
+          386
+        ],
+        "InvCodeMotionCandidate": [
+          33958,
+          35898
+        ],
+        "TermBop": [
+          61,
+          55
+        ],
+        "TermTop": [
+          15,
+          14
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "perfect",
+      "tables": {
+        "Smaller": [
+          147,
+          229
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "ray-sphere-intersection",
+      "tables": {
+        "Smaller": [
+          196,
+          332
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "raytrace",
+      "tables": {
+        "TermSingle": [
+          16494,
+          16784
+        ],
+        "Smaller": [
+          129308,
+          144865
+        ],
+        "bound-min": [
+          20,
+          21
+        ],
+        "TCPair": [
+          118322,
+          131019
+        ],
+        "TermConcat": [
+          25771,
+          35035
+        ],
+        "bound-max": [
+          21,
+          24
+        ],
+        "PotentialExtractedExpr": [
+          376244,
+          378541
+        ],
+        "TermGet": [
+          56172,
+          59086
+        ],
+        "InvCodeMotionCandidate": [
+          1985319,
+          1989952
+        ],
+        "TermBop": [
+          15836,
+          16037
+        ],
+        "TermTop": [
+          4007,
+          4035
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "recfact",
+      "tables": {
+        "Smaller": [
+          50,
+          70
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "sum-bits",
+      "tables": {
+        "Smaller": [
+          112,
+          163
+        ]
+      }
+    },
+    {
+      "suite": "eggcc",
+      "benchmark": "sum-check",
+      "tables": {
+        "Smaller": [
+          641,
+          691
+        ],
+        "TCPair": [
+          960,
+          823
+        ],
+        "TermConcat": [
+          279,
+          269
+        ],
+        "PotentialExtractedExpr": [
+          2906,
+          2900
+        ],
+        "TermGet": [
+          265,
+          248
+        ],
+        "InvCodeMotionCandidate": [
+          862,
+          974
+        ],
+        "TermBop": [
+          363,
+          253
+        ]
+      }
+    }
+  ]
+}

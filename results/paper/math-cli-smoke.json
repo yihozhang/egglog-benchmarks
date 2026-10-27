@@ -1,0 +1,37 @@
+[
+  {
+    "system": "hegg",
+    "exit_code": 0,
+    "command": "docker run --rm --network=none --memory 4096m --entrypoint timeout --cpuset-cpus 16-23 egglog-paper-cracked/hegg:0193c2da22e2 -s KILL 60 /bench/entry.sh math-microbenchmark math-microbenchmark --iters 1",
+    "iterations": 1,
+    "log_dir": "logs/paper/math-cli-smoke/hegg"
+  },
+  {
+    "system": "metatheory",
+    "exit_code": 0,
+    "command": "docker run --rm --network=none --memory 4096m --entrypoint timeout --cpuset-cpus 16-23 egglog-paper-cracked/metatheory:54cce6bcb7db -s KILL 60 /bench/entry.sh math-microbenchmark math-microbenchmark --iters 1",
+    "iterations": 1,
+    "log_dir": "logs/paper/math-cli-smoke/metatheory"
+  },
+  {
+    "system": "ego",
+    "exit_code": 0,
+    "command": "docker run --rm --network=none --memory 4096m --entrypoint timeout --cpuset-cpus 16-23 egglog-paper-cracked/ego:e87dae7aa2f6 -s KILL 60 /bench/entry.sh math-microbenchmark math-microbenchmark --iters 1",
+    "iterations": 1,
+    "log_dir": "logs/paper/math-cli-smoke/ego"
+  },
+  {
+    "system": "foresight",
+    "exit_code": 0,
+    "command": "docker run --rm --network=none --memory 4096m --entrypoint timeout --cpuset-cpus 16-23 egglog-paper-cracked/foresight:f3ea706df96f -s KILL 60 /bench/entry.sh math-microbenchmark math-microbenchmark --iters 1",
+    "iterations": 1,
+    "log_dir": "logs/paper/math-cli-smoke/foresight"
+  },
+  {
+    "system": "ggs",
+    "exit_code": 0,
+    "command": "docker run --rm --network=none --memory 4096m --entrypoint timeout --cpuset-cpus 16-23 egglog-paper-cracked/ggs:2ad0981083bf -s KILL 60 /bench/entry.sh math-microbenchmark math-microbenchmark --iters 1",
+    "iterations": 1,
+    "log_dir": "logs/paper/math-cli-smoke/ggs"
+  }
+]

@@ -15,6 +15,10 @@ Ports live in `benchmarks/<suite>/<name>/` like for every other system. A benchm
 `base-<N>` (e.g. `horner-7`) is served by a port file with stem `base-<N>`, or else by a
 port with stem `base` which then receives `--instance N`; so one port can cover every
 instance size of a suite.
+For `math-microbenchmark-<N>`, the suffix specifies iterations, so the base
+`math-microbenchmark` port receives `--iters N`. An exact named port (such as
+GGS's `math-microbenchmark-12` wrapper) still takes precedence and receives no
+additional size or iteration argument.
 
 ## Build
 
@@ -38,8 +42,8 @@ compiles the ports there, and sets `ENTRYPOINT ["/bench/entry.sh"]`.
     podman run --rm --network=none --memory ${BENCH_MEMORY_GB}g --timeout ${BENCH_TIMEOUT_S} \
         egglog-bench/<name>:<commit12> <suite> <name> [flags]
 
-(`BENCH_CPUS` is not applied: rootless podman has no cpuset controller here, and the
-container engines are single-threaded.) With docker there is no `--timeout`, and killing
+When `BENCH_CPUS` is set, `run` passes it as `--cpuset-cpus` to bind the container's
+workers and GC threads. With docker there is no `--timeout`, and killing
 the `docker run` client (what the harness's timeout does) would leave the container running
 under the daemon, so the deadline is enforced inside the container instead:
 `--entrypoint timeout` with `-s KILL ${BENCH_TIMEOUT_S} /bench/entry.sh ...` (exit 124 on

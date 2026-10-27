@@ -1,0 +1,13 @@
+{
+  "verified_runs": {
+    "engines": "20261025T184003536198Z-8d4c1390fe96-paper-final",
+    "e2e": "20261025T093203771254Z-8595e10c7d47-paper-final",
+    "scaling-real-world": "20261025T092832623290Z-f8732cd38b12-paper-final",
+    "storel": "20261025T101120405525Z-e7a62c74cf31-paper-final",
+    "scaling-storel": "20261025T101958508188Z-4d6235211f1d-paper-final",
+    "storel-schedule": "20261025T102242418162Z-19596e296768-paper-final"
+  },
+  "benchmark_pairs_verified": 94,
+  "all_csv_selections_and_medians_match_raw_measurements": true,
+  "all_selected_schedule_repetitions_reach_target": true
+}

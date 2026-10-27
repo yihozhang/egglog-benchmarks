@@ -1,0 +1,136 @@
+{
+  "updated_at": "2026-10-26T01:21:31.620712+00:00",
+  "completed_experiments": [
+    "ablation",
+    "ablation-storel",
+    "e2e",
+    "engines",
+    "query",
+    "scaling",
+    "scaling-real-world",
+    "scaling-storel",
+    "storel",
+    "storel-schedule"
+  ],
+  "queue": {
+    "scaling": {
+      "state": "complete",
+      "started_at": "2026-10-25T09:22:15.214630+00:00",
+      "run_id": "20261025T092215224935Z-c78fab011481-paper-final",
+      "measurements": 90,
+      "outcomes": {
+        "ok": 90
+      },
+      "completed_at": "2026-10-25T09:28:32.554375+00:00",
+      "selection": "results/scaling/paper-cracked-20261025",
+      "check_exit_code": 0
+    },
+    "scaling-real-world": {
+      "state": "complete",
+      "started_at": "2026-10-25T09:28:32.615136+00:00",
+      "run_id": "20261025T092832623290Z-f8732cd38b12-paper-final",
+      "measurements": 486,
+      "outcomes": {
+        "ok": 486
+      },
+      "completed_at": "2026-10-25T09:32:03.614844+00:00",
+      "selection": "results/scaling-real-world/paper-cracked-20261025",
+      "check_exit_code": 0
+    },
+    "e2e": {
+      "state": "complete",
+      "started_at": "2026-10-25T09:32:03.755024+00:00",
+      "run_id": "20261025T093203771254Z-8595e10c7d47-paper-final",
+      "measurements": 486,
+      "outcomes": {
+        "ok": 486
+      },
+      "completed_at": "2026-10-25T10:11:20.235453+00:00",
+      "selection": "results/e2e/paper-cracked-20261025",
+      "check_exit_code": 1
+    },
+    "storel": {
+      "state": "complete",
+      "started_at": "2026-10-25T10:11:20.388620+00:00",
+      "run_id": "20261025T101120405525Z-e7a62c74cf31-paper-final",
+      "measurements": 36,
+      "outcomes": {
+        "ok": 36
+      },
+      "completed_at": "2026-10-25T10:19:58.402911+00:00",
+      "selection": "results/storel/paper-cracked-20261025",
+      "check_exit_code": 1
+    },
+    "scaling-storel": {
+      "state": "complete",
+      "started_at": "2026-10-25T10:19:58.490970+00:00",
+      "run_id": "20261025T101958508188Z-4d6235211f1d-paper-final",
+      "measurements": 36,
+      "outcomes": {
+        "ok": 36
+      },
+      "completed_at": "2026-10-25T10:22:42.337731+00:00",
+      "selection": "results/scaling-storel/paper-cracked-20261025",
+      "check_exit_code": 0
+    },
+    "storel-schedule": {
+      "state": "complete",
+      "started_at": "2026-10-25T10:22:42.409571+00:00",
+      "run_id": "20261025T102242418162Z-19596e296768-paper-final",
+      "measurements": 144,
+      "outcomes": {
+        "ok": 144
+      },
+      "completed_at": "2026-10-25T10:33:37.155440+00:00",
+      "selection": "results/storel-schedule/paper-cracked-20261025",
+      "check_exit_code": 1
+    },
+    "ablation": {
+      "state": "complete",
+      "started_at": "2026-10-25T10:33:37.236044+00:00",
+      "run_id": "20261025T103337245327Z-bd95813c8da1-paper-final",
+      "measurements": 752,
+      "outcomes": {
+        "ok": 732,
+        "timeout": 20
+      },
+      "completed_at": "2026-10-25T17:58:44.804306+00:00",
+      "selection": "results/ablation/paper-cracked-20261025",
+      "check_exit_code": 1
+    },
+    "ablation-storel": {
+      "state": "complete",
+      "started_at": "2026-10-25T17:58:44.967492+00:00",
+      "run_id": "20261025T175844984069Z-607e8366ca3f-paper-final",
+      "measurements": 54,
+      "outcomes": {
+        "ok": 54
+      },
+      "completed_at": "2026-10-25T18:09:38.940669+00:00",
+      "selection": "results/ablation-storel/paper-cracked-20261025",
+      "check_exit_code": 0
+    },
+    "engines": {
+      "state": "complete",
+      "started_at": "2026-10-25T18:40:03.525663+00:00",
+      "run_id": "20261025T184003536198Z-8d4c1390fe96-paper-final",
+      "measurements": 521,
+      "outcomes": {
+        "ok": 520,
+        "timeout": 1
+      },
+      "completed_at": "2026-10-26T01:05:38.067729+00:00",
+      "selection": "results/engines/paper-cracked-20261025",
+      "check_exit_code": 0
+    },
+    "query": {
+      "state": "complete",
+      "started_at": "2026-10-26T01:05:38.183537+00:00",
+      "run_id": "20261026T010538199456Z-a7e49c47c46b-paper-final",
+      "queries": 3437,
+      "completed_at": "2026-10-26T01:20:58.548377+00:00",
+      "selection": "results/query/paper-cracked-20261025",
+      "check_exit_code": 0
+    }
+  }
+}

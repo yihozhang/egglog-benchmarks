@@ -1,0 +1,31 @@
+{
+ "system": "egglog",
+ "ref": "paper/egglog-cracked-base-20261025",
+ "commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+ "patches": [],
+ "patch_sources": [],
+ "flags": [
+  "--fact-directory",
+  "--help",
+  "--max-calls-per-function",
+  "--max-functions",
+  "--mode",
+  "--naive",
+  "--no-decomp",
+  "--proof-testing",
+  "--proofs",
+  "--report-level",
+  "--save-report",
+  "--serialize-n-inline-leaves",
+  "--serialize-split-primitive-outputs",
+  "--strict-mode",
+  "--term-encoding",
+  "--threads",
+  "--to-dot",
+  "--to-json",
+  "--to-svg",
+  "--version"
+ ],
+ "threads": true,
+ "stats_json": true
+}

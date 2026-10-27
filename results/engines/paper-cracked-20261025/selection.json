@@ -1,0 +1,1533 @@
+{
+  "analysis": "median of successful repetitions; groups with any failure are excluded from speedups; all outcomes retained; no latest-per-cell replacement",
+  "checksums": {
+    "measurements.jsonl": {
+      "sha256": "581147abff15443e07df9640b6dd6710c567824d65ddb2cdaf0e03f093474bdc",
+      "size": 1238723
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/measurements.jsonl": {
+      "sha256": "74f482838e63a591de7076474553d4e20c05919a7ef7b66188ba88fa84f64ed5",
+      "size": 1238723
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/run.json": {
+      "sha256": "298f7115306c723d03b8128e8ae23837998744279d6aa871c203dca4fde482e5",
+      "size": 153825
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egg-build-35dc96503543/build": {
+      "sha256": "4cc11d8b3a771e3b3e87d3bb547892625d28cc4ca71c28af1c1dacb30699e1c8",
+      "size": 2003
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egg-run-8c56d22a39d0/run": {
+      "sha256": "10b89b16e22469b6a96c5b40cafcae655b7845eb99e2f54d1a4858bba7deba03",
+      "size": 2746
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egg-system.toml-e04936bf08d9/system.toml": {
+      "sha256": "e0e028c43f0f4802e5740451221023ca6dde1e1a33012d249f58449473fc92a9",
+      "size": 563
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egglog-build-a451eea2174f/build": {
+      "sha256": "31ceb4b042d7a69a3d2bb4e2cba69c75a6309abe8a506477af0e82b76385894d",
+      "size": 3975
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egglog-interactive.py-7cb81854a8ce/interactive.py": {
+      "sha256": "77c3a8f377ff6f16a9fc8bb7a0f3afce59c9bc01c1381ba080a1daa8dc65fb70",
+      "size": 15112
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egglog-run-a86ee0e5bc11/run": {
+      "sha256": "31297397ae50a0ebbbcb117bfd14df41e68fddd8f6729a69b60d1673f246f491",
+      "size": 6258
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-egglog-system.toml-88b57124d918/system.toml": {
+      "sha256": "48fc350bddd7f93a962bb93383b4a1e57c9b88118ac5cf16ce0de8374e7178c2",
+      "size": 1626
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ego-Containerfile-cf00b853b858/Containerfile": {
+      "sha256": "b1c0123770ed243e1347e363ea40f49aa67299edfd72fd37ea2c5c14b26901ce",
+      "size": 726
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ego-build-ae234d2ce49d/build": {
+      "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+      "size": 3244
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ego-build-ports.sh-62c89f1cd8f0/build-ports.sh": {
+      "sha256": "53e2ad953284090afe33e1bc104cd36382625b508060d2035fd47b059498abb8",
+      "size": 1088
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ego-entry.sh-a961522b9cc1/entry.sh": {
+      "sha256": "db3456404e3ef4b0662baa21e369c8bc4b825a20266ebd47c8c19c7c45ec2c56",
+      "size": 385
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ego-run-cf716d17d7b6/run": {
+      "sha256": "0b93f2127ab9483b9be2fa81ecb9d4ed0d7e5005defb2484da65ecab8f08c504",
+      "size": 5685
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ego-system.toml-589b290ddb38/system.toml": {
+      "sha256": "e11f7c410084603eb6db705ee85949649e2f68d55e4e734a9d9a89b4b4eee45c",
+      "size": 2814
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-foresight-Containerfile-adf98d22e2d1/Containerfile": {
+      "sha256": "a9f7f51404367fd7a0b357caf90f01245ca910069ae64a6b0dfcee3441839374",
+      "size": 2345
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-foresight-build-09f8791f7691/build": {
+      "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+      "size": 3244
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-foresight-entry.sh-5abc3988b6db/entry.sh": {
+      "sha256": "f18b3a57e7b4402d6d68c07ae6e0d1687ff84b0a965759f49f8e7e85b237c7b2",
+      "size": 900
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-foresight-run-f9949eba6421/run": {
+      "sha256": "0b93f2127ab9483b9be2fa81ecb9d4ed0d7e5005defb2484da65ecab8f08c504",
+      "size": 5685
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-foresight-system.toml-bd5457df3d9f/system.toml": {
+      "sha256": "ef62008bb050176075c5a1075bf895f3211c68aad9e7d0435c6adf4dcdfec175",
+      "size": 2844
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ggs-Containerfile-ae69618a4e6a/Containerfile": {
+      "sha256": "31717cc5bdf5455306900f38703c30215b25b9af8deb66ac0eda3d78df112e9b",
+      "size": 2345
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ggs-build-ceb9460fb1dd/build": {
+      "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+      "size": 3244
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ggs-build-port.lisp-0b771e1c3630/build-port.lisp": {
+      "sha256": "d14e82ddd93748505f9a77cffc419d594bfade237c60bd0bfe876612fd788337",
+      "size": 2556
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ggs-entry.sh-a7c156e38cd1/entry.sh": {
+      "sha256": "0d43a7e6c2f8e4964d86dbbe3880983248a4d73a589805cd3950d52985859a90",
+      "size": 569
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ggs-run-e603333bf973/run": {
+      "sha256": "0b93f2127ab9483b9be2fa81ecb9d4ed0d7e5005defb2484da65ecab8f08c504",
+      "size": 5685
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-ggs-system.toml-8e4bb92b25fa/system.toml": {
+      "sha256": "98c85dfb7c5e0fd44b5ac4acc1cc69ef4c822b3c88cde06b3b95b123e4d791c7",
+      "size": 2229
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-hegg-Containerfile-911eb617840a/Containerfile": {
+      "sha256": "1c1fa83ccd83359df0cf25007929e8fe3899252a36a19cdf8b38499985ac91d1",
+      "size": 1448
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-hegg-build-9b72dd02f4e2/build": {
+      "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+      "size": 3244
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-hegg-entry.sh-ab6e21041b8c/entry.sh": {
+      "sha256": "67b70d98e919b73e007679a8bfd6a1568afb33fcd5fe08da66586cb1a0ad82d4",
+      "size": 411
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-hegg-run-bcc2b45e9dcd/run": {
+      "sha256": "0b93f2127ab9483b9be2fa81ecb9d4ed0d7e5005defb2484da65ecab8f08c504",
+      "size": 5685
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-hegg-system.toml-660b59eb2527/system.toml": {
+      "sha256": "bfb6752443f2269eaa57933d7ef6de8305b31465d9737f9c74bfda4836f2cfeb",
+      "size": 2255
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-metatheory-Containerfile-5202e0058a3d/Containerfile": {
+      "sha256": "6fcfa7fe1e74e15ae3508b2531760e721b1bed0467ef770a1216d91793ef3509",
+      "size": 1201
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-metatheory-build-827c52bdf5ab/build": {
+      "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+      "size": 3244
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-metatheory-entry.sh-22e841a2d705/entry.sh": {
+      "sha256": "30160ebd5b523c62201ead47b9a0958ac7167abcfc368d96cbe96d7526b9205a",
+      "size": 353
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-metatheory-run-c14c9b60822e/run": {
+      "sha256": "0b93f2127ab9483b9be2fa81ecb9d4ed0d7e5005defb2484da65ecab8f08c504",
+      "size": 5685
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-metatheory-system.toml-c282aaf28f39/system.toml": {
+      "sha256": "e5dc6ca3b281a358fc0120ae4e0c85442d0224f9fd683c29b17533eadf37c35e",
+      "size": 2595
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-oatlog-build-130533e48730/build": {
+      "sha256": "ded01ed120e535c3f613c3845f2ed2897573c94122c6626061daca089b015c78",
+      "size": 2834
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-oatlog-main.rs.in-f0da4f99ab1c/main.rs.in": {
+      "sha256": "50a0e11a6255b904d335c6b55f778b8d4783fd51ae3accbc561656a9af71def4",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-oatlog-run-aafff5b20f44/run": {
+      "sha256": "8f73878ebc2b010589e1d2e1f854a53ed8d3f5858f0cfd45e5fd21945d68958e",
+      "size": 2375
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/adapters-oatlog-system.toml-ba613f5ee492/system.toml": {
+      "sha256": "ca34f0cb0a0982855861df0c5e29fbcdc75d47679c8af0262ea6bcee5b63b3f1",
+      "size": 984
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/experiment-config-79623b13c9d5/engines.toml": {
+      "sha256": "3a2dd9b294a0c9626447e6f9a3d87858e6f9d00eca4c78d89b05ec2f95b65717",
+      "size": 1830
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/harness-__init__.py-7a293fe28a35/__init__.py": {
+      "sha256": "a4f06b42b9d54905915f6aef392324d0e1ec693b87be0b3ffef8cb89bf15f9c0",
+      "size": 594
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/harness-config.py-e851d77c3787/config.py": {
+      "sha256": "69661ad8ddac15c280db42d3f8ea289045efbc59f059ad7fba4acdb452f71951",
+      "size": 11035
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/harness-runner.py-f71e841ba471/runner.py": {
+      "sha256": "16272c7417b7fbc141ee9d66154f8d9e740af83e212099a5252eabd435f002c2",
+      "size": 24613
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-horner-10.egg-9d3a3fce9876/horner-10.egg": {
+      "sha256": "d1dd011e05694c178f8cfd6c96f127035689276374d7beb5ebe64259ab57f9aa",
+      "size": 2034
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-egg-horner.rs-bf2d70a14808/horner.rs": {
+      "sha256": "5e5bb0a3862c7c7b20c4fc75f3f3716c3d68b145d73ba123e513b4507a4623f1",
+      "size": 4359
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-ego-horner.ml-bf237f893ebf/horner.ml": {
+      "sha256": "1f95dfacf80f5660d2ba6886462af9577e40ef5de565e0eba9c25ba234f67118",
+      "size": 8979
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-foresight-build.sbt-df07f8caafaa/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-foresight-horner.scala-cc0fbaffe525/horner.scala": {
+      "sha256": "c4a02b0fde567ed0ff753b63ad88aed62801938b18c1f1dd49b30a46f800c221",
+      "size": 6739
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-foresight-project-build.properties-3c0b0e44cf50/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-ggs-horner.lisp-6de7246460a6/horner.lisp": {
+      "sha256": "0d4c1aefa4f6b1a8faf017f7d1590bc96c3ca1037df5d782b79ef459a08db337",
+      "size": 5568
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-hegg-Main.hs-082c5c4e6837/Main.hs": {
+      "sha256": "e1e60a5823da63251217434b2178926597b1ba94d8f369edc4a60972c1065f65",
+      "size": 11049
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-hegg-horner.cabal-dc7e5f03df0d/horner.cabal": {
+      "sha256": "28bfdd53c4b1288872d154aed85fb041951f194ccde5750d1d964e8d259bfdc7",
+      "size": 749
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-metatheory-horner.jl-29659028b207/horner.jl": {
+      "sha256": "c123fb4ffaeb409dde5f987009ca67983ad6d5195e6c04f8525ff67a2a090d01",
+      "size": 8030
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-oatlog-horner-10.egg-bdd7781f1e64/horner-10.egg": {
+      "sha256": "9a9997e76696ded1a552633c4324677f3af902dbc3d2aacb80348accdfbd3a9d",
+      "size": 2026
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-oatlog-horner-5.egg-d6330dd8e36f/horner-5.egg": {
+      "sha256": "dd1613fda479ba5e2920b425eafc1879ff0af5c981686e8e19eca7f8907d3286",
+      "size": 1520
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-oatlog-horner-6.egg-82d79f7723a6/horner-6.egg": {
+      "sha256": "4c7f228fde4bbfddb915d4bc8c5d77ea33b30b1a98b6191912468af500c0ac2d",
+      "size": 1607
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-oatlog-horner-7.egg-947681329375/horner-7.egg": {
+      "sha256": "5d0109103c9ee16b4930a2a290dbcd696b0fe05b7f63fa9576c4ace607291196",
+      "size": 1701
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-oatlog-horner-8.egg-30f6a8e5c50e/horner-8.egg": {
+      "sha256": "3ef51fce271c0dd9153f539292f8fbb6ce022ecbbd68ecdfb0785ffc64e9a2dc",
+      "size": 1802
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-ports-oatlog-horner-9.egg-e577eec83c0b/horner-9.egg": {
+      "sha256": "cb9ae5aaf5abc703c80e16770f0d2582614a542a9484cfaf93199d863ba38e34",
+      "size": 1910
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-10-suite.toml-e9d34faea64b/suite.toml": {
+      "sha256": "33b163dab4268c48b922a0b74b8f154f76774ce68b0d322b068340ad8fc1b580",
+      "size": 363
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-horner-9.egg-3f19e0655a13/horner-9.egg": {
+      "sha256": "8dfcf98874a1a98c997718f808c80b252d3ffc5143ac13977216cbaea0cc5b61",
+      "size": 1918
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-egg-horner.rs-269c563480e3/horner.rs": {
+      "sha256": "5e5bb0a3862c7c7b20c4fc75f3f3716c3d68b145d73ba123e513b4507a4623f1",
+      "size": 4359
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-ego-horner.ml-25c862f76095/horner.ml": {
+      "sha256": "1f95dfacf80f5660d2ba6886462af9577e40ef5de565e0eba9c25ba234f67118",
+      "size": 8979
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-foresight-build.sbt-0c78d5cac8fb/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-foresight-horner.scala-c34ee0493fe1/horner.scala": {
+      "sha256": "c4a02b0fde567ed0ff753b63ad88aed62801938b18c1f1dd49b30a46f800c221",
+      "size": 6739
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-foresight-project-build.properties-0078f74de4b6/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-ggs-horner.lisp-867f1463175f/horner.lisp": {
+      "sha256": "0d4c1aefa4f6b1a8faf017f7d1590bc96c3ca1037df5d782b79ef459a08db337",
+      "size": 5568
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-hegg-Main.hs-57a5509fab79/Main.hs": {
+      "sha256": "e1e60a5823da63251217434b2178926597b1ba94d8f369edc4a60972c1065f65",
+      "size": 11049
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-hegg-horner.cabal-a7588b9c59db/horner.cabal": {
+      "sha256": "28bfdd53c4b1288872d154aed85fb041951f194ccde5750d1d964e8d259bfdc7",
+      "size": 749
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-metatheory-horner.jl-c0329d256814/horner.jl": {
+      "sha256": "c123fb4ffaeb409dde5f987009ca67983ad6d5195e6c04f8525ff67a2a090d01",
+      "size": 8030
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-oatlog-horner-10.egg-9a5aac543479/horner-10.egg": {
+      "sha256": "9a9997e76696ded1a552633c4324677f3af902dbc3d2aacb80348accdfbd3a9d",
+      "size": 2026
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-oatlog-horner-5.egg-4ede9ccb2ce0/horner-5.egg": {
+      "sha256": "dd1613fda479ba5e2920b425eafc1879ff0af5c981686e8e19eca7f8907d3286",
+      "size": 1520
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-oatlog-horner-6.egg-0d712f5fee06/horner-6.egg": {
+      "sha256": "4c7f228fde4bbfddb915d4bc8c5d77ea33b30b1a98b6191912468af500c0ac2d",
+      "size": 1607
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-oatlog-horner-7.egg-7bc39e3b755c/horner-7.egg": {
+      "sha256": "5d0109103c9ee16b4930a2a290dbcd696b0fe05b7f63fa9576c4ace607291196",
+      "size": 1701
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-oatlog-horner-8.egg-3a796ef42434/horner-8.egg": {
+      "sha256": "3ef51fce271c0dd9153f539292f8fbb6ce022ecbbd68ecdfb0785ffc64e9a2dc",
+      "size": 1802
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-ports-oatlog-horner-9.egg-7c916763d8fc/horner-9.egg": {
+      "sha256": "cb9ae5aaf5abc703c80e16770f0d2582614a542a9484cfaf93199d863ba38e34",
+      "size": 1910
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-horner-horner-9-suite.toml-179243d7b937/suite.toml": {
+      "sha256": "33b163dab4268c48b922a0b74b8f154f76774ce68b0d322b068340ad8fc1b580",
+      "size": 363
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-math-microbenchmark-12.egg-ba7a09202ad3/math-microbenchmark-12.egg": {
+      "sha256": "7cd32089576810bedf59159088c0d3577bc59eeebc613ba966d47b66e410d6d9",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-egg-math-microbenchmark--90bee9d33a13/math-microbenchmark-12.rs": {
+      "sha256": "7418fdf76119059974eb0ef1cce067d1e29953e409bd915899782a9ee74fc79d",
+      "size": 199
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-egg-math-microbenchmark.-661b52dfe59a/math-microbenchmark.rs": {
+      "sha256": "43e36f6bf15e381b71647c595e26b7b9da4b92e306460f031e19089a10ee4a3d",
+      "size": 6248
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-ego-math-microbenchmark.-7e5ddd917f7e/math-microbenchmark.ml": {
+      "sha256": "1ebed27743fd243fdf0cdc9de14af85cdeb91896e2a47615000a7374dae578a3",
+      "size": 14603
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-foresight-build.sbt-2aaff764433c/build.sbt": {
+      "sha256": "964d1b72dea4e5f0fb9df3678580206c2d3418bcc27c5fe38e2761b8135d0bfc",
+      "size": 689
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-foresight-math-microbenc-83c81d683d00/math-microbenchmark.scala": {
+      "sha256": "b5b9b56fff6e7f5a55936c364da5fa7783ad846cf263bdac2942c285e4c3489b",
+      "size": 9218
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-foresight-project-build.-fc0055a9f3c3/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-ggs-math-microbenchmark--65f33a38d552/math-microbenchmark-12.lisp": {
+      "sha256": "8b87dc53255e8f8dfdb550bcce557ca31c89186def79050a299bb8934ca67de3",
+      "size": 555
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-ggs-math-microbenchmark.-ad55d211d800/math-microbenchmark.lisp": {
+      "sha256": "ad9c4392d0b2abeff7154415f88f3df9d6ce182cc7a4e88be2a606b7854e9a9f",
+      "size": 5153
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-hegg-Main.hs-93e4e3734a99/Main.hs": {
+      "sha256": "3a81f5e5cea604d10c3851b7bc85016eea512e2876470f19443949fabc87540f",
+      "size": 11924
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-hegg-math-microbenchmark-d3394bdbf9ef/math-microbenchmark.cabal": {
+      "sha256": "d961ff95272881fb1749dfdb1f98fb8b09e57abf87f46c35a4ecfc8055df5194",
+      "size": 772
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-metatheory-math-microben-776daf540950/math-microbenchmark.jl": {
+      "sha256": "a6d674df1e77cf7586f76221c690552109c1f24020d8ded7cbac597e92826e4f",
+      "size": 7653
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-oatlog-math-microbenchma-a6600149e420/math-microbenchmark-12.egg": {
+      "sha256": "7cd32089576810bedf59159088c0d3577bc59eeebc613ba966d47b66e410d6d9",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-ports-oatlog-math-microbenchma-f01d59e741d5/math-microbenchmark.egg": {
+      "sha256": "50da1ccf7d03eee033c6b9d012ae7baf406d8cf2ce9f7a573161c26790901d1d",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-12-suite.toml-6fa487c52b4a/suite.toml": {
+      "sha256": "e019355d5db321a3f8fae9e3013bab66e6a711dff8c1a7284ddd6832a8bb7fab",
+      "size": 423
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-math-microbenchmark.egg-8026433323e1/math-microbenchmark.egg": {
+      "sha256": "50da1ccf7d03eee033c6b9d012ae7baf406d8cf2ce9f7a573161c26790901d1d",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-egg-math-microbenchmark-12.-4f9d758f8898/math-microbenchmark-12.rs": {
+      "sha256": "7418fdf76119059974eb0ef1cce067d1e29953e409bd915899782a9ee74fc79d",
+      "size": 199
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-egg-math-microbenchmark.rs-e62df7d287b7/math-microbenchmark.rs": {
+      "sha256": "43e36f6bf15e381b71647c595e26b7b9da4b92e306460f031e19089a10ee4a3d",
+      "size": 6248
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-ego-math-microbenchmark.ml-b95df0c95006/math-microbenchmark.ml": {
+      "sha256": "1ebed27743fd243fdf0cdc9de14af85cdeb91896e2a47615000a7374dae578a3",
+      "size": 14603
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-build.sbt-9a86fa013c24/build.sbt": {
+      "sha256": "964d1b72dea4e5f0fb9df3678580206c2d3418bcc27c5fe38e2761b8135d0bfc",
+      "size": 689
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-math-microbenchma-cd88a0e147df/math-microbenchmark.scala": {
+      "sha256": "b5b9b56fff6e7f5a55936c364da5fa7783ad846cf263bdac2942c285e4c3489b",
+      "size": 9218
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-project-build.pro-1c4e579a943a/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-ggs-math-microbenchmark-12.-123c944ed4d6/math-microbenchmark-12.lisp": {
+      "sha256": "8b87dc53255e8f8dfdb550bcce557ca31c89186def79050a299bb8934ca67de3",
+      "size": 555
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-ggs-math-microbenchmark.lis-7f5d9f1f854d/math-microbenchmark.lisp": {
+      "sha256": "ad9c4392d0b2abeff7154415f88f3df9d6ce182cc7a4e88be2a606b7854e9a9f",
+      "size": 5153
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-hegg-Main.hs-7ba3ef757759/Main.hs": {
+      "sha256": "3a81f5e5cea604d10c3851b7bc85016eea512e2876470f19443949fabc87540f",
+      "size": 11924
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-hegg-math-microbenchmark.ca-f26e52d46ae8/math-microbenchmark.cabal": {
+      "sha256": "d961ff95272881fb1749dfdb1f98fb8b09e57abf87f46c35a4ecfc8055df5194",
+      "size": 772
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-metatheory-math-microbenchm-2d056a3d1234/math-microbenchmark.jl": {
+      "sha256": "a6d674df1e77cf7586f76221c690552109c1f24020d8ded7cbac597e92826e4f",
+      "size": 7653
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-oatlog-math-microbenchmark--c678fca6650b/math-microbenchmark-12.egg": {
+      "sha256": "7cd32089576810bedf59159088c0d3577bc59eeebc613ba966d47b66e410d6d9",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-ports-oatlog-math-microbenchmark.-e96a205ccbcc/math-microbenchmark.egg": {
+      "sha256": "50da1ccf7d03eee033c6b9d012ae7baf406d8cf2ce9f7a573161c26790901d1d",
+      "size": 2215
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-math-microbenchmark-math-microbenchmark-suite.toml-f4626732a6cd/suite.toml": {
+      "sha256": "e019355d5db321a3f8fae9e3013bab66e6a711dff8c1a7284ddd6832a8bb7fab",
+      "size": 423
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-matmul-assoc-320.egg-23c770b79d62/matmul-assoc-320.egg": {
+      "sha256": "54ffe8d44b466c81a222308a6ae81c8a6866bb97b5729dd7b1d72418b01c2d89",
+      "size": 6161
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-egg-matmul-assoc.rs-6bd7073a4f74/matmul-assoc.rs": {
+      "sha256": "4bed547df6d17cc0d8ccd0149a5b7e4282391894412b0656597995c59a3e34b6",
+      "size": 2770
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-ego-matmul-assoc.ml-a05cf31318e8/matmul-assoc.ml": {
+      "sha256": "69aca70c8b7819a9bd74434831a398c15ef3755b9ca256e669aa9379d21bdba5",
+      "size": 6328
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-build.sbt-0e7f16f8282a/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-matmul-assoc.scala-a2d829894ac8/matmul-assoc.scala": {
+      "sha256": "2b2319198e88a24febd984f2fdead0d3882ca6c6611043ae162f033a96ea23bc",
+      "size": 6216
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-project-build.properties-70414daa76b7/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-ggs-matmul-assoc.lisp-667a42442963/matmul-assoc.lisp": {
+      "sha256": "1f5ff3d920e249a967688ea743c669429fd4045d5619887c7ac83ef29778b8ae",
+      "size": 4195
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-hegg-Main.hs-f9cc5ab07d06/Main.hs": {
+      "sha256": "5acde896440c1808668848a484c1fc031fdbace73f9910abada8a3e294edb592",
+      "size": 9753
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-hegg-matmul-assoc.cabal-d85f7eecbeb9/matmul-assoc.cabal": {
+      "sha256": "96c010ea65f37f82461f4d830664be46df87d01b2195ae8a662156ff7993a1f1",
+      "size": 773
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-metatheory-matmul-assoc.jl-4aa9aab227a1/matmul-assoc.jl": {
+      "sha256": "b237d8d3a83835c811f92f1aeb7c5bb8789b005b48d37d9ae3ec2271a443d803",
+      "size": 6831
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-160.egg-aa7026a81311/matmul-assoc-160.egg": {
+      "sha256": "73e387a4aac633a78580347718685d1aa4a4f2aadc85ac272b75864d9ce03152",
+      "size": 3273
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-20.egg-f8dc7f3404e0/matmul-assoc-20.egg": {
+      "sha256": "87ddc0c56e67014c46c8cdb6976a8c7556a084e53c572b004b8beffe687e7d23",
+      "size": 752
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-320.egg-cf37c99b663a/matmul-assoc-320.egg": {
+      "sha256": "1cb6bf3b7b056eec23ffe6f20ef801238bed3c3a114dcfa36aec38f98b3600cd",
+      "size": 6153
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-40.egg-fa81124cee78/matmul-assoc-40.egg": {
+      "sha256": "9d69196b92850138717c7c90ee63f83e98cd3bc7e721f33c3674d423f9e244d0",
+      "size": 1112
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-480.egg-b886d40b4d2e/matmul-assoc-480.egg": {
+      "sha256": "7758cf3bd76cd22ffba540873e7fdf5aa093fa8b7f3e309cde27368e49dadc45",
+      "size": 9033
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-640.egg-de2742d23dc7/matmul-assoc-640.egg": {
+      "sha256": "d1e1f89f23651ee3fc1cb687399bb84dabd57a70c1d39c803eb45b60bff9e91c",
+      "size": 11913
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-ports-oatlog-matmul-assoc-80.egg-f7e1a9cc8527/matmul-assoc-80.egg": {
+      "sha256": "385b252cb61ea57efcb1b76528d1ef3fdeafb1dbecad155780dc3d40999d78d5",
+      "size": 1832
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-320-suite.toml-9634b4cf1e91/suite.toml": {
+      "sha256": "3db3bad313102a15a3d30d4d2754a86bd441710cbc0ac59e4ac1854f8aeb76ab",
+      "size": 177
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-matmul-assoc-480.egg-67b9ef48e892/matmul-assoc-480.egg": {
+      "sha256": "9194ebc675c8662d1275be210af8425287229569d9c51624396b0bdc94ebd80a",
+      "size": 9041
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-egg-matmul-assoc.rs-734bf1473835/matmul-assoc.rs": {
+      "sha256": "4bed547df6d17cc0d8ccd0149a5b7e4282391894412b0656597995c59a3e34b6",
+      "size": 2770
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-ego-matmul-assoc.ml-37eca9af7564/matmul-assoc.ml": {
+      "sha256": "69aca70c8b7819a9bd74434831a398c15ef3755b9ca256e669aa9379d21bdba5",
+      "size": 6328
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-foresight-build.sbt-0f61744bc2d9/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-foresight-matmul-assoc.scala-217bd4a0161e/matmul-assoc.scala": {
+      "sha256": "2b2319198e88a24febd984f2fdead0d3882ca6c6611043ae162f033a96ea23bc",
+      "size": 6216
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-foresight-project-build.properties-a7b94a67486f/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-ggs-matmul-assoc.lisp-c3869a427c60/matmul-assoc.lisp": {
+      "sha256": "1f5ff3d920e249a967688ea743c669429fd4045d5619887c7ac83ef29778b8ae",
+      "size": 4195
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-hegg-Main.hs-d8301ae70fd9/Main.hs": {
+      "sha256": "5acde896440c1808668848a484c1fc031fdbace73f9910abada8a3e294edb592",
+      "size": 9753
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-hegg-matmul-assoc.cabal-7396f524d8b1/matmul-assoc.cabal": {
+      "sha256": "96c010ea65f37f82461f4d830664be46df87d01b2195ae8a662156ff7993a1f1",
+      "size": 773
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-metatheory-matmul-assoc.jl-68c5e366bb73/matmul-assoc.jl": {
+      "sha256": "b237d8d3a83835c811f92f1aeb7c5bb8789b005b48d37d9ae3ec2271a443d803",
+      "size": 6831
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-160.egg-f4539c31ad7f/matmul-assoc-160.egg": {
+      "sha256": "73e387a4aac633a78580347718685d1aa4a4f2aadc85ac272b75864d9ce03152",
+      "size": 3273
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-20.egg-0d1faa501dcf/matmul-assoc-20.egg": {
+      "sha256": "87ddc0c56e67014c46c8cdb6976a8c7556a084e53c572b004b8beffe687e7d23",
+      "size": 752
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-320.egg-de9c353d3edf/matmul-assoc-320.egg": {
+      "sha256": "1cb6bf3b7b056eec23ffe6f20ef801238bed3c3a114dcfa36aec38f98b3600cd",
+      "size": 6153
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-40.egg-e65fed08ea03/matmul-assoc-40.egg": {
+      "sha256": "9d69196b92850138717c7c90ee63f83e98cd3bc7e721f33c3674d423f9e244d0",
+      "size": 1112
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-480.egg-d4850bfaaf6e/matmul-assoc-480.egg": {
+      "sha256": "7758cf3bd76cd22ffba540873e7fdf5aa093fa8b7f3e309cde27368e49dadc45",
+      "size": 9033
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-640.egg-6a86f3dfa5e0/matmul-assoc-640.egg": {
+      "sha256": "d1e1f89f23651ee3fc1cb687399bb84dabd57a70c1d39c803eb45b60bff9e91c",
+      "size": 11913
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-ports-oatlog-matmul-assoc-80.egg-627197d35747/matmul-assoc-80.egg": {
+      "sha256": "385b252cb61ea57efcb1b76528d1ef3fdeafb1dbecad155780dc3d40999d78d5",
+      "size": 1832
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-480-suite.toml-1e7b7b1719d6/suite.toml": {
+      "sha256": "3db3bad313102a15a3d30d4d2754a86bd441710cbc0ac59e4ac1854f8aeb76ab",
+      "size": 177
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-matmul-assoc-640.egg-cc555eb5f49b/matmul-assoc-640.egg": {
+      "sha256": "e13a4b15051e2743a9878d09ba72c5d1b9ee276201528a8740bdcf8c6ce8cc3c",
+      "size": 11921
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-egg-matmul-assoc.rs-43b26fa75cce/matmul-assoc.rs": {
+      "sha256": "4bed547df6d17cc0d8ccd0149a5b7e4282391894412b0656597995c59a3e34b6",
+      "size": 2770
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-ego-matmul-assoc.ml-d93eba0946cb/matmul-assoc.ml": {
+      "sha256": "69aca70c8b7819a9bd74434831a398c15ef3755b9ca256e669aa9379d21bdba5",
+      "size": 6328
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-foresight-build.sbt-4c7904a0aa37/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-foresight-matmul-assoc.scala-f468d5a07b3f/matmul-assoc.scala": {
+      "sha256": "2b2319198e88a24febd984f2fdead0d3882ca6c6611043ae162f033a96ea23bc",
+      "size": 6216
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-foresight-project-build.properties-922c54cde3e3/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-ggs-matmul-assoc.lisp-eb3d853f5c2e/matmul-assoc.lisp": {
+      "sha256": "1f5ff3d920e249a967688ea743c669429fd4045d5619887c7ac83ef29778b8ae",
+      "size": 4195
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-hegg-Main.hs-8cbca10b5644/Main.hs": {
+      "sha256": "5acde896440c1808668848a484c1fc031fdbace73f9910abada8a3e294edb592",
+      "size": 9753
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-hegg-matmul-assoc.cabal-386c9ddb71dc/matmul-assoc.cabal": {
+      "sha256": "96c010ea65f37f82461f4d830664be46df87d01b2195ae8a662156ff7993a1f1",
+      "size": 773
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-metatheory-matmul-assoc.jl-e2f8c880b23c/matmul-assoc.jl": {
+      "sha256": "b237d8d3a83835c811f92f1aeb7c5bb8789b005b48d37d9ae3ec2271a443d803",
+      "size": 6831
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-160.egg-d2fe93add61e/matmul-assoc-160.egg": {
+      "sha256": "73e387a4aac633a78580347718685d1aa4a4f2aadc85ac272b75864d9ce03152",
+      "size": 3273
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-20.egg-9e1f09e623da/matmul-assoc-20.egg": {
+      "sha256": "87ddc0c56e67014c46c8cdb6976a8c7556a084e53c572b004b8beffe687e7d23",
+      "size": 752
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-320.egg-5921629953aa/matmul-assoc-320.egg": {
+      "sha256": "1cb6bf3b7b056eec23ffe6f20ef801238bed3c3a114dcfa36aec38f98b3600cd",
+      "size": 6153
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-40.egg-37ca8f698b0d/matmul-assoc-40.egg": {
+      "sha256": "9d69196b92850138717c7c90ee63f83e98cd3bc7e721f33c3674d423f9e244d0",
+      "size": 1112
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-480.egg-fc97eea2b174/matmul-assoc-480.egg": {
+      "sha256": "7758cf3bd76cd22ffba540873e7fdf5aa093fa8b7f3e309cde27368e49dadc45",
+      "size": 9033
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-640.egg-f81ccb4695df/matmul-assoc-640.egg": {
+      "sha256": "d1e1f89f23651ee3fc1cb687399bb84dabd57a70c1d39c803eb45b60bff9e91c",
+      "size": 11913
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-ports-oatlog-matmul-assoc-80.egg-fdd54effeaf8/matmul-assoc-80.egg": {
+      "sha256": "385b252cb61ea57efcb1b76528d1ef3fdeafb1dbecad155780dc3d40999d78d5",
+      "size": 1832
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/inputs-matmul-assoc-matmul-assoc-640-suite.toml-7f9b29ebc75e/suite.toml": {
+      "sha256": "3db3bad313102a15a3d30d4d2754a86bd441710cbc0ac59e4ac1854f8aeb76ab",
+      "size": 177
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/untracked-experiments-ablation-storel.toml-f6aef3208f3a/ablation-storel.toml": {
+      "sha256": "529cbd33ce44443146e7d486ec8d0177eb1b76d34f74e6454a24c7142ef07ab7",
+      "size": 1016
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/untracked-experiments-scaling-real-world.toml-aa7843240462/scaling-real-world.toml": {
+      "sha256": "95b0cb6028734a9981fd0619b1b5ddb39606c298a830df6ec9edfeac45fc4a33",
+      "size": 386
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/untracked-experiments-scaling-storel.toml-c04651091454/scaling-storel.toml": {
+      "sha256": "8ecb7c4df5900c4b37f95622d178b19eb61bf077dde2b8a266e59f5bf70fa616",
+      "size": 482
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/untracked-experiments-storel-schedule.toml-96d5967667bb/storel-schedule.toml": {
+      "sha256": "640ff6619452026e6da9b28091b7d64ba7811eb7872a47ebc9b29dd98641e1c0",
+      "size": 1130
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/untracked-tests-test_container_ports.py-c2dfa43537bc/test_container_ports.py": {
+      "sha256": "b404a874bb750105a49272d4f86b2e8db9951706cc8c4b43dc5cca3163e47b44",
+      "size": 2540
+    },
+    "runs/20261025T184003536198Z-8d4c1390fe96-paper-final/sources/working-tree.patch": {
+      "sha256": "181646322be1aa779b8ca79184dbee0cca0e4ae64a6a404c0b9d0f49a0822236",
+      "size": 64366
+    }
+  },
+  "config": {
+    "baseline": "egglog-cracked",
+    "benchmark_timing": {
+      "horner/horner-10": "process",
+      "horner/horner-9": "process",
+      "math-microbenchmark/math-microbenchmark": "process",
+      "math-microbenchmark/math-microbenchmark-12": "process",
+      "matmul-assoc/matmul-assoc-320": "process",
+      "matmul-assoc/matmul-assoc-480": "process",
+      "matmul-assoc/matmul-assoc-640": "process"
+    },
+    "benchmarks": [
+      "horner/horner-10",
+      "horner/horner-9",
+      "math-microbenchmark/math-microbenchmark",
+      "math-microbenchmark/math-microbenchmark-12",
+      "matmul-assoc/matmul-assoc-320",
+      "matmul-assoc/matmul-assoc-480",
+      "matmul-assoc/matmul-assoc-640"
+    ],
+    "cpus": "0-7,32-39",
+    "description": "Paper rerun: engines; egglog-cracked always uses --no-decomp.",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "variants",
+    "reps": 5,
+    "speedup_labels": {},
+    "threads": [
+      1,
+      4,
+      8,
+      16
+    ],
+    "timeout": 600,
+    "variants": [
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "egglog-cracked",
+        "patches": [],
+        "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "egglog-cracked-t4",
+        "patches": [],
+        "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "system": "egglog",
+        "threads": [
+          4
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "egglog-cracked-t8",
+        "patches": [],
+        "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "system": "egglog",
+        "threads": [
+          8
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "egglog-cracked-t16",
+        "patches": [],
+        "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "system": "egglog",
+        "threads": [
+          16
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egglog-prior",
+        "patches": [],
+        "ref": "v0.5.0",
+        "system": "egglog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "egg",
+        "patches": [],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "oatlog",
+        "patches": [],
+        "ref": "6b73396",
+        "system": "oatlog",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "hegg",
+        "patches": [],
+        "ref": "v0.5.0.0",
+        "system": "hegg",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "metatheory",
+        "patches": [],
+        "ref": "v2.0.2",
+        "system": "metatheory",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "ggs",
+        "patches": [],
+        "ref": "2ad0981083bff2443fd0aaee407f5d2c4419abc3",
+        "system": "ggs",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "ego",
+        "patches": [],
+        "ref": "e87dae7a",
+        "system": "ego",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight-t4",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          4
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight-t8",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          8
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight-t16",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          16
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "horner-10",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "horner-9",
+      "suite": "horner",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "math-microbenchmark-12",
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "matmul-assoc-480",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "oatlog"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "egglog-cracked-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "egglog-cracked-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "egglog-cracked-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "egglog-prior"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ego"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "variant": "foresight-t16"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "variant": "foresight-t4"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "variant": "foresight-t8"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "ggs"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "hegg"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "metatheory"
+    },
+    {
+      "benchmark": "matmul-assoc-640",
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "variant": "oatlog"
+    }
+  ],
+  "created_at": "2026-10-26T01:05:38.050479+00:00",
+  "experiment": "engines",
+  "kind": "matrix",
+  "metric": "wall_s",
+  "name": "paper-cracked-20261025",
+  "provenance": "captured",
+  "run_ids": [
+    "20261025T184003536198Z-8d4c1390fe96-paper-final"
+  ],
+  "schema_version": 1
+}

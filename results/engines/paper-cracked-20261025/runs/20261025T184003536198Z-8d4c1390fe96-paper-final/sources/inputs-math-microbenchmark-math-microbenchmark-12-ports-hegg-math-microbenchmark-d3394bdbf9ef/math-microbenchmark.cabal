@@ -1,0 +1,17 @@
+cabal-version:      2.4
+name:               math-microbenchmark
+version:            0.1.0.0
+synopsis:           hegg port of benchmarks/math-microbenchmark/math-microbenchmark.egg
+build-type:         Simple
+
+-- Built inside the hegg image (systems/hegg/Containerfile) against the hegg checkout
+-- that `bench build hegg <ref>` pins; hegg is a local package in the same cabal project.
+executable math-microbenchmark
+    main-is:          Main.hs
+    build-depends:    base         >= 4.13 && < 5,
+                      containers,
+                      transformers,
+                      hegg
+    default-language: Haskell2010
+    -- -A32m: the nursery size hegg's own benchmark suite (hegg-bench) runs with.
+    ghc-options:      -O2 -Wall -rtsopts "-with-rtsopts=-A32m"

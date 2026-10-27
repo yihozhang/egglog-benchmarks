@@ -10,6 +10,7 @@ exactly systems/egglog/run, which this script execs with the port in place of th
 """
 
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -23,6 +24,23 @@ def main() -> int:
     if not port.is_file():
         print(f"no egglog-storel-backoff port for {program.parent.name}/{program.stem}", file=sys.stderr)
         return UNSUPPORTED
+    batch = int(os.environ.get("BENCH_STOREL_REWRITE_BATCH", "1"))
+    if batch not in (1, 2, 4, 8):
+        raise ValueError("BENCH_STOREL_REWRITE_BATCH must be 1, 2, 4, or 8")
+    if batch > 1:
+        # Keep phase order, rules, backoff state and node target fixed. Refresh aux
+        # after K executions of each rewrite phase instead of after every execution.
+        prefix, marker, schedule = port.read_text().partition(";; BENCHMARK_NODE_LIMIT")
+        if not marker:
+            raise ValueError("STOREL schedule experiment requires a node-limit marker")
+        schedule, count = re.subn(r"\(run-with bo (phase[12])\)",
+                                 lambda m: f"(repeat {batch} {m.group(0)})", schedule)
+        if count != 2:
+            raise ValueError("expected one phase1 and one phase2 in the original schedule")
+        generated = Path(out_dir) / "storel-schedule.egg"
+        generated.parent.mkdir(parents=True, exist_ok=True)
+        generated.write_text(prefix + marker + schedule)
+        port = generated
     run = Path(__file__).resolve().parent.parent / "egglog" / "run"
     os.execv(str(run), [str(run), build_dir, str(port), fact_dir, threads, out_dir, *flags])
 

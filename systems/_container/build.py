@@ -47,7 +47,7 @@ def main() -> int:
             r = sh("git", "-C", str(repo), "rev-parse", "--verify", f"{ref}^{{commit}}", capture_output=True)
     sha = r.stdout.strip()
     out = root / "build" / name / sha[:12]
-    image = f"egglog-bench/{name}:{sha[:12]}"
+    image = f"egglog-paper-cracked/{name}:{sha[:12]}"
 
     # stage the build context: system files + this system's ports
     ctx = out / "context"

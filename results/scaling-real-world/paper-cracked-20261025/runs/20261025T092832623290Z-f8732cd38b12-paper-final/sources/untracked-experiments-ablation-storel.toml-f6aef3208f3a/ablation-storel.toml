@@ -1,0 +1,23 @@
+description = "Paper rerun: ablation-storel; egglog-cracked always uses --no-decomp."
+benchmarks = ["storel/mmm-sum-2nd", "storel/mmm-2nd", "storel/batax-1st", "storel/mttkrp-2nd", "storel/ttm-2nd", "storel/batax-2nd"]
+threads = [1]
+reps = 3
+timeout = 900
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "bars"
+baseline = "no-DVO"
+
+[[variants]]
+label = "no-DVO"
+system = "egglog-storel-backoff"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp", "--no-dynamic-order"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog-storel-backoff"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]

@@ -1,0 +1,29 @@
+# Image for the hegg baseline (systems/_container/README.md). Build context:
+#   system/            this directory (entry.sh, ...)
+#   ports/<suite>/     benchmarks/<suite>/hegg/ : one cabal package (<name>.cabal + Main.hs) per port
+# hegg v0.5.0.0 needs containers < 0.7, so GHC 9.6 (containers 0.6.7); 9.10 ships 0.7.
+FROM docker.io/haskell:9.6.7-slim
+ARG REF
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
+WORKDIR /bench
+# hegg itself, as a local cabal package at exactly REF (a commit hash resolved by build.py).
+RUN git clone -q https://github.com/alt-romes/hegg hegg \
+ && git -C hegg checkout -q "$REF" \
+ && cabal update -v0
+# Build the library first so that this layer is cached when only the ports change.
+RUN printf 'packages: hegg/\n' > cabal.project \
+ && cabal build -v0 hegg
+COPY system/ /bench/
+COPY ports/ /bench/ports/
+# Every port is a cabal package exposing one executable named like its .cabal file;
+# the built binaries are collected under /bench/bin/<suite>/<name> for entry.sh.
+RUN printf 'packages: hegg/\n          ports/*/*.cabal\n' > cabal.project \
+ && cabal build -v0 all \
+ && for c in ports/*/*.cabal; do \
+      suite=$(basename "$(dirname "$c")"); name=$(basename "$c" .cabal); \
+      mkdir -p "bin/$suite" && cp "$(cabal list-bin "exe:$name")" "bin/$suite/$name"; \
+    done \
+ && chmod +x /bench/entry.sh
+ENTRYPOINT ["/bench/entry.sh"]

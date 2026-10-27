@@ -1,0 +1,19 @@
+{
+  "origin_main": "43cc88e5abed0567afa75180e27e0805b62e89ff",
+  "prs": {
+    "1072": "b58b512e62a3fe855d9dbb13994cbfc700da41b0",
+    "1056": "174bcc9f034ac7c7379441af0236297601f7198d",
+    "1074": "4ca4e086ceecf771911469826415e99322c9cab5",
+    "1075": "9a4c3bd8b13000be3ba4de721fa4035a5f069c3b"
+  },
+  "merged_commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+  "merge_order": [
+    1072,
+    1056,
+    1074,
+    1075
+  ],
+  "no_decomp": true,
+  "remote_writes": false,
+  "worktree": "/home/yz489/egglog-benchmarks/.worktrees/paper-cracked-20261025"
+}

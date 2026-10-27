@@ -9,12 +9,16 @@ Each rule becomes one query: in egglog a :naive ruleset with the rule, its RHS r
 INSERT INTO a temp table SELECT DISTINCT over tables with the functional dependency as PRIMARY KEY.
 egglog: execute = search+apply+merge of that ruleset from RunReport (rebuild excluded);
   optimize = the rest of the driver's wall time for the test (parse, typecheck, rule compilation).
-  Each query runs also with no-decomp (egraph.no_decomp set after the program ran).
+  The paper configuration uses only --no-decomp, set before program setup for
+  both snapshot export and query execution.
 DuckDB 1.5.6: optimize = planner + optimizers + physical planner from its profiler; execute =
   profiler latency - optimize (latency matches our wall clock within 0.1-0.6 ms). Prepared
   statements re-plan on EXECUTE, so ad-hoc INSERT is timed.
 Umbra (umbradb/umbra:latest, container): optimize = PREPARE (planning + code generation),
   execute = EXECUTE (Umbra logs 0.03 ms compilation, i.e. no re-planning); our wall clock.
+  PREPARE is timed once; EXECUTE and the ad-hoc reference use one warmup then
+  the median of --reps runs. Egglog uses one pass and DuckDB uses one warmup
+  then --reps profiled runs.
   About 16 distinct rules crash the server (reduced repro in umbra-repro/); crashes are recorded
   as status "crash" and the tables reloaded.
 Rows of every query are compared across engines by `bench check`.

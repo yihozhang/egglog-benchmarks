@@ -1,35 +1,15 @@
-description = "Query-parallelism ablation: vanilla, inter-query only, and inter-query plus top-level partitioning; other parallelism stays enabled."
-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+description = "Paper rerun: ablation-parallelism; egglog-cracked always uses --no-decomp."
+benchmarks = ["hardboiled", "luminal", "eggcc"]
 threads = [1, 2, 4, 8]
-cpus = "0-7"       # eight distinct physical cores on NUMA node 0
 reps = 3
 timeout = 600
 memory_gb = 32
+cpus = "0-7,32-39"
 plot = "scaling"
-baseline = "egglog"
-
-# Same revision and query-only toggle as the 2026-10-19 Gemma pilot.
-# All competitors share one binary. The patch only gates top-level query partitions;
-# fork depth already has an upstream environment control. Explicit defaults keep
-# these two settings independent of the launching shell's environment.
-# The normal inter-query threshold and all non-query parallelism remain unchanged.
-[[variants]]
-label = "egglog"
-system = "egglog"
-ref = "4b5686bed78cf7cf153aebf8e6a2abed1840afee"
-patches = ["query-parallelism"]
-env = { EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH = "2", EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION = "1" }
+baseline = "egglog-cracked"
 
 [[variants]]
-label = "inter-query-only"
+label = "egglog-cracked"
 system = "egglog"
-ref = "4b5686bed78cf7cf153aebf8e6a2abed1840afee"
-patches = ["query-parallelism"]
-env = { EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH = "0", EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION = "0" }
-
-[[variants]]
-label = "inter-query-top-level"
-system = "egglog"
-ref = "4b5686bed78cf7cf153aebf8e6a2abed1840afee"
-patches = ["query-parallelism"]
-env = { EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH = "0", EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION = "1" }
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]

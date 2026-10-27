@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""Run one benchmark with an egg port.
+
+Usage: run <build-dir> <program.egg> <fact-dir|-> <threads> <out-dir> [flags...]
+
+The port binary build/egg/<commit>/ports/target/release/<suite>--<name> must exist
+(exit 3 otherwise); egg is single-threaded. Flags are passed to the port binary (the storel
+port takes --scheduler backoff|simple; the others take none). The port prints the
+e-graph size per constructor in egglog's (print-size) format and writes run time and
+phase times to a JSON report; this script adds wall time and sizes to it.
+"""
+
+import json
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+UNSUPPORTED = 3
+SIZE = re.compile(r"^\s*\(?\((\S+) (\d+)\)\)?\s*$", re.M)
+
+
+def main() -> int:
+    build_dir, program, fact_dir, threads, out_dir, *flags = sys.argv[1:]
+    build_dir, program, out_dir = Path(build_dir), Path(program), Path(out_dir)
+    info = json.loads((build_dir / "build.json").read_text())
+    out_dir.mkdir(parents=True, exist_ok=True)
+    suite = program.parent.name
+    bindir = build_dir / "ports/target/release"
+    binary, extra = bindir / f"{suite}--{program.stem}", []
+    if not binary.exists():
+        # benchmark `base-<N>` may be served by the port `base` with --instance N
+        m = re.fullmatch(r"(.+)-(\d+)", program.stem)
+        if m and (bindir / f"{suite}--{m.group(1)}").exists():
+            binary, extra = bindir / f"{suite}--{m.group(1)}", ["--instance", m.group(2)]
+        else:
+            print(f"no egg port for {suite}/{program.stem}", file=sys.stderr)
+            return UNSUPPORTED
+    if int(threads) != 1 or fact_dir != "-":
+        print("egg port supports only one thread and no fact directory", file=sys.stderr)
+        return UNSUPPORTED
+
+    report_path = out_dir / "port-report.json"
+    cmd = [str(binary), *extra, *flags, "--report", str(report_path)]
+    (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
+    t0 = time.perf_counter()
+    with open(out_dir / "stdout", "w") as so, open(out_dir / "stderr", "w") as se:
+        rc = subprocess.call(cmd, stdout=so, stderr=se, cwd=program.parent)
+    wall = time.perf_counter() - t0
+
+    report = {"wall_s": wall, "commit": info["commit"]}
+    if report_path.exists():
+        report.update(json.loads(report_path.read_text()))
+    stdout = (out_dir / "stdout").read_text(errors="replace")
+    report["sizes"] = {name: int(n) for name, n in SIZE.findall(stdout)}
+    if rc < 0:
+        report["signal"] = -rc
+    if rc == -9 or "memory allocation of" in (out_dir / "stderr").read_text(errors="replace"):
+        report["status_hint"] = "oom"
+    (out_dir / "report.json").write_text(json.dumps(report, indent=1))
+    return rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())

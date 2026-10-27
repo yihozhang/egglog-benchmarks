@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Build egg at a git ref together with every port under benchmarks/*/egg/*.rs.
+# Usage: build <ref>      (prints the build directory build/egg/<commit>)
+set -euo pipefail
+ref=${1:?usage: build <ref>}
+here=$(dirname "$(readlink -f "$0")")
+root=$(readlink -f "$here/../..")
+repo=$root/build/egg/repo
+url=https://github.com/egraphs-good/egg
+
+if [ ! -d "$repo/.git" ]; then
+  mkdir -p "$root/build/egg"
+  git clone -q "$url" "$repo" >&2
+fi
+sha=$(git -C "$repo" rev-parse --verify --quiet "$ref^{commit}" || true)
+if [ -z "$sha" ]; then
+  git -C "$repo" fetch -q origin "+refs/heads/*:refs/remotes/origin/*" "+refs/tags/*:refs/tags/*" >&2
+  sha=$(git -C "$repo" rev-parse --verify "$ref^{commit}")
+fi
+out=$root/build/egg/${sha:0:12}
+mkdir -p "$out"
+if [ ! -f "$out/src/Cargo.toml" ]; then
+  rm -rf "$out/src"
+  git -C "$repo" worktree prune
+  git -C "$repo" worktree add -q --detach "$out/src" "$sha" >&2
+fi
+
+# One cargo package holding all ports as binaries, depending on this egg checkout.
+mkdir -p "$out/ports"
+{
+  cat <<TOML
+[package]
+name = "egg-ports"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+egg = { path = "../src" }
+ordered-float = "3"
+
+[profile.release]
+debug = false
+TOML
+  for port in "$root"/benchmarks/*/egg/*.rs; do
+    [ -f "$port" ] || continue
+    suite=$(basename "$(dirname "$(dirname "$port")")")
+    name=$(basename "$port" .rs)
+    printf '\n[[bin]]\nname = "%s--%s"\npath = "%s"\n' "$suite" "$name" "$port"
+  done
+} > "$out/ports/Cargo.toml"
+echo "building egg@$ref ($sha) ports in $out/ports" >&2
+(cd "$out/ports" && cargo build --release -q) >&2
+
+python3 - "$out/build.json" "$ref" "$sha" <<'PY'
+import json, sys, pathlib
+path, ref, sha = sys.argv[1:]
+bins = sorted(p.name for p in (pathlib.Path(path).parent / "ports/target/release").iterdir()
+              if p.is_file() and "--" in p.name and not p.suffix)
+json.dump({"system": "egg", "ref": ref, "commit": sha, "ports": bins, "threads": False},
+          open(path, "w"), indent=1)
+PY
+echo "$out"

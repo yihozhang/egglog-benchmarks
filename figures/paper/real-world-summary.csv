@@ -1,0 +1,5 @@
+suite,geomean_speedup,completed_pairs,total_pairs,excluded_pairs,pairs_with_table_size_differences
+hardboiled,4.911684878409183,42,42,0,0
+luminal,75.23182897088196,7,7,0,0
+eggcc,3.3268889397777515,32,32,0,32
+storel,3.806020548157311,6,6,0,6

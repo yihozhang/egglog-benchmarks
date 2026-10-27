@@ -1,3 +1,26 @@
+# Current paper experiments: egglog-cracked
+
+The isolated 2026-10-25 rerun uses `egglog-cracked` for the local merge of
+origin/main plus PRs 1072, 1056, 1074, and 1075, and `egglog-prior` for v0.5.0.
+Every cracked run disables tree decomposition. See
+[the paper run guide](results/paper/README.md) for the exact pins, two no-DVO
+baselines, workload sizes, STOREL schedule design, and reproduction commands.
+
+- Live checkpoint: [results/paper/progress.json](results/paper/progress.json)
+- Results and interpretation: [results/paper/RESULTS.md](results/paper/RESULTS.md)
+- Final selections: `results/<experiment>/paper-cracked-20261025/`
+- Figures and CSVs: `figures/paper/`
+- Run all: `.venv/bin/python scripts/paper/run.py`
+- Plot frozen results: `.venv/bin/python scripts/paper/plot.py`
+- Verify completed artifacts: `.venv/bin/python scripts/paper/verify.py`
+
+The documentation below describes the original harness and historical result
+sets; its old engine names, decomposition variants, and experiment pins do not
+describe this paper rerun. Current experiment TOMLs and the guide above take
+precedence for reproduction.
+
+---
+
 # egglog benchmarks
 
 Benchmark harness for the egglog system paper. It runs a matrix of

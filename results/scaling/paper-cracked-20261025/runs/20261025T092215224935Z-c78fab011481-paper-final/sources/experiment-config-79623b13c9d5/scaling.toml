@@ -1,0 +1,21 @@
+description = "Paper rerun: scaling; egglog-cracked always uses --no-decomp."
+benchmarks = ["math-microbenchmark/math-microbenchmark", "horner/horner-9", "matmul-assoc/matmul-assoc-320"]
+threads = [1, 2, 4, 8, 16]
+reps = 3
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "scaling"
+baseline = "egglog-cracked"
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "foresight"
+system = "foresight"
+ref = "f3ea706d"
+flags = []

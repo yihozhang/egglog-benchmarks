@@ -1,0 +1,155 @@
+{
+  "source_run": "runs/20261025T184003536198Z-8d4c1390fe96-paper-final",
+  "source_run_state": "complete",
+  "relevant_configurations_complete": true,
+  "baseline": "oatlog, 1 thread",
+  "metric": "oatlog 1-thread median wall time / cracked N-thread median wall time; >1 favors cracked",
+  "repetitions": 5,
+  "no_decomp": true,
+  "benchmarks": [
+    {
+      "suite": "math-microbenchmark",
+      "benchmark": "math-microbenchmark",
+      "oatlog_1t_median_s": 0.16502640902763233,
+      "cracked_median_s": {
+        "1": 0.29470030503580347,
+        "4": 0.1542439140030183,
+        "8": 0.13573770300718024,
+        "16": 0.1212710959953256
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.5599804486377545,
+        "4": 1.0699054811615,
+        "8": 1.2157742865215773,
+        "16": 1.360805785362023
+      }
+    },
+    {
+      "suite": "math-microbenchmark",
+      "benchmark": "math-microbenchmark-12",
+      "oatlog_1t_median_s": 4.493925700022373,
+      "cracked_median_s": {
+        "1": 7.468732460984029,
+        "4": 2.336131699034013,
+        "8": 1.588144381006714,
+        "16": 1.2787470479961485
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.6016985778374346,
+        "4": 1.9236611111781947,
+        "8": 2.829670748936381,
+        "16": 3.514319510699593
+      }
+    },
+    {
+      "suite": "horner",
+      "benchmark": "horner-9",
+      "oatlog_1t_median_s": 0.12386029202025384,
+      "cracked_median_s": {
+        "1": 0.49208517803344876,
+        "4": 0.26937010302208364,
+        "8": 0.20753377000801265,
+        "16": 0.18983623199164867
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.251704984318456,
+        "4": 0.459814547459632,
+        "8": 0.5968199393066089,
+        "16": 0.652458651969571
+      }
+    },
+    {
+      "suite": "horner",
+      "benchmark": "horner-10",
+      "oatlog_1t_median_s": 0.5089956620358862,
+      "cracked_median_s": {
+        "1": 2.3239433739800006,
+        "4": 0.8464512350037694,
+        "8": 0.5644897679449059,
+        "16": 0.47346335102338344
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.219022402927218,
+        "4": 0.6013289850461611,
+        "8": 0.9016915645591721,
+        "16": 1.0750476482196567
+      }
+    },
+    {
+      "suite": "matmul-assoc",
+      "benchmark": "matmul-assoc-320",
+      "oatlog_1t_median_s": 0.1585269669885747,
+      "cracked_median_s": {
+        "1": 0.814152182021644,
+        "4": 0.2585516339750029,
+        "8": 0.16613394499290735,
+        "16": 0.13828287099022418
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.1947141707523672,
+        "4": 0.613134655354378,
+        "8": 0.9542117777034826,
+        "16": 1.1463962662431393
+      }
+    },
+    {
+      "suite": "matmul-assoc",
+      "benchmark": "matmul-assoc-480",
+      "oatlog_1t_median_s": 0.551834772049915,
+      "cracked_median_s": {
+        "1": 2.876581955002621,
+        "4": 0.779874226951506,
+        "8": 0.44379046198446304,
+        "16": 0.3200126059819013
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.19183697203211172,
+        "4": 0.7075945748419112,
+        "8": 1.243457936392591,
+        "16": 1.72441573155129
+      }
+    },
+    {
+      "suite": "matmul-assoc",
+      "benchmark": "matmul-assoc-640",
+      "oatlog_1t_median_s": 1.3592528279987164,
+      "cracked_median_s": {
+        "1": 7.285609076032415,
+        "4": 1.9872217070078477,
+        "8": 1.1171712159994058,
+        "16": 0.7176702109863982
+      },
+      "speedup_vs_oatlog": {
+        "1": 0.18656680777318566,
+        "4": 0.6839965682768926,
+        "8": 1.2166915943880166,
+        "16": 1.893979723821194
+      }
+    }
+  ],
+  "geometric_mean_over_seven_workloads": {
+    "1": 0.2783461430881443,
+    "4": 0.7756251307051639,
+    "8": 1.150780163159869,
+    "16": 1.4354753446496629
+  },
+  "relevant_measurements": 175,
+  "relevant_measurements_sha256": "cd48ac6908a1918ee11658155fce4749ca131211dee99b12bafef2b4ae687ce5",
+  "commits": {
+    "oatlog": [
+      "6b73396865af722d8c2e1c31a6d98ae90f2db7ef"
+    ],
+    "egglog-cracked": [
+      "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+    ],
+    "egglog-cracked-t4": [
+      "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+    ],
+    "egglog-cracked-t8": [
+      "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+    ],
+    "egglog-cracked-t16": [
+      "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+    ]
+  }
+}

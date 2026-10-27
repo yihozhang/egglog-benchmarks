@@ -1,0 +1,8 @@
+suite,geomean_speedup,completed_pairs,total_pairs,excluded_pairs,pairs_with_table_size_differences
+math-microbenchmark,1.0128455972011932,2,2,0,0
+horner,1.0030511366954613,2,2,0,0
+matmul-assoc,0.9986020725256175,3,3,0,0
+hardboiled,196.77092084563972,30,42,12,0
+luminal,70.79710989005733,3,7,4,0
+eggcc,4.604258466910585,28,32,4,4
+storel,3.067508684277997,6,6,0,0

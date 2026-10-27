@@ -1,0 +1,977 @@
+{
+  "archive_scope": "measurements-and-provenance; raw logs omitted",
+  "builds": {
+    "egglog-cracked": {
+      "adapter_snapshots": {
+        "adapters/egglog/build": {
+          "path": "sources/adapters-egglog-build-a451eea2174f/build",
+          "sha256": "31ceb4b042d7a69a3d2bb4e2cba69c75a6309abe8a506477af0e82b76385894d",
+          "size": 3975
+        },
+        "adapters/egglog/interactive.py": {
+          "path": "sources/adapters-egglog-interactive.py-7cb81854a8ce/interactive.py",
+          "sha256": "77c3a8f377ff6f16a9fc8bb7a0f3afce59c9bc01c1381ba080a1daa8dc65fb70",
+          "size": 15112
+        },
+        "adapters/egglog/run": {
+          "path": "sources/adapters-egglog-run-a86ee0e5bc11/run",
+          "sha256": "31297397ae50a0ebbbcb117bfd14df41e68fddd8f6729a69b60d1673f246f491",
+          "size": 6258
+        },
+        "adapters/egglog/system.toml": {
+          "path": "sources/adapters-egglog-system.toml-88b57124d918/system.toml",
+          "sha256": "48fc350bddd7f93a962bb93383b4a1e57c9b88118ac5cf16ce0de8374e7178c2",
+          "size": 1626
+        }
+      },
+      "build_id": "a75de52bd605c5074bd3a4b34d38f3952759f8222f32b697e8b309c224205721",
+      "commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+      "engine_executable": {
+        "sha256": "4792d73bc15796a1f3744189a49c86b65ca5c327082c4bb48ca273c9b630fbd2",
+        "size": 12380960
+      },
+      "env": {},
+      "flags": [
+        "--no-decomp"
+      ],
+      "metadata": {
+        "commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "flags": [
+          "--fact-directory",
+          "--help",
+          "--max-calls-per-function",
+          "--max-functions",
+          "--mode",
+          "--naive",
+          "--no-decomp",
+          "--proof-testing",
+          "--proofs",
+          "--report-level",
+          "--save-report",
+          "--serialize-n-inline-leaves",
+          "--serialize-split-primitive-outputs",
+          "--strict-mode",
+          "--term-encoding",
+          "--threads",
+          "--to-dot",
+          "--to-json",
+          "--to-svg",
+          "--version"
+        ],
+        "patch_sources": [],
+        "patches": [],
+        "ref": "paper/egglog-cracked-base-20261025",
+        "stats_json": true,
+        "system": "egglog",
+        "threads": true
+      },
+      "patch_hashes": [],
+      "patch_snapshots": {},
+      "patches": [],
+      "port_executables": {},
+      "provenance_scope": {
+        "executable_hashes": "known_local_layouts_only; container_images_are_adapter_reported",
+        "metadata": "reported_by_adapter",
+        "source_snapshots": "current_sources_may_differ_from_cached_build_inputs",
+        "toolchain": "observed_at_run_creation_not_necessarily_at_build_time"
+      },
+      "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+      "system": "egglog"
+    },
+    "foresight": {
+      "adapter_snapshots": {
+        "adapters/foresight/Containerfile": {
+          "path": "sources/adapters-foresight-Containerfile-adf98d22e2d1/Containerfile",
+          "sha256": "a9f7f51404367fd7a0b357caf90f01245ca910069ae64a6b0dfcee3441839374",
+          "size": 2345
+        },
+        "adapters/foresight/build": {
+          "path": "sources/adapters-foresight-build-09f8791f7691/build",
+          "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+          "size": 3244
+        },
+        "adapters/foresight/entry.sh": {
+          "path": "sources/adapters-foresight-entry.sh-5abc3988b6db/entry.sh",
+          "sha256": "f18b3a57e7b4402d6d68c07ae6e0d1687ff84b0a965759f49f8e7e85b237c7b2",
+          "size": 900
+        },
+        "adapters/foresight/run": {
+          "path": "sources/adapters-foresight-run-f9949eba6421/run",
+          "sha256": "6536c82810f4556bf6d6a79c95a27c0241619ad66ee5316da0b924af0f283e9b",
+          "size": 5557
+        },
+        "adapters/foresight/system.toml": {
+          "path": "sources/adapters-foresight-system.toml-bd5457df3d9f/system.toml",
+          "sha256": "ef62008bb050176075c5a1075bf895f3211c68aad9e7d0435c6adf4dcdfec175",
+          "size": 2844
+        }
+      },
+      "build_id": "0d3a46ad1728e441a4c1a1993e184342a68c2420aa007fc04978718c41e4850a",
+      "commit": "f3ea706df96f100cfcb451bcf9fd059c5f21b660",
+      "engine_executable": null,
+      "env": {},
+      "flags": [],
+      "metadata": {
+        "commit": "f3ea706df96f100cfcb451bcf9fd059c5f21b660",
+        "flags": [],
+        "image": "egglog-paper-cracked/foresight:f3ea706df96f",
+        "ports": [
+          "horner",
+          "math-microbenchmark",
+          "matmul-assoc"
+        ],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": true
+      },
+      "patch_hashes": [],
+      "patch_snapshots": {},
+      "patches": [],
+      "port_executables": {},
+      "provenance_scope": {
+        "executable_hashes": "known_local_layouts_only; container_images_are_adapter_reported",
+        "metadata": "reported_by_adapter",
+        "source_snapshots": "current_sources_may_differ_from_cached_build_inputs",
+        "toolchain": "observed_at_run_creation_not_necessarily_at_build_time"
+      },
+      "ref": "f3ea706d",
+      "system": "foresight"
+    }
+  },
+  "cases": [
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 2,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 2,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 4,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 8,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "math-microbenchmark",
+      "reps": 3,
+      "suite": "math-microbenchmark",
+      "threads": 16,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 2,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 4,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 8,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 16,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 2,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 4,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 8,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "horner-9",
+      "reps": 3,
+      "suite": "horner",
+      "threads": 16,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 2,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "timing_scope": "process",
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 1,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 2,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 4,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 8,
+      "timing_scope": "process",
+      "variant": "foresight"
+    },
+    {
+      "benchmark": "matmul-assoc-320",
+      "reps": 3,
+      "suite": "matmul-assoc",
+      "threads": 16,
+      "timing_scope": "process",
+      "variant": "foresight"
+    }
+  ],
+  "completion": {
+    "planned_repetitions": 90,
+    "recorded_repetitions": 90,
+    "terminal_cases": 0
+  },
+  "config": {
+    "baseline": "egglog-cracked",
+    "benchmark_timing": {
+      "horner/horner-9": "process",
+      "math-microbenchmark/math-microbenchmark": "process",
+      "matmul-assoc/matmul-assoc-320": "process"
+    },
+    "benchmarks": [
+      "math-microbenchmark/math-microbenchmark",
+      "horner/horner-9",
+      "matmul-assoc/matmul-assoc-320"
+    ],
+    "cpus": "0-7,32-39",
+    "description": "Paper rerun: scaling; egglog-cracked always uses --no-decomp.",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "scaling",
+    "reps": 3,
+    "speedup_labels": {},
+    "threads": [
+      1,
+      2,
+      4,
+      8,
+      16
+    ],
+    "timeout": 600,
+    "variants": [
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "egglog-cracked",
+        "patches": [],
+        "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "system": "egglog",
+        "threads": [
+          1,
+          2,
+          4,
+          8,
+          16
+        ]
+      },
+      {
+        "env": {},
+        "flags": [],
+        "label": "foresight",
+        "patches": [],
+        "ref": "f3ea706d",
+        "system": "foresight",
+        "threads": [
+          1,
+          2,
+          4,
+          8,
+          16
+        ]
+      }
+    ]
+  },
+  "created_at": "2026-10-25T09:22:15.225011+00:00",
+  "environment_id": "fe568be07b420731f8d0bf2380cab683da5cbd60a5d8f71855b3663f89c04e4d",
+  "experiment": "scaling",
+  "host": {
+    "architecture": "x86_64",
+    "cpu": "AMD Ryzen Threadripper PRO 7985WX 64-Cores",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127
+    ],
+    "cpu_governors": [
+      "powersave"
+    ],
+    "hostname": "griffin",
+    "kernel": "7.0.0-38-generic",
+    "memory_bytes": 540454551552,
+    "ncpu": 128,
+    "numa_nodes": {
+      "node0": "0-7,32-39,64-71,96-103",
+      "node1": "16-23,48-55,80-87,112-119",
+      "node2": "24-31,56-63,88-95,120-127",
+      "node3": "8-15,40-47,72-79,104-111"
+    },
+    "physical_cores": 64,
+    "sockets": 1
+  },
+  "inputs": {
+    "horner/horner-9": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "horner-9.egg": {
+          "sha256": "8dfcf98874a1a98c997718f808c80b252d3ffc5143ac13977216cbaea0cc5b61",
+          "size": 1918
+        }
+      },
+      "input_id": "41f111349ddbdf0fdcab6f2a7d0b9d9933ce206a9d14eea21473869cd3303ea0",
+      "ports": {
+        "foresight": {
+          "files": 3,
+          "sha256": "4df94150cbf274123f09e8c6b7f4cabbd92bff1ec9af1342962aa924e2bd9a05",
+          "size": 7657
+        }
+      },
+      "program": "horner-9.egg",
+      "source_snapshots": {
+        "inputs/horner/horner-9/horner-9.egg": {
+          "path": "sources/inputs-horner-horner-9-horner-9.egg-3f19e0655a13/horner-9.egg",
+          "sha256": "8dfcf98874a1a98c997718f808c80b252d3ffc5143ac13977216cbaea0cc5b61",
+          "size": 1918
+        },
+        "inputs/horner/horner-9/ports/foresight/build.sbt": {
+          "path": "sources/inputs-horner-horner-9-ports-foresight-build.sbt-0c78d5cac8fb/build.sbt",
+          "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+          "size": 900
+        },
+        "inputs/horner/horner-9/ports/foresight/horner.scala": {
+          "path": "sources/inputs-horner-horner-9-ports-foresight-horner.scala-c34ee0493fe1/horner.scala",
+          "sha256": "c4a02b0fde567ed0ff753b63ad88aed62801938b18c1f1dd49b30a46f800c221",
+          "size": 6739
+        },
+        "inputs/horner/horner-9/ports/foresight/project/build.properties": {
+          "path": "sources/inputs-horner-horner-9-ports-foresight-project-build.properties-0078f74de4b6/build.properties",
+          "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+          "size": 18
+        },
+        "inputs/horner/horner-9/suite.toml": {
+          "path": "sources/inputs-horner-horner-9-suite.toml-179243d7b937/suite.toml",
+          "sha256": "33b163dab4268c48b922a0b74b8f154f76774ce68b0d322b068340ad8fc1b580",
+          "size": 363
+        }
+      },
+      "suite": {
+        "sha256": "33b163dab4268c48b922a0b74b8f154f76774ce68b0d322b068340ad8fc1b580",
+        "size": 363
+      }
+    },
+    "math-microbenchmark/math-microbenchmark": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "math-microbenchmark.egg": {
+          "sha256": "50da1ccf7d03eee033c6b9d012ae7baf406d8cf2ce9f7a573161c26790901d1d",
+          "size": 2215
+        }
+      },
+      "input_id": "1b0fcf13f6580e9b3018502b1d558a2b5d0f7b416d42b914de4d48b9b9e8a03b",
+      "ports": {
+        "foresight": {
+          "files": 3,
+          "sha256": "b23499a46dfb2ac7f911fdffb3903bee377eb3c627d5251557cfecf34a414726",
+          "size": 9925
+        }
+      },
+      "program": "math-microbenchmark.egg",
+      "source_snapshots": {
+        "inputs/math-microbenchmark/math-microbenchmark/math-microbenchmark.egg": {
+          "path": "sources/inputs-math-microbenchmark-math-microbenchmark-math-microbenchmark.egg-8026433323e1/math-microbenchmark.egg",
+          "sha256": "50da1ccf7d03eee033c6b9d012ae7baf406d8cf2ce9f7a573161c26790901d1d",
+          "size": 2215
+        },
+        "inputs/math-microbenchmark/math-microbenchmark/ports/foresight/build.sbt": {
+          "path": "sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-build.sbt-9a86fa013c24/build.sbt",
+          "sha256": "964d1b72dea4e5f0fb9df3678580206c2d3418bcc27c5fe38e2761b8135d0bfc",
+          "size": 689
+        },
+        "inputs/math-microbenchmark/math-microbenchmark/ports/foresight/math-microbenchmark.scala": {
+          "path": "sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-math-microbenchma-cd88a0e147df/math-microbenchmark.scala",
+          "sha256": "b5b9b56fff6e7f5a55936c364da5fa7783ad846cf263bdac2942c285e4c3489b",
+          "size": 9218
+        },
+        "inputs/math-microbenchmark/math-microbenchmark/ports/foresight/project/build.properties": {
+          "path": "sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-project-build.pro-1c4e579a943a/build.properties",
+          "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+          "size": 18
+        },
+        "inputs/math-microbenchmark/math-microbenchmark/suite.toml": {
+          "path": "sources/inputs-math-microbenchmark-math-microbenchmark-suite.toml-f4626732a6cd/suite.toml",
+          "sha256": "e019355d5db321a3f8fae9e3013bab66e6a711dff8c1a7284ddd6832a8bb7fab",
+          "size": 423
+        }
+      },
+      "suite": {
+        "sha256": "e019355d5db321a3f8fae9e3013bab66e6a711dff8c1a7284ddd6832a8bb7fab",
+        "size": 423
+      }
+    },
+    "matmul-assoc/matmul-assoc-320": {
+      "egglog_timing": "process",
+      "facts": null,
+      "files": {
+        "matmul-assoc-320.egg": {
+          "sha256": "54ffe8d44b466c81a222308a6ae81c8a6866bb97b5729dd7b1d72418b01c2d89",
+          "size": 6161
+        }
+      },
+      "input_id": "e9479ec9f57218e77d92619fc5d6e61895a50038a17c1061b96321c2a51a1f4f",
+      "ports": {
+        "foresight": {
+          "files": 3,
+          "sha256": "664d451896aed2bc471db7ca1da5b0826a9fff4ed208f3243157e13c19977d6a",
+          "size": 7134
+        }
+      },
+      "program": "matmul-assoc-320.egg",
+      "source_snapshots": {
+        "inputs/matmul-assoc/matmul-assoc-320/matmul-assoc-320.egg": {
+          "path": "sources/inputs-matmul-assoc-matmul-assoc-320-matmul-assoc-320.egg-23c770b79d62/matmul-assoc-320.egg",
+          "sha256": "54ffe8d44b466c81a222308a6ae81c8a6866bb97b5729dd7b1d72418b01c2d89",
+          "size": 6161
+        },
+        "inputs/matmul-assoc/matmul-assoc-320/ports/foresight/build.sbt": {
+          "path": "sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-build.sbt-0e7f16f8282a/build.sbt",
+          "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+          "size": 900
+        },
+        "inputs/matmul-assoc/matmul-assoc-320/ports/foresight/matmul-assoc.scala": {
+          "path": "sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-matmul-assoc.scala-a2d829894ac8/matmul-assoc.scala",
+          "sha256": "2b2319198e88a24febd984f2fdead0d3882ca6c6611043ae162f033a96ea23bc",
+          "size": 6216
+        },
+        "inputs/matmul-assoc/matmul-assoc-320/ports/foresight/project/build.properties": {
+          "path": "sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-project-build.properties-70414daa76b7/build.properties",
+          "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+          "size": 18
+        },
+        "inputs/matmul-assoc/matmul-assoc-320/suite.toml": {
+          "path": "sources/inputs-matmul-assoc-matmul-assoc-320-suite.toml-9634b4cf1e91/suite.toml",
+          "sha256": "3db3bad313102a15a3d30d4d2754a86bd441710cbc0ac59e4ac1854f8aeb76ab",
+          "size": 177
+        }
+      },
+      "suite": {
+        "sha256": "3db3bad313102a15a3d30d4d2754a86bd441710cbc0ac59e4ac1854f8aeb76ab",
+        "size": 177
+      }
+    }
+  },
+  "kind": "matrix",
+  "machine_id": "griffin",
+  "measurement_policy": {
+    "cpus": "0-7,32-39",
+    "memory_cap_method": "systemd",
+    "memory_cap_prefix": [
+      "systemd-run",
+      "--user",
+      "--scope",
+      "--quiet",
+      "-p",
+      "MemoryMax=32768M",
+      "-p",
+      "MemorySwapMax=0",
+      "-p",
+      "OOMPolicy=continue",
+      "--"
+    ],
+    "memory_gb": 32,
+    "repetition_policy": "stop_case_on_first_non_ok",
+    "schedule": "benchmark,variant,threads,repetition",
+    "timeout": 600
+  },
+  "measurement_sources": {
+    "harness/__init__.py": {
+      "path": "sources/harness-__init__.py-7a293fe28a35/__init__.py",
+      "sha256": "a4f06b42b9d54905915f6aef392324d0e1ec693b87be0b3ffef8cb89bf15f9c0",
+      "size": 594
+    },
+    "harness/config.py": {
+      "path": "sources/harness-config.py-e851d77c3787/config.py",
+      "sha256": "69661ad8ddac15c280db42d3f8ea289045efbc59f059ad7fba4acdb452f71951",
+      "size": 11035
+    },
+    "harness/runner.py": {
+      "path": "sources/harness-runner.py-f71e841ba471/runner.py",
+      "sha256": "16272c7417b7fbc141ee9d66154f8d9e740af83e212099a5252eabd435f002c2",
+      "size": 24613
+    }
+  },
+  "payload_checksums": {
+    "measurements.jsonl": {
+      "sha256": "770792e36361bdf56c203372996c632086ad3a80fd01087801484d9db08b7bab",
+      "size": 216021
+    },
+    "sources/adapters-egglog-build-a451eea2174f/build": {
+      "sha256": "31ceb4b042d7a69a3d2bb4e2cba69c75a6309abe8a506477af0e82b76385894d",
+      "size": 3975
+    },
+    "sources/adapters-egglog-interactive.py-7cb81854a8ce/interactive.py": {
+      "sha256": "77c3a8f377ff6f16a9fc8bb7a0f3afce59c9bc01c1381ba080a1daa8dc65fb70",
+      "size": 15112
+    },
+    "sources/adapters-egglog-run-a86ee0e5bc11/run": {
+      "sha256": "31297397ae50a0ebbbcb117bfd14df41e68fddd8f6729a69b60d1673f246f491",
+      "size": 6258
+    },
+    "sources/adapters-egglog-system.toml-88b57124d918/system.toml": {
+      "sha256": "48fc350bddd7f93a962bb93383b4a1e57c9b88118ac5cf16ce0de8374e7178c2",
+      "size": 1626
+    },
+    "sources/adapters-foresight-Containerfile-adf98d22e2d1/Containerfile": {
+      "sha256": "a9f7f51404367fd7a0b357caf90f01245ca910069ae64a6b0dfcee3441839374",
+      "size": 2345
+    },
+    "sources/adapters-foresight-build-09f8791f7691/build": {
+      "sha256": "8fbc48c29c7d35d9c3f849344554da92c0308d52768bdbcc3fe5a67f535b48ed",
+      "size": 3244
+    },
+    "sources/adapters-foresight-entry.sh-5abc3988b6db/entry.sh": {
+      "sha256": "f18b3a57e7b4402d6d68c07ae6e0d1687ff84b0a965759f49f8e7e85b237c7b2",
+      "size": 900
+    },
+    "sources/adapters-foresight-run-f9949eba6421/run": {
+      "sha256": "6536c82810f4556bf6d6a79c95a27c0241619ad66ee5316da0b924af0f283e9b",
+      "size": 5557
+    },
+    "sources/adapters-foresight-system.toml-bd5457df3d9f/system.toml": {
+      "sha256": "ef62008bb050176075c5a1075bf895f3211c68aad9e7d0435c6adf4dcdfec175",
+      "size": 2844
+    },
+    "sources/experiment-config-79623b13c9d5/scaling.toml": {
+      "sha256": "bc0f806f7200bd09c7231354ba7fdb774a18cd375f0e5c64fa560389cba705d4",
+      "size": 529
+    },
+    "sources/harness-__init__.py-7a293fe28a35/__init__.py": {
+      "sha256": "a4f06b42b9d54905915f6aef392324d0e1ec693b87be0b3ffef8cb89bf15f9c0",
+      "size": 594
+    },
+    "sources/harness-config.py-e851d77c3787/config.py": {
+      "sha256": "69661ad8ddac15c280db42d3f8ea289045efbc59f059ad7fba4acdb452f71951",
+      "size": 11035
+    },
+    "sources/harness-runner.py-f71e841ba471/runner.py": {
+      "sha256": "16272c7417b7fbc141ee9d66154f8d9e740af83e212099a5252eabd435f002c2",
+      "size": 24613
+    },
+    "sources/inputs-horner-horner-9-horner-9.egg-3f19e0655a13/horner-9.egg": {
+      "sha256": "8dfcf98874a1a98c997718f808c80b252d3ffc5143ac13977216cbaea0cc5b61",
+      "size": 1918
+    },
+    "sources/inputs-horner-horner-9-ports-foresight-build.sbt-0c78d5cac8fb/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "sources/inputs-horner-horner-9-ports-foresight-horner.scala-c34ee0493fe1/horner.scala": {
+      "sha256": "c4a02b0fde567ed0ff753b63ad88aed62801938b18c1f1dd49b30a46f800c221",
+      "size": 6739
+    },
+    "sources/inputs-horner-horner-9-ports-foresight-project-build.properties-0078f74de4b6/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "sources/inputs-horner-horner-9-suite.toml-179243d7b937/suite.toml": {
+      "sha256": "33b163dab4268c48b922a0b74b8f154f76774ce68b0d322b068340ad8fc1b580",
+      "size": 363
+    },
+    "sources/inputs-math-microbenchmark-math-microbenchmark-math-microbenchmark.egg-8026433323e1/math-microbenchmark.egg": {
+      "sha256": "50da1ccf7d03eee033c6b9d012ae7baf406d8cf2ce9f7a573161c26790901d1d",
+      "size": 2215
+    },
+    "sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-build.sbt-9a86fa013c24/build.sbt": {
+      "sha256": "964d1b72dea4e5f0fb9df3678580206c2d3418bcc27c5fe38e2761b8135d0bfc",
+      "size": 689
+    },
+    "sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-math-microbenchma-cd88a0e147df/math-microbenchmark.scala": {
+      "sha256": "b5b9b56fff6e7f5a55936c364da5fa7783ad846cf263bdac2942c285e4c3489b",
+      "size": 9218
+    },
+    "sources/inputs-math-microbenchmark-math-microbenchmark-ports-foresight-project-build.pro-1c4e579a943a/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "sources/inputs-math-microbenchmark-math-microbenchmark-suite.toml-f4626732a6cd/suite.toml": {
+      "sha256": "e019355d5db321a3f8fae9e3013bab66e6a711dff8c1a7284ddd6832a8bb7fab",
+      "size": 423
+    },
+    "sources/inputs-matmul-assoc-matmul-assoc-320-matmul-assoc-320.egg-23c770b79d62/matmul-assoc-320.egg": {
+      "sha256": "54ffe8d44b466c81a222308a6ae81c8a6866bb97b5729dd7b1d72418b01c2d89",
+      "size": 6161
+    },
+    "sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-build.sbt-0e7f16f8282a/build.sbt": {
+      "sha256": "6cbc465a4fe951a931d31bf780302fda4a3f0feaf98db4f8854922e0cda99a50",
+      "size": 900
+    },
+    "sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-matmul-assoc.scala-a2d829894ac8/matmul-assoc.scala": {
+      "sha256": "2b2319198e88a24febd984f2fdead0d3882ca6c6611043ae162f033a96ea23bc",
+      "size": 6216
+    },
+    "sources/inputs-matmul-assoc-matmul-assoc-320-ports-foresight-project-build.properties-70414daa76b7/build.properties": {
+      "sha256": "c9eab419acc8e933347b382db2d7642194cfd82421fc3a58930f6c4a8ace4c91",
+      "size": 18
+    },
+    "sources/inputs-matmul-assoc-matmul-assoc-320-suite.toml-9634b4cf1e91/suite.toml": {
+      "sha256": "3db3bad313102a15a3d30d4d2754a86bd441710cbc0ac59e4ac1854f8aeb76ab",
+      "size": 177
+    },
+    "sources/untracked-experiments-ablation-storel.toml-f6aef3208f3a/ablation-storel.toml": {
+      "sha256": "835cec44d624b82ea3cd42eb931b53de709fc6ecb70b053b705aab4c84cd80cd",
+      "size": 754
+    },
+    "sources/untracked-experiments-scaling-real-world.toml-aa7843240462/scaling-real-world.toml": {
+      "sha256": "95b0cb6028734a9981fd0619b1b5ddb39606c298a830df6ec9edfeac45fc4a33",
+      "size": 386
+    },
+    "sources/untracked-experiments-scaling-storel.toml-c04651091454/scaling-storel.toml": {
+      "sha256": "8ecb7c4df5900c4b37f95622d178b19eb61bf077dde2b8a266e59f5bf70fa616",
+      "size": 482
+    },
+    "sources/untracked-experiments-storel-schedule.toml-96d5967667bb/storel-schedule.toml": {
+      "sha256": "640ff6619452026e6da9b28091b7d64ba7811eb7872a47ebc9b29dd98641e1c0",
+      "size": 1130
+    },
+    "sources/working-tree.patch": {
+      "sha256": "9bb93fbfb8a3d0d6f15c9ddf1c98a4b4bdb709b3db684ecbd4b7c5818ba533f6",
+      "size": 54286
+    }
+  },
+  "provenance": {
+    "dirty": true,
+    "dirty_patch": {
+      "path": "sources/working-tree.patch",
+      "sha256": "9bb93fbfb8a3d0d6f15c9ddf1c98a4b4bdb709b3db684ecbd4b7c5818ba533f6",
+      "size": 54286
+    },
+    "harness_commit": "7e41b7406ecd1a7a9219a5683cc7b85ee005d8cc",
+    "sources": {
+      "experiment-config": {
+        "path": "sources/experiment-config-79623b13c9d5/scaling.toml",
+        "sha256": "bc0f806f7200bd09c7231354ba7fdb774a18cd375f0e5c64fa560389cba705d4",
+        "size": 529
+      },
+      "untracked/experiments/ablation-storel.toml": {
+        "path": "sources/untracked-experiments-ablation-storel.toml-f6aef3208f3a/ablation-storel.toml",
+        "sha256": "835cec44d624b82ea3cd42eb931b53de709fc6ecb70b053b705aab4c84cd80cd",
+        "size": 754
+      },
+      "untracked/experiments/scaling-real-world.toml": {
+        "path": "sources/untracked-experiments-scaling-real-world.toml-aa7843240462/scaling-real-world.toml",
+        "sha256": "95b0cb6028734a9981fd0619b1b5ddb39606c298a830df6ec9edfeac45fc4a33",
+        "size": 386
+      },
+      "untracked/experiments/scaling-storel.toml": {
+        "path": "sources/untracked-experiments-scaling-storel.toml-c04651091454/scaling-storel.toml",
+        "sha256": "8ecb7c4df5900c4b37f95622d178b19eb61bf077dde2b8a266e59f5bf70fa616",
+        "size": 482
+      },
+      "untracked/experiments/storel-schedule.toml": {
+        "path": "sources/untracked-experiments-storel-schedule.toml-96d5967667bb/storel-schedule.toml",
+        "sha256": "640ff6619452026e6da9b28091b7d64ba7811eb7872a47ebc9b29dd98641e1c0",
+        "size": 1130
+      }
+    },
+    "toolchain": {
+      "cargo": "cargo 1.98.0 (797e8a9bc 2026-08-05)",
+      "python": "3.12.3",
+      "rustc": "rustc 1.98.0 (88d9e12ae 2026-08-18)"
+    }
+  },
+  "run_id": "20261025T092215224935Z-c78fab011481-paper-final",
+  "schema_version": 1,
+  "state": "complete",
+  "updated_at": "2026-10-25T09:28:32.448000+00:00"
+}

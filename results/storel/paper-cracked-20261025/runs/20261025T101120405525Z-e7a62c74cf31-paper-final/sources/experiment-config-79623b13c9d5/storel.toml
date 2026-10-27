@@ -1,0 +1,21 @@
+description = "Paper rerun: storel; egglog-cracked always uses --no-decomp."
+benchmarks = ["storel/mmm-sum-2nd", "storel/mmm-2nd", "storel/batax-1st", "storel/mttkrp-2nd", "storel/ttm-2nd", "storel/batax-2nd"]
+threads = [1]
+reps = 3
+timeout = 900
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "variants"
+baseline = "egg"
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog-storel-backoff"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "egg"
+system = "egg"
+ref = "v0.11.0"
+flags = ["--scheduler", "backoff"]

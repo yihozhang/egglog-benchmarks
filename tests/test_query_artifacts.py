@@ -107,6 +107,18 @@ class QueryArtifactsTests(unittest.TestCase):
         })
         return directory
 
+    def test_no_decomp_only_payload_rejects_decomposed_measurements(self):
+        destination = self.root / "paper-payload"
+        self.write_program(destination)
+        with self.assertRaisesRegex(ValueError, "unexpected"):
+            query._validate_program_payload(destination, [], no_decomp_only=True)
+        path = destination / "egglog.jsonl"
+        records = [json.loads(line) for line in path.read_text().splitlines()]
+        record = next(r for r in records if r["no_decomp"])
+        record["engine_label"] = "egglog-cracked"
+        path.write_text(json.dumps(record) + "\n")
+        query._validate_program_payload(destination, [], no_decomp_only=True)
+
     def test_run_routes_payloads_and_records_effective_options_and_provenance(self):
         directory = query.run(str(self.recipe), programs=["b"], threads=[4], reps=7, timeout=12.5,
                               machine="machine-a", tag="trial")

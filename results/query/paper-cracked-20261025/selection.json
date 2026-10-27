@@ -1,0 +1,259 @@
+{
+  "analysis": "median of successful repetitions; groups with any failure are excluded from speedups; all outcomes retained; no latest-per-cell replacement",
+  "checksums": {
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma/duckdb.jsonl": {
+      "sha256": "4d0aa2b9f7e23120c51575443ae33bf08c40b358c1fc4398a3694a6e90b1337a",
+      "size": 158212
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma/egglog.jsonl": {
+      "sha256": "135a12f54a2059f7c01d256c848f8db9d7b6e439c91079e34077e973aeba6f76",
+      "size": 212059
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma/umbra.jsonl": {
+      "sha256": "2636bfb6920047d7410767921ffca836efca052b2fd89f7d347d397c769c075a",
+      "size": 87055
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma4_moe/duckdb.jsonl": {
+      "sha256": "9f34219c4434002e8886ead6053a6682c6533f5908cf117badba0a2b347114bf",
+      "size": 157870
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma4_moe/egglog.jsonl": {
+      "sha256": "3160412c7048f8c59cad1090e05ad6a49c99a28d48b7b4c8de9f0e3b04c9a431",
+      "size": 214504
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma4_moe/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/gemma4_moe/umbra.jsonl": {
+      "sha256": "0aba0e15f91e50317dc04122828ab8e816ee689564fd5b83e5bc18329fdb0178",
+      "size": 86980
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/llama/duckdb.jsonl": {
+      "sha256": "0351d6fe7f6e3edb4895323a9ee150061d2cb0e1f9c98ffb1c0d09a42e304bc8",
+      "size": 157722
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/llama/egglog.jsonl": {
+      "sha256": "8232c7682ea12666fa47037507c7a30a16538f304c7688a4e7a08b741a83d50a",
+      "size": 211394
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/llama/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/llama/umbra.jsonl": {
+      "sha256": "cc7fe1dbc3ae61443ca6deedfaaf34ba1ffa25b59b0be9d0c34398120a310bed",
+      "size": 87045
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/paged_llama/duckdb.jsonl": {
+      "sha256": "03d5cac60b468bda7b4d8e685ce2fc2021cd0f611fbe3de3e7d6e0ca70342950",
+      "size": 157651
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/paged_llama/egglog.jsonl": {
+      "sha256": "e5107775d76220b8bda28c885eaedefcdf47da09280e174c3d57be4459dd698e",
+      "size": 214034
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/paged_llama/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/paged_llama/umbra.jsonl": {
+      "sha256": "88c190134655d527a86ff537d6bab2bb1ce6d9671938a3564db39998382e9049",
+      "size": 87033
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen/duckdb.jsonl": {
+      "sha256": "bb897b7e20d9896720579f4e38aa87dbdd4fffe1d18d8e48fe8851e6f814a73a",
+      "size": 157401
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen/egglog.jsonl": {
+      "sha256": "99ada0dde4eb228297f9dc8bef797aa236f4eb7dea7b8958981ea87b253fe24d",
+      "size": 211053
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen/umbra.jsonl": {
+      "sha256": "d2d202c9f686d1fc4c062de89b4c01f60001a97828b4f0d4b38bcecc8d7049d0",
+      "size": 87008
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen3_moe/duckdb.jsonl": {
+      "sha256": "fd97b35bcdc6c520f02e73ed10a123111e2b3f4e660f1d5a5f5bbf8829af7b26",
+      "size": 157084
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen3_moe/egglog.jsonl": {
+      "sha256": "217bb0bbd192dfd6d0d55e5f9dc8e055f6f715fcf7cfd9caa3bbb33774bbf9e5",
+      "size": 213933
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen3_moe/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/qwen3_moe/umbra.jsonl": {
+      "sha256": "03a826eda021cdd7f6cbca71a0de8ead849603dfc1991a521e5c9fd3766e2175",
+      "size": 86970
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/run.json": {
+      "sha256": "aff2b5a4bf4cf56f4813cde452f740dd1ffcfddb78946f7ac41524a8230f4f3c",
+      "size": 23776
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/bench_db-84f3f8c8b814/bench_db.py": {
+      "sha256": "6ec548b7f0abe5a2130d8716142d51810a87fb09ac223d5b70c44a483d1c0256",
+      "size": 10023
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-gemma.egg-d775929c8172/gemma.egg": {
+      "sha256": "66278dd5b99ad104a52fadf3d2f288595e2dae819ed71472ccde4a015fcd7e8f",
+      "size": 629182
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-gemma4_moe.egg-b30d57677b6d/gemma4_moe.egg": {
+      "sha256": "770995a3ebf240a17a4e9d44854e91bb198070357b4a4e26ef4f7df334dc38b6",
+      "size": 1116610
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-llama.egg-889b6fcc006c/llama.egg": {
+      "sha256": "79a8b8dd3977cac14d9596741f6bbe55d23f571ed910bb4ae05cbd277952d6eb",
+      "size": 146606
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-luminal-header.egg-d4b5474667ca/luminal-header.egg": {
+      "sha256": "825cf686df43d319636b0bad989f4f717cada3d06e5a7edeadb7d2977457dd64",
+      "size": 309081
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-paged_llama.egg-36b738854c67/paged_llama.egg": {
+      "sha256": "45cdcce6b1d113ee416ea8bd3802c05ec505f79b3cf5e655967e81c984f037df",
+      "size": 138033
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-qwen.egg-60f954e3887e/qwen.egg": {
+      "sha256": "28d38333fa1973bf6ed91740e5235129c0ca35c412dbe82485b8ce241a60925b",
+      "size": 176166
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-qwen3_moe.egg-fffb60ef03c2/qwen3_moe.egg": {
+      "sha256": "3f06c9bf1c9dbe0d4f90569a667a00c65e0a7c6e64582d6fcfb97a2d56f69505",
+      "size": 227046
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-benchmarks-luminal-whisper.egg-d44df26016e7/whisper.egg": {
+      "sha256": "518a596da2d29692c330e08e6feaa5a069bcfa8754aafafd048bbd01048cf4ed",
+      "size": 180175
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/benchmark-suite.toml-99feaad8d1e6/suite.toml": {
+      "sha256": "5c7bc372f860235d45aa59a0da3aa9b769aefb667786473f84cde78d3fc5ff68",
+      "size": 447
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/driver_Cargo.lock-5408a1f6eb7b/Cargo.lock": {
+      "sha256": "a82e47edae3aa3e59a402aa372c3bdf06b23c840cfdec45d5bc7f54715870906",
+      "size": 44563
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/driver_Cargo.toml-c5e1dca88f9e/Cargo.toml": {
+      "sha256": "9433c89d48355b526036aa31e0c9f8b593922cb4a75a19af5b0eb1f261f10f15",
+      "size": 687
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/driver_src_main.rs-5e1bb06027b7/main.rs": {
+      "sha256": "a4956158429bc0f32f017ff5b8a98a3a0481f51a6b6c7dc3dd103fd51a4f33ca",
+      "size": 8231
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/egglog_build-f65a458a37aa/build.json": {
+      "sha256": "236c1a8de46c95f6c7114e216832219d2dc4b249f635c90ca502739c7d5d1be0",
+      "size": 604
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/experiment-config-79623b13c9d5/query.toml": {
+      "sha256": "0f26109de151a1e728981f0e5a48b8cce19bac96fac6463ddd9ebb4fb039723b",
+      "size": 1132
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/query_build-b9ffbc6c2f4c/build": {
+      "sha256": "9fa292368bd9a4a3bfaf4a07645e4ea17b63f482628c1135a8d5a051cd65be72",
+      "size": 728
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/query_harness-c6f8b845d423/query.py": {
+      "sha256": "79236495ab4722458f55c2efb3b4e4088ee1978038fc798517c06a067b86dd6e",
+      "size": 24689
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/recipe-e1d8e5523309/query.toml": {
+      "sha256": "0f26109de151a1e728981f0e5a48b8cce19bac96fac6463ddd9ebb4fb039723b",
+      "size": 1132
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/run_suite-aa84d5953726/run_suite.py": {
+      "sha256": "26f0f9eb533b5b8bdc74b417ba44fd4e3941a1b8135b4cf68fa169f8bf03b0da",
+      "size": 4468
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/sqlgen-b5350ea6bbcd/sqlgen.py": {
+      "sha256": "94d83bf0bb6bd9dcc1cf432b2cb3ee6a8e0a2f9cace8386eeac40847374f6449",
+      "size": 7950
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/untracked-experiments-ablation-storel.toml-f6aef3208f3a/ablation-storel.toml": {
+      "sha256": "529cbd33ce44443146e7d486ec8d0177eb1b76d34f74e6454a24c7142ef07ab7",
+      "size": 1016
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/untracked-experiments-scaling-real-world.toml-aa7843240462/scaling-real-world.toml": {
+      "sha256": "95b0cb6028734a9981fd0619b1b5ddb39606c298a830df6ec9edfeac45fc4a33",
+      "size": 386
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/untracked-experiments-scaling-storel.toml-c04651091454/scaling-storel.toml": {
+      "sha256": "8ecb7c4df5900c4b37f95622d178b19eb61bf077dde2b8a266e59f5bf70fa616",
+      "size": 482
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/untracked-experiments-storel-schedule.toml-96d5967667bb/storel-schedule.toml": {
+      "sha256": "640ff6619452026e6da9b28091b7d64ba7811eb7872a47ebc9b29dd98641e1c0",
+      "size": 1130
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/untracked-tests-test_container_ports.py-c2dfa43537bc/test_container_ports.py": {
+      "sha256": "b404a874bb750105a49272d4f86b2e8db9951706cc8c4b43dc5cca3163e47b44",
+      "size": 2540
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/sources/working-tree.patch": {
+      "sha256": "f93266b656e911168229eee5d60abfb7ddb1e932ed084fe007034702234662dc",
+      "size": 67033
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/whisper/duckdb.jsonl": {
+      "sha256": "22842bb4b32b87e92c3d38dddd90dc42e80aa68ff4f9f380f72acf0e1a516367",
+      "size": 157986
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/whisper/egglog.jsonl": {
+      "sha256": "d6c8bd60627c0afc73116b249c1402a85fa28748aeaa2a793b3b80060a21407c",
+      "size": 212412
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/whisper/index.json": {
+      "sha256": "e94c1e8df548d394cc5d9119678c116d091a5f9fcee586d8b5739e6dcc9cbbad",
+      "size": 260039
+    },
+    "runs/20261026T010538199456Z-a7e49c47c46b-paper-final/whisper/umbra.jsonl": {
+      "sha256": "f3a0c44b081d77216f809e114fc9a8f2d56f481ea3239ba107e0d6d1bf5402d8",
+      "size": 87060
+    }
+  },
+  "config": {
+    "description": "Query-only comparison on a fresh snapshot: every rule of every program, run once naively in egglog (writing its RHS variables into a function set to 1) and as INSERT ... SELECT DISTINCT in DuckDB and Umbra.",
+    "egglog_ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+    "engines": [
+      "duckdb",
+      "umbra"
+    ],
+    "kind": "query",
+    "no_decomp_only": true,
+    "programs": [
+      "gemma",
+      "gemma4_moe",
+      "llama",
+      "paged_llama",
+      "qwen",
+      "qwen3_moe",
+      "whisper"
+    ],
+    "reps": 3,
+    "suite": "luminal",
+    "threads": 1,
+    "timeout": 60.0
+  },
+  "coverage": [],
+  "created_at": "2026-10-26T01:20:58.540553+00:00",
+  "experiment": "query",
+  "kind": "query",
+  "metric": "wall_s",
+  "name": "paper-cracked-20261025",
+  "provenance": "captured",
+  "run_ids": [
+    "20261026T010538199456Z-a7e49c47c46b-paper-final"
+  ],
+  "schema_version": 1
+}

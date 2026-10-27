@@ -1,0 +1,37 @@
+[
+  {
+    "id": "sha256:41749c2c583e04e32da4b39ed293384b1bf1ecd8fc39a4cdbf6219dac79aa7d0",
+    "tags": [
+      "egglog-paper-cracked/foresight:f3ea706df96f"
+    ],
+    "digests": []
+  },
+  {
+    "id": "sha256:660a57812d6ac25803c09f758108ecf4ced1f017dd417ec29c3378afb741b821",
+    "tags": [
+      "egglog-paper-cracked/hegg:0193c2da22e2"
+    ],
+    "digests": []
+  },
+  {
+    "id": "sha256:1b91a83c98cd35140646e9b5446f4fd2f3beedf7442cff380d6510866072c8ed",
+    "tags": [
+      "egglog-paper-cracked/metatheory:54cce6bcb7db"
+    ],
+    "digests": []
+  },
+  {
+    "id": "sha256:2ed7411c30616c1e11ba99196532696a798181e52f13ca6cf71e9068ebf58a8c",
+    "tags": [
+      "egglog-paper-cracked/ggs:2ad0981083bf"
+    ],
+    "digests": []
+  },
+  {
+    "id": "sha256:d251ee6e6848884469a4d499f7fe3f40c6f1e9b6660c642c8591ff20cc8cba25",
+    "tags": [
+      "egglog-paper-cracked/ego:e87dae7aa2f6"
+    ],
+    "digests": []
+  }
+]

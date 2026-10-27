@@ -1,0 +1,293 @@
+{
+  "source": "/home/yz489/egglog-benchmarks/.worktrees/paper-cracked-20261025/results/query/paper-cracked-20261025/runs/20261026T010538199456Z-a7e49c47c46b-paper-final",
+  "run_id": "20261026T010538199456Z-a7e49c47c46b-paper-final",
+  "run_manifest_sha256": "aff2b5a4bf4cf56f4813cde452f740dd1ffcfddb78946f7ac41524a8230f4f3c",
+  "egglog_commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+  "no_decomp": true,
+  "definition": "speedup = database execution time / egglog no-decomp execution time; >1 favors egglog",
+  "timing_boundaries": {
+    "egglog": "search + apply + merge; rebuild excluded",
+    "duckdb": "profiler latency minus planner, optimizer and physical planner time",
+    "umbra": "EXECUTE wall time after PREPARE"
+  },
+  "repetition_policy": {
+    "egglog": "one pass",
+    "duckdb": "median of 3 timed runs after one warmup",
+    "umbra": "median of 3 timed EXECUTE runs after one warmup"
+  },
+  "ratio_policy": "Per-query means are null if any included query has a zero timing; total-time ratios remain defined when the summed egglog time is positive.",
+  "total_queries": 3437,
+  "nonempty_queries": 732,
+  "statuses": {
+    "egglog": {
+      "ok": 3437
+    },
+    "duckdb": {
+      "ok": 3437
+    },
+    "umbra": {
+      "ok": 3380,
+      "error": 57
+    }
+  },
+  "shared_successful_nonempty": {
+    "queries": 727,
+    "execution_totals_ms": {
+      "egglog": 97.010245,
+      "duckdb": 850.157081,
+      "umbra": 402.2534669493325
+    },
+    "query_geomean_speedup": {
+      "duckdb": 13.248664103849514,
+      "umbra": 6.510482029036314
+    },
+    "query_arithmetic_mean_speedup": {
+      "duckdb": 17.93070882273085,
+      "umbra": 9.428946796071152
+    },
+    "total_time_speedup": {
+      "duckdb": 8.763580392978081,
+      "umbra": 4.146505010365993
+    },
+    "queries_faster": {
+      "duckdb": 719,
+      "umbra": 703
+    },
+    "undefined_ratio_queries": {
+      "duckdb": 0,
+      "umbra": 0
+    }
+  },
+  "programs": {
+    "gemma": {
+      "queries": 101,
+      "execution_totals_ms": {
+        "egglog": 21.818186,
+        "duckdb": 120.690069,
+        "umbra": 69.88566007930785
+      },
+      "query_geomean_speedup": {
+        "duckdb": 8.053003738826956,
+        "umbra": 4.247996542732688
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 11.489632001807713,
+        "umbra": 7.73150638036441
+      },
+      "total_time_speedup": {
+        "duckdb": 5.531627102271472,
+        "umbra": 3.2030921397089496
+      },
+      "queries_faster": {
+        "duckdb": 99,
+        "umbra": 93
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    },
+    "gemma4_moe": {
+      "queries": 112,
+      "execution_totals_ms": {
+        "egglog": 40.084893,
+        "duckdb": 162.397924,
+        "umbra": 105.42201157659292
+      },
+      "query_geomean_speedup": {
+        "duckdb": 6.4947615219633885,
+        "umbra": 3.5496254566614627
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 10.128898711794733,
+        "umbra": 7.466558037977431
+      },
+      "total_time_speedup": {
+        "duckdb": 4.0513498189954005,
+        "umbra": 2.6299686412183494
+      },
+      "queries_faster": {
+        "duckdb": 108,
+        "umbra": 96
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    },
+    "llama": {
+      "queries": 103,
+      "execution_totals_ms": {
+        "egglog": 5.844783,
+        "duckdb": 111.910987,
+        "umbra": 41.747638024389744
+      },
+      "query_geomean_speedup": {
+        "duckdb": 17.892272059334154,
+        "umbra": 8.336015799158655
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 21.404523095180625,
+        "umbra": 9.751798045190736
+      },
+      "total_time_speedup": {
+        "duckdb": 19.14715858569942,
+        "umbra": 7.142718219716582
+      },
+      "queries_faster": {
+        "duckdb": 103,
+        "umbra": 103
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    },
+    "paged_llama": {
+      "queries": 101,
+      "execution_totals_ms": {
+        "egglog": 5.520738,
+        "duckdb": 109.100724,
+        "umbra": 39.52339623356238
+      },
+      "query_geomean_speedup": {
+        "duckdb": 20.107687859058373,
+        "umbra": 9.118147625445705
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 24.259521296272755,
+        "umbra": 11.149262717503625
+      },
+      "total_time_speedup": {
+        "duckdb": 19.761981821995537,
+        "umbra": 7.1590784119011595
+      },
+      "queries_faster": {
+        "duckdb": 101,
+        "umbra": 101
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    },
+    "qwen": {
+      "queries": 104,
+      "execution_totals_ms": {
+        "egglog": 6.692085,
+        "duckdb": 115.194496,
+        "umbra": 44.97509018983692
+      },
+      "query_geomean_speedup": {
+        "duckdb": 16.513817802178465,
+        "umbra": 7.668898518944153
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 20.057465745625475,
+        "umbra": 9.249864247959405
+      },
+      "total_time_speedup": {
+        "duckdb": 17.213543462164633,
+        "umbra": 6.720639410562915
+      },
+      "queries_faster": {
+        "duckdb": 103,
+        "umbra": 104
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    },
+    "qwen3_moe": {
+      "queries": 111,
+      "execution_totals_ms": {
+        "egglog": 8.521876,
+        "duckdb": 122.421924,
+        "umbra": 54.97925390955061
+      },
+      "query_geomean_speedup": {
+        "duckdb": 15.997937233174703,
+        "umbra": 7.601499630674425
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 19.73575167813337,
+        "umbra": 9.916458829698648
+      },
+      "total_time_speedup": {
+        "duckdb": 14.365607291164528,
+        "umbra": 6.45154352275844
+      },
+      "queries_faster": {
+        "duckdb": 110,
+        "umbra": 111
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    },
+    "whisper": {
+      "queries": 95,
+      "execution_totals_ms": {
+        "egglog": 8.527683999999999,
+        "duckdb": 108.440957,
+        "umbra": 45.72041693609208
+      },
+      "query_geomean_speedup": {
+        "duckdb": 15.223514794096337,
+        "umbra": 7.815021148086678
+      },
+      "query_arithmetic_mean_speedup": {
+        "duckdb": 19.044351817649822,
+        "umbra": 10.994569800701163
+      },
+      "total_time_speedup": {
+        "duckdb": 12.716343265064701,
+        "umbra": 5.361410781179519
+      },
+      "queries_faster": {
+        "duckdb": 95,
+        "umbra": 95
+      },
+      "undefined_ratio_queries": {
+        "duckdb": 0,
+        "umbra": 0
+      }
+    }
+  },
+  "shared_successful_including_empty": {
+    "queries": 3380,
+    "execution_totals_ms": {
+      "egglog": 150.944277,
+      "duckdb": 3616.389277,
+      "umbra": 975.1824024133384
+    },
+    "query_geomean_speedup": {
+      "duckdb": null,
+      "umbra": null
+    },
+    "query_arithmetic_mean_speedup": {
+      "duckdb": null,
+      "umbra": null
+    },
+    "total_time_speedup": {
+      "duckdb": 23.9584391596377,
+      "umbra": 6.460545717896535
+    },
+    "queries_faster": {
+      "duckdb": 3372,
+      "umbra": 3335
+    },
+    "undefined_ratio_queries": {
+      "duckdb": 1161,
+      "umbra": 1161
+    }
+  },
+  "model_equal_weight_geomean_of_total_time_speedups": {
+    "duckdb": 11.504007084172548,
+    "umbra": 5.180486710621538
+  },
+  "output_row_count_mismatches": 0,
+  "mismatched_queries": []
+}

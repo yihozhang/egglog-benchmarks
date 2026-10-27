@@ -17,13 +17,12 @@ use std::time::Instant;
 fn run_program(path: &str, threads: usize) -> EGraph {
     let mut egraph = EGraph::default();
     egraph.set_num_threads(threads);
-    // only affects rules added after the program (the tests): the program itself runs as usual
-    let no_decomp = std::env::var("EGGLOG_QUERY_NO_DECOMP").is_ok();
+    egraph.no_decomp = std::env::args().any(|arg| arg == "--no-decomp")
+        || std::env::var("EGGLOG_QUERY_NO_DECOMP").is_ok();
     let text = std::fs::read_to_string(path).expect("read program");
     egraph
         .parse_and_run_program(Some(path.to_string()), &text)
         .expect("program failed");
-    egraph.no_decomp = no_decomp;
     egraph
 }
 
@@ -164,7 +163,8 @@ fn write_profile(path: &str, guard: pprof::ProfilerGuard<'_>) {
 }
 
 fn main() {
-    let args: Vec<String> = std::env::args().skip(1).collect();
+    let args: Vec<String> = std::env::args().skip(1)
+        .filter(|arg| arg != "--no-decomp").collect();
     match args.first().map(String::as_str) {
         Some("export") => export(&args[1], &args[2]),
         Some("run") => {

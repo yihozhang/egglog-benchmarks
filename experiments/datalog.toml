@@ -1,113 +1,119 @@
-description = "Datalog workloads from flowlog-bench (the pairs FlowLog and Souffle finish within 60 s): egglog at 1-32 threads, egglog 0.5.0, FlowLog, Souffle."
+description = "Paper rerun: datalog; egglog-cracked always uses --no-decomp."
 benchmarks = ["datalog"]
 threads = [1]
 reps = 3
-timeout = 600       # seconds per run
-memory_gb = 32      # per run
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
 plot = "bars"
-baseline = "egglog"
+baseline = "egglog-cracked"
 
 [[variants]]
-label = "egglog"
+label = "egglog-cracked"
 system = "egglog"
-ref = "b9800506"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-t4"
+label = "egglog-cracked-t4"
 system = "egglog"
-ref = "b9800506"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
 threads = [4]
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-t8"
+label = "egglog-cracked-t8"
 system = "egglog"
-ref = "b9800506"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
 threads = [8]
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-t16"
+label = "egglog-cracked-t16"
 system = "egglog"
-ref = "b9800506"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
 threads = [16]
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-t32"
+label = "egglog-cracked-t32"
 system = "egglog"
-ref = "b9800506"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
 threads = [32]
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-no-decomp"
+label = "egglog-cracked-no-decomp"
 system = "egglog"
-ref = "b9800506"
-flags = ["--no-decomp"]      # single-bag plans (only matters for rules with 3+ atoms)
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egglog-no-decomp-t8"
+label = "egglog-cracked-no-decomp-t8"
 system = "egglog"
-ref = "b9800506"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
 flags = ["--no-decomp"]
 threads = [8]
 
 [[variants]]
-label = "egglog-0.5.0"
+label = "egglog-prior"
 system = "egglog"
 ref = "v0.5.0"
 
 [[variants]]
 label = "flowlog"
 system = "flowlog"
-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+ref = "flowlog-compiler-v0.7.0"
 
 [[variants]]
 label = "flowlog-t4"
 system = "flowlog"
-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+ref = "flowlog-compiler-v0.7.0"
 threads = [4]
 
 [[variants]]
 label = "flowlog-t8"
 system = "flowlog"
-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+ref = "flowlog-compiler-v0.7.0"
 threads = [8]
 
 [[variants]]
 label = "flowlog-t16"
 system = "flowlog"
-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+ref = "flowlog-compiler-v0.7.0"
 threads = [16]
 
 [[variants]]
 label = "flowlog-t32"
 system = "flowlog"
-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
+ref = "flowlog-compiler-v0.7.0"
 threads = [32]
 
 [[variants]]
 label = "souffle"
 system = "souffle"
-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+ref = "2.5"
 
 [[variants]]
 label = "souffle-t4"
 system = "souffle"
-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+ref = "2.5"
 threads = [4]
 
 [[variants]]
 label = "souffle-t8"
 system = "souffle"
-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+ref = "2.5"
 threads = [8]
 
 [[variants]]
 label = "souffle-t16"
 system = "souffle"
-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+ref = "2.5"
 threads = [16]
 
 [[variants]]
 label = "souffle-t32"
 system = "souffle"
-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
+ref = "2.5"
 threads = [32]

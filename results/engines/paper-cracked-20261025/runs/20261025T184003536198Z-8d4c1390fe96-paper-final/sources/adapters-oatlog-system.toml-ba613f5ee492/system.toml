@@ -1,0 +1,16 @@
+# oatlog (https://github.com/oatlog/oatlog) compiles an egglog program to Rust at build
+# time. A benchmark is supported when benchmarks/<suite>/oatlog/<name>.egg exists: the
+# egglog program restricted to oatlog's subset of the language. Ports are compiled with
+# compile_egraph_strict (egglog's (run N) semantics); pass --relaxed to use the
+# relaxed mode instead.
+port_dir = "oatlog"
+
+notes = """
+Port = the egglog program in oatlog's language subset (benchmarks/<suite>/oatlog/<name>.egg,
+a symlink when the original already is), compiled to Rust by oatlog's proc macro with
+compile_egraph_strict: Theory::new() executes the program including its (run N). wall_s = the
+port process (Theory::new() + counting); report.run_s = Theory::new() only. --relaxed selects
+compile_egraph_relaxed, which runs rules more often per step and blows up on
+math-microbenchmark (>32 GB), so it is not compared. Not supported: `!=` on e-classes, strings,
+containers, csv input. Single-threaded.
+"""

@@ -1,0 +1,1249 @@
+diff --git a/experiments/ablation-parallelism.toml b/experiments/ablation-parallelism.toml
+index f43aa60..4e717fa 100644
+--- a/experiments/ablation-parallelism.toml
++++ b/experiments/ablation-parallelism.toml
+@@ -1,35 +1,15 @@
+-description = "Query-parallelism ablation: vanilla, inter-query only, and inter-query plus top-level partitioning; other parallelism stays enabled."
+-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
++description = "Paper rerun: ablation-parallelism; egglog-cracked always uses --no-decomp."
++benchmarks = ["hardboiled", "luminal", "eggcc"]
+ threads = [1, 2, 4, 8]
+-cpus = "0-7"       # eight distinct physical cores on NUMA node 0
+ reps = 3
+ timeout = 600
+ memory_gb = 32
++cpus = "0-7,32-39"
+ plot = "scaling"
+-baseline = "egglog"
++baseline = "egglog-cracked"
+ 
+-# Same revision and query-only toggle as the 2026-10-19 Gemma pilot.
+-# All competitors share one binary. The patch only gates top-level query partitions;
+-# fork depth already has an upstream environment control. Explicit defaults keep
+-# these two settings independent of the launching shell's environment.
+-# The normal inter-query threshold and all non-query parallelism remain unchanged.
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "4b5686bed78cf7cf153aebf8e6a2abed1840afee"
+-patches = ["query-parallelism"]
+-env = { EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH = "2", EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION = "1" }
+-
+-[[variants]]
+-label = "inter-query-only"
+-system = "egglog"
+-ref = "4b5686bed78cf7cf153aebf8e6a2abed1840afee"
+-patches = ["query-parallelism"]
+-env = { EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH = "0", EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION = "0" }
+-
+-[[variants]]
+-label = "inter-query-top-level"
+-system = "egglog"
+-ref = "4b5686bed78cf7cf153aebf8e6a2abed1840afee"
+-patches = ["query-parallelism"]
+-env = { EGGLOG_PARALLEL_FREE_JOIN_FORK_DEPTH = "0", EGGLOG_PARALLEL_FREE_JOIN_TOP_PARTITION = "1" }
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+diff --git a/experiments/ablation.toml b/experiments/ablation.toml
+index 17b8589..d46cc05 100644
+--- a/experiments/ablation.toml
++++ b/experiments/ablation.toml
+@@ -1,37 +1,23 @@
+-description = "Ablation: tree decomposition in query planning and dynamic variable ordering during query execution."
+-# --no-dynamic-order comes from systems/egglog/patches/no-dynamic-order.patch, applied at build time.
+-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
++description = "Paper rerun: ablation; egglog-cracked always uses --no-decomp."
++benchmarks = ["math-microbenchmark/math-microbenchmark", "math-microbenchmark/math-microbenchmark-12", "horner/horner-9", "horner/horner-10", "matmul-assoc/matmul-assoc-320", "hardboiled", "luminal", "eggcc"]
+ threads = [1]
+ reps = 3
+-timeout = 600       # seconds per run
+-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
++timeout = 600
++memory_gb = 32
++cpus = "0-7,32-39"
+ plot = "bars"
+-baseline = "no-decomp-no-dynamic-order"
+-speedup_labels = { no-decomp = "+ dynamic order", no-dynamic-order = "+ tree-decomp", egglog = "+ dynamic order, + tree-decomp" }
++baseline = "no-DVO"
+ 
+ [[variants]]
+-label = "egglog"
++label = "no-DVO"
+ system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
+-patches = ["no-dynamic-order"]
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp", "--no-dynamic-order"]
++patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+ 
+ [[variants]]
+-label = "no-decomp"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
+-patches = ["no-dynamic-order"]
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ flags = ["--no-decomp"]
+-
+-[[variants]]
+-label = "no-dynamic-order"
+-system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
+-patches = ["no-dynamic-order"]
+-flags = ["--no-dynamic-order"]
+-
+-[[variants]]
+-label = "no-decomp-no-dynamic-order"
+-system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
+-patches = ["no-dynamic-order"]
+-flags = ["--no-decomp", "--no-dynamic-order"]
++patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+diff --git a/experiments/datalog.toml b/experiments/datalog.toml
+index 088dfe7..a22b73f 100644
+--- a/experiments/datalog.toml
++++ b/experiments/datalog.toml
+@@ -1,113 +1,119 @@
+-description = "Datalog workloads from flowlog-bench (the pairs FlowLog and Souffle finish within 60 s): egglog at 1-32 threads, egglog 0.5.0, FlowLog, Souffle."
++description = "Paper rerun: datalog; egglog-cracked always uses --no-decomp."
+ benchmarks = ["datalog"]
+ threads = [1]
+ reps = 3
+-timeout = 600       # seconds per run
+-memory_gb = 32      # per run
++timeout = 600
++memory_gb = 32
++cpus = "0-7,32-39"
+ plot = "bars"
+-baseline = "egglog"
++baseline = "egglog-cracked"
+ 
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t4"
++label = "egglog-cracked-t4"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [4]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t8"
++label = "egglog-cracked-t8"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [8]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t16"
++label = "egglog-cracked-t16"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [16]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t32"
++label = "egglog-cracked-t32"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [32]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-no-decomp"
++label = "egglog-cracked-no-decomp"
+ system = "egglog"
+-ref = "b9800506"
+-flags = ["--no-decomp"]      # single-bag plans (only matters for rules with 3+ atoms)
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-no-decomp-t8"
++label = "egglog-cracked-no-decomp-t8"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ flags = ["--no-decomp"]
+ threads = [8]
+ 
+ [[variants]]
+-label = "egglog-0.5.0"
++label = "egglog-prior"
+ system = "egglog"
+ ref = "v0.5.0"
+ 
+ [[variants]]
+ label = "flowlog"
+ system = "flowlog"
+-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
++ref = "flowlog-compiler-v0.7.0"
+ 
+ [[variants]]
+ label = "flowlog-t4"
+ system = "flowlog"
+-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
++ref = "flowlog-compiler-v0.7.0"
+ threads = [4]
+ 
+ [[variants]]
+ label = "flowlog-t8"
+ system = "flowlog"
+-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
++ref = "flowlog-compiler-v0.7.0"
+ threads = [8]
+ 
+ [[variants]]
+ label = "flowlog-t16"
+ system = "flowlog"
+-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
++ref = "flowlog-compiler-v0.7.0"
+ threads = [16]
+ 
+ [[variants]]
+ label = "flowlog-t32"
+ system = "flowlog"
+-ref = "flowlog-compiler-v0.7.0"   # latest release (2026-09-24)
++ref = "flowlog-compiler-v0.7.0"
+ threads = [32]
+ 
+ [[variants]]
+ label = "souffle"
+ system = "souffle"
+-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
++ref = "2.5"
+ 
+ [[variants]]
+ label = "souffle-t4"
+ system = "souffle"
+-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
++ref = "2.5"
+ threads = [4]
+ 
+ [[variants]]
+ label = "souffle-t8"
+ system = "souffle"
+-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
++ref = "2.5"
+ threads = [8]
+ 
+ [[variants]]
+ label = "souffle-t16"
+ system = "souffle"
+-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
++ref = "2.5"
+ threads = [16]
+ 
+ [[variants]]
+ label = "souffle-t32"
+ system = "souffle"
+-ref = "2.5"                    # latest release (.deb); no cc/sssp ports (recursive min aggregates)
++ref = "2.5"
+ threads = [32]
+diff --git a/experiments/e2e.toml b/experiments/e2e.toml
+index f89389d..718a217 100644
+--- a/experiments/e2e.toml
++++ b/experiments/e2e.toml
+@@ -1,25 +1,21 @@
+-description = "End-to-end single-threaded running time of egglog against the original egglog prototype; pointer analysis excludes setup/loading."
+-# Pointer analysis uses its shared saturation schedule and analysis-only timing for every variant, including v0.5.0.
+-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
++description = "Paper rerun: e2e; egglog-cracked always uses --no-decomp."
++benchmarks = ["hardboiled", "luminal", "eggcc"]
+ threads = [1]
+ reps = 3
+-timeout = 600       # seconds per run
+-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
++timeout = 600
++memory_gb = 32
++cpus = "0-7,32-39"
+ plot = "bars"
+-baseline = "egglog-0.5.0"   # speedups are reported relative to this variant
++baseline = "egglog-prior"
+ 
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-0.5.0"
++label = "egglog-prior"
+ system = "egglog"
+ ref = "v0.5.0"
+-
+-[[variants]]
+-label = "egglog-no-decomp"
+-system = "egglog"
+-ref = "b9800506"             # same pin; --no-decomp turns off tree decomposition in query planning
+-flags = ["--no-decomp"]
++flags = []
+diff --git a/experiments/engines-small.toml b/experiments/engines-small.toml
+index 41f7620..2de22a6 100644
+--- a/experiments/engines-small.toml
++++ b/experiments/engines-small.toml
+@@ -1,42 +1,42 @@
+-description = "engines.toml on the small horner and matmul-assoc instances (fastest engine under 100 ms), plotted separately."
+-# Same variants as engines.toml; keep the two in sync.
+-benchmarks = ["horner/horner-5", "horner/horner-6", "horner/horner-7",
+-              "matmul-assoc/matmul-assoc-20", "matmul-assoc/matmul-assoc-40", "matmul-assoc/matmul-assoc-80"]
++description = "Paper rerun: engines-small; egglog-cracked always uses --no-decomp."
++benchmarks = ["horner/horner-5", "horner/horner-6", "horner/horner-7", "matmul-assoc/matmul-assoc-20", "matmul-assoc/matmul-assoc-40", "matmul-assoc/matmul-assoc-80"]
+ threads = [1]
+ reps = 5
+-timeout = 600       # seconds per run
+-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+-plot = "variants"   # one bar per engine
+-baseline = "egglog"
+-# metric: wall_s (default) = wall-clock time measured by our harness/adapter around the whole
+-# run (parsing and type checking included; JIT warm-up and VM startup excluded for JIT
+-# languages). Engine-reported times are kept in report.run_s for reference only.
++timeout = 600
++memory_gb = 32
++cpus = "0-7,32-39"
++plot = "variants"
++baseline = "egglog-cracked"
+ 
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t4"
++label = "egglog-cracked-t4"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [4]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t8"
++label = "egglog-cracked-t8"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [8]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t16"
++label = "egglog-cracked-t16"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [16]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-0.5.0"
++label = "egglog-prior"
+ system = "egglog"
+ ref = "v0.5.0"
+ 
+@@ -48,46 +48,44 @@ ref = "v0.11.0"
+ [[variants]]
+ label = "oatlog"
+ system = "oatlog"
+-ref = "6b73396"              # oatlog main as of 2026-10-10; compile_egraph_strict = egglog (run N) semantics.
+-                             # flags = ["--relaxed"] selects compile_egraph_relaxed, which runs rules more often
+-                             # per step and exceeds 32 GB on this workload, so it is not compared.
++ref = "6b73396"
+ 
+ [[variants]]
+ label = "hegg"
+ system = "hegg"
+-ref = "v0.5.0.0"             # latest release; GHC 9.6, trivial analysis, driver loop in the port
++ref = "v0.5.0.0"
+ 
+ [[variants]]
+ label = "metatheory"
+ system = "metatheory"
+-ref = "v2.0.2"               # latest release (no 3.x release exists); SimpleScheduler, JIT warm-up excluded
++ref = "v2.0.2"
+ 
+ [[variants]]
+ label = "ggs"
+ system = "ggs"
+-ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"  # ggs master as of 2026-10-13 (no tags); ggs/eqsat engine, SBCL
++ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"
+ 
+ [[variants]]
+ label = "ego"
+ system = "ego"
+-ref = "e87dae7a"             # ego main as of 2026-06-15: the 0.0.6 tag has an e-matching bug (one match per class)
++ref = "e87dae7a"
+ 
+ [[variants]]
+ label = "foresight"
+ system = "foresight"
+-ref = "f3ea706d"             # foresight main as of 2026-09-10; v0.1.0 predates the mutable e-graph. ParallelMap.sequential, JVM default GC
++ref = "f3ea706d"
+ 
+ [[variants]]
+ label = "foresight-t4"
+ system = "foresight"
+ ref = "f3ea706d"
+-threads = [4]                # ParallelMap.fixedThreadParallel(4)
++threads = [4]
+ 
+ [[variants]]
+ label = "foresight-t8"
+ system = "foresight"
+ ref = "f3ea706d"
+-threads = [8]                # the paper's "For. (P)" configuration
++threads = [8]
+ 
+ [[variants]]
+ label = "foresight-t16"
+diff --git a/experiments/engines.toml b/experiments/engines.toml
+index b1470b6..2a2a7aa 100644
+--- a/experiments/engines.toml
++++ b/experiments/engines.toml
+@@ -1,43 +1,42 @@
+-description = "egglog against other e-graph engines on programs every engine can run exactly: math-microbenchmark (fixed iterations), and the larger horner and matmul-assoc instances (run to saturation; from the foresight CC'26 paper)."
+-# math-microbenchmark-12 is left out (it has its own experiment file); the slow engines would just time out on it.
+-# The small horner/matmul-assoc instances (egglog under 100 ms) are in engines-small.toml.
+-benchmarks = ["math-microbenchmark/math-microbenchmark", "horner/horner-8", "horner/horner-9",
+-              "matmul-assoc/matmul-assoc-160", "matmul-assoc/matmul-assoc-320"]
++description = "Paper rerun: engines; egglog-cracked always uses --no-decomp."
++benchmarks = ["math-microbenchmark/math-microbenchmark", "math-microbenchmark/math-microbenchmark-12", "horner/horner-9", "horner/horner-10", "matmul-assoc/matmul-assoc-320"]
+ threads = [1]
+ reps = 5
+-timeout = 600       # seconds per run
+-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+-plot = "variants"   # one bar per engine
+-baseline = "egglog"
+-# metric: wall_s (default) = wall-clock time measured by our harness/adapter around the whole
+-# run (parsing and type checking included; JIT warm-up and VM startup excluded for JIT
+-# languages). Engine-reported times are kept in report.run_s for reference only.
++timeout = 600
++memory_gb = 32
++cpus = "0-7,32-39"
++plot = "variants"
++baseline = "egglog-cracked"
+ 
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t4"
++label = "egglog-cracked-t4"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [4]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t8"
++label = "egglog-cracked-t8"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [8]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t16"
++label = "egglog-cracked-t16"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [16]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-0.5.0"
++label = "egglog-prior"
+ system = "egglog"
+ ref = "v0.5.0"
+ 
+@@ -49,46 +48,44 @@ ref = "v0.11.0"
+ [[variants]]
+ label = "oatlog"
+ system = "oatlog"
+-ref = "6b73396"              # oatlog main as of 2026-10-10; compile_egraph_strict = egglog (run N) semantics.
+-                             # flags = ["--relaxed"] selects compile_egraph_relaxed, which runs rules more often
+-                             # per step and exceeds 32 GB on this workload, so it is not compared.
++ref = "6b73396"
+ 
+ [[variants]]
+ label = "hegg"
+ system = "hegg"
+-ref = "v0.5.0.0"             # latest release; GHC 9.6, trivial analysis, driver loop in the port
++ref = "v0.5.0.0"
+ 
+ [[variants]]
+ label = "metatheory"
+ system = "metatheory"
+-ref = "v2.0.2"               # latest release (no 3.x release exists); SimpleScheduler, JIT warm-up excluded
++ref = "v2.0.2"
+ 
+ [[variants]]
+ label = "ggs"
+ system = "ggs"
+-ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"  # ggs master as of 2026-10-13 (no tags); ggs/eqsat engine, SBCL
++ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"
+ 
+ [[variants]]
+ label = "ego"
+ system = "ego"
+-ref = "e87dae7a"             # ego main as of 2026-06-15: the 0.0.6 tag has an e-matching bug (one match per class)
++ref = "e87dae7a"
+ 
+ [[variants]]
+ label = "foresight"
+ system = "foresight"
+-ref = "f3ea706d"             # foresight main as of 2026-09-10; v0.1.0 predates the mutable e-graph. ParallelMap.sequential, JVM default GC
++ref = "f3ea706d"
+ 
+ [[variants]]
+ label = "foresight-t4"
+ system = "foresight"
+ ref = "f3ea706d"
+-threads = [4]                # ParallelMap.fixedThreadParallel(4)
++threads = [4]
+ 
+ [[variants]]
+ label = "foresight-t8"
+ system = "foresight"
+ ref = "f3ea706d"
+-threads = [8]                # the paper's "For. (P)" configuration
++threads = [8]
+ 
+ [[variants]]
+ label = "foresight-t16"
+diff --git a/experiments/math-microbenchmark-12.toml b/experiments/math-microbenchmark-12.toml
+index 6d15036..b779f35 100644
+--- a/experiments/math-microbenchmark-12.toml
++++ b/experiments/math-microbenchmark-12.toml
+@@ -1,12 +1,12 @@
+-description = "Math microbenchmark with 12 iterations: oatlog, egglog at 1/4/8/16 threads, egglog 0.5.0, and ggs."
++description = "Paper rerun: math-microbenchmark-12; egglog-cracked always uses --no-decomp."
+ benchmarks = ["math-microbenchmark/math-microbenchmark-12"]
+ threads = [1]
+ reps = 5
+ timeout = 600
+ memory_gb = 32
++cpus = "0-7,32-39"
+ plot = "variants"
+-baseline = "egglog"
+-metric = "wall_s"
++baseline = "egglog-cracked"
+ 
+ [[variants]]
+ label = "oatlog"
+@@ -14,30 +14,34 @@ system = "oatlog"
+ ref = "6b73396"
+ 
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t4"
++label = "egglog-cracked-t4"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [4]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t8"
++label = "egglog-cracked-t8"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [8]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-t16"
++label = "egglog-cracked-t16"
+ system = "egglog"
+-ref = "b9800506"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+ threads = [16]
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egglog-0.5.0"
++label = "egglog-prior"
+ system = "egglog"
+ ref = "v0.5.0"
+ 
+diff --git a/experiments/query.toml b/experiments/query.toml
+index a26727d..33dd3d6 100644
+--- a/experiments/query.toml
++++ b/experiments/query.toml
+@@ -1,8 +1,9 @@
+ kind = "query"
++no_decomp_only = true
+ description = "Query-only comparison on a fresh snapshot: every rule of every program, run once naively in egglog (writing its RHS variables into a function set to 1) and as INSERT ... SELECT DISTINCT in DuckDB and Umbra."
+ suite = "luminal"
+ programs = []                 # empty = every program of the suite
+-egglog_ref = "b9800506"       # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063
++egglog_ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"       # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063
+ engines = ["duckdb", "umbra"] # SQL baselines (systems/egglog-query/bench_db.py)
+ threads = 1
+ reps = 3                      # timed repetitions after one warm-up
+diff --git a/experiments/scaling.toml b/experiments/scaling.toml
+index 6098a69..dc5f1f7 100644
+--- a/experiments/scaling.toml
++++ b/experiments/scaling.toml
+@@ -1,14 +1,21 @@
+-description = "Multi-threaded scaling of egglog, pinned to the 64 physical cores (SMT siblings are 64-127)."
+-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+-threads = [1, 2, 4, 8, 16, 32, 64]
+-cpus = "0-63"
++description = "Paper rerun: scaling; egglog-cracked always uses --no-decomp."
++benchmarks = ["math-microbenchmark/math-microbenchmark", "horner/horner-9", "matmul-assoc/matmul-assoc-320"]
++threads = [1, 2, 4, 8, 16]
+ reps = 3
+-timeout = 600       # seconds per run
+-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
++timeout = 600
++memory_gb = 32
++cpus = "0-7,32-39"
+ plot = "scaling"
+-baseline = "egglog"
++baseline = "egglog-cracked"
+ 
+ [[variants]]
+-label = "egglog"
++label = "egglog-cracked"
+ system = "egglog"
+-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
++
++[[variants]]
++label = "foresight"
++system = "foresight"
++ref = "f3ea706d"
++flags = []
+diff --git a/experiments/storel.toml b/experiments/storel.toml
+index 5cb1d12..13ee9e3 100644
+--- a/experiments/storel.toml
++++ b/experiments/storel.toml
+@@ -1,43 +1,21 @@
+-description = "STOREL (SIGMOD'23) sparse tensor kernels: equality saturation with de Bruijn indices and extraction-based beta reduction; egg (the original implementation) against egglog with the STOREL extension (systems/egglog-storel), each under egg's SimpleScheduler-style schedule and under the back-off scheduler (STOREL's configuration)."
+-# The kernels that take egg more than 100 ms. Every run stops after the iteration that reaches
+-# the kernel's node limit (benchmarks/storel/gen.py: 10K/150K e-nodes for the two kernels egg
+-# saturates, 1M for the others), because which e-graph a run explores depends on the engine's
+-# apply order (see gen.py), so the metric is the time to grow the e-graph to that size.
+-# `bench check` therefore reports size mismatches between variants by design; compare
+-# report.nodes (the e-node count at the stop, up to one iteration past the limit) instead.
+-# Two head-to-head comparisons: egg-simple vs egglog-rust (every rule applied every
+-# iteration) and egg-backoff vs egglog-rust-backoff (STOREL's BackoffScheduler and
+-# egglog-experimental's back-off); scripts/plot-storel.py draws them with the reached sizes.
+-benchmarks = ["storel/mmm-sum-2nd", "storel/mmm-2nd",
+-              "storel/batax-1st", "storel/mttkrp-2nd", "storel/ttm-2nd", "storel/batax-2nd"]
++description = "Paper rerun: storel; egglog-cracked always uses --no-decomp."
++benchmarks = ["storel/mmm-sum-2nd", "storel/mmm-2nd", "storel/batax-1st", "storel/mttkrp-2nd", "storel/ttm-2nd", "storel/batax-2nd"]
+ threads = [1]
+-reps = 5
+-timeout = 900       # seconds per run (egg needs up to 120 s, the back-off variants up to 200 s)
+-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+-plot = "variants"   # one bar per engine (bench plot); scripts/plot-storel.py for the paper figure
+-baseline = "egglog-rust"
+-# metric: wall_s (default) = wall-clock time of the whole process measured by our adapter
+-# (parsing and type checking included; also the REPL driver's per-iteration size checks).
+-# Engine-reported times are kept in report.run_s for reference only.
++reps = 3
++timeout = 900
++memory_gb = 32
++cpus = "0-7,32-39"
++plot = "variants"
++baseline = "egg"
+ 
+ [[variants]]
+-label = "egglog-rust"
+-system = "egglog-storel"        # egglog + the STOREL extension: the smallest terms are Frozen base values, substitution and shifting in Rust; (run phase) steps
+-ref = "b9800506"                # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
++label = "egglog-cracked"
++system = "egglog-storel-backoff"
++ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
++flags = ["--no-decomp"]
+ 
+ [[variants]]
+-label = "egg-simple"
++label = "egg"
+ system = "egg"
+-ref = "v0.11.0"                 # the port of STOREL's egg 0.6 code (benchmarks/storel/egg) with egg's SimpleScheduler
+-flags = ["--scheduler", "simple"]
+-
+-[[variants]]
+-label = "egglog-rust-backoff"
+-system = "egglog-storel-backoff"  # the same extension, the rules under egglog-experimental's back-off scheduler (match limit 1000, ban length 5)
+-ref = "b9800506"
+-
+-[[variants]]
+-label = "egg-backoff"
+-system = "egg"
+-ref = "v0.11.0"                 # STOREL's configuration: egg's BackoffScheduler::default() (match limit 1000, ban length 5)
++ref = "v0.11.0"
+ flags = ["--scheduler", "backoff"]
+diff --git a/harness/query.py b/harness/query.py
+index 96839fb..33e7eb6 100644
+--- a/harness/query.py
++++ b/harness/query.py
+@@ -93,7 +93,7 @@ def _program_sources(sdir: Path, programs: list[str]) -> dict[str, Path]:
+     return sources
+ 
+ 
+-def _validate_program_payload(pdir: Path, engines: list[str]) -> None:
++def _validate_program_payload(pdir: Path, engines: list[str], *, no_decomp_only: bool = False) -> None:
+     """Require one attempted measurement per translated query and engine/mode."""
+     queries = json.loads((pdir / "index.json").read_text())["queries"]
+     query_ids = {entry["id"] for entry in queries}
+@@ -101,7 +101,7 @@ def _validate_program_payload(pdir: Path, engines: list[str]) -> None:
+         raise ValueError(f"duplicate query IDs in {pdir}/index.json")
+     for engine in ["egglog", *engines]:
+         path = pdir / f"{engine}.jsonl"
+-        expected = {(query_id, mode) for query_id in query_ids for mode in (False, True)} if engine == "egglog" else query_ids
++        expected = {(query_id, mode) for query_id in query_ids for mode in ([True] if no_decomp_only else [False, True])} if engine == "egglog" else query_ids
+         seen = set()
+         for line in path.read_text().splitlines():
+             if not line.strip():
+@@ -180,7 +180,9 @@ def run(
+     out, manifest = artifacts.create_run(experiment, "query", cfg, host_info(), machine=machine, tag=tag, source=source)
+     work = ROOT / "build" / "query" / experiment / manifest["run_id"]
+     manifest.update(cli_overrides=overrides, programs=programs, engines=engines, measurement=measurement,
+-                    plan=[{"program": program, "engines": ["egglog", "egglog_nd", *engines]} for program in programs])
++                    plan=[{"program": program, "engines":
++                           (["egglog-cracked"] if cfg.get("no_decomp_only") else ["egglog", "egglog_nd"]) + engines}
++                          for program in programs])
+     try:
+         manifest["inputs"] = {
+             "suite": {"path": str(sdir), **artifacts.tree_identity(sdir)},
+@@ -220,7 +222,13 @@ def run(
+             builds["umbra"] = {**_umbra_identity(), "client_version": _package_version("psycopg")}
+         manifest.update(egglog_commit=commit, driver=driver, builds=builds)
+         artifacts.write_manifest(out, manifest)
+-        env = {**os.environ, "EGGLOG_QUERY_DRIVER": driver, "BENCH_SCRATCH": str(work / "scratch")}
++        env = {**os.environ, "EGGLOG_QUERY_DRIVER": driver, "BENCH_SCRATCH": str(work / "scratch"),
++               "EGGLOG_QUERY_NO_DECOMP_ONLY": "1" if cfg.get("no_decomp_only") else "0"}
++        if cfg.get("no_decomp_only"):
++            env.update(UMBRA_CONTAINER_NAME=f"umbra-paper-{manifest['run_id'][:22]}", UMBRA_PORT="55432")
++            manifest["measurement"]["egglog"]["flags"] = ["--no-decomp"]
++            manifest["container_settings"] = {key: env[key] for key in ("UMBRA_CONTAINER_NAME", "UMBRA_PORT")}
++            artifacts.write_manifest(out, manifest)
+         for prog in programs:
+             print(f"[{dt.datetime.now():%H:%M:%S}] {prog}: export, translate, egglog", flush=True)
+             pdir = work / prog
+@@ -241,7 +249,7 @@ def run(
+             for filename in ("index.json", "egglog.jsonl", *(f"{engine}.jsonl" for engine in engines)):
+                 if not (out / prog / filename).is_file():
+                     raise RuntimeError(f"query backend did not produce {prog}/{filename}")
+-            _validate_program_payload(out / prog, engines)
++            _validate_program_payload(out / prog, engines, no_decomp_only=cfg.get("no_decomp_only", False))
+         artifacts.finish_run(out, manifest, "complete")
+     except KeyboardInterrupt:
+         artifacts.finish_run(out, manifest, "interrupted", error="KeyboardInterrupt")
+@@ -311,7 +319,8 @@ def load_rows(rd: Path) -> list[dict]:
+                                  f"Use bench inspect {rd.name} to inspect partial results.")
+             artifacts.verify_run(rd)
+             for program in manifest.get("programs", []):
+-                _validate_program_payload(rd / program, manifest.get("engines", []))
++                _validate_program_payload(rd / program, manifest.get("engines", []),
++                                          no_decomp_only=manifest.get("config", {}).get("no_decomp_only", False))
+     rows = []
+     for pdir in sorted(d for d in rd.iterdir() if d.is_dir() and (d / "index.json").is_file()):
+         idx = {q["id"]: q for q in json.loads((pdir / "index.json").read_text())["queries"]}
+@@ -321,7 +330,7 @@ def load_rows(rd: Path) -> list[dict]:
+             r = json.loads(line); m = merged.get(r["query"])
+             if m is None:
+                 continue
+-            key = "egglog_nd" if r.get("no_decomp") else "egglog"
++            key = "egglog" if r.get("engine_label") == "egglog-cracked" else ("egglog_nd" if r.get("no_decomp") else "egglog")
+             if "error" in r:
+                 m[f"{key}_status"] = "error"; continue
+             m[f"{key}_status"] = "ok"; m[f"{key}_rows"] = r["size"]
+@@ -348,7 +357,7 @@ def load_rows(rd: Path) -> list[dict]:
+     return rows
+ 
+ 
+-SYSTEMS = [("egglog", "egglog"), ("egglog_nd", "egglog no-decomp"), ("duckdb", "DuckDB"), ("umbra", "Umbra")]
++SYSTEMS = [("egglog", "egglog-cracked"), ("egglog_nd", "egglog no-decomp"), ("duckdb", "DuckDB"), ("umbra", "Umbra")]
+ 
+ 
+ def present(rows):
+@@ -443,8 +452,8 @@ def plot(name: str, run: str = "latest", out_dir: Path | None = None, selection:
+         ax.plot([lo, hi], [lo, hi], color=MUTED, linewidth=0.8, linestyle="--")
+         ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlim(lo, hi); ax.set_ylim(lo, hi)
+         faster = sum(1 for a, b in zip(xs, ys) if a < b)
+-        ax.set_title(f"{label}: egglog faster on {faster}/{len(xs)}")
+-        ax.set_xlabel("egglog execution (ms)"); ax.grid(True, axis="both")
++        ax.set_title(f"{label}: egglog-cracked faster on {faster}/{len(xs)}")
++        ax.set_xlabel("egglog-cracked execution (ms)"); ax.grid(True, axis="both")
+     axes[0][0].set_ylabel("execution (ms)")
+     fig.tight_layout()
+     p = out_dir / f"{name}-scatter.pdf"; fig.savefig(p, bbox_inches="tight"); fig.savefig(p.with_suffix(".png"), bbox_inches="tight"); plt.close(fig)
+diff --git a/systems/_container/build.py b/systems/_container/build.py
+index 546a1f8..7b3ac08 100755
+--- a/systems/_container/build.py
++++ b/systems/_container/build.py
+@@ -47,7 +47,7 @@ def main() -> int:
+             r = sh("git", "-C", str(repo), "rev-parse", "--verify", f"{ref}^{{commit}}", capture_output=True)
+     sha = r.stdout.strip()
+     out = root / "build" / name / sha[:12]
+-    image = f"egglog-bench/{name}:{sha[:12]}"
++    image = f"egglog-paper-cracked/{name}:{sha[:12]}"
+ 
+     # stage the build context: system files + this system's ports
+     ctx = out / "context"
+diff --git a/systems/_container/run.py b/systems/_container/run.py
+index 3722545..6b4e30d 100755
+--- a/systems/_container/run.py
++++ b/systems/_container/run.py
+@@ -81,8 +81,9 @@ def main() -> int:
+             # fires at the same moment and records the status).
+             cmd += ["--entrypoint", "timeout"]
+             entry = ["-s", "KILL", os.environ["BENCH_TIMEOUT_S"], "/bench/entry.sh"]
+-    # No --cpuset-cpus: rootless podman on the benchmark host has no cpuset controller
+-    # delegated, and these engines are single-threaded anyway (BENCH_CPUS is ignored).
++    # Bind container workers and GC threads as well as the host adapter.
++    if os.environ.get("BENCH_CPUS"):
++        cmd += ["--cpuset-cpus", os.environ["BENCH_CPUS"]]
+     cmd += [info["image"], *entry, suite, port, *flags]
+     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
+ 
+diff --git a/systems/egglog-query/bench_db.py b/systems/egglog-query/bench_db.py
+index 1585f1b..cb4065b 100644
+--- a/systems/egglog-query/bench_db.py
++++ b/systems/egglog-query/bench_db.py
+@@ -30,7 +30,7 @@ def container_engine():
+ 
+ 
+ def remove_umbra(engine):
+-    subprocess.run([engine, "rm", "-f", "umbra-bench"],
++    subprocess.run([engine, "rm", "-f", os.environ.get("UMBRA_CONTAINER_NAME", "umbra-bench")],
+                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+ 
+ 
+@@ -94,7 +94,7 @@ def umbra_connect():
+         for attempt in range(5):   # a crashed server's container sometimes refuses to stop at first
+             remove_umbra(engine)
+             # Explicit removal works with both engines; Docker has no --replace option.
+-            if subprocess.run([engine, "run", "-d", "--name", "umbra-bench", "-p", "5432:5432", UMBRA_IMAGE],
++            if subprocess.run([engine, "run", "-d", "--name", os.environ.get("UMBRA_CONTAINER_NAME", "umbra-bench"), "-p", f"127.0.0.1:{os.environ.get('UMBRA_PORT', '5432')}:5432", UMBRA_IMAGE],
+                               stdout=subprocess.DEVNULL).returncode == 0:
+                 break
+             time.sleep(5)
+@@ -103,7 +103,7 @@ def umbra_connect():
+         last_error = None
+         for _ in range(240):
+             try:
+-                con = psycopg.connect("host=localhost port=5432 user=postgres password=postgres dbname=postgres",
++                con = psycopg.connect(f"host=localhost port={os.environ.get('UMBRA_PORT', '5432')} user=postgres password=postgres dbname=postgres",
+                                       autocommit=True, connect_timeout=2)
+                 break
+             except Exception as error:
+@@ -145,7 +145,7 @@ def run_umbra(out):
+                 med = lambda xs: statistics.median(xs[1:]) * 1e3
+                 rec.update(status="ok", rows=rows, prepare_ms=prep * 1e3, execute_ms=med(exe), adhoc_ms=med(adhoc))
+             except Exception as e:
+-                alive = subprocess.run([container_engine(), "ps", "-q", "--filter", "name=umbra-bench"],
++                alive = subprocess.run([container_engine(), "ps", "-q", "--filter", f"name={os.environ.get('UMBRA_CONTAINER_NAME', 'umbra-bench')}"],
+                                        capture_output=True, text=True).stdout.strip()
+                 rec.update(status="timeout" if "cancel" in str(e).lower() and alive else ("crash" if not alive else "error"), error=str(e)[:300])
+                 if not alive or rec["status"] != "ok":
+diff --git a/systems/egglog-query/driver/src/main.rs b/systems/egglog-query/driver/src/main.rs
+index 85ceebc..81af4a2 100644
+--- a/systems/egglog-query/driver/src/main.rs
++++ b/systems/egglog-query/driver/src/main.rs
+@@ -17,13 +17,12 @@ use std::time::Instant;
+ fn run_program(path: &str, threads: usize) -> EGraph {
+     let mut egraph = EGraph::default();
+     egraph.set_num_threads(threads);
+-    // only affects rules added after the program (the tests): the program itself runs as usual
+-    let no_decomp = std::env::var("EGGLOG_QUERY_NO_DECOMP").is_ok();
++    egraph.no_decomp = std::env::args().any(|arg| arg == "--no-decomp")
++        || std::env::var("EGGLOG_QUERY_NO_DECOMP").is_ok();
+     let text = std::fs::read_to_string(path).expect("read program");
+     egraph
+         .parse_and_run_program(Some(path.to_string()), &text)
+         .expect("program failed");
+-    egraph.no_decomp = no_decomp;
+     egraph
+ }
+ 
+@@ -164,7 +163,8 @@ fn write_profile(path: &str, guard: pprof::ProfilerGuard<'_>) {
+ }
+ 
+ fn main() {
+-    let args: Vec<String> = std::env::args().skip(1).collect();
++    let args: Vec<String> = std::env::args().skip(1)
++        .filter(|arg| arg != "--no-decomp").collect();
+     match args.first().map(String::as_str) {
+         Some("export") => export(&args[1], &args[2]),
+         Some("run") => {
+diff --git a/systems/egglog-query/run_suite.py b/systems/egglog-query/run_suite.py
+index 58a4362..0ed17a1 100644
+--- a/systems/egglog-query/run_suite.py
++++ b/systems/egglog-query/run_suite.py
+@@ -4,7 +4,7 @@
+ Usage: run_suite.py <suite> <outdir> [program ...]
+ For each program: export its final state (driver export), translate every rule and rewrite
+ of the program text (and the files it includes) with sqlgen, and run every translated rule
+-in egglog once by default and once with EGGLOG_QUERY_NO_DECOMP (driver run, 1 thread).
++in egglog with --no-decomp (driver run, 1 thread) for the paper configuration.
+ Writes <outdir>/<program>/{schema.json,tables/,queries/,index.json,egglog.jsonl}.
+ """
+ import json, os, pathlib, re, subprocess, sys
+@@ -36,12 +36,15 @@ def rules_of(text):
+     return out
+ 
+ def run(suite, outdir, programs):
++    no_decomp_only = os.environ.get("EGGLOG_QUERY_NO_DECOMP_ONLY") == "1"
++    modes = [True] if no_decomp_only else [False, True]
+     sdir = ROOT / "benchmarks" / suite
+     programs = programs or sorted(p.stem for p in sdir.glob("*.egg") if "header" not in p.stem)
+     for prog in programs:
+         out = outdir / prog; (out / "queries").mkdir(parents=True, exist_ok=True)
+         if not (out / "schema.json").exists():
+-            subprocess.run([str(DRIVER), "export", f"{prog}.egg", str(out)], cwd=sdir, check=True, stderr=subprocess.DEVNULL)
++            subprocess.run([str(DRIVER), "export", f"{prog}.egg", str(out),
++                            *(["--no-decomp"] if no_decomp_only else [])], cwd=sdir, check=True)
+         schema = sqlgen.Schema(out / "schema.json")
+         index, failed = [], []
+         for i, (name, ruleset, text) in enumerate(rules_of(program_text(sdir / f"{prog}.egg"))):
+@@ -58,11 +61,15 @@ def run(suite, outdir, programs):
+         (out / "index.json").write_text(json.dumps({"queries": index, "untranslated": failed}, indent=1))
+         tests = [str(out / "queries" / f"{q['id']}.egg") for q in index]
+         with open(out / "egglog.jsonl", "w") as f:
+-            for env in ({}, {"EGGLOG_QUERY_NO_DECOMP": "1"}):
+-                p = subprocess.run([str(DRIVER), "run", f"{prog}.egg", "-j", "1", *tests], cwd=sdir,
+-                                   env={**os.environ, **env}, capture_output=True, text=True)
++            for no_decomp in modes:
++                cmd = [str(DRIVER), "run", f"{prog}.egg", "-j", "1",
++                       *(["--no-decomp"] if no_decomp else []), *tests]
++                p = subprocess.run(cmd, cwd=sdir, capture_output=True, text=True, check=True)
++                (out / f"egglog-command-{no_decomp}.json").write_text(json.dumps(cmd, indent=2))
++                (out / f"egglog-stderr-{no_decomp}.txt").write_text(p.stderr)
+                 for line in p.stdout.splitlines():
+-                    r = json.loads(line); r["no_decomp"] = bool(env); r["query"] = pathlib.Path(r["test"]).stem
++                    r = json.loads(line); r["no_decomp"] = no_decomp; r["query"] = pathlib.Path(r["test"]).stem
++                    r["engine_label"] = "egglog-cracked" if no_decomp_only else "egglog"
+                     f.write(json.dumps(r) + "\n")
+         print(f"{prog}: {len(index)} queries, {len(failed)} untranslated", flush=True)
+ 
+diff --git a/systems/egglog-storel-backoff/run b/systems/egglog-storel-backoff/run
+index 6202f2e..7c396c6 100755
+--- a/systems/egglog-storel-backoff/run
++++ b/systems/egglog-storel-backoff/run
+@@ -10,6 +10,7 @@ exactly systems/egglog/run, which this script execs with the port in place of th
+ """
+ 
+ import os
++import re
+ import sys
+ from pathlib import Path
+ 
+@@ -23,6 +24,23 @@ def main() -> int:
+     if not port.is_file():
+         print(f"no egglog-storel-backoff port for {program.parent.name}/{program.stem}", file=sys.stderr)
+         return UNSUPPORTED
++    batch = int(os.environ.get("BENCH_STOREL_REWRITE_BATCH", "1"))
++    if batch not in (1, 2, 4, 8):
++        raise ValueError("BENCH_STOREL_REWRITE_BATCH must be 1, 2, 4, or 8")
++    if batch > 1:
++        # Keep phase order, rules, backoff state and node target fixed. Refresh aux
++        # after K executions of each rewrite phase instead of after every execution.
++        prefix, marker, schedule = port.read_text().partition(";; BENCHMARK_NODE_LIMIT")
++        if not marker:
++            raise ValueError("STOREL schedule experiment requires a node-limit marker")
++        schedule, count = re.subn(r"\(run-with bo (phase[12])\)",
++                                 lambda m: f"(repeat {batch} {m.group(0)})", schedule)
++        if count != 2:
++            raise ValueError("expected one phase1 and one phase2 in the original schedule")
++        generated = Path(out_dir) / "storel-schedule.egg"
++        generated.parent.mkdir(parents=True, exist_ok=True)
++        generated.write_text(prefix + marker + schedule)
++        port = generated
+     run = Path(__file__).resolve().parent.parent / "egglog" / "run"
+     os.execv(str(run), [str(run), build_dir, str(port), fact_dir, threads, out_dir, *flags])
+ 
+diff --git a/systems/egglog/patches/no-dynamic-order.patch b/systems/egglog/patches/no-dynamic-order.patch
+index 18ea4c1..ffee35b 100644
+--- a/systems/egglog/patches/no-dynamic-order.patch
++++ b/systems/egglog/patches/no-dynamic-order.patch
+@@ -1,59 +1,100 @@
+ diff --git a/core-relations/src/free_join/execute.rs b/core-relations/src/free_join/execute.rs
+-index 039b8cb1..0c3abab9 100644
++index fe6e239d..7837c345 100644
+ --- a/core-relations/src/free_join/execute.rs
+ +++ b/core-relations/src/free_join/execute.rs
+-@@ -45,7 +45,8 @@ use super::{
++@@ -44,8 +44,9 @@ use super::{
++     frame_update::{FrameUpdates, UpdateInstr},
+      join_tail::{
+-         BindingInfo, BindingSet, BorrowedLocalState, InstrOrder, JoinOrderContext, LeafScans,
+-         LocalState, MatchCounter, RetiredLocalStates, SubsetClonePlan, atom_tail_use,
+--        estimate_size, materialization_is_live_in_tail, sort_plan_by_size,
+-+        dynamic_variable_ordering_enabled, estimate_size, materialization_is_live_in_tail,
+-+        sort_plan_by_size,
++         BindingInfo, BindingSet, BorrowedLocalState, InstrOrder, LeafScans, LocalState,
++-        MatchCounter, RetiredLocalStates, SubsetClonePlan, atom_tail_use, estimate_size,
++-        is_reorder_barrier, materialization_is_live_in_tail, select_next_stage,
+++        MatchCounter, RetiredLocalStates, SubsetClonePlan, atom_tail_use,
+++        dynamic_variable_ordering_enabled, estimate_size, is_reorder_barrier,
+++        materialization_is_live_in_tail, select_initial_order, select_next_stage,
+      },
+-     packed_cache::{OwnedAtomRows, TrieCache},
++     packed_cache::{FilteredRootCatalog, OwnedAtomRows, TrieCache, canonical_constraints},
+      packed_trie::{ChildShape, TrieNode},
+-@@ -1432,7 +1433,11 @@ impl<'a, 'state, 'exec> JoinState<'a, 'state, 'exec> {
+-             TopLevelPartition::scan_size,
+-         );
+-         let chunk_size = action_buf.morsel_size(cur, instr_order.len());
+--        if cur_size > 1 && cur > 0 && cur < instr_order.len() - 1 {
+-+        if cur_size > 1
+-+            && cur > 0
+-+            && cur < instr_order.len() - 1
+-+            && dynamic_variable_ordering_enabled()
+-+        {
+-             // Select only the next stage from fresh residual sizes at every
+-             // nontrivial step. Leave later choices until their inputs exist.
+-             // Keep cur=0 fixed: top-level partitions describe that first
++@@ -1316,7 +1317,13 @@ impl<'a, 'state, 'exec> JoinState<'a, 'state, 'exec> {
++         }
++         let mut order = InstrOrder::from_iter(0..stages.instrs.len());
++         let mut leaf_scans: LeafScans = smallvec::smallvec![false; stages.instrs.len()];
++-        select_next_stage(&mut order, &mut leaf_scans, 0, &stages.instrs, binding_info);
+++        select_initial_order(
+++            &mut order,
+++            &mut leaf_scans,
+++            &stages.instrs,
+++            binding_info,
+++            dynamic_variable_ordering_enabled(),
+++        );
++         let all_stages = prepared.all_stage_mask::<M>();
++         debug_assert!(
++             all_stages.is_some()
++@@ -1506,7 +1513,8 @@ impl<'a, 'state, 'exec> JoinState<'a, 'state, 'exec> {
++         }
++         // For very small residuals, keep the existing schedule instead of
++         // paying for another candidate scan.
++-        if cur_size > 1
+++        if dynamic_variable_ordering_enabled()
+++            && cur_size > 1
++             && cur > 0
++             && cur < instr_order.len() - 1
++             && !is_reorder_barrier(&stages.instrs[instr_order.get(cur)])
++diff --git a/core-relations/src/free_join/execute_tests.rs b/core-relations/src/free_join/execute_tests.rs
++index 2c57b084..bb140ae7 100644
++--- a/core-relations/src/free_join/execute_tests.rs
+++++ b/core-relations/src/free_join/execute_tests.rs
++@@ -562,6 +562,28 @@ fn binding_info_with_sizes(sizes: &[usize]) -> BindingInfo<'static, 'static> {
++     binding_info
++ }
++ 
+++#[test]
+++fn paper_static_order_selects_every_stage_before_execution() {
+++    let stages = vec![
+++        intersect_stage(0, 0),
+++        intersect_stage(1, 0),
+++        intersect_stage(0, 1),
+++        intersect_stage(2, 0),
+++    ];
+++    let binding_info = binding_info_with_sizes(&[160, 80, 66]);
+++    for (dynamic, expected) in [(true, [3, 0, 1, 2]), (false, [3, 1, 0, 2])] {
+++        let mut order = InstrOrder::from_iter(0..stages.len());
+++        crate::free_join::join_tail::select_initial_order(
+++            &mut order,
+++            &mut smallvec![false; stages.len()],
+++            &stages,
+++            &binding_info,
+++            dynamic,
+++        );
+++        assert_eq!(order, InstrOrder::from_iter(expected.into_iter()));
+++    }
+++}
+++
++ #[test]
++ fn initial_dvo_selects_only_the_first_stage() {
++     let stages = vec![
+ diff --git a/core-relations/src/free_join/join_tail.rs b/core-relations/src/free_join/join_tail.rs
+-index ef2231c7..6b67a35d 100644
++index 697d46ca..2523891e 100644
+ --- a/core-relations/src/free_join/join_tail.rs
+ +++ b/core-relations/src/free_join/join_tail.rs
+-@@ -6,7 +6,10 @@
++@@ -4,7 +4,10 @@
++ //! Dynamic variable ordering updates the stage schedule and the leaf-scan
++ //! flags that allow bindings to remain factorized until action execution.
+  
+- use std::{
+-     ops::Range,
+--    sync::{Arc, Mutex, atomic::AtomicUsize},
+-+    sync::{
+-+        Arc, Mutex,
+-+        atomic::{AtomicBool, AtomicUsize, Ordering},
+-+    },
+- };
++-use std::sync::{Arc, Mutex, atomic::AtomicUsize};
+++use std::sync::{
+++    Arc, Mutex,
+++    atomic::{AtomicBool, AtomicUsize, Ordering},
+++};
+  
+  use crossbeam::utils::CachePadded;
+-@@ -407,6 +410,23 @@ pub(super) enum JoinOrderContext {
+-     },
++ use smallvec::SmallVec;
++@@ -392,6 +395,36 @@ pub(super) fn is_reorder_barrier(stage: &JoinStage) -> bool {
++     )
+  }
+  
+-+/// Whether dynamic variable ordering *during* query execution is enabled. The
+-+/// initial size-based ordering at the start of each execution always happens;
+-+/// this only controls whether the remaining stages are re-sorted as the join
+-+/// proceeds (see `run_plan`). Enabled by default.
+++/// Paper ablation: choose the complete physical order before execution when false.
+ +static DYNAMIC_VARIABLE_ORDERING: AtomicBool = AtomicBool::new(true);
+ +
+-+/// Globally enable or disable re-sorting of the remaining join stages during
+-+/// query execution. Intended for ablation experiments; takes effect for
+-+/// queries started after the call.
+ +pub fn set_dynamic_variable_ordering(enabled: bool) {
+ +    DYNAMIC_VARIABLE_ORDERING.store(enabled, Ordering::Relaxed);
+ +}
+@@ -62,15 +103,34 @@ index ef2231c7..6b67a35d 100644
+ +    DYNAMIC_VARIABLE_ORDERING.load(Ordering::Relaxed)
+ +}
+ +
+- /// Reorder a suffix of the current execution schedule using the DVO policy.
+++/// The static baseline uses the same selection policy at every position, with
+++/// cardinalities available before any stage runs. Barriers remain in place.
+++/// DVO selects only the root and defers later decisions until residuals exist.
+++pub(super) fn select_initial_order(
+++    order: &mut InstrOrder,
+++    leaf_scans: &mut LeafScans,
+++    instrs: &[JoinStage],
+++    binding_info: &BindingInfo<'_, '_>,
+++    dynamic: bool,
+++) {
+++    if dynamic {
+++        select_next_stage(order, leaf_scans, 0, instrs, binding_info);
+++    } else {
+++        for start in 0..order.len() {
+++            select_next_stage(order, leaf_scans, start, instrs, binding_info);
+++        }
+++    }
+++}
+++
++ /// Select the next stage using the current input sizes.
+  ///
+- /// At runtime, select only the next executable stage by increasing residual
++ /// Prefer materialized keys by decreasing bound-key count, then increasing
+ diff --git a/core-relations/src/free_join/mod.rs b/core-relations/src/free_join/mod.rs
+-index 84349f9b..3136d556 100644
++index 87bd4349..6ad042ac 100644
+ --- a/core-relations/src/free_join/mod.rs
+ +++ b/core-relations/src/free_join/mod.rs
+-@@ -43,6 +43,7 @@ use crate::common::HashMap;
+- pub(crate) mod execute;
++@@ -45,6 +45,7 @@ pub(crate) mod execute;
++ mod filtered_index_tests;
+  pub(crate) mod frame_update;
+  mod join_tail;
+ +pub use join_tail::set_dynamic_variable_ordering;
+@@ -91,23 +151,21 @@ index ad369b3b..be316c59 100644
+  pub use hash_index::TupleIndex;
+  #[doc(hidden)]
+ diff --git a/src/cli.rs b/src/cli.rs
+-index 55f3a219..98ac925b 100644
++index 55f3a219..5b4f7a63 100644
+ --- a/src/cli.rs
+ +++ b/src/cli.rs
+-@@ -28,6 +28,12 @@ struct Args {
++@@ -28,6 +28,10 @@ struct Args {
+      /// on rules.
+      #[clap(long)]
+      no_decomp: bool,
+-+    /// Disables dynamic variable ordering during query execution. The join
+-+    /// executor still orders the stages of a plan by the sizes observed at the
+-+    /// start of each execution, but with this flag it never re-sorts the
+-+    /// remaining stages as the join proceeds. Intended for ablation experiments.
+++    /// Preselect every variable-order stage before execution, using initial
+++    /// cardinalities, and disable all residual-based reordering during execution.
+ +    #[clap(long)]
+ +    no_dynamic_order: bool,
+      /// Prints extra information, which can be useful for debugging
+      #[clap(long, default_value_t = RunMode::Normal)]
+      mode: RunMode,
+-@@ -109,6 +115,7 @@ pub fn cli(mut egraph: EGraph) {
++@@ -109,6 +113,7 @@ pub fn cli(mut egraph: EGraph) {
+      egraph.fact_directory.clone_from(&args.fact_directory);
+      egraph.seminaive = !args.naive;
+      egraph.no_decomp = args.no_decomp;
+diff --git a/tests/test_query_artifacts.py b/tests/test_query_artifacts.py
+index a491d4d..c17f093 100644
+--- a/tests/test_query_artifacts.py
++++ b/tests/test_query_artifacts.py
+@@ -107,6 +107,18 @@ class QueryArtifactsTests(unittest.TestCase):
+         })
+         return directory
+ 
++    def test_no_decomp_only_payload_rejects_decomposed_measurements(self):
++        destination = self.root / "paper-payload"
++        self.write_program(destination)
++        with self.assertRaisesRegex(ValueError, "unexpected"):
++            query._validate_program_payload(destination, [], no_decomp_only=True)
++        path = destination / "egglog.jsonl"
++        records = [json.loads(line) for line in path.read_text().splitlines()]
++        record = next(r for r in records if r["no_decomp"])
++        record["engine_label"] = "egglog-cracked"
++        path.write_text(json.dumps(record) + "\n")
++        query._validate_program_payload(destination, [], no_decomp_only=True)
++
+     def test_run_routes_payloads_and_records_effective_options_and_provenance(self):
+         directory = query.run(str(self.recipe), programs=["b"], threads=[4], reps=7, timeout=12.5,
+                               machine="machine-a", tag="trial")
+diff --git a/tests/test_query_containers.py b/tests/test_query_containers.py
+index f9b6f56..cd2c92c 100644
+--- a/tests/test_query_containers.py
++++ b/tests/test_query_containers.py
+@@ -74,7 +74,7 @@ class QueryContainerTests(unittest.TestCase):
+         bench_db.run_umbra(io.StringIO())
+         self.assertEqual([call.args[0] for call in self.run.call_args_list], [
+             ["docker", "rm", "-f", "umbra-bench"],
+-            ["docker", "run", "-d", "--name", "umbra-bench", "-p", "5432:5432", bench_db.UMBRA_IMAGE],
++            ["docker", "run", "-d", "--name", "umbra-bench", "-p", "127.0.0.1:5432:5432", bench_db.UMBRA_IMAGE],
+             ["docker", "rm", "-f", "umbra-bench"],
+         ])
+         self.assertTrue(all(not call.kwargs.get("shell") for call in self.run.call_args_list))

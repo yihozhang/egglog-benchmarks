@@ -1,0 +1,71 @@
+{
+  "experiments": {
+    "scaling": {
+      "run_id": "20261025T092215224935Z-c78fab011481-paper-final",
+      "check_exit_code": 0
+    },
+    "scaling-real-world": {
+      "run_id": "20261025T092832623290Z-f8732cd38b12-paper-final",
+      "check_exit_code": 0
+    },
+    "e2e": {
+      "run_id": "20261025T093203771254Z-8595e10c7d47-paper-final",
+      "check_exit_code": 1
+    },
+    "storel": {
+      "run_id": "20261025T101120405525Z-e7a62c74cf31-paper-final",
+      "check_exit_code": 1
+    },
+    "scaling-storel": {
+      "run_id": "20261025T101958508188Z-4d6235211f1d-paper-final",
+      "check_exit_code": 0
+    },
+    "storel-schedule": {
+      "run_id": "20261025T102242418162Z-19596e296768-paper-final",
+      "check_exit_code": 1
+    },
+    "ablation": {
+      "run_id": "20261025T103337245327Z-bd95813c8da1-paper-final",
+      "check_exit_code": 1
+    },
+    "ablation-storel": {
+      "run_id": "20261025T175844984069Z-607e8366ca3f-paper-final",
+      "check_exit_code": 0
+    },
+    "engines": {
+      "run_id": "20261025T184003536198Z-8d4c1390fe96-paper-final",
+      "check_exit_code": 0
+    },
+    "query": {
+      "run_id": "20261026T010538199456Z-a7e49c47c46b-paper-final",
+      "check_exit_code": 0
+    }
+  },
+  "verifier_sha256": "78d25e5f6464265d6eaaa85f125296deb508607389e9bf473f9f72287b52b9c3",
+  "figure_checksums_verified": 57,
+  "pdf_labels_verified": {
+    "ablation-details.pdf": 2078,
+    "ablation-refinement-details.pdf": 1977,
+    "ablation-refinement.pdf": 479,
+    "ablation.pdf": 600,
+    "engines-horner-10.pdf": 346,
+    "engines-horner-9.pdf": 349,
+    "engines-math-microbenchmark-12.pdf": 346,
+    "engines-math-microbenchmark.pdf": 362,
+    "engines-matmul-assoc-320.pdf": 349,
+    "engines-matmul-assoc-480.pdf": 342,
+    "engines-matmul-assoc-640.pdf": 355,
+    "engines.pdf": 2462,
+    "query-scatter.pdf": 226,
+    "query-totals.pdf": 275,
+    "real-world-details.pdf": 1713,
+    "real-world.pdf": 448,
+    "scaling-algebraic.pdf": 271,
+    "scaling-real-world-details.pdf": 1703,
+    "scaling-real-world.pdf": 435,
+    "storel-backoff.pdf": 363,
+    "storel-schedule-work.pdf": 357,
+    "storel-schedule.pdf": 544
+  },
+  "note": "This verifies provenance and settings. Nonzero size-check exits remain findings, not passes."
+}

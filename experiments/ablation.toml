@@ -1,37 +1,30 @@
-description = "Ablation: tree decomposition in query planning and dynamic variable ordering during query execution."
-# --no-dynamic-order comes from systems/egglog/patches/no-dynamic-order.patch, applied at build time.
-benchmarks = ["math", "math-microbenchmark", "horner", "matmul-assoc", "actions", "eggcc", "hardboiled", "pointer-analysis", "luminal"]
+description = "Paper rerun: ablation; egglog-cracked always uses --no-decomp."
+benchmarks = ["math-microbenchmark/math-microbenchmark", "math-microbenchmark/math-microbenchmark-12", "horner/horner-9", "horner/horner-10", "matmul-assoc/matmul-assoc-320", "matmul-assoc/matmul-assoc-480", "matmul-assoc/matmul-assoc-640", "hardboiled", "luminal", "eggcc"]
 threads = [1]
 reps = 3
-timeout = 600       # seconds per run
-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
 plot = "bars"
-baseline = "no-decomp-no-dynamic-order"
-speedup_labels = { no-decomp = "+ dynamic order", no-dynamic-order = "+ tree-decomp", egglog = "+ dynamic order, + tree-decomp" }
+baseline = "no-DVO"
 
 [[variants]]
-label = "egglog"
+label = "no-DVO"
 system = "egglog"
-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
-patches = ["no-dynamic-order"]
-
-[[variants]]
-label = "no-decomp"
-system = "egglog"
-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
-patches = ["no-dynamic-order"]
-flags = ["--no-decomp"]
-
-[[variants]]
-label = "no-dynamic-order"
-system = "egglog"
-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
-patches = ["no-dynamic-order"]
-flags = ["--no-dynamic-order"]
-
-[[variants]]
-label = "no-decomp-no-dynamic-order"
-system = "egglog"
-ref = "b9800506"             # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
-patches = ["no-dynamic-order"]
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
 flags = ["--no-decomp", "--no-dynamic-order"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+
+[[variants]]
+label = "no-DVO-refinement"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp", "--no-dynamic-order", "--static-order-refinement"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]

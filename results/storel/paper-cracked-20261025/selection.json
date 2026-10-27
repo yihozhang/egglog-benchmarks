@@ -1,0 +1,772 @@
+{
+  "analysis": "median of successful repetitions; groups with any failure are excluded from speedups; all outcomes retained; no latest-per-cell replacement",
+  "checksums": {
+    "measurements.jsonl": {
+      "sha256": "24c9f3dca97bd5122fb8a4015231269df5fc77a7dcfb4fd174963dcfc4661843",
+      "size": 101390
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/measurements.jsonl": {
+      "sha256": "50752cf639185c7bfd48466797c86a4c3eaa0154238ef5c6e13a20e3d6050b30",
+      "size": 101390
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/run.json": {
+      "sha256": "1f115bcd5d972f4d2e676368230a1d0e3a360d07b89ced7142b4628085d05949",
+      "size": 92555
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/adapters-egg-build-35dc96503543/build": {
+      "sha256": "4cc11d8b3a771e3b3e87d3bb547892625d28cc4ca71c28af1c1dacb30699e1c8",
+      "size": 2003
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/adapters-egg-run-8c56d22a39d0/run": {
+      "sha256": "10b89b16e22469b6a96c5b40cafcae655b7845eb99e2f54d1a4858bba7deba03",
+      "size": 2746
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/adapters-egg-system.toml-e04936bf08d9/system.toml": {
+      "sha256": "e0e028c43f0f4802e5740451221023ca6dde1e1a33012d249f58449473fc92a9",
+      "size": 563
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/adapters-egglog-storel-backoff-build-74aa42cb520f/build": {
+      "sha256": "410f6661d3e21772e023caf3f0896dc78f206649bc2dbda506d35dba6e66a284",
+      "size": 398
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/adapters-egglog-storel-backoff-run-2e61d03309ab/run": {
+      "sha256": "31be49dfbdbecebf8f9e70470cd23f6aa5796cba46fd38218811a6ab265ab11e",
+      "size": 2306
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/adapters-egglog-storel-backoff-system.toml-908f7380a1e6/system.toml": {
+      "sha256": "f3af9752e0851e3b7ff9a3eff2ae8bf82a16a88b9b0477946baca53fb93f106a",
+      "size": 696
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/experiment-config-79623b13c9d5/storel.toml": {
+      "sha256": "73689e238842d739328b6fb797d05f629d006636de114c74f13d79969ff78f78",
+      "size": 555
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/harness-__init__.py-7a293fe28a35/__init__.py": {
+      "sha256": "a4f06b42b9d54905915f6aef392324d0e1ec693b87be0b3ffef8cb89bf15f9c0",
+      "size": 594
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/harness-config.py-e851d77c3787/config.py": {
+      "sha256": "69661ad8ddac15c280db42d3f8ea289045efbc59f059ad7fba4acdb452f71951",
+      "size": 11035
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/harness-runner.py-f71e841ba471/runner.py": {
+      "sha256": "16272c7417b7fbc141ee9d66154f8d9e740af83e212099a5252eabd435f002c2",
+      "size": 24613
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-batax-1st.egg-3ed4c672fdca/batax-1st.egg": {
+      "sha256": "a19651a15e2a2a77d7aeb0445da46e33502b8b63a5d5423ad17b0506579c3947",
+      "size": 10227
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-batax-1st.rs-d7e49ff62820/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-batax-2nd.rs-ceef2339a39e/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-mmm-1st.rs-12ef701511aa/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-mmm-2nd.rs-370f311dacf0/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-mmm-sum-1st.rs-3248c3b90e72/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-mmm-sum-2nd.rs-a5bd05a5cdc3/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-mttkrp-1st.rs-fbc50b42507c/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-mttkrp-2nd.rs-d568adb5afa3/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-storel.rs.in-15519090a97d/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-ttm-1st.rs-5d45f3c035e8/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egg-ttm-2nd.rs-0c414c4fce95/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-batax-1st.egg-6a9046e974a7/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-batax-2nd.egg-f27206c703d5/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-1st.egg-880197faaaf2/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-2nd.egg-147752c00e3e/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-sum-1st.egg-d4e0e8d1909d/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mmm-sum-2nd.egg-e94cb5dc5593/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mttkrp-1st.egg-c64242a780b6/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-mttkrp-2nd.egg-87e92f0157b2/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-ttm-1st.egg-167d40f09483/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-ports-egglog-storel-backoff-ttm-2nd.egg-ee5e23c36ee1/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-1st-suite.toml-b7afb3e70328/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-batax-2nd.egg-86f1e7c35206/batax-2nd.egg": {
+      "sha256": "9a6ce8296562a0918efa7afef0a47f0ad722a5f816217d67a01b395d0c0707bd",
+      "size": 10457
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-batax-1st.rs-d117d2cbba2c/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-batax-2nd.rs-4093998c8630/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-mmm-1st.rs-b7c8d38df3de/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-mmm-2nd.rs-d10fc0d17c20/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-mmm-sum-1st.rs-410f0b321b46/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-mmm-sum-2nd.rs-b53558b97f30/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-mttkrp-1st.rs-17e0b47a9736/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-mttkrp-2nd.rs-d9ae36551f6d/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-storel.rs.in-4217d922c3d1/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-ttm-1st.rs-e630970a7f2d/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egg-ttm-2nd.rs-41cb5cf1444e/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-batax-1st.egg-bcaa1376375f/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-batax-2nd.egg-b8dd7600752f/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-1st.egg-b9c80ae83c01/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-8916c840d440/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-bc0052f97860/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-5b8a00a7226a/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-405fa7070920/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-7f2adce8eeff/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-ttm-1st.egg-65a8e40e00eb/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-2671ac3ecbd6/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-batax-2nd-suite.toml-79ef4ff84e9f/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-mmm-2nd.egg-8f6a32097e86/mmm-2nd.egg": {
+      "sha256": "c88f28a8bd0954739b07e4fedcd57f909aa3827203eefd0e3524525ff9ef9a6c",
+      "size": 10535
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-batax-1st.rs-eb03196a8d09/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-batax-2nd.rs-8bb41e8b16b9/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-mmm-1st.rs-c30cf44dde35/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-mmm-2nd.rs-158f4016932c/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-mmm-sum-1st.rs-d1e7d8ada6d0/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-mmm-sum-2nd.rs-9865d164bc3b/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-mttkrp-1st.rs-367f8c4111d4/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-mttkrp-2nd.rs-6f97a68b8c06/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-storel.rs.in-ed8fd9ce8a09/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-ttm-1st.rs-e0c5eb490bf4/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egg-ttm-2nd.rs-47899bb9a978/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-batax-1st.egg-f4cc4f0447f4/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-batax-2nd.egg-6982260f618f/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-1st.egg-bd693bc28d13/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-76a399cd9da0/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-203c6ae1e873/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-6db9816fc6e1/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-46541310bb4a/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-a5c5058f48b8/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-ttm-1st.egg-d2542f14a6e8/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-b9ccf597fa5c/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-2nd-suite.toml-5ef08a060147/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-mmm-sum-2nd.egg-7ee42c0f0d73/mmm-sum-2nd.egg": {
+      "sha256": "77633dfdb71272ce730e7a8254fdfe7937f3fa919050634fc5589b915118b32a",
+      "size": 10541
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-batax-1st.rs-a90830d70604/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-batax-2nd.rs-1fa8861303e1/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-1st.rs-184acc22a661/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-2nd.rs-da47a5216d59/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-sum-1st.rs-e239a16b2484/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-mmm-sum-2nd.rs-4b85b0a72171/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-mttkrp-1st.rs-516c90d66454/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-mttkrp-2nd.rs-afc24d3d6857/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-storel.rs.in-4285a421349d/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-ttm-1st.rs-74b26a98f950/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egg-ttm-2nd.rs-aa40ffaeb021/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-batax-1st.egg-3aeb74587a7a/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-batax-2nd.egg-3e97560c4e67/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-1st.egg-73eb05802e12/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-d91852a1cb2b/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-3877e98c5519/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-9013641f5e58/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-0da001647f03/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-c0dc9ba16155/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-ttm-1st.egg-89061dcc606e/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-133880d8416f/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mmm-sum-2nd-suite.toml-d82e417f2116/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-mttkrp-2nd.egg-a6d19d4201dd/mttkrp-2nd.egg": {
+      "sha256": "52fc01072c1efe11551d9d4f674a665797c323edf09228e57a7f94d0a6056476",
+      "size": 11060
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-batax-1st.rs-66d0e0052a43/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-batax-2nd.rs-c594e813f2cc/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-1st.rs-292cc4e777b2/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-2nd.rs-f85b844c5003/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-sum-1st.rs-51a04166d507/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-mmm-sum-2nd.rs-76186800ccb7/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-mttkrp-1st.rs-a78c91047e04/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-mttkrp-2nd.rs-7d4f0788bc3e/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-storel.rs.in-bdf344b4741f/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-ttm-1st.rs-f10186dbc900/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egg-ttm-2nd.rs-3e840f42fe08/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-batax-1st.egg-de5d178a9627/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-batax-2nd.egg-41a8bd4ad5b2/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-1st.egg-b0efe47519f3/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-1b1e83967595/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-9671da190a66/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-3d8e45946580/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-9e900c180cef/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-1a13c06f977e/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-ttm-1st.egg-3261e696de75/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-74b14261e61d/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-mttkrp-2nd-suite.toml-de0b529b7ec6/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-batax-1st.rs-c27ff26368d6/batax-1st.rs": {
+      "sha256": "3432f8a8850048ade6cb41ad08f69670d089d04f69edf0e0b0d3498d6f29105e",
+      "size": 316
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-batax-2nd.rs-9ce4ac5654bf/batax-2nd.rs": {
+      "sha256": "405014b37c8ea8ffb28555918465205d6db57881677b3bde717b16d720bac1b6",
+      "size": 474
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-mmm-1st.rs-3153fe860620/mmm-1st.rs": {
+      "sha256": "ef496ec816d510fd7c804a2e23a333c947785cc542805ec259b0302638d99057",
+      "size": 290
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-mmm-2nd.rs-3df1c5ad7839/mmm-2nd.rs": {
+      "sha256": "5d1f471713da8dffb339e4aa93e37083b7a4a8a7beb3b5df5b307ac668f36637",
+      "size": 521
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-mmm-sum-1st.rs-882cd60126d9/mmm-sum-1st.rs": {
+      "sha256": "7da671fcdf38c16e7f0326613dbbb3bf1dcbca0443dce524eee90222f4e0a025",
+      "size": 278
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-mmm-sum-2nd.rs-47c8a50f6abd/mmm-sum-2nd.rs": {
+      "sha256": "666eec1107f421ab4a2dab642ff855f3f08cbb0ae699343c24ba0246626b241a",
+      "size": 527
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-mttkrp-1st.rs-0bf5764710a2/mttkrp-1st.rs": {
+      "sha256": "065d71ab2ef13eb539dc996ffc5ed845f35e6a10be5e70921a1ea30cd045929f",
+      "size": 339
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-mttkrp-2nd.rs-fc950f66a850/mttkrp-2nd.rs": {
+      "sha256": "02095166b9941d2747d142430f23b002de2b094aafaa0384d037c0a867a7f3d3",
+      "size": 882
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-storel.rs.in-1aff428a5816/storel.rs.in": {
+      "sha256": "5a40c24dabeee1badcf5785621ec56335c685757074db5a21302d538332146d3",
+      "size": 30219
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-ttm-1st.rs-ee51b97b26a6/ttm-1st.rs": {
+      "sha256": "2a54cbc947df60cbbf1301a3d9483c7604ddc7c7b44ebb2a2fc91a21d0dc1e44",
+      "size": 309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egg-ttm-2nd.rs-7c24ab54d633/ttm-2nd.rs": {
+      "sha256": "a9f070ec3d5ad00bba649550e081168f6c9af6469ec8e1f8b3536c9096ba3876",
+      "size": 721
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-batax-1st.egg-6da913892751/batax-1st.egg": {
+      "sha256": "dc274acf81dd7c80f51f622d72bdd68c9ea10fd73742059b3ad294b8e1053fa6",
+      "size": 10452
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-batax-2nd.egg-c08fb994c79d/batax-2nd.egg": {
+      "sha256": "bed845ea9839af08fa1b1765d11a7d929508434de1c1403847e068b1dd58c9df",
+      "size": 10682
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-1st.egg-aab5a8060bf1/mmm-1st.egg": {
+      "sha256": "baf3a27331198b80a99487c7d55394cbd8fb71c0f30b31e7d2e21e7c04f54d94",
+      "size": 10309
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-2nd.egg-b9fd91f25daa/mmm-2nd.egg": {
+      "sha256": "552bd9439fdc4cfa012b3b750ae619bd3d4ae370628acdd15f467270da758a32",
+      "size": 10760
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-sum-1st.egg-de66d0b9c6ef/mmm-sum-1st.egg": {
+      "sha256": "d468f42a751e8167b97b7738d9a1d9eb570c5d533aa6136a2251b18b7837f392",
+      "size": 10287
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mmm-sum-2nd.egg-f5768da80078/mmm-sum-2nd.egg": {
+      "sha256": "84532b0581894a83ad85eee9a333a6286cc196990ec1cd98adf3862fca2bdf07",
+      "size": 10766
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mttkrp-1st.egg-13c23a1c303f/mttkrp-1st.egg": {
+      "sha256": "57fc2e26809a235c18ba5b22c9411677470b3a80800c01a40d2740a9bbd7d81b",
+      "size": 10380
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-mttkrp-2nd.egg-5dc9a9ba869a/mttkrp-2nd.egg": {
+      "sha256": "34173c381aa320e8df01c973b2a1e0a4b5f91642f9f2ee511c16d59cd8489c6a",
+      "size": 11285
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-ttm-1st.egg-5306207bafee/ttm-1st.egg": {
+      "sha256": "1c5e3c0ec328f00e5db3303c793c8a45636c142a8a3e93944d60433d53983d8e",
+      "size": 10338
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ports-egglog-storel-backoff-ttm-2nd.egg-4522d5a58694/ttm-2nd.egg": {
+      "sha256": "68c5a06d60a8d7cfe8aa71d18c88302e104284158f3a3ab24a0ce7ab61c5db59",
+      "size": 11051
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-suite.toml-c45e41d001f4/suite.toml": {
+      "sha256": "ad5ff79b53f9c7fa80f553b78232c91b63ee826b0f1bf530dea78417ef10074d",
+      "size": 554
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/inputs-storel-ttm-2nd-ttm-2nd.egg-cccf9613cf5b/ttm-2nd.egg": {
+      "sha256": "006f2cf9a0e5acaf1eac9f7bc08709a605bcdc4d9a0589b02acc0b212377e7fa",
+      "size": 10826
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/untracked-experiments-ablation-storel.toml-f6aef3208f3a/ablation-storel.toml": {
+      "sha256": "529cbd33ce44443146e7d486ec8d0177eb1b76d34f74e6454a24c7142ef07ab7",
+      "size": 1016
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/untracked-experiments-scaling-real-world.toml-aa7843240462/scaling-real-world.toml": {
+      "sha256": "95b0cb6028734a9981fd0619b1b5ddb39606c298a830df6ec9edfeac45fc4a33",
+      "size": 386
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/untracked-experiments-scaling-storel.toml-c04651091454/scaling-storel.toml": {
+      "sha256": "8ecb7c4df5900c4b37f95622d178b19eb61bf077dde2b8a266e59f5bf70fa616",
+      "size": 482
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/untracked-experiments-storel-schedule.toml-96d5967667bb/storel-schedule.toml": {
+      "sha256": "640ff6619452026e6da9b28091b7d64ba7811eb7872a47ebc9b29dd98641e1c0",
+      "size": 1130
+    },
+    "runs/20261025T101120405525Z-e7a62c74cf31-paper-final/sources/working-tree.patch": {
+      "sha256": "a20f2805c31041ab8b2f3d4fe3bea13b513a879b6667f041f2a5c192bf282477",
+      "size": 61821
+    }
+  },
+  "config": {
+    "baseline": "egg",
+    "benchmark_timing": {
+      "storel/batax-1st": "process",
+      "storel/batax-2nd": "process",
+      "storel/mmm-2nd": "process",
+      "storel/mmm-sum-2nd": "process",
+      "storel/mttkrp-2nd": "process",
+      "storel/ttm-2nd": "process"
+    },
+    "benchmarks": [
+      "storel/batax-1st",
+      "storel/batax-2nd",
+      "storel/mmm-2nd",
+      "storel/mmm-sum-2nd",
+      "storel/mttkrp-2nd",
+      "storel/ttm-2nd"
+    ],
+    "cpus": "0-7,32-39",
+    "description": "Paper rerun: storel; egglog-cracked always uses --no-decomp.",
+    "memory_gb": 32,
+    "metric": "wall_s",
+    "plot": "variants",
+    "reps": 3,
+    "speedup_labels": {},
+    "threads": [
+      1
+    ],
+    "timeout": 900,
+    "variants": [
+      {
+        "env": {},
+        "flags": [
+          "--no-decomp"
+        ],
+        "label": "egglog-cracked",
+        "patches": [],
+        "ref": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+        "system": "egglog-storel-backoff",
+        "threads": [
+          1
+        ]
+      },
+      {
+        "env": {},
+        "flags": [
+          "--scheduler",
+          "backoff"
+        ],
+        "label": "egg",
+        "patches": [],
+        "ref": "v0.11.0",
+        "system": "egg",
+        "threads": [
+          1
+        ]
+      }
+    ]
+  },
+  "coverage": [
+    {
+      "benchmark": "batax-1st",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "batax-1st",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "batax-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "batax-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "mmm-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "mmm-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "mmm-sum-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "mmm-sum-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "mttkrp-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "mttkrp-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    },
+    {
+      "benchmark": "ttm-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egg"
+    },
+    {
+      "benchmark": "ttm-2nd",
+      "suite": "storel",
+      "threads": 1,
+      "variant": "egglog-cracked"
+    }
+  ],
+  "created_at": "2026-10-25T10:19:58.390325+00:00",
+  "experiment": "storel",
+  "kind": "matrix",
+  "metric": "wall_s",
+  "name": "paper-cracked-20261025",
+  "provenance": "captured",
+  "run_ids": [
+    "20261025T101120405525Z-e7a62c74cf31-paper-final"
+  ],
+  "schema_version": 1
+}

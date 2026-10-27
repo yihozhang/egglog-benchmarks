@@ -8,7 +8,8 @@ Writes <program-dir>/<engine>.jsonl, one line per query.
 All tables any query reads are created (functional dependency as PRIMARY KEY, subsumed rows
 dropped) and loaded once per process, untimed. Each query's result table
 `res_<q>` is created empty beforehand (untimed) and cleared with DELETE before every run.
-Times are medians over --reps runs after one warm-up run.
+DuckDB timings and Umbra EXECUTE/ad-hoc timings are medians over --reps runs
+after one warm-up run. Umbra PREPARE is timed once per query.
 
 DuckDB (embedded): ad-hoc `INSERT INTO res_<q> SELECT DISTINCT ...`, profiled. Recorded:
   wall_ms (ours), latency_ms, and from DuckDB's profiler planner_ms (binding), optimizer_ms
@@ -30,7 +31,7 @@ def container_engine():
 
 
 def remove_umbra(engine):
-    subprocess.run([engine, "rm", "-f", "umbra-bench"],
+    subprocess.run([engine, "rm", "-f", os.environ.get("UMBRA_CONTAINER_NAME", "umbra-bench")],
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
@@ -94,7 +95,7 @@ def umbra_connect():
         for attempt in range(5):   # a crashed server's container sometimes refuses to stop at first
             remove_umbra(engine)
             # Explicit removal works with both engines; Docker has no --replace option.
-            if subprocess.run([engine, "run", "-d", "--name", "umbra-bench", "-p", "5432:5432", UMBRA_IMAGE],
+            if subprocess.run([engine, "run", "-d", "--name", os.environ.get("UMBRA_CONTAINER_NAME", "umbra-bench"), "-p", f"127.0.0.1:{os.environ.get('UMBRA_PORT', '5432')}:5432", UMBRA_IMAGE],
                               stdout=subprocess.DEVNULL).returncode == 0:
                 break
             time.sleep(5)
@@ -103,7 +104,7 @@ def umbra_connect():
         last_error = None
         for _ in range(240):
             try:
-                con = psycopg.connect("host=localhost port=5432 user=postgres password=postgres dbname=postgres",
+                con = psycopg.connect(f"host=localhost port={os.environ.get('UMBRA_PORT', '5432')} user=postgres password=postgres dbname=postgres",
                                       autocommit=True, connect_timeout=2)
                 break
             except Exception as error:
@@ -145,7 +146,7 @@ def run_umbra(out):
                 med = lambda xs: statistics.median(xs[1:]) * 1e3
                 rec.update(status="ok", rows=rows, prepare_ms=prep * 1e3, execute_ms=med(exe), adhoc_ms=med(adhoc))
             except Exception as e:
-                alive = subprocess.run([container_engine(), "ps", "-q", "--filter", "name=umbra-bench"],
+                alive = subprocess.run([container_engine(), "ps", "-q", "--filter", f"name={os.environ.get('UMBRA_CONTAINER_NAME', 'umbra-bench')}"],
                                        capture_output=True, text=True).stdout.strip()
                 rec.update(status="timeout" if "cancel" in str(e).lower() and alive else ("crash" if not alive else "error"), error=str(e)[:300])
                 if not alive or rec["status"] != "ok":

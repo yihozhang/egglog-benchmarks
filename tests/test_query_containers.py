@@ -74,7 +74,7 @@ class QueryContainerTests(unittest.TestCase):
         bench_db.run_umbra(io.StringIO())
         self.assertEqual([call.args[0] for call in self.run.call_args_list], [
             ["docker", "rm", "-f", "umbra-bench"],
-            ["docker", "run", "-d", "--name", "umbra-bench", "-p", "5432:5432", bench_db.UMBRA_IMAGE],
+            ["docker", "run", "-d", "--name", "umbra-bench", "-p", "127.0.0.1:5432:5432", bench_db.UMBRA_IMAGE],
             ["docker", "rm", "-f", "umbra-bench"],
         ])
         self.assertTrue(all(not call.kwargs.get("shell") for call in self.run.call_args_list))

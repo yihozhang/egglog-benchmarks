@@ -93,7 +93,7 @@ def _program_sources(sdir: Path, programs: list[str]) -> dict[str, Path]:
     return sources
 
 
-def _validate_program_payload(pdir: Path, engines: list[str]) -> None:
+def _validate_program_payload(pdir: Path, engines: list[str], *, no_decomp_only: bool = False) -> None:
     """Require one attempted measurement per translated query and engine/mode."""
     queries = json.loads((pdir / "index.json").read_text())["queries"]
     query_ids = {entry["id"] for entry in queries}
@@ -101,7 +101,7 @@ def _validate_program_payload(pdir: Path, engines: list[str]) -> None:
         raise ValueError(f"duplicate query IDs in {pdir}/index.json")
     for engine in ["egglog", *engines]:
         path = pdir / f"{engine}.jsonl"
-        expected = {(query_id, mode) for query_id in query_ids for mode in (False, True)} if engine == "egglog" else query_ids
+        expected = {(query_id, mode) for query_id in query_ids for mode in ([True] if no_decomp_only else [False, True])} if engine == "egglog" else query_ids
         seen = set()
         for line in path.read_text().splitlines():
             if not line.strip():
@@ -180,7 +180,9 @@ def run(
     out, manifest = artifacts.create_run(experiment, "query", cfg, host_info(), machine=machine, tag=tag, source=source)
     work = ROOT / "build" / "query" / experiment / manifest["run_id"]
     manifest.update(cli_overrides=overrides, programs=programs, engines=engines, measurement=measurement,
-                    plan=[{"program": program, "engines": ["egglog", "egglog_nd", *engines]} for program in programs])
+                    plan=[{"program": program, "engines":
+                           (["egglog-cracked"] if cfg.get("no_decomp_only") else ["egglog", "egglog_nd"]) + engines}
+                          for program in programs])
     try:
         manifest["inputs"] = {
             "suite": {"path": str(sdir), **artifacts.tree_identity(sdir)},
@@ -220,7 +222,13 @@ def run(
             builds["umbra"] = {**_umbra_identity(), "client_version": _package_version("psycopg")}
         manifest.update(egglog_commit=commit, driver=driver, builds=builds)
         artifacts.write_manifest(out, manifest)
-        env = {**os.environ, "EGGLOG_QUERY_DRIVER": driver, "BENCH_SCRATCH": str(work / "scratch")}
+        env = {**os.environ, "EGGLOG_QUERY_DRIVER": driver, "BENCH_SCRATCH": str(work / "scratch"),
+               "EGGLOG_QUERY_NO_DECOMP_ONLY": "1" if cfg.get("no_decomp_only") else "0"}
+        if cfg.get("no_decomp_only"):
+            env.update(UMBRA_CONTAINER_NAME=f"umbra-paper-{manifest['run_id'][:22]}", UMBRA_PORT="55432")
+            manifest["measurement"]["egglog"]["flags"] = ["--no-decomp"]
+            manifest["container_settings"] = {key: env[key] for key in ("UMBRA_CONTAINER_NAME", "UMBRA_PORT")}
+            artifacts.write_manifest(out, manifest)
         for prog in programs:
             print(f"[{dt.datetime.now():%H:%M:%S}] {prog}: export, translate, egglog", flush=True)
             pdir = work / prog
@@ -241,7 +249,7 @@ def run(
             for filename in ("index.json", "egglog.jsonl", *(f"{engine}.jsonl" for engine in engines)):
                 if not (out / prog / filename).is_file():
                     raise RuntimeError(f"query backend did not produce {prog}/{filename}")
-            _validate_program_payload(out / prog, engines)
+            _validate_program_payload(out / prog, engines, no_decomp_only=cfg.get("no_decomp_only", False))
         artifacts.finish_run(out, manifest, "complete")
     except KeyboardInterrupt:
         artifacts.finish_run(out, manifest, "interrupted", error="KeyboardInterrupt")
@@ -311,7 +319,8 @@ def load_rows(rd: Path) -> list[dict]:
                                  f"Use bench inspect {rd.name} to inspect partial results.")
             artifacts.verify_run(rd)
             for program in manifest.get("programs", []):
-                _validate_program_payload(rd / program, manifest.get("engines", []))
+                _validate_program_payload(rd / program, manifest.get("engines", []),
+                                          no_decomp_only=manifest.get("config", {}).get("no_decomp_only", False))
     rows = []
     for pdir in sorted(d for d in rd.iterdir() if d.is_dir() and (d / "index.json").is_file()):
         idx = {q["id"]: q for q in json.loads((pdir / "index.json").read_text())["queries"]}
@@ -321,7 +330,7 @@ def load_rows(rd: Path) -> list[dict]:
             r = json.loads(line); m = merged.get(r["query"])
             if m is None:
                 continue
-            key = "egglog_nd" if r.get("no_decomp") else "egglog"
+            key = "egglog" if r.get("engine_label") == "egglog-cracked" else ("egglog_nd" if r.get("no_decomp") else "egglog")
             if "error" in r:
                 m[f"{key}_status"] = "error"; continue
             m[f"{key}_status"] = "ok"; m[f"{key}_rows"] = r["size"]
@@ -348,7 +357,7 @@ def load_rows(rd: Path) -> list[dict]:
     return rows
 
 
-SYSTEMS = [("egglog", "egglog"), ("egglog_nd", "egglog no-decomp"), ("duckdb", "DuckDB"), ("umbra", "Umbra")]
+SYSTEMS = [("egglog", "egglog-cracked"), ("egglog_nd", "egglog no-decomp"), ("duckdb", "DuckDB"), ("umbra", "Umbra")]
 
 
 def present(rows):
@@ -443,8 +452,8 @@ def plot(name: str, run: str = "latest", out_dir: Path | None = None, selection:
         ax.plot([lo, hi], [lo, hi], color=MUTED, linewidth=0.8, linestyle="--")
         ax.set_xscale("log"); ax.set_yscale("log"); ax.set_xlim(lo, hi); ax.set_ylim(lo, hi)
         faster = sum(1 for a, b in zip(xs, ys) if a < b)
-        ax.set_title(f"{label}: egglog faster on {faster}/{len(xs)}")
-        ax.set_xlabel("egglog execution (ms)"); ax.grid(True, axis="both")
+        ax.set_title(f"{label}\negglog-cracked faster on {faster}/{len(xs)}", fontsize=8)
+        ax.set_xlabel("egglog-cracked execution (ms)"); ax.grid(True, axis="both")
     axes[0][0].set_ylabel("execution (ms)")
     fig.tight_layout()
     p = out_dir / f"{name}-scatter.pdf"; fig.savefig(p, bbox_inches="tight"); fig.savefig(p.with_suffix(".png"), bbox_inches="tight"); plt.close(fig)

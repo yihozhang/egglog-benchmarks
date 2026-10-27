@@ -1,0 +1,21 @@
+description = "Paper rerun: e2e; egglog-cracked always uses --no-decomp."
+benchmarks = ["hardboiled", "luminal", "eggcc"]
+threads = [1]
+reps = 3
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "bars"
+baseline = "egglog-prior"
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "egglog-prior"
+system = "egglog"
+ref = "v0.5.0"
+flags = []

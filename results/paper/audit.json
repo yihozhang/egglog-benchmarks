@@ -1,0 +1,1576 @@
+{
+  "scaling": {
+    "measurements": 90,
+    "groups": 30,
+    "statuses": {
+      "ok": 90
+    },
+    "algebraic_size_pairs_with_common_tables": 87,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 0,
+    "all_cracked_no_decomp": true
+  },
+  "scaling-real-world": {
+    "measurements": 486,
+    "groups": 162,
+    "statuses": {
+      "ok": 486
+    },
+    "algebraic_size_pairs_with_common_tables": 0,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [
+      {
+        "suite": "eggcc",
+        "benchmark": "3mm",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "ackermann",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "adi",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "armstrong",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "bicg",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "binary-fmt",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "bitshift",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "bubblesort",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "check-primes",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "cholesky_decomp",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "conjugate-gradient",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "correlation",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "csrmv",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "euclid",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "fenwick_tree",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "hanoi",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "bound-max"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "lcm",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermConcat",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "mat-mul",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "mod_inv",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "palindrome",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "perfect",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "raytrace",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "sum-bits",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "sum-check",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermConcat"
+        ]
+      }
+    ],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 0,
+    "all_cracked_no_decomp": true
+  },
+  "e2e": {
+    "measurements": 486,
+    "groups": 162,
+    "statuses": {
+      "ok": 486
+    },
+    "algebraic_size_pairs_with_common_tables": 0,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [
+      {
+        "suite": "eggcc",
+        "benchmark": "3mm",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "ackermann",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "adi",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "armstrong",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermConcat",
+          "TermGet"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "bicg",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "binary-fmt",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "bitshift",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "bubblesort",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "check-primes",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "cholesky_decomp",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "conjugate-gradient",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "correlation",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "csrmv",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "dead-branch",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "digital-root",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "dot-product",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "euclid",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermConcat"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "fact",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "fenwick_tree",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "fib",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "gcd",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "hanoi",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "bound-max"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "lcm",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "mat-mul",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "mod_inv",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "palindrome",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "perfect",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "ray-sphere-intersection",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "raytrace",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet",
+          "TermSingle",
+          "TermTop",
+          "bound-max",
+          "bound-min"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "recfact",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "sum-bits",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "sum-check",
+        "differing_tables": [
+          "InvCodeMotionCandidate",
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermBop",
+          "TermConcat",
+          "TermGet"
+        ]
+      }
+    ],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 1,
+    "all_cracked_no_decomp": true
+  },
+  "storel": {
+    "measurements": 36,
+    "groups": 12,
+    "statuses": {
+      "ok": 36
+    },
+    "algebraic_size_pairs_with_common_tables": 0,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [
+      {
+        "suite": "storel",
+        "benchmark": "mmm-sum-2nd",
+        "differing_tables": [
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "mmm-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "batax-1st",
+        "differing_tables": [
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sum",
+          "Var"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "mttkrp-2nd",
+        "differing_tables": [
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Merge",
+          "Mul",
+          "Sing",
+          "SubArray",
+          "Sum",
+          "Unique"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "ttm-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Merge",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "batax-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Merge",
+          "Mul",
+          "Range",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var"
+        ]
+      }
+    ],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 1,
+    "all_cracked_no_decomp": true
+  },
+  "scaling-storel": {
+    "measurements": 36,
+    "groups": 12,
+    "statuses": {
+      "ok": 36
+    },
+    "algebraic_size_pairs_with_common_tables": 0,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [
+      {
+        "suite": "storel",
+        "benchmark": "mmm-2nd",
+        "differing_tables": [
+          "Binop",
+          "Eq",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sum",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "batax-1st",
+        "differing_tables": [
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sum",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "mttkrp-2nd",
+        "differing_tables": [
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sum",
+          "Unique",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "ttm-2nd",
+        "differing_tables": [
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Merge",
+          "Mul",
+          "Sing",
+          "Sum",
+          "Unique",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "batax-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Range",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "best",
+          "free"
+        ]
+      }
+    ],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 0,
+    "all_cracked_no_decomp": true
+  },
+  "storel-schedule": {
+    "measurements": 144,
+    "groups": 48,
+    "statuses": {
+      "ok": 144
+    },
+    "algebraic_size_pairs_with_common_tables": 0,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [
+      {
+        "suite": "storel",
+        "benchmark": "mmm-sum-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "mmm-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "batax-1st",
+        "differing_tables": [
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Sing",
+          "Sum",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "mttkrp-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Merge",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "ttm-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Merge",
+          "Mul",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var",
+          "best",
+          "free"
+        ]
+      },
+      {
+        "suite": "storel",
+        "benchmark": "batax-2nd",
+        "differing_tables": [
+          "Add",
+          "App",
+          "Binop",
+          "Eq",
+          "Get",
+          "IfThen",
+          "Let",
+          "Mul",
+          "Range",
+          "Sing",
+          "Sub",
+          "SubArray",
+          "Sum",
+          "Unique",
+          "Var",
+          "best",
+          "free"
+        ]
+      }
+    ],
+    "storel_below_target_runs": [
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-2",
+        "threads": 1,
+        "rep": 0,
+        "wall_s": 0.08012097200844437,
+        "nodes": 5681,
+        "node_limit": 10000,
+        "iterations": 38,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-2",
+        "threads": 1,
+        "rep": 1,
+        "wall_s": 0.07895599695621058,
+        "nodes": 5681,
+        "node_limit": 10000,
+        "iterations": 38,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-2",
+        "threads": 1,
+        "rep": 2,
+        "wall_s": 0.07903853297466412,
+        "nodes": 5681,
+        "node_limit": 10000,
+        "iterations": 38,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-2",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 0.09486669499892741,
+        "nodes": 5681,
+        "node_limit": 10000,
+        "iterations": 38,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-2",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 0.09347629599506035,
+        "nodes": 5681,
+        "node_limit": 10000,
+        "iterations": 38,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-2",
+        "threads": 8,
+        "rep": 2,
+        "wall_s": 0.09549290902214125,
+        "nodes": 5681,
+        "node_limit": 10000,
+        "iterations": 38,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 1,
+        "rep": 0,
+        "wall_s": 0.06102505297167227,
+        "nodes": 3385,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 1,
+        "rep": 1,
+        "wall_s": 0.06038256303872913,
+        "nodes": 3385,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 1,
+        "rep": 2,
+        "wall_s": 0.059995574003551155,
+        "nodes": 3385,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 0.07166780397528782,
+        "nodes": 3385,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 0.07301249296870083,
+        "nodes": 3385,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 2,
+        "wall_s": 0.06962263904279098,
+        "nodes": 3385,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 0,
+        "wall_s": 0.06512994598597288,
+        "nodes": 3413,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 1,
+        "wall_s": 0.06314920797012746,
+        "nodes": 3413,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 2,
+        "wall_s": 0.06257638504030183,
+        "nodes": 3413,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 0.07684967800742015,
+        "nodes": 3413,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 0.07491285802097991,
+        "nodes": 3413,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-sum-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 2,
+        "wall_s": 0.07841085700783879,
+        "nodes": 3413,
+        "node_limit": 10000,
+        "iterations": 20,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 0,
+        "wall_s": 0.9086883339914493,
+        "nodes": 144136,
+        "node_limit": 150000,
+        "iterations": 52,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 1,
+        "wall_s": 0.8940544810029678,
+        "nodes": 144136,
+        "node_limit": 150000,
+        "iterations": 52,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 2,
+        "wall_s": 0.9089719260227866,
+        "nodes": 144136,
+        "node_limit": 150000,
+        "iterations": 52,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 0.9670218250248581,
+        "nodes": 146361,
+        "node_limit": 150000,
+        "iterations": 52,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 0.9700656320201233,
+        "nodes": 146326,
+        "node_limit": 150000,
+        "iterations": 52,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mmm-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 2,
+        "wall_s": 0.9703636859776452,
+        "nodes": 146474,
+        "node_limit": 150000,
+        "iterations": 52,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 1,
+        "rep": 0,
+        "wall_s": 0.18376559601165354,
+        "nodes": 25728,
+        "node_limit": 1000000,
+        "iterations": 32,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 1,
+        "rep": 1,
+        "wall_s": 0.19003174203680828,
+        "nodes": 25728,
+        "node_limit": 1000000,
+        "iterations": 32,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 1,
+        "rep": 2,
+        "wall_s": 0.1907710079685785,
+        "nodes": 25728,
+        "node_limit": 1000000,
+        "iterations": 32,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 0.2402258840156719,
+        "nodes": 25728,
+        "node_limit": 1000000,
+        "iterations": 32,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 0.23663358204066753,
+        "nodes": 25728,
+        "node_limit": 1000000,
+        "iterations": 32,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 2,
+        "wall_s": 0.2416097120149061,
+        "nodes": 25728,
+        "node_limit": 1000000,
+        "iterations": 32,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "mttkrp-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 9.216564190981444,
+        "nodes": 882256,
+        "node_limit": 1000000,
+        "iterations": 216,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 8.701956127013545,
+        "nodes": 915912,
+        "node_limit": 1000000,
+        "iterations": 358,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-4",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 9.184130144014489,
+        "nodes": 946369,
+        "node_limit": 1000000,
+        "iterations": 424,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 0,
+        "wall_s": 9.82046508701751,
+        "nodes": 977084,
+        "node_limit": 1000000,
+        "iterations": 212,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 1,
+        "wall_s": 9.375197558023501,
+        "nodes": 977084,
+        "node_limit": 1000000,
+        "iterations": 212,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 1,
+        "rep": 2,
+        "wall_s": 9.364969065994956,
+        "nodes": 977084,
+        "node_limit": 1000000,
+        "iterations": 212,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 0,
+        "wall_s": 9.465541238954756,
+        "nodes": 921971,
+        "node_limit": 1000000,
+        "iterations": 342,
+        "stop_reason": "stalled"
+      },
+      {
+        "benchmark": "batax-2nd",
+        "variant": "egglog-cracked-batch-8",
+        "threads": 8,
+        "rep": 1,
+        "wall_s": 8.092767697002273,
+        "nodes": 904654,
+        "node_limit": 1000000,
+        "iterations": 210,
+        "stop_reason": "stalled"
+      }
+    ],
+    "harness_check_exit_code": 1,
+    "all_cracked_no_decomp": true
+  },
+  "ablation": {
+    "measurements": 752,
+    "groups": 264,
+    "statuses": {
+      "ok": 732,
+      "timeout": 20
+    },
+    "algebraic_size_pairs_with_common_tables": 56,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [
+      {
+        "suite": "eggcc",
+        "benchmark": "ackermann",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "adi",
+        "differing_tables": [
+          "Smaller",
+          "TCPair",
+          "TermConcat",
+          "TermGet"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "cholesky_decomp",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "conjugate-gradient",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "correlation",
+        "differing_tables": [
+          "PotentialExtractedExpr",
+          "Smaller",
+          "TCPair",
+          "TermConcat",
+          "TermGet"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "csrmv",
+        "differing_tables": [
+          "Smaller"
+        ]
+      },
+      {
+        "suite": "eggcc",
+        "benchmark": "raytrace",
+        "differing_tables": [
+          "Smaller"
+        ]
+      }
+    ],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 1,
+    "all_cracked_no_decomp": true
+  },
+  "ablation-storel": {
+    "measurements": 54,
+    "groups": 18,
+    "statuses": {
+      "ok": 54
+    },
+    "algebraic_size_pairs_with_common_tables": 0,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 0,
+    "all_cracked_no_decomp": true
+  },
+  "engines": {
+    "measurements": 521,
+    "groups": 105,
+    "statuses": {
+      "ok": 520,
+      "timeout": 1
+    },
+    "algebraic_size_pairs_with_common_tables": 513,
+    "algebraic_size_pairs_without_common_tables": [],
+    "algebraic_size_mismatches": [],
+    "table_sizes_vary_across_variants_threads_or_repetitions": [],
+    "storel_below_target_runs": [],
+    "harness_check_exit_code": 0,
+    "all_cracked_no_decomp": true
+  },
+  "query": {
+    "queries": 3437,
+    "no_decomp_only": true
+  }
+}

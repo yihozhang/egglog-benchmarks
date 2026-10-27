@@ -1,43 +1,21 @@
-description = "STOREL (SIGMOD'23) sparse tensor kernels: equality saturation with de Bruijn indices and extraction-based beta reduction; egg (the original implementation) against egglog with the STOREL extension (systems/egglog-storel), each under egg's SimpleScheduler-style schedule and under the back-off scheduler (STOREL's configuration)."
-# The kernels that take egg more than 100 ms. Every run stops after the iteration that reaches
-# the kernel's node limit (benchmarks/storel/gen.py: 10K/150K e-nodes for the two kernels egg
-# saturates, 1M for the others), because which e-graph a run explores depends on the engine's
-# apply order (see gen.py), so the metric is the time to grow the e-graph to that size.
-# `bench check` therefore reports size mismatches between variants by design; compare
-# report.nodes (the e-node count at the stop, up to one iteration past the limit) instead.
-# Two head-to-head comparisons: egg-simple vs egglog-rust (every rule applied every
-# iteration) and egg-backoff vs egglog-rust-backoff (STOREL's BackoffScheduler and
-# egglog-experimental's back-off); scripts/plot-storel.py draws them with the reached sizes.
-benchmarks = ["storel/mmm-sum-2nd", "storel/mmm-2nd",
-              "storel/batax-1st", "storel/mttkrp-2nd", "storel/ttm-2nd", "storel/batax-2nd"]
+description = "Paper rerun: storel; egglog-cracked always uses --no-decomp."
+benchmarks = ["storel/mmm-sum-2nd", "storel/mmm-2nd", "storel/batax-1st", "storel/mttkrp-2nd", "storel/ttm-2nd", "storel/batax-2nd"]
 threads = [1]
-reps = 5
-timeout = 900       # seconds per run (egg needs up to 120 s, the back-off variants up to 200 s)
-memory_gb = 32      # per run; cgroup MemoryMax via systemd-run
-plot = "variants"   # one bar per engine (bench plot); scripts/plot-storel.py for the paper figure
-baseline = "egglog-rust"
-# metric: wall_s (default) = wall-clock time of the whole process measured by our adapter
-# (parsing and type checking included; also the REPL driver's per-iteration size checks).
-# Engine-reported times are kept in report.run_s for reference only.
+reps = 3
+timeout = 900
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "variants"
+baseline = "egg"
 
 [[variants]]
-label = "egglog-rust"
-system = "egglog-storel"        # egglog + the STOREL extension: the smallest terms are Frozen base values, substitution and shifting in Rust; (run phase) steps
-ref = "b9800506"                # branch yihozhang-bench-20261016: main 0df778b0 (2026-10-16) + PRs #1056 #1058 #1060 #1061 #1063; move this pin deliberately
+label = "egglog-cracked"
+system = "egglog-storel-backoff"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
 
 [[variants]]
-label = "egg-simple"
+label = "egg"
 system = "egg"
-ref = "v0.11.0"                 # the port of STOREL's egg 0.6 code (benchmarks/storel/egg) with egg's SimpleScheduler
-flags = ["--scheduler", "simple"]
-
-[[variants]]
-label = "egglog-rust-backoff"
-system = "egglog-storel-backoff"  # the same extension, the rules under egglog-experimental's back-off scheduler (match limit 1000, ban length 5)
-ref = "b9800506"
-
-[[variants]]
-label = "egg-backoff"
-system = "egg"
-ref = "v0.11.0"                 # STOREL's configuration: egg's BackoffScheduler::default() (match limit 1000, ban length 5)
+ref = "v0.11.0"
 flags = ["--scheduler", "backoff"]

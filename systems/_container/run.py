@@ -23,13 +23,15 @@ WALL_NS = re.compile(r"^wall_ns\s+(\d+)\s*$", re.M)
 
 def resolve_port(port_dir: Path, name: str) -> tuple[str | None, list[str]]:
     """The port for benchmark `name`: a file with stem `name`, or, for `base-<N>`, a file
-    with stem `base` that takes `--instance N` (one port serving all instance sizes)."""
+    with stem `base` that takes `--instance N`. Math's suffix is an iteration count,
+    so its base port receives `--iters N` instead."""
     if port_dir.is_dir():
         if any(p.stem == name for p in port_dir.iterdir()):
             return name, []
         m = re.fullmatch(r"(.+)-(\d+)", name)
         if m and any(p.stem == m.group(1) for p in port_dir.iterdir()):
-            return m.group(1), ["--instance", m.group(2)]
+            flag = "--iters" if m.group(1) == "math-microbenchmark" else "--instance"
+            return m.group(1), [flag, m.group(2)]
     return None, []
 
 
@@ -81,8 +83,9 @@ def main() -> int:
             # fires at the same moment and records the status).
             cmd += ["--entrypoint", "timeout"]
             entry = ["-s", "KILL", os.environ["BENCH_TIMEOUT_S"], "/bench/entry.sh"]
-    # No --cpuset-cpus: rootless podman on the benchmark host has no cpuset controller
-    # delegated, and these engines are single-threaded anyway (BENCH_CPUS is ignored).
+    # Bind container workers and GC threads as well as the host adapter.
+    if os.environ.get("BENCH_CPUS"):
+        cmd += ["--cpuset-cpus", os.environ["BENCH_CPUS"]]
     cmd += [info["image"], *entry, suite, port, *flags]
     (out_dir / "cmd").write_text(" ".join(cmd) + "\n")
 

@@ -1,0 +1,6 @@
+# Luminal (https://github.com/luminal-ai/luminal) model graphs optimized with egglog, taken
+# from egglog's tests/ (commit 14a81499, "add more luminal benchmarks"). Every program
+# includes the shared rule set in luminal-header.egg, so run them with this directory as
+# the working directory (the harness does). luminal-llama.egg from egglog's tests is an
+# older Luminal version and is deliberately not included.
+exclude = ["luminal-header.egg"]

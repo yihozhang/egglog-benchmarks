@@ -1,0 +1,22 @@
+{
+  "completed_at": "2026-10-26T01:30:18.185411+00:00",
+  "worktree": "/home/yz489/egglog-benchmarks/.worktrees/paper-cracked-20261025",
+  "base_commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+  "remote_writes": false,
+  "all_cracked_no_decomp": true,
+  "experiments_complete": 10,
+  "pdf_png_figure_families": 22,
+  "figure_artifacts_verified": 57,
+  "report_and_summary_sha256": {
+    "results/paper/RESULTS.md": "c67c806d51c50f6477dfd714a3549baacd9528ec6d61145b535836961cee096a",
+    "results/paper/README.md": "3290c4ac5f3c2ec235f520c1264c74b03932d2cc846b216a1bc99ff6f216b8f8",
+    "results/paper/final-verification.json": "8362a139b0c61195cd86ca2eb5ff2741915d760b2e201cdf224397fcd97e5401",
+    "results/paper/real-world-speedups.json": "40c219f9da656911fdeedbfb9565e41f92d3eeb82a7466964afcf943ac3c52e2",
+    "results/paper/oatlog-speedups.json": "c704bf90cb8d5b3844bacadcf780ab869a7652f819994193f0908abb1d8dec47",
+    "results/paper/query-speedups.json": "6403e13bfc6f739a03d12fe906a42922b2d96a912db9583404eafa1d3cd3f3d3",
+    "results/paper/query-runtime-speedups.json": "1dab2f4caecf08ba0e549aece61b820886f6f5b4059384c06bb0d5b0a80f8c23",
+    "results/paper/historical-query-speedups.json": "f1139b8021b5b7879dcb2e0498c19dc60a8d77aa3454f76c5072ed027d20421f",
+    "results/paper/historical-query-runtime-speedups.json": "7a15171f84908573d88b02c0aa9b2d073ae8c72131d38191f221845c866dead5"
+  },
+  "queue_and_watcher_exited": true
+}

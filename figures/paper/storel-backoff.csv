@@ -1,0 +1,13 @@
+benchmark,variant,median_s,median_nodes,node_limit,status,stop_reasons
+mmm-sum-2nd,egg,0.09347126499051228,11169,10000,ok,node-limit
+mmm-2nd,egg,6.229217613989022,171113,150000,ok,node-limit
+batax-1st,egg,13.744021879974753,1182531,1000000,ok,node-limit
+mttkrp-2nd,egg,55.264545545040164,1085874,1000000,ok,node-limit
+ttm-2nd,egg,36.517886205983814,1188478,1000000,ok,node-limit
+batax-2nd,egg,32.77852441900177,1242479,1000000,ok,node-limit
+mmm-sum-2nd,egglog-cracked,0.10165317001519725,10544,10000,ok,node-limit
+mmm-2nd,egglog-cracked,1.1539361219620332,150528,150000,ok,node-limit
+batax-1st,egglog-cracked,3.935811108967755,1013057,1000000,ok,node-limit
+mttkrp-2nd,egglog-cracked,7.765442356001586,1037957,1000000,ok,node-limit
+ttm-2nd,egglog-cracked,5.939012492017355,1006409,1000000,ok,node-limit
+batax-2nd,egglog-cracked,8.179428139992524,1006166,1000000,ok,node-limit

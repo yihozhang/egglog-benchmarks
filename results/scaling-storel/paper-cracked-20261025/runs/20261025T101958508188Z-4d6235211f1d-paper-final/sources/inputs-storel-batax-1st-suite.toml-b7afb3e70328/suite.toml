@@ -1,0 +1,7 @@
+# STOREL (SIGMOD'23) kernels: see gen.py, which generates every file here from inputs/*.sexp
+# (the ten kernels of STOREL's evaluation, from the slotted e-graphs artifact). <kernel>.egg
+# is the egglog program for the Rust extension of systems/egglog-storel, egglog-storel-backoff/
+# the same under egglog-experimental's back-off scheduler, egg/ holds the wrappers of the egg
+# port (egg/storel.rs.in). Kernels with a node limit carry the
+# ;; BENCHMARK_NODE_LIMIT marker; the stage-1 kernels run to saturation (correctness checks).
+exclude = ["gen.py"]

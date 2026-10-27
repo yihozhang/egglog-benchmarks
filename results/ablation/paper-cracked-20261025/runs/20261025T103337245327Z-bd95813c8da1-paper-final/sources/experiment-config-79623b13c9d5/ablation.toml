@@ -1,0 +1,30 @@
+description = "Paper rerun: ablation; egglog-cracked always uses --no-decomp."
+benchmarks = ["math-microbenchmark/math-microbenchmark", "math-microbenchmark/math-microbenchmark-12", "horner/horner-9", "horner/horner-10", "matmul-assoc/matmul-assoc-320", "matmul-assoc/matmul-assoc-480", "matmul-assoc/matmul-assoc-640", "hardboiled", "luminal", "eggcc"]
+threads = [1]
+reps = 3
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "bars"
+baseline = "no-DVO"
+
+[[variants]]
+label = "no-DVO"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp", "--no-dynamic-order"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+
+[[variants]]
+label = "no-DVO-refinement"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp", "--no-dynamic-order", "--static-order-refinement"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+patches = ["../systems/egglog/patches/no-dynamic-order.patch"]

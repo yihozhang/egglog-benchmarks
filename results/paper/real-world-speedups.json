@@ -1,0 +1,51 @@
+{
+  "egglog-prior": {
+    "total": 81,
+    "completed": 81,
+    "benchmark_equal_geomean": 5.331032518737761,
+    "suites": {
+      "eggcc": {
+        "n": 32,
+        "geomean_speedup": 3.3268889397777515
+      },
+      "hardboiled": {
+        "n": 42,
+        "geomean_speedup": 4.911684878409184
+      },
+      "luminal": {
+        "n": 7,
+        "geomean_speedup": 75.23182897088196
+      }
+    },
+    "suite_equal_geomean": 10.712482851385312,
+    "table_size_differing_pairs": 32
+  },
+  "egg": {
+    "total": 6,
+    "completed": 6,
+    "benchmark_equal_geomean": 3.8060205481573104,
+    "suites": {
+      "storel": {
+        "n": 6,
+        "geomean_speedup": 3.8060205481573104
+      }
+    },
+    "suite_equal_geomean": 3.8060205481573104,
+    "table_size_differing_pairs": 6
+  },
+  "metadata": {
+    "source": "figures/paper/real-world.csv",
+    "source_sha256": "5fa75b7ea7a200cff9f78157fc3c43947ea1e5cb5491a4c7dd8eb8ccfd691e0b",
+    "selection": "paper-cracked-20261025",
+    "egglog_commit": "c1e12aef4907f8ab0febb3568c1e6bae462051b5",
+    "no_decomp": true,
+    "threads": 1,
+    "metric": "baseline median wall time / cracked median wall time; three repetitions per configuration",
+    "suite_equal": "geometric mean of the individual suite geometric means",
+    "benchmark_equal": "geometric mean over every individual benchmark pair",
+    "caveats": [
+      "eggcc final table sizes differ across versions",
+      "STOREL uses backoff and node targets; actual target overshoots differ"
+    ]
+  }
+}

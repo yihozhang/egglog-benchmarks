@@ -1,0 +1,37 @@
+# foresight (https://github.com/jonathanvdc/foresight), a Scala equality-saturation library.
+# Container-based (see systems/_container/README.md): the image clones the repo at the
+# requested ref, publishes it locally with sbt, and compiles the ports under
+# benchmarks/<suite>/foresight/ (one sbt project per suite, one <name>.scala per benchmark,
+# main class bench.<name with - replaced by _>).
+port_dir = "foresight"
+repo = "https://github.com/jonathanvdc/foresight"
+container = true
+threads = true  # --threads N: ParallelMap.fixedThreadParallel(N) for rule matching and application
+
+notes = """
+Scala port (benchmarks/<suite>/foresight/<name>.scala, sbt, Scala 3.4, JDK 21) against
+foresight main f3ea706d (2026-09-10). The only release tag v0.1.0 is 718 commits behind,
+Scala 2.11, immutable e-graph only, i.e. before the architecture of the CC'26 paper, so main
+is pinned. Uses the mutable fastutil hash-cons e-graph and
+MaximalRuleApplication.mutable(rules) (match all rules against the pre-iteration e-graph,
+apply all commands, congruence restored inline): math-microbenchmark drives N iterations of
+it; horner and matmul-assoc use the paper's strategy, .repeatUntilStable, which stops after an
+iteration that adds no e-node and merges no classes (egglog's criterion; that iteration is
+counted). No caching strategy, no backoff, no analyses, no extraction, no iteration/node/time
+limits. horner and matmul-assoc are foresight's own CC'26 7.2 benchmarks: the ports use the
+languages and rules of the repo's examples/poly and examples/mm (the `examples` module is
+published into the image), the start terms of PolyBenchmarks/MatmulBenchmarks, and
+EGraphWithMetadata without analyses for horner because the example rules are typed against it.
+Threads: threads=1 hands the strategy ParallelMap.sequential (everything on the main thread);
+threads=N>1 hands it ParallelMap.fixedThreadParallel(N), a ForkJoinPool of N threads used for
+rule matching and rule application (the paper's parallel "For. (P)" setup, which uses 8); the
+final e-graph is the same for every thread count. JVM: -XX:MaxRAMPercentage=85 and the default
+collector (G1), whose GC worker threads run in parallel in every variant, including threads=1
+(so the single-thread number is not a strictly one-core number: on math-microbenchmark the
+parallel GC makes it ~35 % lower than with -XX:+UseSerialGC); override with
+FORESIGHT_JAVA_OPTS. wall_s = measured by the port after a JIT warm-up on a discarded e-graph
+(math-microbenchmark: 6 iterations; horner: degree 4 saturated; matmul-assoc: a chain of 10
+saturated): start e-graph + the iterations/saturation + size count; JVM startup and warm-up
+excluded. report.run_s = the iterations/saturation only. Node counts: Var's String and Mat's
+Ints are node payloads in foresight, so there are no literal leaves to exclude.
+"""

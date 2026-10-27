@@ -1,0 +1,29 @@
+{
+  "selection": "paper-cracked-20261025",
+  "available_experiments": [
+    "engines",
+    "scaling",
+    "e2e",
+    "storel",
+    "scaling-real-world",
+    "scaling-storel",
+    "ablation",
+    "ablation-storel",
+    "storel-schedule",
+    "query"
+  ],
+  "selection_sha256": {
+    "engines": "859fa605e6ed1dce19da09732f1fc004d01300a3111ed0d377e3e834a6a1dd7f",
+    "scaling": "3686926cd80542017c77f3777d7ddd00d95ffedaa8067d7714d5033b32ca259d",
+    "e2e": "fe7ee33a1aa6db27c38eb77c2a803d8d620613daf84364e9d4b2df112d7292ec",
+    "storel": "e03fa4b6ac38155c6aa25b5c238adf15d23d94f73d16e5a9c0475c0557584c90",
+    "scaling-real-world": "db469c35bcbffc3fa988d21ca861590cbfa42aaed6ccfec9d712f7559556fdf5",
+    "scaling-storel": "680dbd76781491fbf9f98aa0eefe8ff252208452b6418369b839c387134c29fd",
+    "ablation": "1b1e1bfe01bb7df579b164c076925045673fd6d5c2e0fdd4721f83a10268c282",
+    "ablation-storel": "8b5e8227e390e7a05b5275fc88eb2ddc0c7d0656cc8fc99524cea65e012bf9ee",
+    "storel-schedule": "14a796a35886386bd0226bc4f3c2f5431e2824abd1174d8e34bcc8ec1d14cff3",
+    "query": "9ed51c1002ab47bd24cf66128545de2fa5766a55f50447a8e2344979f0a3977c"
+  },
+  "metric": "wall_s except database query comparison; see README",
+  "no_decomp": true
+}

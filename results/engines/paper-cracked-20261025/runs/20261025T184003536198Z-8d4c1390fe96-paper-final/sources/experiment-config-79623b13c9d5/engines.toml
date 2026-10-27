@@ -1,0 +1,94 @@
+description = "Paper rerun: engines; egglog-cracked always uses --no-decomp."
+benchmarks = ["math-microbenchmark/math-microbenchmark", "math-microbenchmark/math-microbenchmark-12", "horner/horner-9", "horner/horner-10", "matmul-assoc/matmul-assoc-320", "matmul-assoc/matmul-assoc-480", "matmul-assoc/matmul-assoc-640"]
+threads = [1]
+reps = 5
+timeout = 600
+memory_gb = 32
+cpus = "0-7,32-39"
+plot = "variants"
+baseline = "egglog-cracked"
+
+[[variants]]
+label = "egglog-cracked"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "egglog-cracked-t4"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+threads = [4]
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "egglog-cracked-t8"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+threads = [8]
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "egglog-cracked-t16"
+system = "egglog"
+ref = "c1e12aef4907f8ab0febb3568c1e6bae462051b5"
+threads = [16]
+flags = ["--no-decomp"]
+
+[[variants]]
+label = "egglog-prior"
+system = "egglog"
+ref = "v0.5.0"
+
+[[variants]]
+label = "egg"
+system = "egg"
+ref = "v0.11.0"
+
+[[variants]]
+label = "oatlog"
+system = "oatlog"
+ref = "6b73396"
+
+[[variants]]
+label = "hegg"
+system = "hegg"
+ref = "v0.5.0.0"
+
+[[variants]]
+label = "metatheory"
+system = "metatheory"
+ref = "v2.0.2"
+
+[[variants]]
+label = "ggs"
+system = "ggs"
+ref = "2ad0981083bff2443fd0aaee407f5d2c4419abc3"
+
+[[variants]]
+label = "ego"
+system = "ego"
+ref = "e87dae7a"
+
+[[variants]]
+label = "foresight"
+system = "foresight"
+ref = "f3ea706d"
+
+[[variants]]
+label = "foresight-t4"
+system = "foresight"
+ref = "f3ea706d"
+threads = [4]
+
+[[variants]]
+label = "foresight-t8"
+system = "foresight"
+ref = "f3ea706d"
+threads = [8]
+
+[[variants]]
+label = "foresight-t16"
+system = "foresight"
+ref = "f3ea706d"
+threads = [16]
