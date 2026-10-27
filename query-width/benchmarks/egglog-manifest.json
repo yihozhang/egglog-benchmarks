@@ -1,0 +1,417 @@
+{
+  "description": "Exact egglog source files used for the measurements, copied from egglog-benchmarks.",
+  "source_repository_commit": "7e41b7406ecd1a7a9219a5683cc7b85ee005d8cc",
+  "source_paths": "relative to the egglog-benchmarks repository and to this standalone project",
+  "files": [
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/gemma.egg",
+      "sha256": "66278dd5b99ad104a52fadf3d2f288595e2dae819ed71472ccde4a015fcd7e8f"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/gemma4_moe.egg",
+      "sha256": "770995a3ebf240a17a4e9d44854e91bb198070357b4a4e26ef4f7df334dc38b6"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/llama.egg",
+      "sha256": "79a8b8dd3977cac14d9596741f6bbe55d23f571ed910bb4ae05cbd277952d6eb"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/luminal-header.egg",
+      "sha256": "825cf686df43d319636b0bad989f4f717cada3d06e5a7edeadb7d2977457dd64"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/paged_llama.egg",
+      "sha256": "45cdcce6b1d113ee416ea8bd3802c05ec505f79b3cf5e655967e81c984f037df"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/qwen.egg",
+      "sha256": "28d38333fa1973bf6ed91740e5235129c0ca35c412dbe82485b8ce241a60925b"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/qwen3_moe.egg",
+      "sha256": "3f06c9bf1c9dbe0d4f90569a667a00c65e0a7c6e64582d6fcfb97a2d56f69505"
+    },
+    {
+      "suite": "luminal",
+      "path": "benchmarks/luminal/whisper.egg",
+      "sha256": "518a596da2d29692c330e08e6feaa5a069bcfa8754aafafd048bbd01048cf4ed"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/3mm.egg",
+      "sha256": "b3fb6b8c92cab72f4ea4559f5a0bb4743de54514e6bb7974a8a8d1f8c6d2037f"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/ackermann.egg",
+      "sha256": "41730ee234c982306696cb649ad91830d99796229b4f480e9b8a9859ac9eee9c"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/adi.egg",
+      "sha256": "c06cca1c636b98712c288091f7c03e0c151ff3a42a7ea77ed713c534475d3b3f"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/armstrong.egg",
+      "sha256": "0c804a9a5abbcaaaed9e0a7c3d39d80d22396c3ab8aca835691f2be86802f39a"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/bicg.egg",
+      "sha256": "de7f86b16f7665e9835abfb10ce073a11604afa2738784cd4416dd36c2732a9f"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/binary-fmt.egg",
+      "sha256": "6975413ab3be566248c6d18c746479384d8fb740a9acc7138bd213d9311b43b6"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/bitshift.egg",
+      "sha256": "9df34b9feb9a58b03a87a253338b28fe548e244c0f81726afcf189fd311c58d2"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/bubblesort.egg",
+      "sha256": "7cd52cab1d2b5a5e6d1845df9b9e47f6c5a7af6c892e71f448bd98f64bff5186"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/check-primes.egg",
+      "sha256": "360a123130f320708fa6fb670790e0ccc6efe98f6bec7cf427b0ded2df993e10"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/cholesky_decomp.egg",
+      "sha256": "72a2bdf6cc69d44f37a78909d470e39ae7f99e905ca4becae8002682c5d9c4f1"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/conjugate-gradient.egg",
+      "sha256": "d7d5fde86ac4dee1a9d9d692b5a5bc87883c6f4f40d5ea0371c910b675895573"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/correlation.egg",
+      "sha256": "2847865d31c7fe3654566ec4b02b0ee1e63745227c86e5de2908fb04345a1c0c"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/csrmv.egg",
+      "sha256": "412b50243cef41f0b387d92026516f51b83e794feea8755908dc41d4563f0020"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/dead-branch.egg",
+      "sha256": "62c847dc1aa6a34f94f7d4aedf3678fdb0e4e416bcdf9d5bd884b6597d776190"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/digital-root.egg",
+      "sha256": "faacba81ce09c08ce0899ac3b41b0ade7fc530d086c6c47cd1ea430243d5cb3e"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/dot-product.egg",
+      "sha256": "e883d79879a20c09532353c87e9c2ac74161f840e79db37642042538bb4f1741"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/euclid.egg",
+      "sha256": "25189f66452603971fab973508602edb60beb35ae5c458d87cd67ca58fc31bad"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/fact.egg",
+      "sha256": "dbcd8b9e810951f0f9985336afa82b7657f89686ff71b78f27e5e2f25c03b821"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/fenwick_tree.egg",
+      "sha256": "0d4d84761618b0a20a89c88e347086974f36c00afcc188adcb11414544d357ca"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/fib.egg",
+      "sha256": "fa1f381537208eaef13ee7f0caf973a16a4fa8417e3ba598c3ee8137652eac08"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/gcd.egg",
+      "sha256": "28192b31d8ec4a0adeda225ab53ec621cb201253d5a950e4effdf4bb0d0f1aaf"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/hanoi.egg",
+      "sha256": "94d96904a08cd3fe5f42bcff1f90ff909f3af626abe7ae4f1772a74004e2d4bc"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/lcm.egg",
+      "sha256": "75cc44e36f16d12456e8764d0f114ee0fe414c6f10f2e4248b702a9adb62a3ce"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/mat-mul.egg",
+      "sha256": "3b0653ce9d0591ea92fb82d1edafed79051512c80febfb61c24bd92dd0076964"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/mod_inv.egg",
+      "sha256": "231e796ddb47c4bd3ec8c7269d1f7cb58aa9beb6e20c11d0e0285029f76b1fb3"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/palindrome.egg",
+      "sha256": "a4d259c456e24b05e6c63e03e6e77431b5ebcbba3af709098bf937cb150125ac"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/perfect.egg",
+      "sha256": "168de6c4374543d186cbf7dc22ccc38e6689a5074dcea9f61263b510c0301424"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/ray-sphere-intersection.egg",
+      "sha256": "f3293960feecc7c97757c275c72bc4e1ef92dd776129c2597cd0d9694655a489"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/raytrace.egg",
+      "sha256": "f53e4e8a4cb02e41efd372974cc0a7d8545bd92132e8c50cdb8764d7b6d3a6e5"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/recfact.egg",
+      "sha256": "8bc7a2c848bd492ea11f49b89be56553801b64f54df9c80d5f1c740739a17633"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/sum-bits.egg",
+      "sha256": "f5fc9269ff8b9d01e7ca85645b2527b1dbb6fcbad3e31604dad3d36de81c5254"
+    },
+    {
+      "suite": "eggcc",
+      "path": "benchmarks/eggcc/sum-check.egg",
+      "sha256": "66c9bcd282ffd84447836f107ac5f42c76720f5de95743e12ad3072b478aa058"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_104.egg",
+      "sha256": "b571bac4b5c450e76afb80f233abf1f874156ac694cf8581bb02c9f5074ccca3"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_112.egg",
+      "sha256": "aac48c85d98597c5b5c6592076b0101d184d841bea8f98f461aaa672e7319fcc"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_120.egg",
+      "sha256": "d35ed8cf6b7fe8805b3c772654cc92bb70cc587d8b2ce514b517f670870451f3"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_128.egg",
+      "sha256": "6d5801a8ac2ccac250d4aea0e37d36f07798d3d3d9aa9285bf2c96d290e7ae48"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_136.egg",
+      "sha256": "bc9f816f409d681893477bc09aac21c20049fd677e53c05f796d19376f14ceed"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_144.egg",
+      "sha256": "3e0357176abd6f73e5b18de880c1030153f70f648f2dcb1ba7f79cf24949e4bc"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_152.egg",
+      "sha256": "b6558d4f93d5e8cce1807aa1bae7b2dea3375e4f2e01254f4de97fd8df424198"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_16.egg",
+      "sha256": "e18e11151e99bd6b401d5db795349fa6fccf06130a61cfda271831b4ba40d3ed"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_160.egg",
+      "sha256": "783fe39f989bf85877c2756f4af5536d19ab731598785ff3c2de13637c18d7f4"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_168.egg",
+      "sha256": "17eb875620a79ae01c49fe899e6710e0576d1548435f27377b2f4e5bd145cea4"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_176.egg",
+      "sha256": "f2a04b80e685d3df4bd56ff3e38c85339dfebb9650cc4a06513f2788bf876405"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_184.egg",
+      "sha256": "26ffa85e81a16fcced017e6c16f6ae9c090d9aa663ed5ed7491592519a340f43"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_192.egg",
+      "sha256": "3744dcd6dfef12d00fb65b064919f01f614445884858cb3fc4c719396192ecf7"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_200.egg",
+      "sha256": "3df6dbd0f2da97ba4271d2c8e9cbd2c4aa9a67017a6601c8b1cab6d2e9910a57"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_208.egg",
+      "sha256": "506dbf8fe145f191852745df15804b9ff367e47776c55d4b016479727bd76790"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_216.egg",
+      "sha256": "a4c7fc0f683ba263add19a978d5e232c010090aa03fa873d90f6bbc5aa5688d9"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_224.egg",
+      "sha256": "b13d80528c85cc5767bf68db45b2b9e71cae561add1e448a62d6c31e16b9f54f"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_232.egg",
+      "sha256": "6114f66a6a7910e9c460349b3dbdcddae27e32d0249c455e168a0fe5e748ca63"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_24.egg",
+      "sha256": "2b5f6517a6c188486b8252598af2cbb656c0543c678811acefdaa2cc72764a55"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_240.egg",
+      "sha256": "cad8d17fa6ec3412bc8bb32a4cf202286bac523cd969fd8b2009f4df9061bac8"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_248.egg",
+      "sha256": "8a6fe71cfc5c4b8a5ff1d436ddad26b1b36aac26a6c99b3b88394f64226bba46"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_256.egg",
+      "sha256": "480dced597e8af3e0556241ba19a5be1d953d4be1b50117929822930617eba09"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_32.egg",
+      "sha256": "23b3cf69e408b9e081ef33ad625747d3084b0bf0f89f4c107a2f796dcd293d48"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_40.egg",
+      "sha256": "ffb338a7593850b1a020c30ad3af352335f81340e7d827b4a3a15070b5f07153"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_48.egg",
+      "sha256": "703a9ddc543a2f39a365e3f542c0e808c9c60bfc16143592b399c827aecbe126"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_56.egg",
+      "sha256": "4c11324e46f106a013008f0f6f72852b35df0f8a26fc2c9a68d3267e537db127"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_64.egg",
+      "sha256": "aaf7f37a1044524da593ee9b40637d6bc6078f7bd58b6d7eda8092d7e0d4ceab"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_72.egg",
+      "sha256": "ab5e290452210664a0f3150b379dd1ae3a878fdb074afaa1908862fa35c9201b"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_8.egg",
+      "sha256": "5be908e7a5d85d375c17d54a899e080b1a2a39bcae9c4d7a2044a9c1a413e8b8"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_80.egg",
+      "sha256": "a1d0d4d7b439c703bb30d278b47ba582cafef2c5cb35b7f2d438ba5daef0b649"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_88.egg",
+      "sha256": "7be6dff7d1fc4fdd97231a1b0788a4a5eef9f2568aabdb8e3381c14253671eed"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv1d_96.egg",
+      "sha256": "1776422ab128ea5bd1323ade44452bcec26757fe7c742492964b316b9f494951"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv2d_16.egg",
+      "sha256": "489c635b53d95abd617f131d5f8b2766d95df4a6ab736293f02e16614c68f0d2"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/conv2d_32.egg",
+      "sha256": "3a4be27f192ff0ce478b2de9c7a80ad4f7ca5aaf28d9300aaffde75d2b3f3f17"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/denoise.egg",
+      "sha256": "fb2ca842b0a299a4b06e97ae9d7ddac95bcfd253411a7ccfe99c7d323e25f2f3"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/downsample_16.egg",
+      "sha256": "3bdd6ff3d9ab135f318572dd26464ce33684968c57bccbb3f6690fbc6da28a11"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/downsample_32.egg",
+      "sha256": "210c9280b7782d84ee1217ca2b8202807cdc29da3ed4aa5f9eefe23e1dedfe70"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/matmul.egg",
+      "sha256": "1cdf2c5661cd05e38aadcea94b32c6af3af8205ce554d54464c7b55697cbea05"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/rec_filter.egg",
+      "sha256": "0ba9b9d4ae13601d0739c231f39e093ea5e3d5c994c08ab741b6036ef38b5bfe"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/resize.egg",
+      "sha256": "af3e970c703b32e8de2d120ab0c6ad54245d6a95c2af5135327b2128c7aff610"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/upsample_16.egg",
+      "sha256": "07f22262a6d8c890505841f16f4e5b2e1abdaf3c776f0b17b7f6748d1131aaf6"
+    },
+    {
+      "suite": "hardboiled",
+      "path": "benchmarks/hardboiled/upsample_32.egg",
+      "sha256": "b1667bfcff1f51dcebf81f32325285cc8a99b309565d14506397fee48eb5baa2"
+    }
+  ]
+}

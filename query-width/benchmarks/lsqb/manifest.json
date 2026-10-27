@@ -1,0 +1,169 @@
+{
+  "suite": "lsqb",
+  "repo": "ldbc/lsqb",
+  "commit": "3e455f6255cbbf017f0bcb0144b50d3f1b582f58",
+  "files": [
+    {
+      "path": "sql/q1.sql",
+      "source_path": "sql/q1.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q1.sql",
+      "sha256": "cc64c4f61d9b299507e54e2e880556ae9075f9e2186ef36ba080e01bb3064ecb",
+      "git_blob_sha1": "5b7c10c453c01a1bbfba58b72bf5c62c811c025a"
+    },
+    {
+      "path": "sql/q2.sql",
+      "source_path": "sql/q2.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q2.sql",
+      "sha256": "e5ee7b8f2efc379d2546c1fe8024aebca61afb14ef210429ee4f6fe14b9c5d74",
+      "git_blob_sha1": "d78451ec74fdd27731ed70a148ade36e69f1b293"
+    },
+    {
+      "path": "sql/q3.sql",
+      "source_path": "sql/q3.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q3.sql",
+      "sha256": "9ecb6d766fd5095eb6c5edcd75d1edfd8cf1aa40dd96f40295bb6052e0fbf1b9",
+      "git_blob_sha1": "767cc48643cbb4b62d9d8b3057743e3078a535e5"
+    },
+    {
+      "path": "sql/q4.sql",
+      "source_path": "sql/q4.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q4.sql",
+      "sha256": "442b9915d4406fc657441e408eb618a2448837aa6697e434113114b652b37f51",
+      "git_blob_sha1": "06ecdfedb545e2b3c670b9dbcef319418fd066d4"
+    },
+    {
+      "path": "sql/q5.sql",
+      "source_path": "sql/q5.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q5.sql",
+      "sha256": "5bf232a62d7066873c57d2e06fd2f6cef5b3e096e5c4e29cfab251ceb1d215e2",
+      "git_blob_sha1": "fd024cd9f1ae43c05c8b897952653f844f4c4087"
+    },
+    {
+      "path": "sql/q6.sql",
+      "source_path": "sql/q6.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q6.sql",
+      "sha256": "66867f9ffa3a5e1ebf98f515b4094c31331cc7aa39cc8974c6855aa4ad2516f9",
+      "git_blob_sha1": "2a69b8e2a0048fa5c6e28dab5642fa3bfd178797"
+    },
+    {
+      "path": "sql/q7.sql",
+      "source_path": "sql/q7.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q7.sql",
+      "sha256": "3359d427fec015ff44a856b8a65364ab20792a3d373b3c898dc3371d958384cf",
+      "git_blob_sha1": "ecc1211f87fdc79b8c96a68f6e33baea2b2c9f06"
+    },
+    {
+      "path": "sql/q8.sql",
+      "source_path": "sql/q8.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q8.sql",
+      "sha256": "bc8a8c39a2a80173f0a4f2c7d2265e2d09e1546e37b309cca8b3e59dc31b4bcd",
+      "git_blob_sha1": "274bafde11735ba9bb24ca25fca67c0c1144286b"
+    },
+    {
+      "path": "sql/q9.sql",
+      "source_path": "sql/q9.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/q9.sql",
+      "sha256": "d3057b8717c10e46381a6e880e22205082a1b7b1a60906bd8e046d1a7adc9fe7",
+      "git_blob_sha1": "c3af7cf54f3e4c9bf28c44bde4ea39df75ee8cc5"
+    },
+    {
+      "path": "sql/schema.sql",
+      "source_path": "sql/schema.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/schema.sql",
+      "sha256": "64440381002ae9a9606c79e41fb3a8c839106cbd8ea78bef71272b4ae5d8a2e8",
+      "git_blob_sha1": "05593362f64fdcb728cd01e09340c28de680cbfb"
+    },
+    {
+      "path": "sql/views.sql",
+      "source_path": "sql/views.sql",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/sql/views.sql",
+      "sha256": "ab202d1bf04fe03720a3112183f38c0b07c78c24e02f703a712a980becb34695",
+      "git_blob_sha1": "9f91174735dc32e7e7d8f4e9bc6f0f69815e3b7b"
+    },
+    {
+      "path": "cypher/q1.cypher",
+      "source_path": "cypher/q1.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q1.cypher",
+      "sha256": "e08571bf8c877508cd3745ee7dcc8c061259c3b4d5a3fb17a952fbac4f9145ed",
+      "git_blob_sha1": "c2355de5645a0f851f1e5b9a85e8965e9a68a5e7"
+    },
+    {
+      "path": "cypher/q2.cypher",
+      "source_path": "cypher/q2.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q2.cypher",
+      "sha256": "49df895df6b98037f6ce5972d9113ae7a3f263ec009e4fece9ec75bb47410b32",
+      "git_blob_sha1": "6bd0d36e3265e4d2eca99b20443b688f0ab72640"
+    },
+    {
+      "path": "cypher/q3.cypher",
+      "source_path": "cypher/q3.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q3.cypher",
+      "sha256": "5eb0a515fb894e91ecbc1f40656e757884a234953bf87565aec5fcc85007e5be",
+      "git_blob_sha1": "0679a73a14e781b6e1618d763c56ff4189315275"
+    },
+    {
+      "path": "cypher/q4.cypher",
+      "source_path": "cypher/q4.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q4.cypher",
+      "sha256": "1675c38f7cc117ba9be4de8fc0c1d7073901a03cfc5a174f2241e14c602c9a9f",
+      "git_blob_sha1": "2c012bf3c3086fe6844e7c15b8ea877b9cb7fbd4"
+    },
+    {
+      "path": "cypher/q5.cypher",
+      "source_path": "cypher/q5.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q5.cypher",
+      "sha256": "d836a819c7c96819f5dfa14d4e0097bcfb2222eb1561d3ffda22f15067cd8179",
+      "git_blob_sha1": "39fe70342004d63fd10c154ebd24097f8b86cbb7"
+    },
+    {
+      "path": "cypher/q6.cypher",
+      "source_path": "cypher/q6.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q6.cypher",
+      "sha256": "b8c550aa3c452a99fe65d22ae23e7461ee2705b8be45e96a1d2d1d6143880c93",
+      "git_blob_sha1": "35adda34d77ea067010ce5a2f6d8e89042f15b86"
+    },
+    {
+      "path": "cypher/q7.cypher",
+      "source_path": "cypher/q7.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q7.cypher",
+      "sha256": "3cb1b31a3f2d05efcaaebaea5ef70231bff30dcfe85aca21cb011ee99175ef0f",
+      "git_blob_sha1": "424fa991958dcd02a78f2a84475c86c0047018f9"
+    },
+    {
+      "path": "cypher/q8.cypher",
+      "source_path": "cypher/q8.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q8.cypher",
+      "sha256": "73fbce9474f0059cfc620c17c5016d19b0974cdbbc8f26637f51b86ea4f24b91",
+      "git_blob_sha1": "c406bb167c7bb7ba1a28e335d7f602685b9b08ab"
+    },
+    {
+      "path": "cypher/q9.cypher",
+      "source_path": "cypher/q9.cypher",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/cypher/q9.cypher",
+      "sha256": "f0e3402d9bf03cf2e01bf5d812399a4a2f2d40d4558a6ac04d09f0a77afbc8e4",
+      "git_blob_sha1": "3cfbef31cc18472e78d7ca215711fdfa07306430"
+    },
+    {
+      "path": "README.md",
+      "source_path": "README.md",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/README.md",
+      "sha256": "4303b81a1e45c38ceb1a1e8e23ffcdd348ac91bd4fb8176881a13cebf86d128d",
+      "git_blob_sha1": "9ceb70f4806f82444b2a36bfea6eb8155566de06"
+    },
+    {
+      "path": "LICENSE.txt",
+      "source_path": "LICENSE.txt",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/LICENSE.txt",
+      "sha256": "3ddf9be5c28fe27dad143a5dc76eea25222ad1dd68934a047064e56ed2fa40c5",
+      "git_blob_sha1": "75b52484ea471f882c29e02693b4f02dba175b5e"
+    },
+    {
+      "path": "NOTICE.txt",
+      "source_path": "NOTICE.txt",
+      "url": "https://raw.githubusercontent.com/ldbc/lsqb/3e455f6255cbbf017f0bcb0144b50d3f1b582f58/NOTICE.txt",
+      "sha256": "751cbf43eb710d1a57e32ae3e88335922823d44da2a4e3d1d75c868e575d4728",
+      "git_blob_sha1": "6aedf7397bb412106ae21f00c99621728c76614b"
+    }
+  ],
+  "query_count": 9
+}

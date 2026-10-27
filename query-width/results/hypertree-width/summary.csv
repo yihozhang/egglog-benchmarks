@@ -1,0 +1,3 @@
+suite,pattern,count,min,mean,stddev_population,median,p90,p95,max,exact_count
+job,positive_relations,113,1,1,0.0,1,1.0,1.0,1,113
+lsqb,positive_relations,9,1,1.2222222222222223,0.41573970964154905,1,2.0,2.0,2,9

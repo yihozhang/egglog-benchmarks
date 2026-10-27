@@ -1,0 +1,8 @@
+/.venv/
+/.uv-cache/
+/.mplconfig/
+__pycache__/
+*.py[cod]
+
+# Keep the generated figures even if a containing repository ignores PNGs.
+!*.png
